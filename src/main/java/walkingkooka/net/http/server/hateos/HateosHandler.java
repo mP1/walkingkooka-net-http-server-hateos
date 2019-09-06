@@ -25,16 +25,9 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Handles any request involving a hateos request. Two methods are available and support 4 different url patterns.
- * <ol>
- * <li>A url without an ID, this is mapped to handle and POST to create an entity</li>
- * <li>A url with a ID, this is mapped to handle and used to GET (fetch), POST (update), DELETE (update) an existing entity</li>
- * <li>A url with a wildcard, this is mapped to handleCollection and used to GET and DELETE everything.</li>
- * <li>A url with a range, this is mapped to handle and used to GET (fetch), DELETE the selected entities</li>
- * </ol>
- * For the handleCollection methods POST and PUT typically dont make sense, but are supported.
+ * Handles any request involving a hateos request.
  */
-public interface HateosHandler<I extends Comparable<I>, R extends HateosResource<Optional<I>>, S extends HateosResource<Range<I>>> {
+public interface HateosHandler<I extends Comparable<I>, V, C> {
 
     /**
      * An empty {@link Map} with no parameters.
@@ -42,16 +35,16 @@ public interface HateosHandler<I extends Comparable<I>, R extends HateosResource
     Map<HttpRequestAttribute<?>, Object> NO_PARAMETERS = Maps.empty();
 
     /**
-     * Handles a request resource identified by the ID.
+     * Handles a resource identified by the ID.
      */
-    Optional<R> handle(final Optional<I> id,
-                       final Optional<R> resource,
+    Optional<V> handle(final Optional<I> id,
+                       final Optional<V> resource,
                        final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
-     * Handles a request resource identified by a range of ids
+     * Handles a resource identified by a range of ids
      */
-    Optional<S> handleCollection(final Range<I> id,
-                                 final Optional<S> resource,
+    Optional<C> handleCollection(final Range<I> id,
+                                 final Optional<C> resource,
                                  final Map<HttpRequestAttribute<?>, Object> parameters);
 }
