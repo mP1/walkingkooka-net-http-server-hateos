@@ -75,25 +75,6 @@ public final class TestHateosResource4 extends FakeHateosResource<Range<BigInteg
                 TestHateosResource4.class);
     }
 
-    // toXmlNode........................................................................................................
-
-    @Override
-    public XmlNode toXmlNode() {
-        try {
-            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setNamespaceAware(false);
-            factory.setValidating(false);
-            factory.setExpandEntityReferences(false);
-
-            final XmlDocument document = XmlNode.createDocument(factory.newDocumentBuilder());
-            return document.createElement(XmlName.element("test-hateos-resource-4"))
-                    .appendChild(document.createElement(XmlName.element("id"))
-                            .appendChild(document.createText(this.id.toString())));
-        } catch (final Exception cause) {
-            throw new Error(cause.getMessage(), cause);
-        }
-    }
-
     // Object...........................................................................................................
 
     @Override

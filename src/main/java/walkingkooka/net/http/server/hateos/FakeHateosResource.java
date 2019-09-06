@@ -30,9 +30,4 @@ public class FakeHateosResource<I> implements HateosResource<I> {
     public I id() {
         throw new UnsupportedOperationException();
     }
-
-    @Override
-    public XmlNode toXmlNode() {
-        throw new UnsupportedOperationException();
-    }
 }

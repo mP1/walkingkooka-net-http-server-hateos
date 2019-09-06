@@ -28,8 +28,7 @@ import javax.xml.parsers.DocumentBuilder;
 import java.util.List;
 
 /**
- * Controls the content type of hateos messages. Ideally this should have been an enum but currently enums do not
- * support type parameters.
+ * Controls the content type of hateos messages.
  */
 public abstract class HateosContentType {
 
@@ -40,13 +39,6 @@ public abstract class HateosContentType {
                                                    final ToJsonNodeContext toJsonNodeContext) {
         return HateosContentTypeJsonNode.with(fromJsonNodeContext,
                 toJsonNodeContext);
-    }
-
-    /**
-     * Selects XML formatted request and response bodies.
-     */
-    public static HateosContentType xml(final DocumentBuilder builder) {
-        return HateosContentTypeXmlNode.with(builder);
     }
 
     /**
