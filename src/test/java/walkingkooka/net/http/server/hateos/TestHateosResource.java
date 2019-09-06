@@ -23,18 +23,14 @@ import walkingkooka.tree.json.JsonNodeName;
 import walkingkooka.tree.json.marshall.FromJsonNodeContext;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
 import walkingkooka.tree.json.marshall.ToJsonNodeContext;
-import walkingkooka.tree.xml.XmlDocument;
-import walkingkooka.tree.xml.XmlName;
-import walkingkooka.tree.xml.XmlNode;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.math.BigInteger;
 import java.util.Optional;
 
 /**
  * The id type is {@link BigInteger} just to be different from {@link String}.
  */
-public final class TestHateosResource extends FakeHateosResource<Optional<BigInteger>> {
+public final class TestHateosResource extends FakeHateosResource<BigInteger> {
 
     static TestHateosResource with(final BigInteger id) {
         return new TestHateosResource(id);

@@ -18,10 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.collect.list.Lists;
 import walkingkooka.net.header.MediaType;
-import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.JsonObjectNode;
 import walkingkooka.tree.json.marshall.FromJsonNodeContext;
 import walkingkooka.tree.json.marshall.FromJsonNodeContexts;
 import walkingkooka.tree.json.marshall.ToJsonNodeContext;
@@ -59,33 +56,11 @@ public final class HateosContentTypeJsonNodeTest extends HateosContentTypeTestCa
     }
 
     @Test
-    public void testFromNodeList() {
-        final TestHateosResource resource1 = TestHateosResource.with(BigInteger.valueOf(123));
-        final TestHateosResource resource2 = TestHateosResource.with(BigInteger.valueOf(234));
-
-        final ToJsonNodeContext context = this.toJsonNodeContext();
-
-        this.fromNodeListAndCheck("[" + resource1.toJsonNode(context) + "," + resource2.toJsonNode(context) + "]",
-                TestHateosResource.class,
-                resource1, resource2);
-    }
-
-    @Test
     public void testToText() {
         this.toTextAndCheck(TestHateosResource.with(BigInteger.valueOf(123)),
                 "{\n" +
                         "  \"id\": \"123\"\n" +
                         "}");
-    }
-
-    @Test
-    public void testToTextList() {
-        this.toTextListAndCheck(Lists.of(TestHateosResource.with(BigInteger.valueOf(111)), TestHateosResource.with(BigInteger.valueOf(222))),
-                "[{\n" +
-                        "  \"id\": \"111\"\n" +
-                        "}, {\n" +
-                        "  \"id\": \"222\"\n" +
-                        "}]");
     }
 
     @Override

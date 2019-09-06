@@ -29,126 +29,118 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.routing.Router;
 import walkingkooka.text.CharSequences;
-import walkingkooka.tree.json.JsonObjectNode;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * Holds all mappings for a single {@link HateosResource}.
+ * Holds all mappings for a single {@link HateosResource}, where a mapping is a combination of {@link HttpMethod} and
+ * {@link LinkRelation} mapped to individual {@link HateosHandler}.
  */
-public final class HateosHandlerResourceMapping<I extends Comparable<I>, R extends HateosResource<Optional<I>>, S extends HateosResource<Range<I>>> {
+public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>> {
 
     /**
-     * Creates a new {@link HateosHandlerResourceMapping}
+     * Creates a new {@link HateosResourceMapping}
      */
-    public static <I extends Comparable<I>, R extends HateosResource<Optional<I>>, S extends HateosResource<Range<I>>> HateosHandlerResourceMapping<I, R, S> with(
+    public static <I extends Comparable<I>, V, C, H extends HateosResource<I>> HateosResourceMapping<I, V, C, H> with(
             final HateosResourceName resourceName,
             final Function<String, I> stringToId,
-            final Class<R> resourceType,
-            final Class<S> collectionResourceType) {
+            final Class<V> valueType,
+            final Class<C> collectionType,
+            final Class<H> resourceType) {
         Objects.requireNonNull(resourceName, "resourceName");
         Objects.requireNonNull(stringToId, "stringToId");
+        Objects.requireNonNull(valueType, "valueType");
+        Objects.requireNonNull(collectionType, "collectionType");
         Objects.requireNonNull(resourceType, "resourceType");
-        Objects.requireNonNull(collectionResourceType, "collectionResourceType");
 
-        return new HateosHandlerResourceMapping<>(resourceName,
+        return new HateosResourceMapping<>(resourceName,
                 stringToId,
+                valueType,
+                collectionType,
                 resourceType,
-                collectionResourceType,
                 Maps.empty());
     }
 
     /**
      * Private ctor use factory.
      */
-    private HateosHandlerResourceMapping(final HateosResourceName resourceName,
-                                         final Function<String, I> stringToId,
-                                         final Class<R> resourceType,
-                                         final Class<S> collectionResourceType,
-                                         final Map<HateosHandlerResourceMappingLinkRelationHttpMethod, HateosHandler<I, R, S>> relationAndMethodToHandlers) {
+    private HateosResourceMapping(final HateosResourceName resourceName,
+                                  final Function<String, I> stringToId,
+                                  final Class<V> valueType,
+                                  final Class<C> collectionType,
+                                  final Class<H> resourceType,
+                                  final Map<HateosResourceMappingLinkRelationHttpMethod, HateosHandler<I, V, C>> relationAndMethodToHandlers) {
         super();
         this.resourceName = resourceName;
         this.stringToId = stringToId;
+        this.valueType = valueType;
+        this.collectionType = collectionType;
         this.resourceType = resourceType;
-        this.collectionResourceType = collectionResourceType;
         this.relationAndMethodToHandlers = relationAndMethodToHandlers;
     }
 
     /**
      * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosHandler}.
      */
-    public HateosHandlerResourceMapping<I, R, S> set(final LinkRelation relation,
-                                                     final HttpMethod method,
-                                                     final HateosHandler<I, R, S> handler) {
-        final HateosHandlerResourceMappingLinkRelationHttpMethod key = HateosHandlerResourceMappingLinkRelationHttpMethod.with(relation, method);
+    public HateosResourceMapping<I, V, C, H> set(final LinkRelation relation,
+                                                 final HttpMethod method,
+                                                 final HateosHandler<I, V, C> handler) {
+        final HateosResourceMappingLinkRelationHttpMethod key = HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
         Objects.requireNonNull(handler, "handler");
 
-        final Map<HateosHandlerResourceMappingLinkRelationHttpMethod, HateosHandler<I, R, S>> copy = Maps.sorted();
+        final Map<HateosResourceMappingLinkRelationHttpMethod, HateosHandler<I, V, C>> copy = Maps.sorted();
         copy.putAll(this.relationAndMethodToHandlers);
         final Object replaced = copy.put(key, handler);
 
         return handler.equals(replaced) ?
                 this :
-                new HateosHandlerResourceMapping(this.resourceName,
+                new HateosResourceMapping(this.resourceName,
                         this.stringToId,
+                        this.valueType,
+                        this.collectionType,
                         this.resourceType,
-                        this.collectionResourceType, copy);
+                        copy);
     }
 
     /**
      * Returns the {@link HateosHandler} if one exists for the given {@link LinkRelation} and {@link HttpMethod} combination.
      */
-    public Optional<HateosHandler<I, R, S>> handler(final LinkRelation relation,
+    public Optional<HateosHandler<I, V, C>> handler(final LinkRelation relation,
                                                     final HttpMethod method) {
-        return Optional.ofNullable(this.relationAndMethodToHandlers.get(HateosHandlerResourceMappingLinkRelationHttpMethod.with(relation, method)));
+        return Optional.ofNullable(this.relationAndMethodToHandlers.get(HateosResourceMappingLinkRelationHttpMethod.with(relation, method)));
     }
 
     /**
      * Mapping of all {@link LinkRelation} and {@link HttpMethod} to {@link HateosHandler}.
      */
-    final Map<HateosHandlerResourceMappingLinkRelationHttpMethod, HateosHandler<I, R, S>> relationAndMethodToHandlers;
+    final Map<HateosResourceMappingLinkRelationHttpMethod, HateosHandler<I, V, C>> relationAndMethodToHandlers;
 
-    // HateosHandlerResourceMappingRouter...............................................................................
+    // HateosResourceMappingRouter...............................................................................
 
     /**
-     * Creates a {@link Router} from the provided {@link HateosHandlerResourceMapping mappings}.
+     * Creates a {@link Router} from the provided {@link HateosResourceMapping mappings}.
      */
     public static Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router(final AbsoluteUrl base,
                                                                                                 final HateosContentType contentType,
-                                                                                                final Set<HateosHandlerResourceMapping<?, ?, ?>> mappings) {
-        return HateosHandlerResourceMappingRouter.with(base, contentType, mappings);
-    }
-
-    /**
-     * Creates a {@link BiFunction} which will add links to {@link Class hateos values} when they are marshalled to JSON.
-     */
-    public static BiFunction<Object, JsonObjectNode, JsonObjectNode> objectPostProcessor(final AbsoluteUrl base,
-                                                                                         final Set<HateosHandlerResourceMapping<?, ?, ?>> mappings,
-                                                                                         final Map<HateosResourceName, Class<?>> resourceNameToTypes,
-                                                                                         final ToJsonNodeContext context) {
-        return HateosHandlerResourceMappingObjectPostProcessorBiFunction.with(base,
-                mappings,
-                resourceNameToTypes,
-                context);
+                                                                                                final Set<HateosResourceMapping<?, ?, ?, ?>> mappings) {
+        return HateosResourceMappingRouter.with(base, contentType, mappings);
     }
 
     final HateosResourceName resourceName;
 
-    // HateosHandlerResourceMappingRouterBiConsumerRequest..............................................................
+    // HateosResourceMappingRouterBiConsumerRequest..............................................................
 
     /**
      * Handles a request for a single resource with the given parameters.
      */
     void handleId(final String idText,
                   final LinkRelation<?> linkRelation,
-                  final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
+                  final HateosResourceMappingRouterBiConsumerRequest request) {
         final I id = this.idOrBadRequest(idText, request);
         if (null != id) {
             this.handleId0(Optional.of(id), linkRelation, request);
@@ -160,26 +152,25 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
      */
     void handleId0(final Optional<I> id,
                    final LinkRelation<?> linkRelation,
-                   final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
-        final HateosHandler<I, R, S> handler = this.handlerOrResponseMethodNotAllowed(linkRelation,
-                request);
+                   final HateosResourceMappingRouterBiConsumerRequest request) {
+        final HateosHandler<I, V, C> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
         if (null != handler) {
             final String requestText = request.resourceTextOrBadRequest();
             if (null != request) {
                 final HateosContentType hateosContentType = request.hateosContentType();
-                final Optional<R> requestResource = request.resourceOrBadRequest(requestText,
+                final Optional<V> requestResource = request.resourceOrBadRequest(requestText,
                         hateosContentType,
-                        this.resourceType);
+                        this.valueType);
 
                 if (null != requestResource) {
                     final HttpRequest httpRequest = request.request;
                     final HttpMethod method = httpRequest.method();
                     String responseText = null;
-                    Optional<R> maybeResponseResource = handler.handle(id,
+                    Optional<V> maybeResponseResource = handler.handle(id,
                             requestResource,
                             request.parameters);
                     if (maybeResponseResource.isPresent()) {
-                        final R responseResource = maybeResponseResource.get();
+                        final V responseResource = maybeResponseResource.get();
                         responseText = hateosContentType.toText(responseResource);
                     }
 
@@ -193,8 +184,8 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
      * Handles a request for ALL of a collection.
      */
     void handleIdRange(final LinkRelation<?> linkRelation,
-                       final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
-        final HateosHandler<I, R, S> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
+                       final HateosResourceMappingRouterBiConsumerRequest request) {
+        final HateosHandler<I, V, C> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
         if (null != handler) {
             this.handleIdRange0(Range.all(), handler, request);
         }
@@ -207,10 +198,10 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
                        final String end,
                        final String rangeText,
                        final LinkRelation<?> linkRelation,
-                       final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
+                       final HateosResourceMappingRouterBiConsumerRequest request) {
         final Range<I> range = this.rangeOrBadRequest(begin, end, rangeText, request);
         if (null != range) {
-            final HateosHandler<I, R, S> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
+            final HateosHandler<I, V, C> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
             if (null != handler) {
                 this.handleIdRange0(range, handler, request);
             }
@@ -218,24 +209,24 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
     }
 
     private void handleIdRange0(final Range<I> ids,
-                                final HateosHandler<I, R, S> handler,
-                                final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
+                                final HateosHandler<I, V, C> handler,
+                                final HateosResourceMappingRouterBiConsumerRequest request) {
         final String requestText = request.resourceTextOrBadRequest();
         if (null != requestText) {
             final HateosContentType hateosContentType = request.hateosContentType();
-            final Optional<S> requestResource = request.resourceOrBadRequest(requestText,
+            final Optional<C> requestResource = request.resourceOrBadRequest(requestText,
                     hateosContentType,
-                    this.collectionResourceType);
+                    this.collectionType);
 
             if (null != requestResource) {
                 final HttpRequest httpRequest = request.request;
                 final HttpMethod method = httpRequest.method();
                 String responseText = null;
-                Optional<S> maybeResponseResource = handler.handleCollection(ids,
+                Optional<C> maybeResponseResource = handler.handleCollection(ids,
                         requestResource,
                         request.parameters);
                 if (maybeResponseResource.isPresent()) {
-                    final S responseResource = maybeResponseResource.get();
+                    final C responseResource = maybeResponseResource.get();
                     responseText = hateosContentType.toText(responseResource);
                 }
 
@@ -248,7 +239,7 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
      * Parses or converts the id text, reporting a bad request if this fails.
      */
     private I idOrBadRequest(final String id,
-                             final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
+                             final HateosResourceMappingRouterBiConsumerRequest request) {
         return this.idOrBadRequest(id, "id", id, request);
     }
 
@@ -258,7 +249,7 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
     private I idOrBadRequest(final String id,
                              final String label, // id, range begin, range end
                              final String text,
-                             final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
+                             final HateosResourceMappingRouterBiConsumerRequest request) {
         I parsed = null;
         try {
             parsed = this.stringToId.apply(id);
@@ -274,7 +265,7 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
     private Range<I> rangeOrBadRequest(final String begin,
                                        final String end,
                                        final String rangeText,
-                                       final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
+                                       final HateosResourceMappingRouterBiConsumerRequest request) {
         Range<I> range = null;
 
         final I beginComparable = this.idOrBadRequest(begin, "range begin", rangeText, request);
@@ -292,11 +283,11 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
     /**
      * Locates the {@link HateosHandler} for the given request method or sets the response to method not allowed.
      */
-    private HateosHandler<I, R, S> handlerOrResponseMethodNotAllowed(final LinkRelation<?> linkRelation,
-                                                                     final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
-        final Optional<HateosHandler<I, R, S>> maybe = this.handler(linkRelation, request.request.method());
+    private HateosHandler<I, V, C> handlerOrResponseMethodNotAllowed(final LinkRelation<?> linkRelation,
+                                                                     final HateosResourceMappingRouterBiConsumerRequest request) {
+        final Optional<HateosHandler<I, V, C>> maybe = this.handler(linkRelation, request.request.method());
 
-        HateosHandler<I, R, S> handler = null;
+        HateosHandler<I, V, C> handler = null;
         if (maybe.isPresent()) {
             handler = maybe.get();
         } else {
@@ -309,8 +300,21 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
      * A parser function that converts a {@link String} from the url path into an {@link Comparable id}.
      */
     final Function<String, I> stringToId;
-    final Class<R> resourceType;
-    final Class<S> collectionResourceType;
+
+    /**
+     * The type used to marshall the resource for {@link HateosHandler#handle(Optional, Optional, Map).}
+     */
+    final Class<V> valueType;
+
+    /**
+     * The type used to marshall the resource for {@link HateosHandler#handleCollection(Range, Optional, Map).}
+     */
+    final Class<C> collectionType;
+
+    /**
+     * The {@link HateosResource type}.
+     */
+    final Class<H> resourceType;
 
     // toString.........................................................................................................
 
@@ -322,7 +326,6 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
 
         b.value(this.resourceName);
         b.value(this.resourceType.getName());
-        b.value(this.collectionResourceType.getName());
         b.value(this.relationAndMethodToHandlers);
 
         return b.build();

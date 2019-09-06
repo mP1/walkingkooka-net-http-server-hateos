@@ -35,30 +35,30 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 /**
- * A {@link Router} that dispatches to the given {@link HateosHandlerResourceMapping mappings}.
+ * A {@link Router} that dispatches to the given {@link HateosResourceMapping mappings}.
  */
-final class HateosHandlerResourceMappingRouter implements Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> {
+final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> {
 
-    static HateosHandlerResourceMappingRouter with(final AbsoluteUrl base,
-                                                   final HateosContentType contentType,
-                                                   final Set<HateosHandlerResourceMapping<?, ?, ?>> mappings) {
+    static HateosResourceMappingRouter with(final AbsoluteUrl base,
+                                            final HateosContentType contentType,
+                                            final Set<HateosResourceMapping<?, ?, ?, ?>> mappings) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(contentType, "contentType");
         Objects.requireNonNull(mappings, "mappings");
 
-        return new HateosHandlerResourceMappingRouter(base, contentType, mappings);
+        return new HateosResourceMappingRouter(base, contentType, mappings);
     }
 
-    private HateosHandlerResourceMappingRouter(final AbsoluteUrl base,
-                                               final HateosContentType contentType,
-                                               final Set<HateosHandlerResourceMapping<?, ?, ?>> mappings) {
+    private HateosResourceMappingRouter(final AbsoluteUrl base,
+                                        final HateosContentType contentType,
+                                        final Set<HateosResourceMapping<?, ?, ?, ?>> mappings) {
         super();
         this.base = base;
         this.contentType = contentType;
-        this.resourceNameToMappings = Maps.sorted();
+        this.resourceNameToMapping = Maps.sorted();
 
-        for (HateosHandlerResourceMapping<?, ?, ?> mapping : mappings) {
-            this.resourceNameToMappings.put(mapping.resourceName, mapping);
+        for (HateosResourceMapping<?, ?, ?, ?> mapping : mappings) {
+            this.resourceNameToMapping.put(mapping.resourceName, mapping);
         }
     }
 
@@ -69,7 +69,7 @@ final class HateosHandlerResourceMappingRouter implements Router<HttpRequestAttr
         Objects.requireNonNull(parameters, "parameters");
 
         return Optional.ofNullable(-1 != consumeBasePath(parameters) ?
-                HateosHandlerResourceMappingRouterBiConsumer.with(this) :
+                HateosResourceMappingRouterBiConsumer.with(this) :
                 null);
     }
 
@@ -91,7 +91,7 @@ final class HateosHandlerResourceMappingRouter implements Router<HttpRequestAttr
 
     final AbsoluteUrl base;
     final HateosContentType contentType;
-    final Map<HateosResourceName, HateosHandlerResourceMapping> resourceNameToMappings;
+    final Map<HateosResourceName, HateosResourceMapping> resourceNameToMapping;
 
     // toString.........................................................................................................
 
@@ -100,7 +100,7 @@ final class HateosHandlerResourceMappingRouter implements Router<HttpRequestAttr
         return ToStringBuilder.empty()
                 .value(this.base)
                 .value(this.contentType)
-                .value(this.resourceNameToMappings.values())
+                .value(this.resourceNameToMapping.values())
                 .build();
     }
 }

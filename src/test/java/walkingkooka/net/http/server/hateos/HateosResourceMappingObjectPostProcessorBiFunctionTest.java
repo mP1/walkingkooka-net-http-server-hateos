@@ -18,7 +18,6 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.naming.Names;
 import walkingkooka.naming.StringName;
@@ -33,69 +32,14 @@ import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
 import walkingkooka.util.BiFunctionTesting;
 
 import java.math.BigInteger;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosHandlerResourceMappingObjectPostProcessorBiFunctionTest extends HateosHandlerResourceMappingTestCase2<HateosHandlerResourceMappingObjectPostProcessorBiFunction>
-        implements BiFunctionTesting<HateosHandlerResourceMappingObjectPostProcessorBiFunction, Object, JsonObjectNode, JsonObjectNode> {
-
-    @Test
-    public void testWithNullBaseUrlFails() {
-        this.withFails(null,
-                this.mappings(),
-                this.resourceNameToTypes(),
-                this.toJsonNodeContext());
-    }
-
-    @Test
-    public void testWithNullMappingsFails() {
-        this.withFails(this.baseUrl(),
-                null,
-                this.resourceNameToTypes(),
-                this.toJsonNodeContext());
-    }
-
-    @Test
-    public void testWithNullResourceNameToTypesFails() {
-        this.withFails(this.baseUrl(),
-                this.mappings(),
-                null,
-                this.toJsonNodeContext());
-    }
-
-    @Test
-    public void testWithNullToJsonNodeContextFails() {
-        this.withFails(this.baseUrl(),
-                this.mappings(),
-                this.resourceNameToTypes(),
-                null);
-    }
-
-    private void withFails(final AbsoluteUrl base,
-                           final Set<HateosHandlerResourceMapping<?, ?, ?>> mappings,
-                           final Map<HateosResourceName, Class<?>> resourceNameToType,
-                           final ToJsonNodeContext context) {
-        assertThrows(NullPointerException.class, () -> {
-            HateosHandlerResourceMappingObjectPostProcessorBiFunction.with(base,
-                    mappings,
-                    resourceNameToType,
-                    context);
-        });
-    }
-
-    @Test
-    public void testWithMissingResourceNameFails() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            HateosHandlerResourceMappingObjectPostProcessorBiFunction.with(this.baseUrl(),
-                    this.mappings(),
-                    Maps.of(this.resourceName1(), TestHateosResource.class),
-                    this.toJsonNodeContext());
-        });
-    }
+public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extends HateosResourceMappingTestCase2<HateosResourceMappingObjectPostProcessorBiFunction>
+        implements BiFunctionTesting<HateosResourceMappingObjectPostProcessorBiFunction, Object, JsonObjectNode, JsonObjectNode> {
 
     // apply............................................................................................................
 
@@ -143,16 +87,15 @@ public final class HateosHandlerResourceMappingObjectPostProcessorBiFunctionTest
     @Test
     public void testToString() {
         this.toStringAndCheck(this.createBiFunction(),
-                "{walkingkooka.net.http.server.hateos.TestHateosResource=resource-1, contents=GET, POST, self=POST, walkingkooka.net.http.server.hateos.TestHateosResource3=resource-2, about=PUT}");
+                "{walkingkooka.net.http.server.hateos.TestHateosResource=resource-1, contents=GET, POST, self=POST, walkingkooka.net.http.server.hateos.TestHateosResource2=resource-2, about=PUT}");
     }
 
     // BiFunction.......................................................................................................
 
     @Override
-    public HateosHandlerResourceMappingObjectPostProcessorBiFunction createBiFunction() {
-        return HateosHandlerResourceMappingObjectPostProcessorBiFunction.with(this.baseUrl(),
+    public HateosResourceMappingObjectPostProcessorBiFunction createBiFunction() {
+        return HateosResourceMappingObjectPostProcessorBiFunction.with(this.baseUrl(),
                 this.mappings(),
-                this.resourceNameToTypes(),
                 this.toJsonNodeContext());
     }
 
@@ -168,43 +111,41 @@ public final class HateosHandlerResourceMappingObjectPostProcessorBiFunctionTest
         return HateosResourceName.with("resource-2");
     }
 
-    private Set<HateosHandlerResourceMapping<?, ?, ?>> mappings() {
+    private Set<HateosResourceMapping<?, ?, ?, ?>> mappings() {
         final HateosResourceName resourceName1 = this.resourceName1();
         final HateosResourceName resourceName2 = this.resourceName2();
 
-        final HateosHandlerResourceMapping mapping1 = HateosHandlerResourceMapping.with(resourceName1,
+        final HateosResourceMapping<?, ?, ?, ?> mapping1 = HateosResourceMapping.with(resourceName1,
                 BigInteger::new,
-                TestHateosResource.class,
-                TestHateosResource2.class)
+                TestResource.class,
+                TestResource2.class,
+                TestHateosResource.class)
                 .set(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosHandler<>())
                 .set(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosHandler<>())
                 .set(LinkRelation.SELF, HttpMethod.POST, new FakeHateosHandler<>());
 
-        final HateosHandlerResourceMapping mapping2 = HateosHandlerResourceMapping.with(resourceName2,
+        final HateosResourceMapping<?, ?, ?, ?> mapping2 = HateosResourceMapping.with(resourceName2,
                 BigInteger::new,
-                TestHateosResource3.class,
-                TestHateosResource4.class)
+                TestResource.class,
+                TestResource2.class,
+                TestHateosResource2.class)
                 .set(LinkRelation.ABOUT, HttpMethod.PUT, new FakeHateosHandler<>());
 
         return Sets.of(mapping1, mapping2);
     }
 
-    private Map<HateosResourceName, Class<?>> resourceNameToTypes() {
-        return Maps.of(this.resourceName1(), TestHateosResource.class, this.resourceName2(), TestHateosResource3.class);
-    }
-
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosHandlerResourceMappingObjectPostProcessorBiFunction> type() {
-        return HateosHandlerResourceMappingObjectPostProcessorBiFunction.class;
+    public Class<HateosResourceMappingObjectPostProcessorBiFunction> type() {
+        return HateosResourceMappingObjectPostProcessorBiFunction.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosHandlerResourceMapping.class.getSimpleName();
+        return HateosResourceMapping.class.getSimpleName();
     }
 
     @Override

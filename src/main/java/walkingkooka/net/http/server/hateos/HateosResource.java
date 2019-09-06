@@ -18,11 +18,32 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.HasId;
-import walkingkooka.tree.xml.HasXmlNode;
-import walkingkooka.tree.xml.XmlNode;
+import walkingkooka.compare.Range;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Interface to be implemented by all values/entites that are registered with a {@link HateosResourceName}.
  */
-public interface HateosResource<I> extends HasId<I>, HasHateosLinkId {
+public interface HateosResource<I> extends HasId<Optional<I>> {
+
+    /**
+     * Accepts a {@link Range} and converts it into a {@link String}.
+     */
+    static <I extends Comparable<I>> String rangeHateosLinkId(final Range<I> range,
+                                                              final Function<I, String> hateosLinkId) {
+        return HateosResourceIdRangeVisitor.hateosLinkId(range, hateosLinkId);
+    }
+
+    /**
+     * This character should be used to separate values within a {@link Range}.
+     */
+    char HATEOS_LINK_RANGE_SEPARATOR = '-';
+
+    /**
+     * Formats the id ready to appear within a hateos link. If a {@link Range} it should use the separator
+     * character given. This also assumes that special characters are escaped as necessary.
+     */
+    String hateosLinkId();
 }

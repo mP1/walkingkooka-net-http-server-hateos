@@ -26,9 +26,7 @@ import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.FromJsonNodeContext;
 import walkingkooka.tree.json.marshall.ToJsonNodeContext;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * The {@link HateosContentType} that handles {@link JsonNode}.
@@ -64,20 +62,9 @@ final class HateosContentTypeJsonNode extends HateosContentType {
      * Reads a resource object from its {@link JsonNode} representation.
      */
     @Override
-    <R extends HateosResource<?>> R fromNode(final String text,
-                                             final Class<R> resourceType) {
-        return this.fromJsonNodeContext.fromJsonNode(JsonNode.parse(text),
-                resourceType);
-    }
-
-    /**
-     * Reads a list of resource objects from their {@link JsonNode} representation.
-     */
-    @Override
-    <R extends HateosResource<?>> List<R> fromNodeList(final String text,
-                                                       final Class<R> resourceType) {
-        return this.fromJsonNodeContext.fromJsonNodeList(JsonNode.parse(text),
-                resourceType);
+    <T> T fromNode(final String text,
+                   final Class<T> type) {
+        return this.fromJsonNodeContext.fromJsonNode(JsonNode.parse(text), type);
     }
 
     private final FromJsonNodeContext fromJsonNodeContext;
@@ -94,24 +81,11 @@ final class HateosContentTypeJsonNode extends HateosContentType {
      * </pre>
      */
     @Override
-    String toText(final HateosResource<?> resource) {
-        return this.toJsonText(this.toJsonNodeContext.toJsonNode(resource));
-    }
-
-    @Override
-    String toTextList(final List<HateosResource<?>> resources) {
-        return this.toJsonText(
-                JsonNode.array().setChildren(resources.
-                        stream()
-                        .map(this.toJsonNodeContext::toJsonNode)
-                        .collect(Collectors.toList())));
-    }
-
-    private String toJsonText(final JsonNode node) {
+    String toText(final Object value) {
         final StringBuilder b = new StringBuilder();
 
         try(final IndentingPrinter printer = IndentingPrinters.printer(Printers.stringBuilder(b, LineEnding.SYSTEM))) {
-            node.printJson(printer);
+            this.toJsonNodeContext.toJsonNode(value).printJson(printer);
             printer.flush();
         }
         return b.toString();

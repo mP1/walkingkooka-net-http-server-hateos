@@ -40,15 +40,15 @@ import java.util.Set;
 /**
  * A value class that holds numerous components to build links for a {@link HateosResourceName}.
  */
-final class HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping {
+final class HateosResourceMappingObjectPostProcessorBiFunctionMapping {
 
-    static HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping with(final HateosResourceName name,
-                                                                                 final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
-        return new HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping(name, relationToMethods);
+    static HateosResourceMappingObjectPostProcessorBiFunctionMapping with(final HateosResourceName name,
+                                                                          final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
+        return new HateosResourceMappingObjectPostProcessorBiFunctionMapping(name, relationToMethods);
     }
 
-    private HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping(final HateosResourceName name,
-                                                                             final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
+    private HateosResourceMappingObjectPostProcessorBiFunctionMapping(final HateosResourceName name,
+                                                                      final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
         super();
         this.name = UrlPathName.with(name.value());
         this.relationToMethods = relationToMethods;

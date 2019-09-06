@@ -25,8 +25,8 @@ import walkingkooka.net.http.HttpMethod;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosHandlerResourceMappingLinkRelationHttpMethodTest extends HateosHandlerResourceMappingTestCase2<HateosHandlerResourceMappingLinkRelationHttpMethod>
-        implements ComparableTesting<HateosHandlerResourceMappingLinkRelationHttpMethod> {
+public final class HateosResourceMappingLinkRelationHttpMethodTest extends HateosResourceMappingTestCase2<HateosResourceMappingLinkRelationHttpMethod>
+        implements ComparableTesting<HateosResourceMappingLinkRelationHttpMethod> {
 
     @Test
     public void testWithNullRelationFails() {
@@ -41,18 +41,18 @@ public final class HateosHandlerResourceMappingLinkRelationHttpMethodTest extend
     private void withFails(final LinkRelation<?> relation,
                            final HttpMethod method) {
         assertThrows(NullPointerException.class, () -> {
-            HateosHandlerResourceMappingLinkRelationHttpMethod.with(relation, method);
+            HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
         });
     }
 
     @Test
     public void testDifferentLinkRelation() {
-        this.checkNotEquals(HateosHandlerResourceMappingLinkRelationHttpMethod.with(LinkRelation.with("different"), this.method()));
+        this.checkNotEquals(HateosResourceMappingLinkRelationHttpMethod.with(LinkRelation.with("different"), this.method()));
     }
 
     @Test
     public void testDifferentMethod() {
-        this.checkNotEquals(HateosHandlerResourceMappingLinkRelationHttpMethod.with(this.relation(), HttpMethod.with("different")));
+        this.checkNotEquals(HateosResourceMappingLinkRelationHttpMethod.with(this.relation(), HttpMethod.with("different")));
     }
 
     @Test
@@ -61,8 +61,8 @@ public final class HateosHandlerResourceMappingLinkRelationHttpMethodTest extend
     }
 
     @Override
-    public HateosHandlerResourceMappingLinkRelationHttpMethod createComparable() {
-        return HateosHandlerResourceMappingLinkRelationHttpMethod.with(this.relation(), this.method());
+    public HateosResourceMappingLinkRelationHttpMethod createComparable() {
+        return HateosResourceMappingLinkRelationHttpMethod.with(this.relation(), this.method());
     }
 
     private LinkRelation<?> relation() {
@@ -76,15 +76,15 @@ public final class HateosHandlerResourceMappingLinkRelationHttpMethodTest extend
     // ClassTesting.....................................................................................................
 
     @Override
-    public Class<HateosHandlerResourceMappingLinkRelationHttpMethod> type() {
-        return HateosHandlerResourceMappingLinkRelationHttpMethod.class;
+    public Class<HateosResourceMappingLinkRelationHttpMethod> type() {
+        return HateosResourceMappingLinkRelationHttpMethod.class;
     }
 
     // TypeNameTesting...................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosHandlerResourceMapping.class.getSimpleName();
+        return HateosResourceMapping.class.getSimpleName();
     }
 
     @Override
