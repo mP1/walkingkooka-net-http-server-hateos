@@ -31,12 +31,12 @@ import java.util.List;
  * Controls the content type of hateos messages. Ideally this should have been an enum but currently enums do not
  * support type parameters.
  */
-public abstract class HateosContentType<N extends Node<N, ?, ?, ?>> {
+public abstract class HateosContentType {
 
     /**
      * Selects JSON formatted request and response bodies.
      */
-    public static HateosContentType<JsonNode> json(final FromJsonNodeContext fromJsonNodeContext,
+    public static HateosContentType json(final FromJsonNodeContext fromJsonNodeContext,
                                                    final ToJsonNodeContext toJsonNodeContext) {
         return HateosContentTypeJsonNode.with(fromJsonNodeContext,
                 toJsonNodeContext);
@@ -45,7 +45,7 @@ public abstract class HateosContentType<N extends Node<N, ?, ?, ?>> {
     /**
      * Selects XML formatted request and response bodies.
      */
-    public static HateosContentType<XmlNode> xml(final DocumentBuilder builder) {
+    public static HateosContentType xml(final DocumentBuilder builder) {
         return HateosContentTypeXmlNode.with(builder);
     }
 

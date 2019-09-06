@@ -40,7 +40,7 @@ import java.util.function.BiConsumer;
 final class HateosHandlerResourceMappingRouter implements Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> {
 
     static HateosHandlerResourceMappingRouter with(final AbsoluteUrl base,
-                                                   final HateosContentType<?> contentType,
+                                                   final HateosContentType contentType,
                                                    final Set<HateosHandlerResourceMapping<?, ?, ?>> mappings) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(contentType, "contentType");
@@ -50,7 +50,7 @@ final class HateosHandlerResourceMappingRouter implements Router<HttpRequestAttr
     }
 
     private HateosHandlerResourceMappingRouter(final AbsoluteUrl base,
-                                               final HateosContentType<?> contentType,
+                                               final HateosContentType contentType,
                                                final Set<HateosHandlerResourceMapping<?, ?, ?>> mappings) {
         super();
         this.base = base;
@@ -90,7 +90,7 @@ final class HateosHandlerResourceMappingRouter implements Router<HttpRequestAttr
     }
 
     final AbsoluteUrl base;
-    final HateosContentType<?> contentType;
+    final HateosContentType contentType;
     final Map<HateosResourceName, HateosHandlerResourceMapping> resourceNameToMappings;
 
     // toString.........................................................................................................

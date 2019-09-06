@@ -33,7 +33,7 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-final class HateosContentTypeXmlNode extends HateosContentType<XmlNode> {
+final class HateosContentTypeXmlNode extends HateosContentType {
 
     /**
      * Singleton

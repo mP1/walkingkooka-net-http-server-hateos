@@ -303,7 +303,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
      * Using the given request resource text (request body) read that into an {@link Optional optional} {@link HateosResource resource}.
      */
     <RR extends HateosResource<?>> Optional<RR> resourceOrBadRequest(final String requestText,
-                                                                     final HateosContentType<?> hateosContentType,
+                                                                     final HateosContentType hateosContentType,
                                                                      final Class<RR> resourceType) {
         Optional<RR> resource;
 
@@ -366,7 +366,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
             throw new NotAcceptableHeaderException("AcceptCharset " + acceptCharset + " doesnt contain supported charset");
         }
 
-        final HateosContentType<?> hateosContentType = this.hateosContentType();
+        final HateosContentType hateosContentType = this.hateosContentType();
         final MediaType contentType = hateosContentType.contentType();
 
         final byte[] contentBytes = content.getBytes(charset.get());
@@ -382,7 +382,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
         this.response.setStatus(statusCode.setMessage(message));
     }
 
-    HateosContentType<?> hateosContentType() {
+    HateosContentType hateosContentType() {
         return this.router.contentType;
     }
 
