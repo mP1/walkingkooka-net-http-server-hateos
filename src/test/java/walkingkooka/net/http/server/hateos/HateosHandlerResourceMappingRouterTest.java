@@ -663,7 +663,7 @@ public final class HateosHandlerResourceMappingRouterTest extends HateosHandlerR
         return this.contentType().setCharset(CharsetName.UTF_16);
     }
 
-    private HateosContentType<JsonNode> hateosContentType() {
+    private HateosContentType hateosContentType() {
         return HateosContentType.json(this.fromJsonNodeContext(), this.toJsonNodeContext());
     }
 

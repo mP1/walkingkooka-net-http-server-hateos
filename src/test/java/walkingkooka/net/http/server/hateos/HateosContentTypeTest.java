@@ -17,15 +17,14 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.Cast;
 import walkingkooka.test.ClassTesting2;
 import walkingkooka.type.JavaVisibility;
 
-public final class HateosContentTypeTest implements ClassTesting2<HateosContentType<?>> {
+public final class HateosContentTypeTest implements ClassTesting2<HateosContentType> {
 
     @Override
-    public Class<HateosContentType<?>> type() {
-        return Cast.to(HateosContentType.class);
+    public Class<HateosContentType> type() {
+        return HateosContentType.class;
     }
 
     @Override

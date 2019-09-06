@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 /**
  * The {@link HateosContentType} that handles {@link JsonNode}.
  */
-final class HateosContentTypeJsonNode extends HateosContentType<JsonNode> {
+final class HateosContentTypeJsonNode extends HateosContentType {
 
     final static HateosContentTypeJsonNode with(final FromJsonNodeContext fromJsonNodeContext,
                                                 final ToJsonNodeContext toJsonNodeContext) {

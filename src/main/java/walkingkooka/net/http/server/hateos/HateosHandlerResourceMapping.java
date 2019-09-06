@@ -121,7 +121,7 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
      * Creates a {@link Router} from the provided {@link HateosHandlerResourceMapping mappings}.
      */
     public static Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router(final AbsoluteUrl base,
-                                                                                                final HateosContentType<?> contentType,
+                                                                                                final HateosContentType contentType,
                                                                                                 final Set<HateosHandlerResourceMapping<?, ?, ?>> mappings) {
         return HateosHandlerResourceMappingRouter.with(base, contentType, mappings);
     }
@@ -166,7 +166,7 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
         if (null != handler) {
             final String requestText = request.resourceTextOrBadRequest();
             if (null != request) {
-                final HateosContentType<?> hateosContentType = request.hateosContentType();
+                final HateosContentType hateosContentType = request.hateosContentType();
                 final Optional<R> requestResource = request.resourceOrBadRequest(requestText,
                         hateosContentType,
                         this.resourceType);
@@ -222,7 +222,7 @@ public final class HateosHandlerResourceMapping<I extends Comparable<I>, R exten
                                 final HateosHandlerResourceMappingRouterBiConsumerRequest request) {
         final String requestText = request.resourceTextOrBadRequest();
         if (null != requestText) {
-            final HateosContentType<?> hateosContentType = request.hateosContentType();
+            final HateosContentType hateosContentType = request.hateosContentType();
             final Optional<S> requestResource = request.resourceOrBadRequest(requestText,
                     hateosContentType,
                     this.collectionResourceType);

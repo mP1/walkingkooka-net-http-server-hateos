@@ -32,7 +32,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public abstract class HateosContentTypeTestCase<C extends HateosContentType<N>, N extends Node<N, ?, ?, ?>> implements ClassTesting2<C>,
+public abstract class HateosContentTypeTestCase<C extends HateosContentType> implements ClassTesting2<C>,
         ToStringTesting<C>,
         TypeNameTesting<C> {
 

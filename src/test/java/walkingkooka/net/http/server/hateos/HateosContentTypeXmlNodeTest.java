@@ -27,7 +27,7 @@ import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosContentTypeXmlNodeTest extends HateosContentTypeTestCase<HateosContentTypeXmlNode, XmlNode> {
+public final class HateosContentTypeXmlNodeTest extends HateosContentTypeTestCase<HateosContentTypeXmlNode> {
 
     @Test
     public void testFromNodeFails() {
@@ -74,6 +74,6 @@ public final class HateosContentTypeXmlNodeTest extends HateosContentTypeTestCas
 
     @Override
     public Class<HateosContentTypeXmlNode> type() {
-        return Cast.to(HateosContentTypeXmlNode.class);
+        return HateosContentTypeXmlNode.class;
     }
 }

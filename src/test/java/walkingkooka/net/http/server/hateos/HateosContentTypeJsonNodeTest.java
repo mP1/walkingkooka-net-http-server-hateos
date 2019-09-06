@@ -31,7 +31,7 @@ import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosContentTypeJsonNodeTest extends HateosContentTypeTestCase<HateosContentTypeJsonNode, JsonNode> {
+public final class HateosContentTypeJsonNodeTest extends HateosContentTypeTestCase<HateosContentTypeJsonNode> {
 
     @Test
     public void testWithNullFromJsonNodeContextFails() {
