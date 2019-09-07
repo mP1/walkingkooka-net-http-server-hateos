@@ -28,33 +28,30 @@ import java.util.function.BiConsumer;
 /**
  * A {@link BiConsumer} which examines the request and then dispatches to the selected {@link HateosHandler}.
  */
-final class HateosHandlerResourceMappingRouterBiConsumer implements BiConsumer<HttpRequest, HttpResponse> {
+final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequest, HttpResponse> {
 
     /**
-     * Factory called by {@link HateosHandlerResourceMappingRouter#route}
+     * Factory called by {@link HateosResourceMappingRouter#route}
      */
-    static <N extends Node<N, ?, ?, ?>> HateosHandlerResourceMappingRouterBiConsumer with(final HateosHandlerResourceMappingRouter router) {
-        return new HateosHandlerResourceMappingRouterBiConsumer(router);
+    static <N extends Node<N, ?, ?, ?>> HateosResourceMappingRouterBiConsumer with(final HateosResourceMappingRouter router) {
+        return new HateosResourceMappingRouterBiConsumer(router);
     }
 
     /**
      * Private ctor use factory.
      */
-    private HateosHandlerResourceMappingRouterBiConsumer(final HateosHandlerResourceMappingRouter router) {
+    private HateosResourceMappingRouterBiConsumer(final HateosResourceMappingRouter router) {
         super();
         this.router = router;
     }
 
-    /**
-     * Dispatches the request to {@link HateosHandlerRouterRequestBiConsumerHttpMethodVisitor}.
-     */
     @Override
     public void accept(final HttpRequest request, final HttpResponse response) {
         Objects.requireNonNull(request, "request");
         Objects.requireNonNull(response, "response");
 
         try {
-            HateosHandlerResourceMappingRouterBiConsumerRequest.with(request, response, this.router)
+            HateosResourceMappingRouterBiConsumerRequest.with(request, response, this.router)
                     .dispatch();
         } catch (final UnsupportedOperationException unsupported) {
             response.setStatus(HttpStatusCode.NOT_IMPLEMENTED.setMessageOrDefault(unsupported.getMessage()));
@@ -65,7 +62,7 @@ final class HateosHandlerResourceMappingRouterBiConsumer implements BiConsumer<H
         }
     }
 
-    private final HateosHandlerResourceMappingRouter router;
+    private final HateosResourceMappingRouter router;
 
     @Override
     public String toString() {

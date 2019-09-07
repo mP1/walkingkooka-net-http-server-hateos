@@ -44,21 +44,21 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Handles dispatching a request, defaulting to unsupported methods to a method not allowed response.
+ * Handles dispatching a request, after extracting ids and parsing request bodies.
  */
-final class HateosHandlerResourceMappingRouterBiConsumerRequest {
+final class HateosResourceMappingRouterBiConsumerRequest {
 
-    static HateosHandlerResourceMappingRouterBiConsumerRequest with(final HttpRequest request,
-                                                                    final HttpResponse response,
-                                                                    final HateosHandlerResourceMappingRouter router) {
-        return new HateosHandlerResourceMappingRouterBiConsumerRequest(request,
+    static HateosResourceMappingRouterBiConsumerRequest with(final HttpRequest request,
+                                                             final HttpResponse response,
+                                                             final HateosResourceMappingRouter router) {
+        return new HateosResourceMappingRouterBiConsumerRequest(request,
                 response,
                 router);
     }
 
-    private HateosHandlerResourceMappingRouterBiConsumerRequest(final HttpRequest request,
-                                                                final HttpResponse response,
-                                                                final HateosHandlerResourceMappingRouter router) {
+    private HateosResourceMappingRouterBiConsumerRequest(final HttpRequest request,
+                                                         final HttpResponse response,
+                                                         final HateosResourceMappingRouter router) {
         super();
         this.request = request;
         this.response = response;
@@ -118,7 +118,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
                     escaped = true;
                     continue;
                 }
-                if (HasHateosLinkId.HATEOS_LINK_RANGE_SEPARATOR == c) {
+                if (HateosResource.HATEOS_LINK_RANGE_SEPARATOR == c) {
                     if (null == begin) {
                         begin = component.toString();
                         component.setLength(0);
@@ -158,7 +158,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
                            final int pathIndex) {
         final LinkRelation<?> linkRelation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex + 2);
         if (null != linkRelation) {
-            final HateosHandlerResourceMapping<?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
+            final HateosResourceMapping<?, ?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
             if (null != mapping) {
                 mapping.handleId0(Optional.empty(), linkRelation, this);
             }
@@ -179,7 +179,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
     private void id0(final HateosResourceName resourceName,
                      final String idText,
                      final LinkRelation<?> linkRelation) {
-        final HateosHandlerResourceMapping<?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
+        final HateosResourceMapping<?, ?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
         if (null != mapping) {
             mapping.handleId(idText, linkRelation, this);
         }
@@ -191,7 +191,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
                           final int pathIndex) {
         final LinkRelation<?> linkRelation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex + 2);
         if (null != linkRelation) {
-            final HateosHandlerResourceMapping<?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
+            final HateosResourceMapping<?, ?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
             if (null != mapping) {
                 mapping.handleIdRange(linkRelation, this);
             }
@@ -210,7 +210,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
                             final int pathIndex) {
         final LinkRelation<?> linkRelation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex + 2);
         if (null != linkRelation) {
-            final HateosHandlerResourceMapping<?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
+            final HateosResourceMapping<?, ?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
             if (null != mapping) {
                 mapping.handleIdRange(begin,
                         end,
@@ -288,11 +288,11 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
     }
 
     /**
-     * Locates the {@link HateosHandlerResourceMapping} or writes {@link HttpStatusCode#NOT_FOUND} or {@link HttpStatusCode#METHOD_NOT_ALLOWED}
+     * Locates the {@link HateosResourceMapping} or writes {@link HttpStatusCode#NOT_FOUND} or {@link HttpStatusCode#METHOD_NOT_ALLOWED}
      */
-    private HateosHandlerResourceMapping<?, ?, ?> handlersOrResponseNotFound(final HateosResourceName resourceName,
-                                                                             final LinkRelation<?> linkRelation) {
-        final HateosHandlerResourceMapping<?, ?, ?> mapping = this.router.resourceNameToMappings.get(resourceName);
+    private HateosResourceMapping<?, ?, ?, ?> handlersOrResponseNotFound(final HateosResourceName resourceName,
+                                                                         final LinkRelation<?> linkRelation) {
+        final HateosResourceMapping<?, ?, ?, ?> mapping = this.router.resourceNameToMapping.get(resourceName);
         if (null == mapping) {
             this.notFound(resourceName, linkRelation);
         }
@@ -302,16 +302,16 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
     /**
      * Using the given request resource text (request body) read that into an {@link Optional optional} {@link HateosResource resource}.
      */
-    <RR extends HateosResource<?>> Optional<RR> resourceOrBadRequest(final String requestText,
-                                                                     final HateosContentType hateosContentType,
-                                                                     final Class<RR> resourceType) {
-        Optional<RR> resource;
+    <T> Optional<T> resourceOrBadRequest(final String requestText,
+                                         final HateosContentType hateosContentType,
+                                         final Class<T> type) {
+        Optional<T> resource;
 
         if (requestText.isEmpty()) {
             resource = Optional.empty();
         } else {
             try {
-                resource = Optional.of(hateosContentType.fromNode(requestText, resourceType));
+                resource = Optional.of(hateosContentType.fromNode(requestText, type));
             } catch (final Exception cause) {
                 this.badRequest("Invalid " + hateosContentType + ": " + cause.getMessage());
                 resource = null;
@@ -388,7 +388,7 @@ final class HateosHandlerResourceMappingRouterBiConsumerRequest {
 
     final HttpRequest request;
     final HttpResponse response;
-    final HateosHandlerResourceMappingRouter router;
+    final HateosResourceMappingRouter router;
 
     /**
      * Only set when a valid request is dispatched.

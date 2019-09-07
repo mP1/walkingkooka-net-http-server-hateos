@@ -25,21 +25,21 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * A {@link RangeVisitor} used by {@link HasHateosLinkId#rangeHateosLinkId(Range, Function)}
+ * A {@link RangeVisitor} used by {@link HateosResource#rangeHateosLinkId(Range, Function)}
  */
-final class HasHateosLinkIdRangeVisitor<I extends Comparable<I>> extends RangeVisitor<I> {
+final class HateosResourceIdRangeVisitor<I extends Comparable<I>> extends RangeVisitor<I> {
 
     static <I extends Comparable<I>> String hateosLinkId(final Range<I> range,
                                                          final Function<I, String> hateosLinkId) {
         Objects.requireNonNull(range, "range");
         Objects.requireNonNull(hateosLinkId, "hateosLinkId");
 
-        final HasHateosLinkIdRangeVisitor<I> visitor = new HasHateosLinkIdRangeVisitor<>(hateosLinkId);
+        final HateosResourceIdRangeVisitor<I> visitor = new HateosResourceIdRangeVisitor<>(hateosLinkId);
         visitor.accept(range);
         return visitor.linkText;
     }
 
-    HasHateosLinkIdRangeVisitor(final Function<I, String> hateosLinkId) {
+    HateosResourceIdRangeVisitor(final Function<I, String> hateosLinkId) {
         super();
         this.hateosLinkId = hateosLinkId;
     }
@@ -61,7 +61,7 @@ final class HasHateosLinkIdRangeVisitor<I extends Comparable<I>> extends RangeVi
 
     @Override
     protected void lowerBoundInclusive(final I value) {
-        this.linkText = hateosLinkId.apply(value) + HasHateosLinkId.HATEOS_LINK_RANGE_SEPARATOR;
+        this.linkText = hateosLinkId.apply(value) + HateosResource.HATEOS_LINK_RANGE_SEPARATOR;
     }
 
     @Override
@@ -74,7 +74,7 @@ final class HasHateosLinkIdRangeVisitor<I extends Comparable<I>> extends RangeVi
         final String valueText = this.hateosLinkId.apply(value);
 
         this.linkText = this.linkText.isEmpty() ?
-                HasHateosLinkId.HATEOS_LINK_RANGE_SEPARATOR + valueText :
+                HateosResource.HATEOS_LINK_RANGE_SEPARATOR + valueText :
                 this.linkText + valueText;
     }
 

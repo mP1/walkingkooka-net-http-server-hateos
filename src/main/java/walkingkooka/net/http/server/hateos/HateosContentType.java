@@ -18,14 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
-import walkingkooka.tree.Node;
-import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.FromJsonNodeContext;
 import walkingkooka.tree.json.marshall.ToJsonNodeContext;
-import walkingkooka.tree.xml.XmlNode;
-
-import javax.xml.parsers.DocumentBuilder;
-import java.util.List;
 
 /**
  * Controls the content type of hateos messages.
@@ -54,26 +48,14 @@ public abstract class HateosContentType {
     public abstract MediaType contentType();
 
     /**
-     * Reads a resource object from its {@link String text} representation.
+     * Reads a value from its {@link String text} representation.
      */
-    abstract <R extends HateosResource<?>> R fromNode(final String text,
-                                                      final Class<R> resourceType);
-
+    abstract <T> T fromNode(final String text,
+                            final Class<T> type);
     /**
-     * Reads a list of resource objects from their {@link String text} representation.
+     * Marshalls the value into text.
      */
-    abstract <R extends HateosResource<?>> List<R> fromNodeList(final String text,
-                                                                final Class<R> resourceType);
-
-    /**
-     * Converts it to a text.
-     */
-    abstract String toText(final HateosResource<?> resource);
-
-    /**
-     * Converts the resources to a text.
-     */
-    abstract String toTextList(final List<HateosResource<?>> resources);
+    abstract String toText(final Object value);
 
     abstract public String toString();
 }

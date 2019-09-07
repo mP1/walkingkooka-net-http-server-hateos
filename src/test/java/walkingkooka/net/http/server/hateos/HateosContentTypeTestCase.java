@@ -18,17 +18,11 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.collect.list.Lists;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.test.ClassTesting2;
 import walkingkooka.test.ToStringTesting;
 import walkingkooka.test.TypeNameTesting;
-import walkingkooka.tree.Node;
 import walkingkooka.type.JavaVisibility;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -65,15 +59,6 @@ public abstract class HateosContentTypeTestCase<C extends HateosContentType> imp
                 () -> "fromNode failed: " + text);
     }
 
-    final void fromNodeListAndCheck(final String text,
-                                    final Class<TestHateosResource> resourceType,
-                                    final TestHateosResource... resources) {
-        assertEquals(Lists.of(resources),
-                this.hateosContentType()
-                        .fromNodeList(text, resourceType),
-                () -> "fromNodeList failed: " + text);
-    }
-
     final void toTextAndCheck(final HateosResource<?> resource,
                               final String text) {
         assertEquals(text,
@@ -81,27 +66,7 @@ public abstract class HateosContentTypeTestCase<C extends HateosContentType> imp
                 () -> "toText failed: " + resource);
     }
 
-    final void toTextListAndCheck(final List<HateosResource<?>> resources,
-                                  final String text) {
-
-        assertEquals(text,
-                this.hateosContentType().toTextList(resources),
-                () -> "toTextList failed: " + resources);
-    }
-
     abstract C hateosContentType();
-
-    final DocumentBuilder documentBuilder() {
-        try {
-            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setNamespaceAware(false);
-            factory.setValidating(false);
-            factory.setExpandEntityReferences(false);
-            return factory.newDocumentBuilder();
-        } catch (final Exception cause) {
-            throw new Error(cause);
-        }
-    }
 
     // ClassTesting.....................................................................................................
 

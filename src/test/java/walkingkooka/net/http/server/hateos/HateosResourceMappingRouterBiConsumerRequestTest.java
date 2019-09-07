@@ -20,41 +20,45 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
+import walkingkooka.net.http.server.HttpRequest;
+import walkingkooka.net.http.server.HttpRequests;
+import walkingkooka.net.http.server.HttpResponse;
+import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.tree.json.marshall.FromJsonNodeContexts;
 import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
 
-import java.util.function.BiConsumer;
-
-public final class HateosHandlerResourceMappingRouterBiConsumerTest extends HateosHandlerResourceMappingTestCase2<HateosHandlerResourceMappingRouterBiConsumer> {
+public final class HateosResourceMappingRouterBiConsumerRequestTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterBiConsumerRequest> {
 
     // toString.........................................................................................................
 
     @Test
     public void testToString() {
-        final HateosHandlerResourceMappingRouter router = HateosHandlerResourceMappingRouter.with(Url.parseAbsolute("http://example.com"),
+        final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(Url.parseAbsolute("http://example.com"),
                 HateosContentType.json(FromJsonNodeContexts.fake(), ToJsonNodeContexts.fake()),
                 Sets.empty());
+        final HttpRequest request = HttpRequests.fake();
+        final HttpResponse response = HttpResponses.fake();
 
-        this.toStringAndCheck(HateosHandlerResourceMappingRouterBiConsumer.with(router),
-                router.toString());
+        this.toStringAndCheck(HateosResourceMappingRouterBiConsumerRequest.with(request, response, router),
+                router + " " + request + " " + response);
     }
 
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosHandlerResourceMappingRouterBiConsumer> type() {
-        return HateosHandlerResourceMappingRouterBiConsumer.class;
+    public Class<HateosResourceMappingRouterBiConsumerRequest> type() {
+        return HateosResourceMappingRouterBiConsumerRequest.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosHandlerResourceMapping.class.getSimpleName();
+        return HateosResourceMappingRouterBiConsumer.class.getSimpleName();
     }
 
     @Override
     public String typeNameSuffix() {
-        return BiConsumer.class.getSimpleName();
+        return "Request";
     }
 }

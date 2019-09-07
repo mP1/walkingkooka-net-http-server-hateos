@@ -17,17 +17,17 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.tree.xml.XmlNode;
+import java.util.Optional;
 
 public class FakeHateosResource<I> implements HateosResource<I> {
 
     @Override
-    public String hateosLinkId() {
+    public Optional<I> id() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
-    public I id() {
+    public String hateosLinkId() {
         throw new UnsupportedOperationException();
     }
 }

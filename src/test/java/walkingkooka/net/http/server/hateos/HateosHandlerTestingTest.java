@@ -73,10 +73,10 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
     @Test
     public void testHandleCollectionAndCheck() {
         final Range<BigInteger> id = this.collection();
-        final Optional<TestHateosResource2> in = Optional.of(TestHateosResource2.with(this.collection()));
+        final Optional<TestHateosResource2> in = this.collectionResource();
         final Map<HttpRequestAttribute<?>, Object> parameters = this.parameters();
 
-        final Optional<TestHateosResource2> out = Optional.of(TestHateosResource2.with(Range.singleton(BigInteger.valueOf(222))));
+        final Optional<TestHateosResource2> out = this.collectionResource();
 
         this.handleCollectionAndCheck(new FakeHateosHandler<>() {
                                           @Override
@@ -125,7 +125,7 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
 
     @Override
     public Optional<TestHateosResource2> collectionResource() {
-        return Optional.of(TestHateosResource2.with(this.collection()));
+        return Optional.of(TestHateosResource2.with(BigInteger.valueOf(999)));
     }
 
     @Override

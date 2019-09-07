@@ -32,8 +32,8 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public final class HateosHandlerResourceMappingObjectPostProcessorBiFunctionMappingTest extends HateosHandlerResourceMappingTestCase2<HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping>
-        implements ToStringTesting<HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping> {
+public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest extends HateosResourceMappingTestCase2<HateosResourceMappingObjectPostProcessorBiFunctionMapping>
+        implements ToStringTesting<HateosResourceMappingObjectPostProcessorBiFunctionMapping> {
 
     @Test
     public void testSelfGetAddLinks() {
@@ -114,7 +114,7 @@ public final class HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapp
                 withLinks);
     }
 
-    private void addLinksAndCheck(final HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping mapping,
+    private void addLinksAndCheck(final HateosResourceMappingObjectPostProcessorBiFunctionMapping mapping,
                                   final String withLinks) {
         final String before = "{\"a\": 1, \"b\": 2}";
         assertEquals(JsonNode.parse(withLinks),
@@ -130,26 +130,26 @@ public final class HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapp
         this.toStringAndCheck(this.createMapping(), "resource1, about=GET, contents=GET, POST");
     }
 
-    private HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping createMapping() {
+    private HateosResourceMappingObjectPostProcessorBiFunctionMapping createMapping() {
         return this.createMapping(Maps.of(LinkRelation.ABOUT, Sets.of(HttpMethod.GET), LinkRelation.CONTENTS, Sets.of(HttpMethod.GET, HttpMethod.POST)));
     }
 
-    private HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping createMapping(final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
-        return HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping.with(HateosResourceName.with("resource1"), relationToMethods);
+    private HateosResourceMappingObjectPostProcessorBiFunctionMapping createMapping(final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
+        return HateosResourceMappingObjectPostProcessorBiFunctionMapping.with(HateosResourceName.with("resource1"), relationToMethods);
     }
 
     // TypeTesting......................................................................................................
 
     @Override
-    public Class<HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping> type() {
-        return HateosHandlerResourceMappingObjectPostProcessorBiFunctionMapping.class;
+    public Class<HateosResourceMappingObjectPostProcessorBiFunctionMapping> type() {
+        return HateosResourceMappingObjectPostProcessorBiFunctionMapping.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosHandlerResourceMappingObjectPostProcessorBiFunction.class.getSimpleName();
+        return HateosResourceMappingObjectPostProcessorBiFunction.class.getSimpleName();
     }
 
     @Override

@@ -19,13 +19,15 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.map.Maps;
 import walkingkooka.compare.Range;
+import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * Handles any request involving a hateos request.
+ * Handles a HATEOS request for a {@link HateosResource} including the marshalling between to and from text from
+ * the {@link HttpRequest#body()}.
  */
 public interface HateosHandler<I extends Comparable<I>, V, C> {
 

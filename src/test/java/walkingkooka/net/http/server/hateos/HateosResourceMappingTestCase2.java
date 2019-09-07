@@ -18,15 +18,14 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.test.ToStringTesting;
-import walkingkooka.tree.json.JsonObjectNode;
 import walkingkooka.tree.json.marshall.ToJsonNodeContext;
 import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
 import walkingkooka.type.JavaVisibility;
 
-public abstract class HateosHandlerResourceMappingTestCase2<T> extends HateosHandlerResourceMappingTestCase<T>
+public abstract class HateosResourceMappingTestCase2<T> extends HateosResourceMappingTestCase<T>
         implements ToStringTesting<T> {
 
-    HateosHandlerResourceMappingTestCase2() {
+    HateosResourceMappingTestCase2() {
         super();
     }
 
