@@ -27,6 +27,11 @@ import walkingkooka.tree.json.marshall.ToJsonNodeContext;
 public abstract class HateosContentType {
 
     /**
+     * A {@link MediaType} for json hateos content.
+     */
+    public final static MediaType JSON_CONTENT_TYPE = MediaType.with("application", "hal+json");
+
+    /**
      * Selects JSON formatted request and response bodies.
      */
     public static HateosContentType json(final FromJsonNodeContext fromJsonNodeContext,
