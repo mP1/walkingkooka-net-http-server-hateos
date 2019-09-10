@@ -70,24 +70,46 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     private final static BigInteger ID = BigInteger.valueOf(31);
     private final static BigInteger ID2 = BigInteger.valueOf(127);
-    private final static Range<BigInteger> RANGE1_2 = Range.greaterThanEquals(ID).and(Range.lessThanEquals(ID2));
 
     private final static TestResource RESOURCE_IN = TestResource.with(TestHateosResource.with(ID));
     private final static TestResource RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
-//    private final static TestResource COLLECTION_RESOURCE_IN = TestResource.with(TestHateosResource2.with(Range.singleton(ID)));
-//    private final static TestResource COLLECTION_RESOURCE_OUT = TestResource.with(TestHateosResource2.with(RANGE1_2));
     private final static TestResource COLLECTION_RESOURCE_IN = TestResource.with(TestHateosResource.with(ID));
     private final static TestResource COLLECTION_RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
 
     private final static HttpMethod METHOD = HttpMethod.POST;
 
-    // BAD REQUEST......................................................................................................
+    @Test
+    public void testMissingBaseUnrouted() {
+        this.routeFails(this.request(HttpMethod.GET,
+                "/missing-base/",
+                this.contentType(),
+                ""));
+    }
 
     @Test
-    public void testBadRequestMissingBase() {
-        this.routeAndCheck("/missing/",
-                null);
+    public void testWrongContentTypeUnrouted() {
+        this.routeFails(this.request(HttpMethod.GET,
+                "/api/",
+                MediaType.parse("text/plain;q=1"),
+                ""));
     }
+
+    @Test
+    public void testWrongContentTypeUnrouted2() {
+        this.routeFails(this.request(HttpMethod.GET,
+                "/api/resource1/1",
+                MediaType.parse("text/plain;q=1"),
+                ""));
+    }
+
+    private void routeFails(final HttpRequest request) {
+        assertEquals(Optional.empty(),
+                this.createRouter()
+                        .route(request.routerParameters()),
+                () -> "" + request);
+    }
+
+    // BAD REQUEST......................................................................................................
 
     @Test
     public void testBadRequestMissingResourceName() {

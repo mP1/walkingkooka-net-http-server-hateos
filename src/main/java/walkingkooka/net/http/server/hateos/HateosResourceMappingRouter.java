@@ -21,6 +21,8 @@ import walkingkooka.ToStringBuilder;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.UrlPathName;
+import walkingkooka.net.header.HttpHeaderName;
+import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
@@ -68,9 +70,27 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     public Optional<BiConsumer<HttpRequest, HttpResponse>> route(final Map<HttpRequestAttribute<?>, Object> parameters) throws RouteException {
         Objects.requireNonNull(parameters, "parameters");
 
-        return Optional.ofNullable(-1 != consumeBasePath(parameters) ?
+        return Optional.ofNullable(this.canHandle(parameters) ?
                 HateosResourceMappingRouterBiConsumer.with(this) :
                 null);
+    }
+
+    /**
+     * Returns true if the content types are a match and the request path matches the base url.
+     */
+    private boolean canHandle(final Map<HttpRequestAttribute<?>, Object> parameters) {
+        return HttpHeaderName.CONTENT_TYPE.parameterValue(parameters)
+                .stream()
+                .anyMatch(this::isContentTypeCompatible) &&
+                -1 != this.consumeBasePath(parameters);
+    }
+
+    /**
+     * Only returns true if the hateos content type and the given {@link MediaType} match less any parameters.
+     */
+    private boolean isContentTypeCompatible(final MediaType possible) {
+        final MediaType contentType = this.contentType.contentType();
+        return contentType.setParameters(MediaType.NO_PARAMETERS).equals(possible.setParameters(MediaType.NO_PARAMETERS));
     }
 
     /**
