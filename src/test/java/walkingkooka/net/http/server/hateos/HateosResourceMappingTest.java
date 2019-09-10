@@ -119,7 +119,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
                 null);
     }
 
-    private void setFails(final LinkRelation relation,
+    private void setFails(final LinkRelation<?> relation,
                           final HttpMethod method,
                           final HateosHandler<BigInteger, TestResource, TestResource2> handler) {
 
@@ -242,7 +242,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
                 null);
     }
 
-    private void handlerFails(final LinkRelation relation,
+    private void handlerFails(final LinkRelation<?> relation,
                               final HttpMethod method) {
 
         assertThrows(NullPointerException.class, () ->
@@ -289,7 +289,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
     }
 
     private void handlerAndCheck(final HateosResourceMapping<BigInteger, TestResource, TestResource2, TestHateosResource> mapping,
-                                 final LinkRelation relation,
+                                 final LinkRelation<?> relation,
                                  final HttpMethod method,
                                  final Optional<HateosHandler<BigInteger, TestResource, TestResource2>> handler) {
         assertEquals(handler,
@@ -346,7 +346,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
         return TestHateosResource.class;
     }
 
-    private LinkRelation relation() {
+    private LinkRelation<?> relation() {
         return LinkRelation.ITEM;
     }
 
