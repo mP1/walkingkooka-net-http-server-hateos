@@ -53,10 +53,8 @@ final class HateosContentTypeJsonNode extends HateosContentType {
 
     @Override
     public MediaType contentType() {
-        return CONTENT_TYPE;
+        return JSON_CONTENT_TYPE;
     }
-
-    final static MediaType CONTENT_TYPE = MediaType.with("application", "hal+json");
 
     /**
      * Reads a resource object from its {@link JsonNode} representation.

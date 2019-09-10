@@ -71,7 +71,7 @@ final class HateosResourceMappingObjectPostProcessorBiFunctionMapping {
                 // TODO add support for title/title* and hreflang
                 final Map<LinkParameterName<?>, Object> parameters = Maps.of(LinkParameterName.METHOD, method,
                         LinkParameterName.REL, Lists.of(relation),
-                        LinkParameterName.TYPE, HateosContentTypeJsonNode.CONTENT_TYPE);
+                        LinkParameterName.TYPE, HateosContentTypeJsonNode.JSON_CONTENT_TYPE);
 
                 links.add(context.toJsonNode(Link.with(base.setPath(LinkRelation.SELF == relation ?
                         pathAndResourceNameAndId :
