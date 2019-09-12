@@ -47,6 +47,7 @@ import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.net.http.server.RecordingHttpResponse;
 import walkingkooka.routing.RouterTesting;
+import walkingkooka.routing.RouterTesting2;
 import walkingkooka.text.CharSequences;
 import walkingkooka.tree.json.marshall.FromJsonNodeContext;
 import walkingkooka.tree.json.marshall.FromJsonNodeContexts;
@@ -62,9 +63,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingRouterTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouter>
-        implements RouterTesting<HateosResourceMappingRouter,
-        HttpRequestAttribute<?>,
-        BiConsumer<HttpRequest, HttpResponse>> {
+        implements RouterTesting2<HateosResourceMappingRouter,
+                HttpRequestAttribute<?>,
+                BiConsumer<HttpRequest, HttpResponse>> {
 
     private final static String NO_BODY = null;
 
@@ -207,13 +208,6 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     @Test
     public void testBadRequestIdAndInvalidJson() {
         this.routeAndCheck("/api/resource1/0x1f/contents",
-                "!invalid json",
-                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
-    }
-
-    @Test
-    public void testBadRequestMissingIdAndInvalidJson() {
-        this.routeAndCheck("/api/resource1//contents",
                 "!invalid json",
                 HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
     }
