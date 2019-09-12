@@ -27,7 +27,7 @@ import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpResponse;
-import walkingkooka.routing.Router;
+import walkingkooka.route.Router;
 import walkingkooka.text.CharSequences;
 
 import java.util.Map;
