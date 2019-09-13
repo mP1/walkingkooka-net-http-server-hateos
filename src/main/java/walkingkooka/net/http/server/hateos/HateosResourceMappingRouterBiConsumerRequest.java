@@ -29,6 +29,7 @@ import walkingkooka.net.header.MediaType;
 import walkingkooka.net.header.MediaTypeParameterName;
 import walkingkooka.net.header.NotAcceptableHeaderException;
 import walkingkooka.net.http.HttpEntity;
+import walkingkooka.net.http.HttpStatus;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
@@ -251,36 +252,54 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      * Reads and returns the body as text, with null signifying an error occured and a bad request response set.
      */
     String resourceTextOrBadRequest() {
-        String text = "";
+        String text = ""; // null == bad request
 
-        final byte[] body = this.request.body();
-        if (null != body && body.length > 0) {
-            Charset charset = Charset.defaultCharset();
-
-            final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.headerValue(this.request.headers());
-            if (contentType.isPresent()) {
-                final Optional<CharsetName> possible = MediaTypeParameterName.CHARSET.parameterValue(contentType.get());
-                if (possible.isPresent()) {
-                    charset = possible.get().charset().orElse(charset);
-                }
-            }
-
-            try (final StringReader reader = new StringReader(new String(request.body(), charset))) {
-                final StringBuilder b = new StringBuilder();
-                final char[] buffer = new char[4096];
-
-                for (; ; ) {
-                    final int fill = reader.read(buffer);
-                    if (-1 == fill) {
-                        break;
-                    }
-                    b.append(buffer, 0, fill);
-                }
-
-                text = b.toString();
-            } catch (final IOException cause) {
-                this.badRequest("Invalid content: " + cause.getMessage());
+        final HttpRequest request = this.request;
+        final Map<HttpHeaderName<?>, Object> headers = request.headers();
+        final Optional<Long> contentLength = HttpHeaderName.CONTENT_LENGTH.headerValue(headers);
+        final byte[] body = request.body();
+        if (null == body || body.length == 0) {
+            // no body present any content-length != 0 then bad request.
+            final Long contentLengthValue = contentLength.orElse(0L);
+            if(contentLengthValue.longValue() != 0) {
+                this.badRequest("Body absent with " + HttpHeaderName.CONTENT_LENGTH + ": " + contentLength.get());
                 text = null;
+            } else {
+                text = "";
+            }
+        } else {
+            // body present content-length must match
+            if(false == contentLength.isPresent()) {
+                this.setStatus(HttpStatusCode.LENGTH_REQUIRED.status());
+                text = null;
+            } else {
+                Charset charset = Charset.defaultCharset();
+
+                final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.headerValue(headers);
+                if (contentType.isPresent()) {
+                    final Optional<CharsetName> possible = MediaTypeParameterName.CHARSET.parameterValue(contentType.get());
+                    if (possible.isPresent()) {
+                        charset = possible.get().charset().orElse(charset);
+                    }
+                }
+
+                try (final StringReader reader = new StringReader(new String(body, charset))) {
+                    final StringBuilder b = new StringBuilder();
+                    final char[] buffer = new char[contentLength.get().intValue()];
+
+                    for (; ; ) {
+                        final int fill = reader.read(buffer);
+                        if (-1 == fill) {
+                            break;
+                        }
+                        b.append(buffer, 0, fill);
+                    }
+
+                    text = b.toString();
+                } catch (final IOException cause) {
+                    this.badRequest("Invalid content: " + cause.getMessage());
+                    text = null;
+                }
             }
         }
 
@@ -379,7 +398,11 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     private void setStatus(final HttpStatusCode statusCode, final String message) {
-        this.response.setStatus(statusCode.setMessage(message));
+        this.setStatus(statusCode.setMessage(message));
+    }
+
+    private void setStatus(final HttpStatus status) {
+        this.response.setStatus(status);
     }
 
     HateosContentType hateosContentType() {

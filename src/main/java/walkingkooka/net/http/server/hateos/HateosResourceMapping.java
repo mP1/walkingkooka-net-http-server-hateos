@@ -156,7 +156,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
         final HateosHandler<I, V, C> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
         if (null != handler) {
             final String requestText = request.resourceTextOrBadRequest();
-            if (null != request) {
+            if (null != requestText) {
                 final HateosContentType hateosContentType = request.hateosContentType();
                 final Optional<V> requestResource = request.resourceOrBadRequest(requestText,
                         hateosContentType,
