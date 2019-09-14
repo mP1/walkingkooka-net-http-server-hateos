@@ -56,6 +56,11 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
                 JsonNode.parse("{\n" +
                         "  \"id\": \"123\",\n" +
                         "  \"_links\": [{\n" +
+                        "    \"href\": \"http://example.com/api/resource-1/7b\",\n" +
+                        "    \"method\": \"POST\",\n" +
+                        "    \"rel\": \"self\",\n" +
+                        "    \"type\": \"application/hal+json\"\n" +
+                        "  }, {\n" +
                         "    \"href\": \"http://example.com/api/resource-1/7b/contents\",\n" +
                         "    \"method\": \"GET\",\n" +
                         "    \"rel\": \"contents\",\n" +
@@ -64,11 +69,6 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
                         "    \"href\": \"http://example.com/api/resource-1/7b/contents\",\n" +
                         "    \"method\": \"POST\",\n" +
                         "    \"rel\": \"contents\",\n" +
-                        "    \"type\": \"application/hal+json\"\n" +
-                        "  }, {\n" +
-                        "    \"href\": \"http://example.com/api/resource-1/7b\",\n" +
-                        "    \"method\": \"POST\",\n" +
-                        "    \"rel\": \"self\",\n" +
                         "    \"type\": \"application/hal+json\"\n" +
                         "  }]\n" +
                         "}"));
@@ -87,7 +87,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
     @Test
     public void testToString() {
         this.toStringAndCheck(this.createBiFunction(),
-                "{walkingkooka.net.http.server.hateos.TestHateosResource=resource-1, contents=GET, POST, self=POST, walkingkooka.net.http.server.hateos.TestHateosResource2=resource-2, about=PUT}");
+                "{walkingkooka.net.http.server.hateos.TestHateosResource=resource-1, self=POST, contents=GET, POST, walkingkooka.net.http.server.hateos.TestHateosResource2=resource-2, about=PUT}");
     }
 
     // BiFunction.......................................................................................................
