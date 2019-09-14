@@ -73,11 +73,14 @@ final class HateosResourceMappingLinkRelationHttpMethod implements HashCodeEqual
 
     // Comparable........................................................................................................
 
+    /**
+     * Sort {@link LinkRelation} then {@link HttpMethod}.
+     */
     @Override
     public int compareTo(final HateosResourceMappingLinkRelationHttpMethod other) {
-        int result = this.method.compareTo(other.method);
+        int result = this.relation.compareTo(other.relation);
         if (0 == result) {
-            result = this.relation.compareTo(other.relation);
+            result = this.method.compareTo(other.method);
         }
         return result;
     }
