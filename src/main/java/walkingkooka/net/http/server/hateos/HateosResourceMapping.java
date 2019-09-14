@@ -22,8 +22,10 @@ import walkingkooka.ToStringBuilderOption;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.compare.Range;
 import walkingkooka.net.AbsoluteUrl;
+import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
+import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpResponse;
@@ -40,6 +42,19 @@ import java.util.function.Function;
 /**
  * Holds all mappings for a single {@link HateosResource}, where a mapping is a combination of {@link HttpMethod} and
  * {@link LinkRelation} mapped to individual {@link HateosHandler}.
+ * <br>
+ * A very brief summary of {@link HttpStatusCode} used follows and required conditions. Different {@link HttpStatusCode}
+ * indicate errors in the request or failure in executing the handler.
+ * <ul>
+ * <li>{@link HttpStatusCode#OK} - The response complete with a non empty response including a {@link HttpHeaderName#CONTENT_LENGTH}</li>
+ * <li>{@link HttpStatusCode#NO_CONTENT} - The response complete with an empty response</li>
+ * <li>{@link HttpStatusCode#BAD_REQUEST} - The request is invalid or incomplete such as an invalid id, unknown {@link HateosResourceName}</li>
+ * <li>{@link HttpStatusCode#NOT_FOUND} - No handler for any method is present</li>
+ * <li>{@link HttpStatusCode#METHOD_NOT_ALLOWED} - A handler is present for other {@link HttpMethod methods} but absent for the current method</li>
+ * <li>{@link HttpStatusCode#LENGTH_REQUIRED} - The request body is not empty and a {@link HttpHeaderName#CONTENT_LENGTH} is missing</li>
+ * <li>{@link HttpStatusCode#INTERNAL_SERVER_ERROR} - The handler threw an {@link RuntimeException} but not {@link UnsupportedOperationException}</li>
+ * <li>{@link HttpStatusCode#NOT_IMPLEMENTED} - The handler threw an {@link UnsupportedOperationException}</li>
+ * </ul>
  */
 public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>> {
 
