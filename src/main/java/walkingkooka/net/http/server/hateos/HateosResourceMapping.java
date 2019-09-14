@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.ToStringBuilder;
 import walkingkooka.ToStringBuilderOption;
+import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.compare.Range;
 import walkingkooka.net.AbsoluteUrl;
@@ -32,7 +33,10 @@ import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.route.Router;
 import walkingkooka.text.CharSequences;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -97,6 +101,29 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
         this.collectionType = collectionType;
         this.resourceType = resourceType;
         this.relationAndMethodToHandlers = relationAndMethodToHandlers;
+
+        /**
+         * Builds a map of {@link LinkRelation to all {@link List} of {@link HttpMethod}.
+         * Used by {@link #handlerOrMethodNotAllowed(LinkRelation, HateosResourceMappingRouterBiConsumerRequest) for the {@link HttpHeaderName#ALLOW}.
+         */
+        final Map<LinkRelation<?>, List<HttpMethod>> relationToMethods = Maps.ordered();
+        relationAndMethodToHandlers.keySet()
+                .stream()
+                .forEach(relationAndMethod -> {
+                    final LinkRelation<?> r = relationAndMethod.relation;
+                    List<HttpMethod> m = relationToMethods.get(r);
+                    if (null == m) {
+                        m = Lists.array();
+                        relationToMethods.put(r, m);
+                    }
+                    m.add(relationAndMethod.method);
+                });
+        relationToMethods.values()
+                .forEach(methods -> {
+                    methods.sort(Comparator.naturalOrder());
+                });
+
+        this.relationToMethods = relationToMethods;
     }
 
     /**
@@ -120,14 +147,6 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
                         this.collectionType,
                         this.resourceType,
                         copy);
-    }
-
-    /**
-     * Returns the {@link HateosHandler} if one exists for the given {@link LinkRelation} and {@link HttpMethod} combination.
-     */
-    public Optional<HateosHandler<I, V, C>> handler(final LinkRelation relation,
-                                                    final HttpMethod method) {
-        return Optional.ofNullable(this.relationAndMethodToHandlers.get(HateosResourceMappingLinkRelationHttpMethod.with(relation, method)));
     }
 
     /**
@@ -168,7 +187,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     void handleId0(final Optional<I> id,
                    final LinkRelation<?> linkRelation,
                    final HateosResourceMappingRouterBiConsumerRequest request) {
-        final HateosHandler<I, V, C> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
+        final HateosHandler<I, V, C> handler = this.handlerOrMethodNotAllowed(linkRelation, request);
         if (null != handler) {
             final String requestText = request.resourceTextOrBadRequest();
             if (null != requestText) {
@@ -200,7 +219,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
      */
     void handleIdRange(final LinkRelation<?> linkRelation,
                        final HateosResourceMappingRouterBiConsumerRequest request) {
-        final HateosHandler<I, V, C> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
+        final HateosHandler<I, V, C> handler = this.handlerOrMethodNotAllowed(linkRelation, request);
         if (null != handler) {
             this.handleIdRange0(Range.all(), handler, request);
         }
@@ -216,7 +235,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
                        final HateosResourceMappingRouterBiConsumerRequest request) {
         final Range<I> range = this.rangeOrBadRequest(begin, end, rangeText, request);
         if (null != range) {
-            final HateosHandler<I, V, C> handler = this.handlerOrResponseMethodNotAllowed(linkRelation, request);
+            final HateosHandler<I, V, C> handler = this.handlerOrMethodNotAllowed(linkRelation, request);
             if (null != handler) {
                 this.handleIdRange0(range, handler, request);
             }
@@ -298,15 +317,14 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Locates the {@link HateosHandler} for the given request method or sets the response to method not allowed.
      */
-    private HateosHandler<I, V, C> handlerOrResponseMethodNotAllowed(final LinkRelation<?> linkRelation,
-                                                                     final HateosResourceMappingRouterBiConsumerRequest request) {
-        final Optional<HateosHandler<I, V, C>> maybe = this.handler(linkRelation, request.request.method());
-
-        HateosHandler<I, V, C> handler = null;
-        if (maybe.isPresent()) {
-            handler = maybe.get();
-        } else {
-            request.methodNotAllowed(resourceName, linkRelation);
+    private HateosHandler<I, V, C> handlerOrMethodNotAllowed(final LinkRelation<?> relation,
+                                                             final HateosResourceMappingRouterBiConsumerRequest request) {
+        final HttpMethod method = request.request.method();
+        final HateosHandler<I, V, C> handler = this.relationAndMethodToHandlers.get(HateosResourceMappingLinkRelationHttpMethod.with(relation, method));
+        if (null == handler) {
+            request.methodNotAllowed(this.resourceName,
+                        relation,
+                        this.relationToMethods.get(relation));
         }
         return handler;
     }
@@ -330,6 +348,12 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
      * The {@link HateosResource type}.
      */
     final Class<H> resourceType;
+
+    /**
+     * A lazy {@link Map} that maps a {@link LinkRelation} to all supported {@link HttpMethod}.
+     * This is populated and used to fill the {@link HttpHeaderName#ALLOW} when an invalid request method is used.
+     */
+    Map<LinkRelation<?>, List<HttpMethod>> relationToMethods;
 
     // toString.........................................................................................................
 

@@ -76,8 +76,6 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private final static TestResource COLLECTION_RESOURCE_IN = TestResource.with(TestHateosResource.with(ID));
     private final static TestResource COLLECTION_RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
 
-    private final static HttpMethod METHOD = HttpMethod.POST;
-
     @Test
     public void testMissingBaseUnrouted() {
         this.routeFails(this.request(HttpMethod.GET,
@@ -151,15 +149,28 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestMethodNotSupported() {
-        final String method = "WRONGMETHOD";
+    public void testMethodNotSupported() {
+        this.methodNotSupportedAndCheck("AAA");
+    }
 
+    @Test
+    public void testMethodNotSupported2() {
+        this.methodNotSupportedAndCheck("GHI");
+    }
+
+    @Test
+    public void testMethodNotSupported3() {
+        this.methodNotSupportedAndCheck("Z");
+    }
+
+    private void methodNotSupportedAndCheck(final String method) {
         this.routeAndCheck(this.createRouter(),
                 HttpMethod.with(method),
                 "/api/resource1/0x123/contents",
                 this.contentType(),
                 NO_BODY,
-                HttpStatusCode.METHOD_NOT_ALLOWED.setMessage(method + " resource: resource1, link relation: contents"));
+                HttpStatusCode.METHOD_NOT_ALLOWED.setMessage(method + " resource: resource1, link relation: contents"),
+                HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, Lists.of(HttpMethod.DELETE, HttpMethod.POST, HttpMethod.PUT)));
     }
 
     @Test
@@ -385,7 +396,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     // id request.......................................................................................................
 
-    private final static String RESOURCE_SUCCESSFUL = METHOD + " resource successful";
+    private final static String RESOURCE_SUCCESSFUL = HttpMethod.POST + " resource successful";
 
     @Test
     public void testRequestResourceBodyAbsentId() {
@@ -454,7 +465,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         return Optional.empty();
                     }
                 }),
-                METHOD,
+                HttpMethod.POST,
                 "/api/resource1/0x123/contents",
                 this.contentTypeUtf16(),
                 this.toJson(RESOURCE_IN),
@@ -675,8 +686,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private HateosResourceMappingRouter createRouter(final HateosHandler<BigInteger, TestResource, TestResource> handler) {
+        final HateosHandler<BigInteger, TestResource, TestResource> invalid = new FakeHateosHandler(){};
+
         final HateosResourceMapping mapping = this.mapping()
-                .set(LinkRelation.CONTENTS, METHOD, handler);
+                .set(LinkRelation.with("a1"), HttpMethod.POST, invalid)
+                .set(LinkRelation.CONTENTS, HttpMethod.PUT, invalid)
+                .set(LinkRelation.CONTENTS, HttpMethod.DELETE, invalid)
+                .set(LinkRelation.CONTENTS, HttpMethod.POST, handler)
+                .set(LinkRelation.with("z1"), HttpMethod.POST, invalid);
         return Cast.to(HateosResourceMapping.router(this.baseUrl(),
                 this.hateosContentType(),
                 Sets.of(mapping)));
@@ -779,7 +796,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                                final HttpStatus status,
                                final HttpEntity... entities) {
         this.routeAndCheck(router,
-                METHOD,
+                HttpMethod.POST,
                 url,
                 contentType(),
                 body,
