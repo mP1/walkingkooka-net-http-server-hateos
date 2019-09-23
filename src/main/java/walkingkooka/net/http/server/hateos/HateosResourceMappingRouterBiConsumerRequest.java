@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Binary;
 import walkingkooka.ToStringBuilder;
+import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.AcceptCharset;
@@ -29,6 +30,7 @@ import walkingkooka.net.header.MediaType;
 import walkingkooka.net.header.MediaTypeParameterName;
 import walkingkooka.net.header.NotAcceptableHeaderException;
 import walkingkooka.net.http.HttpEntity;
+import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.HttpStatus;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequest;
@@ -41,6 +43,8 @@ import walkingkooka.tree.Node;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -345,13 +349,23 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         this.setStatus(HttpStatusCode.BAD_REQUEST, message);
     }
 
+    /**
+     * <a href="https://restfulapi.net/http-status-codes/"></a>
+     * <pre>
+     * 405 (Method Not Allowed)
+     * The API responds with a 405 error to indicate that the client tried to use an HTTP method that the resource does not allow. For instance, a read-only resource could support only GET and HEAD, while a controller resource might allow GET and POST, but not PUT or DELETE.
+     *
+     * A 405 response must include the Allow header, which lists the HTTP methods that the resource supports. For example:
+     *
+     * Allow: GET, POST
+     * </pre>>
+     */
     final void methodNotAllowed(final HateosResourceName resourceName,
-                                final LinkRelation<?> linkRelation) {
-        this.methodNotAllowed(this.request.method() + " " + message(resourceName, linkRelation));
-    }
-
-    private void methodNotAllowed(final String message) {
-        this.setStatus(HttpStatusCode.METHOD_NOT_ALLOWED, message);
+                                final LinkRelation<?> relation,
+                                final List<HttpMethod> allowed) {
+        this.setStatus(HttpStatusCode.METHOD_NOT_ALLOWED,
+                this.request.method() + " " + message(resourceName, relation));
+        this.response.addEntity(HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, allowed));
     }
 
     private void notFound(final HateosResourceName resourceName,
