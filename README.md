@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/mP1/walkingkooka-net-http-server-hateos.svg?branch=master)](https://travis-ci.com/mP1/walkingkooka-net-http-server-hateos.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/mP1/walkingkooka-net-http-server-hateos/badge.svg?branch=master)](https://coveralls.io/github/mP1/walkingkooka-net-http-server-hateos?branch=master)
 
 # Basic Project
