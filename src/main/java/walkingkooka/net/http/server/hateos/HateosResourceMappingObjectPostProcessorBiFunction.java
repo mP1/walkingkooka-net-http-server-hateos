@@ -23,8 +23,8 @@ import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonObjectNode;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
-import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
 import java.util.Map;
 import java.util.Objects;
@@ -32,13 +32,13 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 /**
- * A {@link BiFunction} that adds links for types, and can be used by {@link ToJsonNodeContexts#basic}
+ * A {@link BiFunction} that adds links for types, and can be used by {@link JsonNodeMarshallContexts#basic}
  */
 final class HateosResourceMappingObjectPostProcessorBiFunction implements BiFunction<Object, JsonObjectNode, JsonObjectNode> {
 
     static HateosResourceMappingObjectPostProcessorBiFunction with(final AbsoluteUrl base,
                                                                    final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
-                                                                   final ToJsonNodeContext context) {
+                                                                   final JsonNodeMarshallContext context) {
         final Map<String, HateosResourceMappingObjectPostProcessorBiFunctionMapping> typeToMappings = Maps.ordered();
 
         for (HateosResourceMapping<?, ?, ?, ?> mapping : mappings) {
@@ -66,7 +66,7 @@ final class HateosResourceMappingObjectPostProcessorBiFunction implements BiFunc
 
     private HateosResourceMappingObjectPostProcessorBiFunction(final AbsoluteUrl base,
                                                                final Map<String, HateosResourceMappingObjectPostProcessorBiFunctionMapping> typeToMappings,
-                                                               final ToJsonNodeContext context) {
+                                                               final JsonNodeMarshallContext context) {
         super();
         this.base = base;
         this.typeToMappings = typeToMappings;
@@ -94,7 +94,7 @@ final class HateosResourceMappingObjectPostProcessorBiFunction implements BiFunc
 
     private final Map<String, HateosResourceMappingObjectPostProcessorBiFunctionMapping> typeToMappings;
     private final AbsoluteUrl base;
-    private final ToJsonNodeContext context;
+    private final JsonNodeMarshallContext context;
 
     @Override
     public String toString() {

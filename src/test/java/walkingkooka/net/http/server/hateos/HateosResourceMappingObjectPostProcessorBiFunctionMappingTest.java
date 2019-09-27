@@ -121,7 +121,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 mapping.addLinks(TestHateosResource.with(BigInteger.valueOf(123)),
                         JsonNode.parse(before).objectOrFail(),
                         Url.parseAbsolute("http://example.com/api"),
-                        this.toJsonNodeContext()),
+                        this.marshallContext()),
                 () -> mapping.toString());
     }
 

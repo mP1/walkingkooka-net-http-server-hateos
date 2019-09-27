@@ -19,10 +19,10 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.net.header.MediaType;
-import walkingkooka.tree.json.marshall.FromJsonNodeContext;
-import walkingkooka.tree.json.marshall.FromJsonNodeContexts;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
-import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.BigInteger;
 
@@ -31,26 +31,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class HateosContentTypeJsonNodeTest extends HateosContentTypeTestCase<HateosContentTypeJsonNode> {
 
     @Test
-    public void testWithNullFromJsonNodeContextFails() {
-        this.withFails(null, this.toJsonNodeContext());
+    public void testWithNullJsonNodeUnmarshallContextFails() {
+        this.withFails(null, this.marshallContext());
     }
 
     @Test
-    public void testWithNullToJsonNodeContextFails() {
-        this.withFails(this.fromJsonNodeContext(), null);
+    public void testWithNullJsonNodeMarshallContextFails() {
+        this.withFails(this.unmarshallContext(), null);
     }
 
-    private void withFails(final FromJsonNodeContext fromJsonNodeContext,
-                           final ToJsonNodeContext toJsonNodeContext) {
+    private void withFails(final JsonNodeUnmarshallContext unmarshallContext,
+                           final JsonNodeMarshallContext marshallContext) {
         assertThrows(NullPointerException.class, () -> {
-            HateosContentTypeJsonNode.with(fromJsonNodeContext, toJsonNodeContext);
+            HateosContentTypeJsonNode.with(unmarshallContext, marshallContext);
         });
     }
 
     @Test
     public void testFromNode() {
         final TestHateosResource resource = TestHateosResource.with(BigInteger.valueOf(123));
-        this.fromNodeAndCheck(resource.toJsonNode(this.toJsonNodeContext()).toString(),
+        this.fromNodeAndCheck(resource.marshall(this.marshallContext()).toString(),
                 TestHateosResource.class,
                 resource);
     }
@@ -65,15 +65,15 @@ public final class HateosContentTypeJsonNodeTest extends HateosContentTypeTestCa
 
     @Override
     HateosContentTypeJsonNode hateosContentType() {
-        return HateosContentTypeJsonNode.with(this.fromJsonNodeContext(), this.toJsonNodeContext());
+        return HateosContentTypeJsonNode.with(this.unmarshallContext(), this.marshallContext());
     }
 
-    private FromJsonNodeContext fromJsonNodeContext() {
-        return FromJsonNodeContexts.basic();
+    private JsonNodeUnmarshallContext unmarshallContext() {
+        return JsonNodeUnmarshallContexts.basic();
     }
 
-    private ToJsonNodeContext toJsonNodeContext() {
-        return ToJsonNodeContexts.basic();
+    private JsonNodeMarshallContext marshallContext() {
+        return JsonNodeMarshallContexts.basic();
     }
 
     @Override

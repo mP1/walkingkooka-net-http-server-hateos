@@ -20,8 +20,8 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
-import walkingkooka.tree.json.marshall.FromJsonNodeContexts;
-import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.util.function.BiConsumer;
 
@@ -32,7 +32,7 @@ public final class HateosResourceMappingRouterBiConsumerTest extends HateosResou
     @Test
     public void testToString() {
         final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(Url.parseAbsolute("http://example.com"),
-                HateosContentType.json(FromJsonNodeContexts.fake(), ToJsonNodeContexts.fake()),
+                HateosContentType.json(JsonNodeUnmarshallContexts.fake(), JsonNodeMarshallContexts.fake()),
                 Sets.empty());
 
         this.toStringAndCheck(HateosResourceMappingRouterBiConsumer.with(router),

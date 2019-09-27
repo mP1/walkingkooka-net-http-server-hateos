@@ -20,9 +20,9 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.Cast;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.JsonNodeName;
-import walkingkooka.tree.json.marshall.FromJsonNodeContext;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.math.BigInteger;
 import java.util.Optional;
@@ -55,22 +55,22 @@ public final class TestHateosResource extends FakeHateosResource<BigInteger> {
 
     // JsonNodeContext...................................................................................................
 
-    static TestHateosResource fromJsonNode(final JsonNode node,
-                                           final FromJsonNodeContext context) {
-        return with(context.fromJsonNode(node.objectOrFail().getOrFail(ID), BigInteger.class));
+    static TestHateosResource unmarshall(final JsonNode node,
+                                         final JsonNodeUnmarshallContext context) {
+        return with(context.unmarshall(node.objectOrFail().getOrFail(ID), BigInteger.class));
     }
 
-    JsonNode toJsonNode(final ToJsonNodeContext context) {
+    JsonNode marshall(final JsonNodeMarshallContext context) {
         return JsonNode.object()
-                .set(ID, context.toJsonNode(this.id));
+                .set(ID, context.marshall(this.id));
     }
 
     private final static JsonNodeName ID = JsonNodeName.with("id");
 
     static {
         JsonNodeContext.register("test-HateosResource",
-                TestHateosResource::fromJsonNode,
-                TestHateosResource::toJsonNode,
+                TestHateosResource::unmarshall,
+                TestHateosResource::marshall,
                 TestHateosResource.class);
     }
 

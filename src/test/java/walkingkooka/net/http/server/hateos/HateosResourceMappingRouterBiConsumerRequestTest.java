@@ -24,8 +24,8 @@ import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequests;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
-import walkingkooka.tree.json.marshall.FromJsonNodeContexts;
-import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 public final class HateosResourceMappingRouterBiConsumerRequestTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterBiConsumerRequest> {
 
@@ -34,7 +34,7 @@ public final class HateosResourceMappingRouterBiConsumerRequestTest extends Hate
     @Test
     public void testToString() {
         final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(Url.parseAbsolute("http://example.com"),
-                HateosContentType.json(FromJsonNodeContexts.fake(), ToJsonNodeContexts.fake()),
+                HateosContentType.json(JsonNodeUnmarshallContexts.fake(), JsonNodeMarshallContexts.fake()),
                 Sets.empty());
         final HttpRequest request = HttpRequests.fake();
         final HttpResponse response = HttpResponses.fake();
