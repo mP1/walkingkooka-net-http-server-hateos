@@ -19,7 +19,6 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Binary;
 import walkingkooka.ToStringBuilder;
-import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.AcceptCharset;
@@ -43,7 +42,6 @@ import walkingkooka.tree.Node;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
