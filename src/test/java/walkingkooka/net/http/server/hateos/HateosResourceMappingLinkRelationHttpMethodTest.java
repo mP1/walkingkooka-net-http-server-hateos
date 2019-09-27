@@ -18,7 +18,6 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.compare.ComparableTesting;
 import walkingkooka.compare.ComparableTesting2;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
