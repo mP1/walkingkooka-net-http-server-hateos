@@ -27,8 +27,7 @@ import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.JsonObjectNode;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
-import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.util.BiFunctionTesting;
 
 import java.math.BigInteger;
@@ -36,7 +35,6 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extends HateosResourceMappingTestCase2<HateosResourceMappingObjectPostProcessorBiFunction>
         implements BiFunctionTesting<HateosResourceMappingObjectPostProcessorBiFunction, Object, JsonObjectNode, JsonObjectNode> {
@@ -46,13 +44,13 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
     @Test
     public void testHateosResourceWithoutLinks() {
         final StringName without = Names.string("1");
-        this.toJsonNodeAndCheck(without, this.toJsonNodeContext().toJsonNode(without));
+        this.marshallAndCheck(without, this.marshallContext().marshall(without));
     }
 
     @Test
     public void testHateosResourceWithLinks() {
         final TestHateosResource resource = TestHateosResource.with(BigInteger.valueOf(123));
-        this.toJsonNodeAndCheck(resource,
+        this.marshallAndCheck(resource,
                 JsonNode.parse("{\n" +
                         "  \"id\": \"123\",\n" +
                         "  \"_links\": [{\n" +
@@ -74,11 +72,11 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
                         "}"));
     }
 
-    private void toJsonNodeAndCheck(final Object resource,
-                                    final JsonNode json) {
+    private void marshallAndCheck(final Object resource,
+                                  final JsonNode json) {
         assertEquals(json,
-                ToJsonNodeContexts.basic()
-                        .setObjectPostProcessor(this.createBiFunction()).toJsonNode(resource),
+                JsonNodeMarshallContexts.basic()
+                        .setObjectPostProcessor(this.createBiFunction()).marshall(resource),
                 () -> resource.toString());
     }
 
@@ -96,7 +94,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
     public HateosResourceMappingObjectPostProcessorBiFunction createBiFunction() {
         return HateosResourceMappingObjectPostProcessorBiFunction.with(this.baseUrl(),
                 this.mappings(),
-                this.toJsonNodeContext());
+                this.marshallContext());
     }
 
     private AbsoluteUrl baseUrl() {

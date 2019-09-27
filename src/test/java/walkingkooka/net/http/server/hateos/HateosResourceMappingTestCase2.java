@@ -18,8 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.test.ToStringTesting;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
-import walkingkooka.tree.json.marshall.ToJsonNodeContexts;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.type.JavaVisibility;
 
 public abstract class HateosResourceMappingTestCase2<T> extends HateosResourceMappingTestCase<T>
@@ -29,8 +29,8 @@ public abstract class HateosResourceMappingTestCase2<T> extends HateosResourceMa
         super();
     }
 
-    final ToJsonNodeContext toJsonNodeContext() {
-        return ToJsonNodeContexts.basic();
+    final JsonNodeMarshallContext marshallContext() {
+        return JsonNodeMarshallContexts.basic();
     }
 
     // ClassVisibility..................................................................................................

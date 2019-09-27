@@ -23,8 +23,8 @@ import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.IndentingPrinters;
 import walkingkooka.text.printer.Printers;
 import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.FromJsonNodeContext;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.util.Objects;
 
@@ -33,22 +33,22 @@ import java.util.Objects;
  */
 final class HateosContentTypeJsonNode extends HateosContentType {
 
-    final static HateosContentTypeJsonNode with(final FromJsonNodeContext fromJsonNodeContext,
-                                                final ToJsonNodeContext toJsonNodeContext) {
-        Objects.requireNonNull(fromJsonNodeContext, "fromJsonNodeContext");
-        Objects.requireNonNull(toJsonNodeContext, "toJsonNodeContext");
+    final static HateosContentTypeJsonNode with(final JsonNodeUnmarshallContext unmarshallContext,
+                                                final JsonNodeMarshallContext marshallContext) {
+        Objects.requireNonNull(unmarshallContext, "unmarshallContext");
+        Objects.requireNonNull(marshallContext, "marshallContext");
 
-        return new HateosContentTypeJsonNode(fromJsonNodeContext, toJsonNodeContext);
+        return new HateosContentTypeJsonNode(unmarshallContext, marshallContext);
     }
 
     /**
      * Private ctor use singleton.
      */
-    private HateosContentTypeJsonNode(final FromJsonNodeContext fromJsonNodeContext,
-                                      final ToJsonNodeContext toJsonNodeContext) {
+    private HateosContentTypeJsonNode(final JsonNodeUnmarshallContext unmarshallContext,
+                                      final JsonNodeMarshallContext marshallContext) {
         super();
-        this.fromJsonNodeContext = fromJsonNodeContext;
-        this.toJsonNodeContext = toJsonNodeContext;
+        this.unmarshallContext = unmarshallContext;
+        this.marshallContext = marshallContext;
     }
 
     @Override
@@ -62,10 +62,10 @@ final class HateosContentTypeJsonNode extends HateosContentType {
     @Override
     <T> T fromNode(final String text,
                    final Class<T> type) {
-        return this.fromJsonNodeContext.fromJsonNode(JsonNode.parse(text), type);
+        return this.unmarshallContext.unmarshall(JsonNode.parse(text), type);
     }
 
-    private final FromJsonNodeContext fromJsonNodeContext;
+    private final JsonNodeUnmarshallContext unmarshallContext;
 
     /**
      * The format for hateos urls is base + "/" + resource name + "/" + id + "/" + link relation
@@ -82,14 +82,14 @@ final class HateosContentTypeJsonNode extends HateosContentType {
     String toText(final Object value) {
         final StringBuilder b = new StringBuilder();
 
-        try(final IndentingPrinter printer = IndentingPrinters.printer(Printers.stringBuilder(b, LineEnding.SYSTEM))) {
-            this.toJsonNodeContext.toJsonNode(value).printJson(printer);
+        try (final IndentingPrinter printer = IndentingPrinters.printer(Printers.stringBuilder(b, LineEnding.SYSTEM))) {
+            this.marshallContext.marshall(value).printJson(printer);
             printer.flush();
         }
         return b.toString();
     }
 
-    private final ToJsonNodeContext toJsonNodeContext;
+    private final JsonNodeMarshallContext marshallContext;
 
     @Override
     public String toString() {

@@ -19,9 +19,9 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Cast;
 import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.marshall.FromJsonNodeContext;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 /**
  * A simple container for the actual {@link HateosResource}.
@@ -41,19 +41,19 @@ public final class TestResource {
 
     // JsonNodeContext...................................................................................................
 
-    static TestResource fromJsonNode(final JsonNode node,
-                                     final FromJsonNodeContext context) {
-        return with(context.fromJsonNodeWithType(node));
+    static TestResource unmarshall(final JsonNode node,
+                                   final JsonNodeUnmarshallContext context) {
+        return with(context.unmarshallWithType(node));
     }
 
-    JsonNode toJsonNode(final ToJsonNodeContext context) {
-        return context.toJsonNodeWithType(this.value);
+    JsonNode marshall(final JsonNodeMarshallContext context) {
+        return context.marshallWithType(this.value);
     }
 
     static {
         JsonNodeContext.register("testResource",
-                TestResource::fromJsonNode,
-                TestResource::toJsonNode,
+                TestResource::unmarshall,
+                TestResource::marshall,
                 TestResource.class);
     }
 

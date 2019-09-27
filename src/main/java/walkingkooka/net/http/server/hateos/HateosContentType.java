@@ -18,8 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
-import walkingkooka.tree.json.marshall.FromJsonNodeContext;
-import walkingkooka.tree.json.marshall.ToJsonNodeContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 /**
  * Controls the content type of hateos messages.
@@ -34,10 +34,10 @@ public abstract class HateosContentType {
     /**
      * Selects JSON formatted request and response bodies.
      */
-    public static HateosContentType json(final FromJsonNodeContext fromJsonNodeContext,
-                                                   final ToJsonNodeContext toJsonNodeContext) {
-        return HateosContentTypeJsonNode.with(fromJsonNodeContext,
-                toJsonNodeContext);
+    public static HateosContentType json(final JsonNodeUnmarshallContext unmarshallContext,
+                                         final JsonNodeMarshallContext marshallContext) {
+        return HateosContentTypeJsonNode.with(unmarshallContext,
+                marshallContext);
     }
 
     /**
@@ -57,6 +57,7 @@ public abstract class HateosContentType {
      */
     abstract <T> T fromNode(final String text,
                             final Class<T> type);
+
     /**
      * Marshalls the value into text.
      */

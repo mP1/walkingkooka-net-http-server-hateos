@@ -48,8 +48,8 @@ import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.net.http.server.RecordingHttpResponse;
 import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
-import walkingkooka.tree.json.marshall.FromJsonNodeContext;
-import walkingkooka.tree.json.marshall.FromJsonNodeContexts;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -725,11 +725,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private HateosContentType hateosContentType() {
-        return HateosContentType.json(this.fromJsonNodeContext(), this.toJsonNodeContext());
+        return HateosContentType.json(this.unmarshallContext(), this.marshallContext());
     }
 
     private String toJson(final Object resource) {
-        return this.toJsonNodeContext().toJsonNode(resource).toString();
+        return this.marshallContext().marshall(resource).toString();
     }
 
     private HttpEntity[] httpEntity(final Object resource) {
@@ -947,8 +947,8 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 null;
     }
 
-    private FromJsonNodeContext fromJsonNodeContext() {
-        return FromJsonNodeContexts.basic();
+    private JsonNodeUnmarshallContext unmarshallContext() {
+        return JsonNodeUnmarshallContexts.basic();
     }
 
     // ClassTesting.....................................................................................................
