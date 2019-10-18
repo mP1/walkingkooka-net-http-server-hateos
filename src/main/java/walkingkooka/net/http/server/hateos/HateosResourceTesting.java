@@ -17,7 +17,8 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.test.ClassTesting2;
+
+import walkingkooka.reflect.ClassTesting2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

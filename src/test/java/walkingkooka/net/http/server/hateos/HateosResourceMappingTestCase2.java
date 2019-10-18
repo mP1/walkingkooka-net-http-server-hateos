@@ -17,10 +17,10 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.test.ToStringTesting;
+import walkingkooka.ToStringTesting;
+import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.type.JavaVisibility;
 
 public abstract class HateosResourceMappingTestCase2<T> extends HateosResourceMappingTestCase<T>
         implements ToStringTesting<T> {
