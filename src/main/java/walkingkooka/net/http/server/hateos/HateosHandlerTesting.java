@@ -20,8 +20,8 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.compare.Range;
 import walkingkooka.net.http.server.HttpRequestAttribute;
-import walkingkooka.test.ClassTesting2;
-import walkingkooka.test.TypeNameTesting;
+import walkingkooka.reflect.ClassTesting2;
+import walkingkooka.reflect.TypeNameTesting;
 
 import java.util.Map;
 import java.util.Optional;

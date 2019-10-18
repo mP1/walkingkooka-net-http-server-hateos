@@ -18,9 +18,9 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.naming.NameTesting2;
-import walkingkooka.test.ClassTesting2;
+import walkingkooka.reflect.ClassTesting2;
+import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseSensitivity;
-import walkingkooka.type.JavaVisibility;
 
 public final class HateosResourceNameTest implements ClassTesting2<HateosResourceName>,
         NameTesting2<HateosResourceName, HateosResourceName> {

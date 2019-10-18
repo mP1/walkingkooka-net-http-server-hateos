@@ -19,14 +19,13 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
-import walkingkooka.test.HashCodeEqualsDefined;
 
 import java.util.Objects;
 
 /**
  * Used as a key to locate mappings using a {@link LinkRelation} and a {@link HttpMethod}.
  */
-final class HateosResourceMappingLinkRelationHttpMethod implements HashCodeEqualsDefined, Comparable<HateosResourceMappingLinkRelationHttpMethod> {
+final class HateosResourceMappingLinkRelationHttpMethod implements Comparable<HateosResourceMappingLinkRelationHttpMethod> {
 
     static HateosResourceMappingLinkRelationHttpMethod with(final LinkRelation<?> relation,
                                                             final HttpMethod method) {
