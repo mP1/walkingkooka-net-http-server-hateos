@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.Printers;
@@ -81,12 +82,14 @@ final class HateosContentTypeJsonNode extends HateosContentType {
     String toText(final Object value) {
         final StringBuilder b = new StringBuilder();
 
-        try (final IndentingPrinter printer = Printers.stringBuilder(b, LineEnding.SYSTEM).indenting()) {
+        try (final IndentingPrinter printer = Printers.stringBuilder(b, LineEnding.SYSTEM).indenting(INDENTATION)) {
             this.marshallContext.marshall(value).printJson(printer);
             printer.flush();
         }
         return b.toString();
     }
+
+    private final static Indentation INDENTATION = Indentation.with("  ");
 
     private final JsonNodeMarshallContext marshallContext;
 
