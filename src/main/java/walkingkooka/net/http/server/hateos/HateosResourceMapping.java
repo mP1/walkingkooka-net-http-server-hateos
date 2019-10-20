@@ -21,7 +21,7 @@ import walkingkooka.ToStringBuilder;
 import walkingkooka.ToStringBuilderOption;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.compare.Range;
+import walkingkooka.math.Range;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
