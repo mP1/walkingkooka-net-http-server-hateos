@@ -17,7 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.compare.Range;
+import walkingkooka.math.Range;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.test.Fake;
 

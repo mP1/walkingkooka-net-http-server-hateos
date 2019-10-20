@@ -18,7 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.map.Maps;
-import walkingkooka.compare.Range;
+import walkingkooka.math.Range;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
