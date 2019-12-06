@@ -28,8 +28,8 @@ import walkingkooka.net.header.LinkParameterName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.JsonNodeName;
-import walkingkooka.tree.json.JsonObjectNode;
+import walkingkooka.tree.json.JsonObject;
+import walkingkooka.tree.json.JsonPropertyName;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 
 import java.util.List;
@@ -54,8 +54,8 @@ final class HateosResourceMappingObjectPostProcessorBiFunctionMapping {
         this.relationToMethods = relationToMethods;
     }
 
-    JsonObjectNode addLinks(final HateosResource<?> resource,
-                            final JsonObjectNode object,
+    JsonObject addLinks(final HateosResource<?> resource,
+                            final JsonObject object,
                             final AbsoluteUrl base,
                             final JsonNodeMarshallContext context) {
         // base + resource name.
@@ -87,7 +87,7 @@ final class HateosResourceMappingObjectPostProcessorBiFunctionMapping {
     /**
      * The property that receives the actual links.
      */
-    private final static JsonNodeName LINKS = JsonNodeName.with("_links");
+    private final static JsonPropertyName LINKS = JsonPropertyName.with("_links");
 
     private final UrlPathName name;
     private final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods;

@@ -22,7 +22,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
-import walkingkooka.tree.json.JsonObjectNode;
+import walkingkooka.tree.json.JsonObject;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
@@ -33,7 +33,7 @@ import java.util.function.BiFunction;
 /**
  * A {@link BiFunction} that adds links for types, and can be used by {@link JsonNodeMarshallContexts#basic}
  */
-final class HateosResourceMappingObjectPostProcessorBiFunction implements BiFunction<Object, JsonObjectNode, JsonObjectNode> {
+final class HateosResourceMappingObjectPostProcessorBiFunction implements BiFunction<Object, JsonObject, JsonObject> {
 
     static HateosResourceMappingObjectPostProcessorBiFunction with(final AbsoluteUrl base,
                                                                    final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
@@ -73,8 +73,8 @@ final class HateosResourceMappingObjectPostProcessorBiFunction implements BiFunc
     }
 
     @Override
-    public JsonObjectNode apply(final Object value,
-                                final JsonObjectNode object) {
+    public JsonObject apply(final Object value,
+                                final JsonObject object) {
         Class<?> type = value.getClass();
         HateosResourceMappingObjectPostProcessorBiFunctionMapping mapping;
 
