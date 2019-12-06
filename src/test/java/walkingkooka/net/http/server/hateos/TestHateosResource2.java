@@ -19,7 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Cast;
 import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.JsonNodeName;
+import walkingkooka.tree.json.JsonPropertyName;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
@@ -65,7 +65,7 @@ public final class TestHateosResource2 extends FakeHateosResource<BigInteger> {
                 .set(ID, context.marshall(this.id));
     }
 
-    private final static JsonNodeName ID = JsonNodeName.with("id");
+    private final static JsonPropertyName ID = JsonPropertyName.with("id");
 
     static {
         JsonNodeContext.register("test-HateosResource3",

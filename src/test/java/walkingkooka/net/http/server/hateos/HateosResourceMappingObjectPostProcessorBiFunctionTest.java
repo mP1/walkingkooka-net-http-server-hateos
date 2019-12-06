@@ -26,7 +26,7 @@ import walkingkooka.net.Url;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.JsonObjectNode;
+import walkingkooka.tree.json.JsonObject;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.util.BiFunctionTesting;
 
@@ -37,7 +37,7 @@ import java.util.function.BiFunction;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extends HateosResourceMappingTestCase2<HateosResourceMappingObjectPostProcessorBiFunction>
-        implements BiFunctionTesting<HateosResourceMappingObjectPostProcessorBiFunction, Object, JsonObjectNode, JsonObjectNode> {
+        implements BiFunctionTesting<HateosResourceMappingObjectPostProcessorBiFunction, Object, JsonObject, JsonObject> {
 
     // apply............................................................................................................
 
