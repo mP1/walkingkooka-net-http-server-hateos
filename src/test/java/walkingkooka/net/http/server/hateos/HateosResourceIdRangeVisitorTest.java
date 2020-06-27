@@ -19,8 +19,8 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
-import walkingkooka.math.Range;
-import walkingkooka.math.RangeVisitorTesting;
+import walkingkooka.collect.Range;
+import walkingkooka.collect.RangeVisitorTesting;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
