@@ -18,7 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.HasId;
-import walkingkooka.math.Range;
+import walkingkooka.collect.Range;
 
 import java.util.Optional;
 import java.util.function.Function;

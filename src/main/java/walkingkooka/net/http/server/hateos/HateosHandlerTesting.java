@@ -18,7 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.math.Range;
+import walkingkooka.collect.Range;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.TypeNameTesting;

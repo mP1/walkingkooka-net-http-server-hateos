@@ -18,8 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.ToStringBuilder;
-import walkingkooka.math.Range;
-import walkingkooka.math.RangeVisitor;
+import walkingkooka.collect.Range;
+import walkingkooka.collect.RangeVisitor;
 
 import java.util.Objects;
 import java.util.function.Function;
