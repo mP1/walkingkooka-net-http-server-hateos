@@ -211,8 +211,8 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     @Test
     public void testBadRequestInvalidRange2() {
-        this.routeAndCheck("/api/resource1/0x1\\-0x2-0x3-0x4/contents",
-                HttpStatusCode.BAD_REQUEST.setMessage("Invalid character within range \"0x1\\\\-0x2-0x3-0x4\""));
+        this.routeAndCheck("/api/resource1/0x1-0x2-0x3-0x4/contents",
+                HttpStatusCode.BAD_REQUEST.setMessage("Invalid character within range \"0x1-0x2-0x3-0x4\""));
     }
 
     @Test
