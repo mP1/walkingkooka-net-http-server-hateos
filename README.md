@@ -35,31 +35,6 @@ from a unit test is shown below:
 }
 ```
 
-## Dependencies
-
-- [https://github.com/mP1/walkingkooka-route](https://github.com/mP1/walkingkooka-net)
-- junit
-
-No actual releases are available, instead the latest snapshot may be referenced in a Maven POM.xml using
-[https://jitpack.io](https://jitpack.io) repository.
-
-```xml
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
-    <dependencies>
-       <dependency>
-            <groupId>com.github.mP1</groupId>
-            <artifactId>walkingkooka-net-http-server-hateos</artifactId>
-            <version>master-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-```
-
 
 
 ## Getting the source
