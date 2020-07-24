@@ -1,8 +1,19 @@
 language: java
 jdk:
-- oraclejdk9
+  - oraclejdk9
+
+install: mvn dependency:resolve
+
+before_script:
+  - echo "MAVEN_OPTS='-Xmx4g -XX:MaxPermSize=1g'" > ~/.mavenrc
+
+script:
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -e
 
 after_success:
-- mvn jacoco:report coveralls:report
+  - mvn jacoco:report coveralls:report
+
+after_failure:
+  - tail -n 500 target/it-tests/junit-test/build.log
 
 dist: trusty
