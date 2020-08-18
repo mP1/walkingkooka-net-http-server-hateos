@@ -45,7 +45,6 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
-import walkingkooka.net.http.server.RecordingHttpResponse;
 import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
@@ -843,7 +842,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 url,
                 headers,
                 body);
-        final RecordingHttpResponse response = HttpResponses.recording();
+        final HttpResponse response = HttpResponses.recording();
         final Optional<BiConsumer<HttpRequest, HttpResponse>> handle = router.route(request.routerParameters());
         handle.ifPresent(h -> h.accept(request, response));
 
