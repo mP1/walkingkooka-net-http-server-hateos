@@ -400,13 +400,10 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         final HateosContentType hateosContentType = this.hateosContentType();
         final MediaType contentType = hateosContentType.contentType();
 
-        final byte[] contentBytes = content.getBytes(charset.get());
-
-        final Map<HttpHeaderName<?>, Object> headers = Maps.ordered();
-        headers.put(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(CharsetName.with(charset.get().name())));
-        headers.put(HttpHeaderName.CONTENT_LENGTH, Long.valueOf(contentBytes.length));
-
-        this.response.addEntity(HttpEntity.with(headers, Binary.with(contentBytes)));
+        this.response.addEntity(HttpEntity.EMPTY
+                .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(CharsetName.with(charset.get().name())))
+                .setBodyText(content)
+                .setContentLength());
     }
 
     private void setStatus(final HttpStatusCode statusCode, final String message) {
