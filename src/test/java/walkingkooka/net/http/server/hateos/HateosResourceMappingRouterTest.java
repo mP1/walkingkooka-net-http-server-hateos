@@ -51,6 +51,7 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,8 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private final static TestResource RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
     private final static TestResource COLLECTION_RESOURCE_IN = TestResource.with(TestHateosResource.with(ID));
     private final static TestResource COLLECTION_RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
+
+    private final static CharsetName DEFAULT_CHARSET = CharsetName.UTF_8;
 
     @Test
     public void testMissingBaseUnrouted() {
@@ -716,7 +719,9 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private MediaType contentType() {
-        return this.hateosContentType().contentType();
+        return this.hateosContentType()
+                .contentType()
+                .setCharset(DEFAULT_CHARSET);
     }
 
     private MediaType contentTypeUtf16() {
@@ -745,14 +750,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         HttpEntity[] entities = new HttpEntity[0];
 
         if (!CharSequences.isNullOrEmpty(body)) {
-            final CharsetName charsetName = MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(CharsetName.UTF_8);
-            final byte[] bytes = this.bytes(body, contentType);
-
-            final Map<HttpHeaderName<?>, Object> headers = Maps.sorted();
-            headers.put(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(charsetName));
-            headers.put(HttpHeaderName.CONTENT_LENGTH, Long.valueOf(bytes(body, contentType).length));
-
-            entities = new HttpEntity[]{HttpEntity.with(headers, Binary.with(bytes))};
+            entities = new HttpEntity[]{HttpEntity.text(contentType, body)};
         }
         return entities;
     }
@@ -814,7 +812,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                                final HttpStatus status,
                                final HttpEntity... entities) {
         final Map<HttpHeaderName<?>, Object> headers = Maps.sorted();
-        headers.put(HttpHeaderName.ACCEPT_CHARSET, AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(CharsetName.UTF_8).toHeaderText()));
+        headers.put(HttpHeaderName.ACCEPT_CHARSET, AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText()));
         headers.put(HttpHeaderName.CONTENT_TYPE, contentType);
 
         final byte[] bodyBytes = bytes(body, contentType);
