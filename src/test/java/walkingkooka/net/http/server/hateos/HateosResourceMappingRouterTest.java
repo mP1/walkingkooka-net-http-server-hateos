@@ -18,7 +18,6 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.Binary;
 import walkingkooka.Cast;
 import walkingkooka.InvalidCharacterException;
 import walkingkooka.collect.Range;
@@ -51,7 +50,6 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -750,7 +748,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         HttpEntity[] entities = new HttpEntity[0];
 
         if (!CharSequences.isNullOrEmpty(body)) {
-            entities = new HttpEntity[]{HttpEntity.text(contentType, body)};
+            entities = new HttpEntity[]{HttpEntity.EMPTY
+                    .addHeader(HttpHeaderName.CONTENT_TYPE, contentType)
+                    .setBodyText(body)
+                    .setContentLength()};
         }
         return entities;
     }
