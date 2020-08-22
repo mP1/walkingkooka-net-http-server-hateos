@@ -902,7 +902,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
             @Override
             public byte[] body() {
-                return bytes(body, headers());
+                return bytes(body, this);
             }
 
             @Override
@@ -934,8 +934,9 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private byte[] bytes(final String body,
-                         final Map<HttpHeaderName<?>, Object> headers) {
-        return bytes(body, HttpHeaderName.CONTENT_TYPE.headerValue(headers).orElseThrow(() -> new AssertionError("Content-type missing")));
+                         final HttpRequest request) {
+        return bytes(body,
+                HttpHeaderName.CONTENT_TYPE.headerValueOrFail(request));
     }
 
     private byte[] bytes(final String body,

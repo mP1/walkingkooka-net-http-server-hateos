@@ -257,8 +257,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         String text = ""; // null == bad request
 
         final HttpRequest request = this.request;
-        final Map<HttpHeaderName<?>, Object> headers = request.headers();
-        final Optional<Long> contentLength = HttpHeaderName.CONTENT_LENGTH.headerValue(headers);
+        final Optional<Long> contentLength = HttpHeaderName.CONTENT_LENGTH.headerValue(request);
         final byte[] body = request.body();
         if (null == body || body.length == 0) {
             // no body present any content-length != 0 then bad request.
@@ -277,7 +276,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             } else {
                 Charset charset = Charset.defaultCharset();
 
-                final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.headerValue(headers);
+                final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.headerValue(request);
                 if (contentType.isPresent()) {
                     final Optional<CharsetName> possible = MediaTypeParameterName.CHARSET.parameterValue(contentType.get());
                     if (possible.isPresent()) {
@@ -391,7 +390,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     private void setStatusAndBody0(final String message, final String content) {
         this.setStatus(HttpStatusCode.OK, message);
 
-        final AcceptCharset acceptCharset = HttpHeaderName.ACCEPT_CHARSET.headerValueOrFail(this.request.headers());
+        final AcceptCharset acceptCharset = HttpHeaderName.ACCEPT_CHARSET.headerValueOrFail(this.request);
         final Optional<Charset> charset = acceptCharset.charset();
         if (!charset.isPresent()) {
             throw new NotAcceptableHeaderException("AcceptCharset " + acceptCharset + " doesnt contain supported charset");
