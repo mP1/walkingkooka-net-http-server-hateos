@@ -170,7 +170,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 this.contentType(),
                 NO_BODY,
                 HttpStatusCode.METHOD_NOT_ALLOWED.setMessage(method + " resource: resource1, link relation: contents"),
-                HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, Lists.of(HttpMethod.DELETE, HttpMethod.POST, HttpMethod.PUT)));
+                HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, list(HttpMethod.DELETE, HttpMethod.POST, HttpMethod.PUT)));
     }
 
     @Test
@@ -220,7 +220,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         this.routeAndCheck(this.createRouter(),
                 HttpMethod.POST,
                 "/api/resource1/0x1f/contents",
-                Maps.of(HttpHeaderName.CONTENT_TYPE, this.contentType(), HttpHeaderName.CONTENT_LENGTH, 1L),
+                map(HttpHeaderName.CONTENT_TYPE, this.contentType(), HttpHeaderName.CONTENT_LENGTH, 1L),
                 null,
                 HttpStatusCode.BAD_REQUEST.setMessage("Body absent with Content-Length: 1"));
     }
@@ -230,7 +230,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         this.routeAndCheck(this.createRouter(),
                 HttpMethod.POST,
                 "/api/resource1/0x1f/contents",
-                Maps.of(HttpHeaderName.CONTENT_TYPE, this.contentType(), HttpHeaderName.CONTENT_LENGTH, 2L),
+                map(HttpHeaderName.CONTENT_TYPE, this.contentType(), HttpHeaderName.CONTENT_LENGTH, 2L),
                 "",
                 HttpStatusCode.BAD_REQUEST.setMessage("Body absent with Content-Length: 2"));
     }
@@ -240,7 +240,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         this.routeAndCheck(this.createRouter(),
                 HttpMethod.POST,
                 "/api/resource1/0x1f/contents",
-                Maps.of(HttpHeaderName.CONTENT_TYPE, this.contentType()),
+                map(HttpHeaderName.CONTENT_TYPE, this.contentType()),
                 "{}",
                 HttpStatusCode.LENGTH_REQUIRED.status());
     }
@@ -812,13 +812,13 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                                final String body,
                                final HttpStatus status,
                                final HttpEntity... entities) {
-        final Map<HttpHeaderName<?>, Object> headers = Maps.sorted();
-        headers.put(HttpHeaderName.ACCEPT_CHARSET, AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText()));
-        headers.put(HttpHeaderName.CONTENT_TYPE, contentType);
+        final Map<HttpHeaderName<?>, List<?>> headers = Maps.sorted();
+        headers.put(HttpHeaderName.ACCEPT_CHARSET, list(AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText())));
+        headers.put(HttpHeaderName.CONTENT_TYPE, list(contentType));
 
         final byte[] bodyBytes = bytes(body, contentType);
         if (null != bodyBytes && bodyBytes.length > 0) {
-            headers.put(HttpHeaderName.CONTENT_LENGTH, Long.valueOf(bodyBytes.length));
+            headers.put(HttpHeaderName.CONTENT_LENGTH, list(Long.valueOf(bodyBytes.length)));
         }
 
         this.routeAndCheck(router,
@@ -833,7 +833,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private void routeAndCheck(final HateosResourceMappingRouter router,
                                final HttpMethod method,
                                final String url,
-                               final Map<HttpHeaderName<?>, Object> headers,
+                               final Map<HttpHeaderName<?>, List<?>> headers,
                                final String body,
                                final HttpStatus status,
                                final HttpEntity... entities) {
@@ -865,13 +865,26 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                                 final String body) {
         return this.request(method,
                 url,
-                Maps.of(HttpHeaderName.CONTENT_TYPE, contentType),
+                map(HttpHeaderName.CONTENT_TYPE, contentType),
                 body);
+    }
+
+    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header, final Object value) {
+        return Maps.of(header, list(value));
+    }
+
+    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header1, final Object value1,
+                                                final HttpHeaderName<?> header2, final Object value2) {
+        return Maps.of(header1, list(value1), header2, list(value2));
+    }
+
+    private <T> List<T> list(final T...values) {
+        return Lists.of(values);
     }
 
     private HttpRequest request(final HttpMethod method,
                                 final String url,
-                                final Map<HttpHeaderName<?>, Object> headers,
+                                final Map<HttpHeaderName<?>, List<?>> headers,
                                 final String body) {
         return new HttpRequest() {
 
@@ -896,7 +909,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
             }
 
             @Override
-            public Map<HttpHeaderName<?>, Object> headers() {
+            public Map<HttpHeaderName<?>, List<?>> headers() {
                 return headers;
             }
 
