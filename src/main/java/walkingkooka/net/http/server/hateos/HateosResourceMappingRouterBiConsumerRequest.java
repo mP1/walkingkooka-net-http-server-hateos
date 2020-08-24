@@ -17,16 +17,13 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.Binary;
 import walkingkooka.ToStringBuilder;
-import walkingkooka.collect.map.Maps;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.header.MediaType;
-import walkingkooka.net.header.MediaTypeParameterName;
 import walkingkooka.net.header.NotAcceptableHeaderException;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.HttpMethod;
@@ -274,17 +271,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                 this.setStatus(HttpStatusCode.LENGTH_REQUIRED.status());
                 text = null;
             } else {
-                Charset charset = Charset.defaultCharset();
-
-                final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.headerValue(request);
-                if (contentType.isPresent()) {
-                    final Optional<CharsetName> possible = MediaTypeParameterName.CHARSET.parameterValue(contentType.get());
-                    if (possible.isPresent()) {
-                        charset = possible.get().charset().orElse(charset);
-                    }
-                }
-
-                try (final StringReader reader = new StringReader(new String(body, charset))) {
+                try (final StringReader reader = new StringReader(new String(body, request.charset(HttpEntity.DEFAULT_BODY_CHARSET)))) {
                     final StringBuilder b = new StringBuilder();
                     final char[] buffer = new char[contentLength.get().intValue()];
 
