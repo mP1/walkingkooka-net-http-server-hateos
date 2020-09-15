@@ -1,9 +1,4 @@
 #
-# HateosResourceMapping is not supported, maybe later
-#
-HateosResourceMapping*
-
-#
 # Ignore because junit is not translatable yet.
 #
 *Testing.*
