@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>walkingkooka</groupId>
-    <artifactId>j2cl-java-net-http-server-hateosit-junit-test</artifactId>
+    <artifactId>walkingkooka-net-http-server-hateos-it-junit-test</artifactId>
     <version>1.0</version>
 
     <licenses>
