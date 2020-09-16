@@ -36,11 +36,10 @@ import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.CharSequences;
 import walkingkooka.tree.Node;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -251,47 +250,34 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      * Reads and returns the body as text, with null signifying an error occured and a bad request response set.
      */
     String resourceTextOrBadRequest() {
-        String text = ""; // null == bad request
-
         final HttpRequest request = this.request;
         final Optional<Long> contentLength = HttpHeaderName.CONTENT_LENGTH.headerValue(request);
-        final byte[] body = request.body();
-        if (null == body || body.length == 0) {
-            // no body present any content-length != 0 then bad request.
-            final Long contentLengthValue = contentLength.orElse(0L);
-            if(contentLengthValue.longValue() != 0) {
+
+        String bodyText;
+        try {
+            bodyText = request.bodyText();
+        } catch (final RuntimeException cause) {
+            this.badRequest("Invalid content: " + cause.getMessage());
+            bodyText = null;
+        }
+
+        final Long contentLengthValue = contentLength.orElse(null);
+        if(bodyText.isEmpty()) {
+            // TODO should really be checking content length against body bytes length, not bodyText character length
+            if(null != contentLengthValue && contentLengthValue != 0L) {
                 this.badRequest("Body absent with " + HttpHeaderName.CONTENT_LENGTH + ": " + contentLength.get());
-                text = null;
+                bodyText = null;
             } else {
-                text = "";
+                bodyText = "";
             }
         } else {
-            // body present content-length must match
-            if(false == contentLength.isPresent()) {
+            if(null == contentLengthValue) {
                 this.setStatus(HttpStatusCode.LENGTH_REQUIRED.status());
-                text = null;
-            } else {
-                try (final StringReader reader = new StringReader(new String(body, request.charset(HttpEntity.DEFAULT_BODY_CHARSET)))) {
-                    final StringBuilder b = new StringBuilder();
-                    final char[] buffer = new char[contentLength.get().intValue()];
-
-                    for (; ; ) {
-                        final int fill = reader.read(buffer);
-                        if (-1 == fill) {
-                            break;
-                        }
-                        b.append(buffer, 0, fill);
-                    }
-
-                    text = b.toString();
-                } catch (final IOException cause) {
-                    this.badRequest("Invalid content: " + cause.getMessage());
-                    text = null;
-                }
+                bodyText = null;
             }
         }
 
-        return text;
+        return bodyText;
     }
 
     /**
