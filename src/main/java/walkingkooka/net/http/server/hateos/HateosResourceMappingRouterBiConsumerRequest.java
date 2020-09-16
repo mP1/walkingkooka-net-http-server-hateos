@@ -39,7 +39,6 @@ import walkingkooka.tree.Node;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -261,19 +260,21 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             bodyText = null;
         }
 
-        final Long contentLengthValue = contentLength.orElse(null);
-        if(bodyText.isEmpty()) {
-            // TODO should really be checking content length against body bytes length, not bodyText character length
-            if(null != contentLengthValue && contentLengthValue != 0L) {
-                this.badRequest("Body absent with " + HttpHeaderName.CONTENT_LENGTH + ": " + contentLength.get());
-                bodyText = null;
+        if (null != bodyText) {
+            final Long contentLengthValue = contentLength.orElse(null);
+            if (bodyText.isEmpty()) {
+                // TODO should really be checking content length against body bytes length, not bodyText character length
+                if (null != contentLengthValue && contentLengthValue != 0L) {
+                    this.badRequest("Body absent with " + HttpHeaderName.CONTENT_LENGTH + ": " + contentLength.get());
+                    bodyText = null;
+                } else {
+                    bodyText = "";
+                }
             } else {
-                bodyText = "";
-            }
-        } else {
-            if(null == contentLengthValue) {
-                this.setStatus(HttpStatusCode.LENGTH_REQUIRED.status());
-                bodyText = null;
+                if (null == contentLengthValue) {
+                    this.setStatus(HttpStatusCode.LENGTH_REQUIRED.status());
+                    bodyText = null;
+                }
             }
         }
 
