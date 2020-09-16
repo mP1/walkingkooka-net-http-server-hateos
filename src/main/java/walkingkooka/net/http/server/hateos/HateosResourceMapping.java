@@ -55,8 +55,8 @@ import java.util.function.Function;
  * <li>{@link HttpStatusCode#NOT_FOUND} - No handler for any method is present</li>
  * <li>{@link HttpStatusCode#METHOD_NOT_ALLOWED} - A handler is present for other {@link HttpMethod methods} but absent for the current method</li>
  * <li>{@link HttpStatusCode#LENGTH_REQUIRED} - The request body is not empty and a {@link HttpHeaderName#CONTENT_LENGTH} is missing</li>
- * <li>{@link HttpStatusCode#INTERNAL_SERVER_ERROR} - The handler threw an {@link RuntimeException} but not {@link UnsupportedOperationException}</li>
- * <li>{@link HttpStatusCode#NOT_IMPLEMENTED} - The handler threw an {@link UnsupportedOperationException}</li>
+ * <li>{@link HttpStatusCode#INTERNAL_SERVER_ERROR} - The handler throws an {@link RuntimeException} but not {@link UnsupportedOperationException}</li>
+ * <li>{@link HttpStatusCode#NOT_IMPLEMENTED} - The handler throws an {@link UnsupportedOperationException}</li>
  * </ul>
  */
 public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>> {
