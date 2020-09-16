@@ -79,9 +79,9 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
      * Returns true if the content types are a match and the request path matches the base url.
      */
     private boolean canHandle(final Map<HttpRequestAttribute<?>, Object> parameters) {
+        // Optional.stream is not supported in J2cl hence the alternative.
         return HttpHeaderName.CONTENT_TYPE.parameterValue(parameters)
-                .stream()
-                .anyMatch(this::isContentTypeCompatible) &&
+                .map(this::isContentTypeCompatible).orElse(false) &&
                 -1 != this.consumeBasePath(parameters);
     }
 
