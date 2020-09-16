@@ -39,13 +39,16 @@ import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpStatus;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.HttpTransport;
+import walkingkooka.net.http.server.FakeHttpRequest;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
+import walkingkooka.route.Router;
 import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
@@ -676,6 +679,89 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 NO_BODY,
                 HttpStatusCode.OK.status().setMessage(RESOURCE_SUCCESSFUL),
                 this.httpEntity(COLLECTION_RESOURCE_OUT));
+    }
+
+    // this test contains everything in a single method so it can be copied over to JunitTest.
+    @Test
+    public void testMapRouteAndCheckStandaloneForItJunitTest() {
+        final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
+                (s) -> {
+                    return BigInteger.valueOf(Integer.parseInt(s.substring(2), 16)); // assumes hex digit in url
+                },
+                TestResource.class,
+                TestResource.class,
+                TestHateosResource.class)
+                .set(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosHandler<>() {
+                    @Override
+                    public Optional<TestResource> handle(final Optional<BigInteger> id,
+                                                         final Optional<TestResource> resource,
+                                                         final Map<HttpRequestAttribute<?>, Object> parameters) {
+                        return Optional.of(TestResource.with(TestHateosResource.with(BigInteger.valueOf(31))));
+                    }
+                });
+
+        final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
+                HateosContentType.json(JsonNodeUnmarshallContexts.basic(), JsonNodeMarshallContexts.basic()),
+                Sets.of(mapping));
+
+        final HttpRequest request = new FakeHttpRequest() {
+
+            @Override
+            public HttpTransport transport() {
+                return HttpTransport.UNSECURED;
+            }
+
+            @Override
+            public HttpProtocolVersion protocolVersion() {
+                return HttpProtocolVersion.VERSION_1_0;
+            }
+
+            @Override
+            public HttpMethod method() {
+                return HttpMethod.GET;
+            }
+
+            @Override
+            public RelativeUrl url() {
+                return Url.parseRelative("/api/resource1/0x123/contents");
+            }
+
+            @Override
+            public Map<HttpHeaderName<?>, List<?>> headers() {
+                return Maps.of(HttpHeaderName.CONTENT_TYPE, Lists.of(HateosContentType.JSON_CONTENT_TYPE),
+                        HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8")));
+            }
+
+            @Test
+            public String bodyText() {
+                return "";
+            }
+
+            @Override
+            public Map<HttpRequestParameterName, List<String>> parameters() {
+                return Maps.empty();
+            }
+
+            @Override
+            public List<String> parameterValues(final HttpRequestParameterName parameterName) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public String toString() {
+                return this.method() + " " + this.url() + " " + parameters();
+            }
+        };
+        final BiConsumer<HttpRequest, HttpResponse> target = router.route(request.routerParameters()).orElseThrow(() -> new Error("Unable to route"));
+
+        final HttpResponse response = HttpResponses.recording();
+        target.accept(request, response);
+        assertEquals("{\n" +
+                "  \"type\": \"test-HateosResource\",\n" +
+                "  \"value\": {\n" +
+                "    \"id\": \"31\"\n" +
+                "  }\n" +
+                "}", response.entities().get(0).bodyText());
     }
 
     // HELPERS .........................................................................................................
