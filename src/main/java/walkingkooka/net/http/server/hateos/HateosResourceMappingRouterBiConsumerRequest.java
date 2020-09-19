@@ -250,7 +250,6 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      */
     String resourceTextOrBadRequest() {
         final HttpRequest request = this.request;
-        final Optional<Long> contentLength = HttpHeaderName.CONTENT_LENGTH.headerValue(request);
 
         String bodyText;
         try {
@@ -261,19 +260,26 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         }
 
         if (null != bodyText) {
-            final Long contentLengthValue = contentLength.orElse(null);
+            final Long contentLength = HttpHeaderName.CONTENT_LENGTH.headerValue(request).orElse(null);
             if (bodyText.isEmpty()) {
-                // TODO should really be checking content length against body bytes length, not bodyText character length
-                if (null != contentLengthValue && contentLengthValue != 0L) {
-                    this.badRequest("Body absent with " + HttpHeaderName.CONTENT_LENGTH + ": " + contentLength.get());
+                if (null != contentLength && contentLength.longValue() != request.bodyLength()) {
+                    this.badRequest("Body absent with " + HttpHeaderName.CONTENT_LENGTH + ": " + contentLength);
                     bodyText = null;
                 } else {
                     bodyText = "";
                 }
+
             } else {
-                if (null == contentLengthValue) {
+                if (null == contentLength) {
                     this.setStatus(HttpStatusCode.LENGTH_REQUIRED.status());
                     bodyText = null;
+                } else {
+                    final long bodyLength = request.bodyLength();
+                    final long contentLengthLong = contentLength.longValue();
+                    if (bodyLength != contentLengthLong) {
+                        this.badRequest(HttpHeaderName.CONTENT_LENGTH + ": " + contentLengthLong + " != body length=" + bodyLength + " mismatch");
+                        bodyText = null;
+                    }
                 }
             }
         }

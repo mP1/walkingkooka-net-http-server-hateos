@@ -249,6 +249,16 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
+    public void testContentLengthBodyLengthMismatchFails() {
+        this.routeAndCheck(this.createRouter(),
+                HttpMethod.POST,
+                "/api/resource1/0x1f/contents",
+                map(HttpHeaderName.CONTENT_TYPE, this.contentType(), HttpHeaderName.CONTENT_LENGTH, 999L),
+                "{}",
+                HttpStatusCode.BAD_REQUEST.setMessage("Content-Length: 999 != body length=2 mismatch"));
+    }
+
+    @Test
     public void testBadRequestIdAndInvalidJson() {
         this.routeAndCheck("/api/resource1/0x1f/contents",
                 "!invalid json",
@@ -1002,6 +1012,19 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
             @Override
             public byte[] body() {
                 return bytes(body, this);
+            }
+
+            @Override
+            public String bodyText() {
+                return null != body ? body : "";
+            }
+
+            @Override
+            public long bodyLength() {
+                final byte[] body = this.body();
+                return null != body ?
+                        body.length :
+                        0;
             }
 
             @Override
