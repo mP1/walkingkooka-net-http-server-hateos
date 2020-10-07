@@ -62,6 +62,12 @@ import java.util.function.Function;
 public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>> {
 
     /**
+     * This header will appear in any successful JSON response and contains the simple java type name (Class#getSimpleName())
+     * for the java object converted to JSON.
+     */
+    public final static HttpHeaderName<String> X_CONTENT_TYPE_NAME = HttpHeaderName.with("X-Content-Type-Name").stringValues();
+
+    /**
      * Creates a new {@link HateosResourceMapping}
      */
     public static <I extends Comparable<I>, V, C, H extends HateosResource<I>> HateosResourceMapping<I, V, C, H> with(
@@ -202,12 +208,17 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
                     Optional<V> maybeResponseResource = handler.handle(id,
                             requestResource,
                             request.parameters);
+                    Class<?> contentValueType = null;
+
                     if (maybeResponseResource.isPresent()) {
                         final V responseResource = maybeResponseResource.get();
                         responseText = hateosContentType.toText(responseResource);
+                        contentValueType = responseResource.getClass();
                     }
 
-                    request.setStatusAndBody(method + " resource successful", responseText);
+                    request.setStatusAndBody(method + " resource successful",
+                            responseText,
+                            contentValueType);
                 }
             }
         }
@@ -258,12 +269,17 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
                 Optional<C> maybeResponseResource = handler.handleCollection(ids,
                         requestResource,
                         request.parameters);
+                Class<?> responseValueType = null;
+
                 if (maybeResponseResource.isPresent()) {
                     final C responseResource = maybeResponseResource.get();
                     responseText = hateosContentType.toText(responseResource);
+                    responseValueType = responseResource.getClass();
                 }
 
-                request.setStatusAndBody(method + " resource successful", responseText);
+                request.setStatusAndBody(method + " resource successful",
+                        responseText,
+                        responseValueType);
             }
         }
     }

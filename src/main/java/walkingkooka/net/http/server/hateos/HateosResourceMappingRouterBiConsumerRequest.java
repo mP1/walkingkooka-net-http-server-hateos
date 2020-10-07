@@ -359,15 +359,19 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     /**
      * Sets the status to successful and body to the bytes of the encoded text of {@link Node}.
      */
-    void setStatusAndBody(final String message, final String content) {
+    void setStatusAndBody(final String message,
+                          final String content,
+                          final Class<?> contentValueType) {
         if (null != content) {
-            this.setStatusAndBody0(message, content);
+            this.setStatusAndBody0(message, content, contentValueType);
         } else {
             this.setStatus(HttpStatusCode.NO_CONTENT, message);
         }
     }
 
-    private void setStatusAndBody0(final String message, final String content) {
+    private void setStatusAndBody0(final String message,
+                                   final String content,
+                                   final Class<?> contentValueType) {
         this.setStatus(HttpStatusCode.OK, message);
 
         final AcceptCharset acceptCharset = HttpHeaderName.ACCEPT_CHARSET.headerValueOrFail(this.request);
@@ -381,6 +385,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
         this.response.addEntity(HttpEntity.EMPTY
                 .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(CharsetName.with(charset.get().name())))
+                .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, contentValueType.getSimpleName()) // this header is used a hint about the response.
                 .setBodyText(content)
                 .setContentLength());
     }

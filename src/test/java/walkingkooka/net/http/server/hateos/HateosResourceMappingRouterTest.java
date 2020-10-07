@@ -836,16 +836,20 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     private HttpEntity[] httpEntity(final Object resource,
                                     final MediaType contentType) {
-        return this.httpEntity(this.toJson(resource), contentType);
+        return this.httpEntity(this.toJson(resource),
+                resource.getClass().getSimpleName(),
+                contentType);
     }
 
     private HttpEntity[] httpEntity(final String body,
+                                    final String valueType,
                                     final MediaType contentType) {
         HttpEntity[] entities = new HttpEntity[0];
 
         if (!CharSequences.isNullOrEmpty(body)) {
             entities = new HttpEntity[]{HttpEntity.EMPTY
                     .addHeader(HttpHeaderName.CONTENT_TYPE, contentType)
+                    .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, valueType)
                     .setBodyText(body)
                     .setContentLength()};
         }
