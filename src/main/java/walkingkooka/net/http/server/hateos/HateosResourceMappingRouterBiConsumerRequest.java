@@ -374,21 +374,28 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                                    final Class<?> contentValueType) {
         this.setStatus(HttpStatusCode.OK, message);
 
-        final AcceptCharset acceptCharset = HttpHeaderName.ACCEPT_CHARSET.headerValueOrFail(this.request);
-        final Optional<Charset> charset = acceptCharset.charset();
-        if (!charset.isPresent()) {
-            throw new NotAcceptableHeaderException("AcceptCharset " + acceptCharset + " doesnt contain supported charset");
-        }
-
+        final CharsetName charsetName = this.selectCharsetName();
         final HateosContentType hateosContentType = this.hateosContentType();
         final MediaType contentType = hateosContentType.contentType();
 
         this.response.addEntity(HttpEntity.EMPTY
-                .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(CharsetName.with(charset.get().name())))
+                .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(charsetName))
                 .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, contentValueType.getSimpleName()) // this header is used a hint about the response.
                 .setBodyText(content)
                 .setContentLength());
     }
+
+    private CharsetName selectCharsetName() {
+        final AcceptCharset acceptCharset = HttpHeaderName.ACCEPT_CHARSET.headerValue(this.request)
+                .orElse(UTF8);
+        final Optional<Charset> charset = acceptCharset.charset();
+        if (!charset.isPresent()) {
+            throw new NotAcceptableHeaderException("AcceptCharset " + acceptCharset + " contain unsupported charset");
+        }
+        return CharsetName.with(charset.get().name());
+    }
+
+    private final static AcceptCharset UTF8 = AcceptCharset.parse("utf-8");
 
     private void setStatus(final HttpStatusCode statusCode, final String message) {
         this.setStatus(statusCode.setMessage(message));
