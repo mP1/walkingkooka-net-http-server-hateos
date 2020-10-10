@@ -57,17 +57,17 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
                         "    \"href\": \"http://example.com/api/resource-1/7b\",\n" +
                         "    \"method\": \"POST\",\n" +
                         "    \"rel\": \"self\",\n" +
-                        "    \"type\": \"application/hal+json\"\n" +
+                        "    \"type\": \"application/json\"\n" +
                         "  }, {\n" +
                         "    \"href\": \"http://example.com/api/resource-1/7b/contents\",\n" +
                         "    \"method\": \"GET\",\n" +
                         "    \"rel\": \"contents\",\n" +
-                        "    \"type\": \"application/hal+json\"\n" +
+                        "    \"type\": \"application/json\"\n" +
                         "  }, {\n" +
                         "    \"href\": \"http://example.com/api/resource-1/7b/contents\",\n" +
                         "    \"method\": \"POST\",\n" +
                         "    \"rel\": \"contents\",\n" +
-                        "    \"type\": \"application/hal+json\"\n" +
+                        "    \"type\": \"application/json\"\n" +
                         "  }]\n" +
                         "}"));
     }

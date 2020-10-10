@@ -44,7 +44,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/hal+json\"\n" +
+                "    \"type\": \"application/json\"\n" +
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET))),
@@ -60,12 +60,12 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/hal+json\"\n" +
+                "    \"type\": \"application/json\"\n" +
                 "  }, {\n" +
                 "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"POST\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/hal+json\"\n" +
+                "    \"type\": \"application/json\"\n" +
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET, HttpMethod.POST))),
@@ -81,7 +81,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 "    \"href\": \"http://example.com/api/resource1/7b/contents\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"contents\",\n" +
-                "    \"type\": \"application/hal+json\"\n" +
+                "    \"type\": \"application/json\"\n" +
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.CONTENTS, Sets.of(HttpMethod.GET))), withLinks);
@@ -96,17 +96,17 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/hal+json\"\n" +
+                "    \"type\": \"application/json\"\n" +
                 "  }, {\n" +
                 "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"POST\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/hal+json\"\n" +
+                "    \"type\": \"application/json\"\n" +
                 "  }, {\n" +
                 "    \"href\": \"http://example.com/api/resource1/7b/about\",\n" +
                 "    \"method\": \"DELETE\",\n" +
                 "    \"rel\": \"about\",\n" +
-                "    \"type\": \"application/hal+json\"\n" +
+                "    \"type\": \"application/json\"\n" +
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET, HttpMethod.POST),

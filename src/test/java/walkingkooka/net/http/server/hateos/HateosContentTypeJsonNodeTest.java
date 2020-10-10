@@ -78,7 +78,7 @@ public final class HateosContentTypeJsonNodeTest extends HateosContentTypeTestCa
 
     @Override
     MediaType contentType() {
-        return MediaType.parse("application/hal+json");
+        return MediaType.parse("application/json");
     }
 
     @Override
