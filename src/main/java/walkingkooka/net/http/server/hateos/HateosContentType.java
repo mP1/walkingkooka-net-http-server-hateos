@@ -29,7 +29,7 @@ public abstract class HateosContentType {
     /**
      * A {@link MediaType} for json hateos content.
      */
-    public final static MediaType JSON_CONTENT_TYPE = MediaType.with("application", "hal+json");
+    public final static MediaType JSON_CONTENT_TYPE = MediaType.with("application", "json");
 
     /**
      * Selects JSON formatted request and response bodies.
