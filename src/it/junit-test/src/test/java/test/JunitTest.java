@@ -44,6 +44,7 @@ import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.net.http.server.hateos.HateosResourceMapping;
 import walkingkooka.net.http.server.hateos.HateosResourceName;
 import walkingkooka.route.Router;
+import walkingkooka.tree.expression.ExpressionNumberContexts;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
@@ -96,7 +97,7 @@ public class JunitTest {
                 });
 
         final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
-                HateosContentType.json(JsonNodeUnmarshallContexts.basic(), JsonNodeMarshallContexts.basic()),
+                HateosContentType.json(JsonNodeUnmarshallContexts.basic(ExpressionNumberContexts.fake()), JsonNodeMarshallContexts.basic()),
                 Sets.of(mapping));
 
         final HttpRequest request = new FakeHttpRequest() {

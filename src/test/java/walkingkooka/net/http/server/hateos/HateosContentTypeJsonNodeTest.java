@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.tree.expression.ExpressionNumberContexts;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
@@ -69,7 +70,7 @@ public final class HateosContentTypeJsonNodeTest extends HateosContentTypeTestCa
     }
 
     private JsonNodeUnmarshallContext unmarshallContext() {
-        return JsonNodeUnmarshallContexts.basic();
+        return JsonNodeUnmarshallContexts.basic(ExpressionNumberContexts.fake());
     }
 
     private JsonNodeMarshallContext marshallContext() {
