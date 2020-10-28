@@ -38,6 +38,7 @@ import java.util.function.BiConsumer;
 
 /**
  * A {@link Router} that dispatches to the given {@link HateosResourceMapping mappings}.
+ * Note that any exceptions that are thrown, will have their stack trace in the response body with content-type=text/plain
  */
 final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> {
 

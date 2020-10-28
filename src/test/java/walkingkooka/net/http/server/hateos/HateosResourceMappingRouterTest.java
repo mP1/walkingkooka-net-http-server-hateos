@@ -49,7 +49,6 @@ import walkingkooka.route.Router;
 import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
 import walkingkooka.tree.expression.ExpressionNumberContexts;
-import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
@@ -62,6 +61,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingRouterTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouter>
@@ -285,6 +285,8 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     @Test
     public void testNotImplementedId() {
+        final String customMessage = "Custom message 123! something something else";
+
         this.routeAndCheck(new FakeHateosHandler<>() {
                                @Override
                                public Optional<TestResource> handle(final Optional<BigInteger> id,
@@ -295,42 +297,52 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x1/contents",
                 NO_BODY,
-                HttpStatusCode.NOT_IMPLEMENTED.status());
+                HttpStatusCode.NOT_IMPLEMENTED.status(),
+                UnsupportedOperationException.class,
+                customMessage);
     }
 
     @Test
     public void testNotImplementedWildcard() {
+        final String customMessage = "Custom message 123!";
+
         this.routeAndCheck(new FakeHateosHandler<>() {
                                @Override
                                public Optional<TestResource> handleCollection(final Range<BigInteger> ids,
-                                                                               final Optional<TestResource> resource,
-                                                                               final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                                                              final Optional<TestResource> resource,
+                                                                              final Map<HttpRequestAttribute<?>, Object> parameters) {
                                    throw new UnsupportedOperationException();
                                }
                            },
                 "/api/resource1/*/contents",
                 NO_BODY,
-                HttpStatusCode.NOT_IMPLEMENTED.status());
+                HttpStatusCode.NOT_IMPLEMENTED.status(),
+                UnsupportedOperationException.class,
+                customMessage);
     }
 
     @Test
     public void testNotImplementedRange() {
+        final String customMessage = "Custom message 123!";
+
         this.routeAndCheck(new FakeHateosHandler<>() {
                                @Override
                                public Optional<TestResource> handleCollection(final Range<BigInteger> ids,
-                                                                               final Optional<TestResource> resource,
-                                                                               final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                                                              final Optional<TestResource> resource,
+                                                                              final Map<HttpRequestAttribute<?>, Object> parameters) {
                                    throw new UnsupportedOperationException();
                                }
                            },
                 "/api/resource1/0x1-0x2/contents",
                 NO_BODY,
-                HttpStatusCode.NOT_IMPLEMENTED.status());
+                HttpStatusCode.NOT_IMPLEMENTED.status(),
+                UnsupportedOperationException.class,
+                customMessage);
     }
 
     @Test
     public void testNotImplementedIdUnsupportedOperationExceptionWithMessage() {
-        final String message = "message 123";
+        final String message = "message 456";
 
         this.routeAndCheck(new FakeHateosHandler<>() {
                                @Override
@@ -342,7 +354,9 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x1/contents",
                 NO_BODY,
-                HttpStatusCode.NOT_IMPLEMENTED.status().setMessage(message));
+                HttpStatusCode.NOT_IMPLEMENTED.status().setMessage(message),
+                UnsupportedOperationException.class,
+                message);
     }
 
     // internal server error............................................................................................
@@ -361,7 +375,9 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x1/contents",
                 NO_BODY,
-                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE));
+                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE),
+                RuntimeException.class,
+                INTERNAL_SERVER_ERROR_MESSAGE);
     }
 
     @Test
@@ -369,14 +385,16 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         this.routeAndCheck(new FakeHateosHandler<>() {
                                @Override
                                public Optional<TestResource> handleCollection(final Range<BigInteger> ids,
-                                                                               final Optional<TestResource> resource,
-                                                                               final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                                                              final Optional<TestResource> resource,
+                                                                              final Map<HttpRequestAttribute<?>, Object> parameters) {
                                    throw new RuntimeException(INTERNAL_SERVER_ERROR_MESSAGE);
                                }
                            },
                 "/api/resource1/*/contents",
                 NO_BODY,
-                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE));
+                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE),
+                RuntimeException.class,
+                INTERNAL_SERVER_ERROR_MESSAGE);
     }
 
     @Test
@@ -384,18 +402,22 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         this.routeAndCheck(new FakeHateosHandler<>() {
                                @Override
                                public Optional<TestResource> handleCollection(final Range<BigInteger> ids,
-                                                                               final Optional<TestResource> resource,
-                                                                               final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                                                              final Optional<TestResource> resource,
+                                                                              final Map<HttpRequestAttribute<?>, Object> parameters) {
                                    throw new RuntimeException(INTERNAL_SERVER_ERROR_MESSAGE);
                                }
                            },
                 "/api/resource1/0x1-0x2/contents",
                 NO_BODY,
-                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE));
+                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE),
+                RuntimeException.class,
+                INTERNAL_SERVER_ERROR_MESSAGE);
     }
 
     @Test
     public void testInternalServerErrorExceptionWithoutMessageId() {
+        final String message = "Something went wrong";
+
         this.routeAndCheck(new FakeHateosHandler<>() {
                                @Override
                                public Optional<TestResource> handle(final Optional<BigInteger> id,
@@ -406,7 +428,61 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x1/contents",
                 NO_BODY,
-                HttpStatusCode.INTERNAL_SERVER_ERROR.status());
+                HttpStatusCode.INTERNAL_SERVER_ERROR.status(),
+                RuntimeException.class,
+                message);
+    }
+
+    private void routeAndCheck(final HateosHandler<BigInteger, TestResource, TestResource> handler,
+                               final String url,
+                               final String body,
+                               final HttpStatusCode statusCode,
+                               final Class<?> thrown,
+                               final String thrownMessage) {
+        this.routeAndCheck(handler,
+                url,
+                body,
+                statusCode.setMessageOrDefault(null),
+                thrown,
+                thrownMessage);
+    }
+
+    private void routeAndCheck(final HateosHandler<BigInteger, TestResource, TestResource> handler,
+                               final String url,
+                               final String body,
+                               final HttpStatus status,
+                               final Class<?> thrown,
+                               final String thrownMessage) {
+        final HateosResourceMappingRouter router = this.createRouter(handler);
+
+        final MediaType contentType = this.contentType();
+        final Map<HttpHeaderName<?>, List<?>> headers = Maps.sorted();
+        headers.put(HttpHeaderName.ACCEPT_CHARSET, list(AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText())));
+        headers.put(HttpHeaderName.CONTENT_TYPE, list(contentType));
+
+        final byte[] bodyBytes = bytes(body, contentType);
+        if (null != bodyBytes && bodyBytes.length > 0) {
+            headers.put(HttpHeaderName.CONTENT_LENGTH, list(Long.valueOf(bodyBytes.length)));
+        }
+
+
+        final HttpRequest request = this.request(HttpMethod.POST,
+                url,
+                headers,
+                body);
+        final HttpResponse response = HttpResponses.recording();
+        final Optional<BiConsumer<HttpRequest, HttpResponse>> handle = router.route(request.routerParameters());
+        handle.ifPresent(h -> h.accept(request, response));
+
+        assertEquals(Optional.ofNullable(status), response.status(), () -> "status\n" + request);
+
+        final HttpEntity responseEntity = response.entities().get(0);
+        assertEquals(Lists.of(MediaType.TEXT_PLAIN), responseEntity.headers().get(HttpHeaderName.CONTENT_TYPE), () -> "Content-Type incorrect\n" + request + "\n" + response);
+        assertNotEquals(null, responseEntity.headers().get(HttpHeaderName.CONTENT_LENGTH), () -> "Content-Length missing\n" + request + "\n" + response);
+
+        final String responseBody = responseEntity.bodyText();
+        assertEquals(true, responseBody.contains(thrown.getSimpleName()), () -> "response body contains stacktrace\n" + request + "\n" + response);
+        assertEquals(true, responseBody.contains("at " + this.getClass().getName()), () -> "response body contains stacktrace\n" + request + "\n" + response);
     }
 
     // id request.......................................................................................................

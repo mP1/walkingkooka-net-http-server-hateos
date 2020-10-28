@@ -54,12 +54,22 @@ final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequ
             HateosResourceMappingRouterBiConsumerRequest.with(request, response, this.router)
                     .dispatch();
         } catch (final UnsupportedOperationException unsupported) {
-            response.setStatus(HttpStatusCode.NOT_IMPLEMENTED.setMessageOrDefault(unsupported.getMessage()));
+            handleFailure(response, HttpStatusCode.NOT_IMPLEMENTED, unsupported);
         } catch (final IllegalArgumentException badRequest) {
-            response.setStatus(HttpStatusCode.BAD_REQUEST.setMessageOrDefault(badRequest.getMessage()));
+            handleFailure(response, HttpStatusCode.BAD_REQUEST, badRequest);
         } catch (final RuntimeException internal) {
-            response.setStatus(HttpStatusCode.INTERNAL_SERVER_ERROR.setMessageOrDefault(internal.getMessage()));
+            handleFailure(response, HttpStatusCode.INTERNAL_SERVER_ERROR, internal);
         }
+    }
+
+    /**
+     * Updates the response with the given code and the message from the {@link Throwable}. The body of the response is set to the stacktrace.
+     */
+    private static void handleFailure(final HttpResponse response,
+                                      final HttpStatusCode code,
+                                      final Throwable cause) {
+        response.setStatus(code.setMessageOrDefault(cause.getMessage()));
+        HateosResourceMappingRouterBiConsumerStackTrace.setResponseBody(response, cause);
     }
 
     private final HateosResourceMappingRouter router;
