@@ -21,6 +21,7 @@ import walkingkooka.collect.Range;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.test.Fake;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,25 +31,50 @@ import java.util.Optional;
  */
 public class FakeHateosHandler<I extends Comparable<I>, V, C> implements HateosHandler<I, V, C>, Fake {
 
-    @Override
-    public Optional<V> handle(final Optional<I> id,
-                              final Optional<V> resource,
-                              final Map<HttpRequestAttribute<?>, Object> parameters) {
-        Objects.requireNonNull(id, "id");
-        Objects.requireNonNull(resource, "resource");
-        Objects.requireNonNull(parameters, "parameters");
+    public Optional<C> handleAll(final Optional<C> resource,
+                                 final Map<HttpRequestAttribute<?>, Object> parameters) {
+        check(resource, parameters);
 
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public Optional<C> handleCollection(final Range<I> ids,
-                                        final Optional<C> resource,
-                                        final Map<HttpRequestAttribute<?>, Object> parameters) {
-        Objects.requireNonNull(ids, "ids");
-        Objects.requireNonNull(resource, "resource");
-        Objects.requireNonNull(parameters, "parameters");
+    public Optional<C> handleList(final List<I> list,
+                                  final Optional<C> resource,
+                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
+        Objects.requireNonNull(list, "list");
+        check(resource, parameters);
 
         throw new UnsupportedOperationException();
+    }
+
+    public Optional<V> handleNone(final Optional<V> resource,
+                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
+        check(resource, parameters);
+
+        throw new UnsupportedOperationException();
+    }
+
+    public Optional<V> handleOne(final I id,
+                                 final Optional<V> resource,
+                                 final Map<HttpRequestAttribute<?>, Object> parameters) {
+        Objects.requireNonNull(id, "id");
+        check(resource, parameters);
+
+        throw new UnsupportedOperationException();
+    }
+
+    public Optional<C> handleRange(final Range<I> range,
+                                   final Optional<C> resource,
+                                   final Map<HttpRequestAttribute<?>, Object> parameters) {
+        Objects.requireNonNull(range, "range");
+        check(resource, parameters);
+
+        throw new UnsupportedOperationException();
+    }
+
+    private static void check(final Optional<?> resource,
+                              final Map<HttpRequestAttribute<?>, Object> parameters) {
+        Objects.requireNonNull(resource, "resource");
+        Objects.requireNonNull(parameters, "parameters");
     }
 }

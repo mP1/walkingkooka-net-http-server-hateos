@@ -112,7 +112,7 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
 
     final AbsoluteUrl base;
     final HateosContentType contentType;
-    final Map<HateosResourceName, HateosResourceMapping> resourceNameToMapping;
+    final Map<HateosResourceName, HateosResourceMapping<?, ?, ?, ?>> resourceNameToMapping;
 
     // toString.........................................................................................................
 

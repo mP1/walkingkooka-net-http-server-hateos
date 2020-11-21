@@ -39,10 +39,11 @@ import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.net.http.server.hateos.HateosContentType;
 import walkingkooka.net.http.server.hateos.HateosResource;
-import walkingkooka.net.http.server.hateos.FakeHateosHandler;
-import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.net.http.server.hateos.HateosResourceMapping;
 import walkingkooka.net.http.server.hateos.HateosResourceName;
+import walkingkooka.net.http.server.hateos.HateosResourceSelection;
+import walkingkooka.net.http.server.hateos.FakeHateosHandler;
+import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.route.Router;
 import walkingkooka.tree.expression.ExpressionNumberContexts;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
@@ -82,16 +83,16 @@ public class JunitTest {
     public void testHateosResourceMapping() throws Exception {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
                 (s) -> {
-                    return BigInteger.valueOf(Integer.parseInt(s.substring(2), 16)); // assumes hex digit in url
+                    return HateosResourceSelection.one(BigInteger.valueOf(Integer.parseInt(s.substring(2), 16))); // assumes hex digit in url
                 },
                 TestResource.class,
                 TestResource.class,
                 TestHateosResource.class)
                 .set(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosHandler<>() {
                     @Override
-                    public Optional<TestResource> handle(final Optional<BigInteger> id,
-                                                         final Optional<TestResource> resource,
-                                                         final Map<HttpRequestAttribute<?>, Object> parameters) {
+                    public Optional<TestResource> handleOne(final BigInteger id,
+                                                            final Optional<TestResource> resource,
+                                                            final Map<HttpRequestAttribute<?>, Object> parameters) {
                         return Optional.of(TestResource.with(TestHateosResource.with(BigInteger.valueOf(31))));
                     }
                 });

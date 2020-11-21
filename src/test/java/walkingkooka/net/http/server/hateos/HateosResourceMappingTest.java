@@ -20,14 +20,17 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.ToStringTesting;
+import walkingkooka.collect.Range;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -40,14 +43,14 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
     @Test
     public void testWithNullResourceNameFails() {
         this.withFails(null,
-                this.stringToId(),
+                this.selection(),
                 this.valueType(),
                 this.collectionType(),
                 this.resourceType());
     }
 
     @Test
-    public void testWithNullStringToIdFails() {
+    public void testWithNullSelectionFails() {
         this.withFails(this.resourceName(),
                 null,
                 this.valueType(),
@@ -58,7 +61,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
     @Test
     public void testWithNullValueTypeFails() {
         this.withFails(this.resourceName(),
-                this.stringToId(),
+                this.selection(),
                 null,
                 this.collectionType(),
                 this.resourceType());
@@ -67,7 +70,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
     @Test
     public void testWithNullCollectionTypeFails() {
         this.withFails(this.resourceName(),
-                this.stringToId(),
+                this.selection(),
                 this.valueType(),
                 null,
                 this.resourceType());
@@ -76,7 +79,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
     @Test
     public void testWithNullResourceTypeFails() {
         this.withFails(this.resourceName(),
-                this.stringToId(),
+                this.selection(),
                 this.valueType(),
                 this.collectionType(),
                 null);
@@ -84,12 +87,12 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
 
     private void withFails(
             final HateosResourceName resourceName,
-            final Function<String, BigInteger> stringToId,
+            final Function<String, HateosResourceSelection<BigInteger>> selection,
             final Class<TestResource> valueType,
             final Class<TestResource2> collectionType,
             final Class<TestHateosResource> resourceType) {
         assertThrows(NullPointerException.class, () -> HateosResourceMapping.with(resourceName,
-                stringToId,
+                selection,
                 valueType,
                 collectionType,
                 resourceType));
@@ -250,7 +253,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
 
     private HateosResourceMapping<BigInteger, TestResource, TestResource2, TestHateosResource> createMapping() {
         return HateosResourceMapping.with(this.resourceName(),
-                this.stringToId(),
+                this.selection(),
                 this.valueType(),
                 this.collectionType(),
                 this.resourceType());
@@ -260,8 +263,24 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
         return HateosResourceName.with("abc123");
     }
 
-    private Function<String, BigInteger> stringToId() {
-        return BigInteger::new;
+    private Function<String, HateosResourceSelection<BigInteger>> selection() {
+        return (s) -> {
+            if(s.isEmpty()) {
+                return HateosResourceSelection.none();
+            }
+            if("*".equals(s)) {
+                return HateosResourceSelection.all();
+            }
+            final int range = s.indexOf("-");
+            if(-1 != range) {
+                return HateosResourceSelection.range(Range.greaterThanEquals(new BigInteger(s.substring(0, range))).and(Range.lessThanEquals(new BigInteger(s.substring(range +1)))));
+            }
+            final int list = s.indexOf(",");
+            if(-1 == list) {
+                return HateosResourceSelection.list(Arrays.stream(s.split(",")).map(BigInteger::new).collect(Collectors.toList()));
+            }
+            return HateosResourceSelection.one(new BigInteger(s));
+        };
     }
 
     private Class<TestResource> valueType() {

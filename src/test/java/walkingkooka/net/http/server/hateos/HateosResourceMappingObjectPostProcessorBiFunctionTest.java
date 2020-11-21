@@ -33,6 +33,7 @@ import walkingkooka.util.BiFunctionTesting;
 import java.math.BigInteger;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -114,7 +115,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
         final HateosResourceName resourceName2 = this.resourceName2();
 
         final HateosResourceMapping<?, ?, ?, ?> mapping1 = HateosResourceMapping.with(resourceName1,
-                BigInteger::new,
+                this.selection(),
                 TestResource.class,
                 TestResource2.class,
                 TestHateosResource.class)
@@ -123,13 +124,17 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
                 .set(LinkRelation.SELF, HttpMethod.POST, new FakeHateosHandler<>());
 
         final HateosResourceMapping<?, ?, ?, ?> mapping2 = HateosResourceMapping.with(resourceName2,
-                BigInteger::new,
+                this.selection(),
                 TestResource.class,
                 TestResource2.class,
                 TestHateosResource2.class)
                 .set(LinkRelation.ABOUT, HttpMethod.PUT, new FakeHateosHandler<>());
 
         return Sets.of(mapping1, mapping2);
+    }
+
+    private Function<String, HateosResourceSelection<BigInteger>> selection() {
+        return s -> HateosResourceSelection.one(new BigInteger(s));
     }
 
     // ClassTesting......................................................................................................
