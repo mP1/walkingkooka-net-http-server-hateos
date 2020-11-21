@@ -21,6 +21,7 @@ import walkingkooka.collect.Range;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -36,16 +37,36 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
     Map<HttpRequestAttribute<?>, Object> NO_PARAMETERS = Maps.empty();
 
     /**
-     * Handles a resource identified by the ID.
+     * Handles a all request for the resource.
      */
-    Optional<V> handle(final Optional<I> id,
-                       final Optional<V> resource,
-                       final Map<HttpRequestAttribute<?>, Object> parameters);
+    Optional<C> handleAll(final Optional<C> resource,
+                          final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
      * Handles a resource identified by a range of ids
      */
-    Optional<C> handleCollection(final Range<I> id,
-                                 final Optional<C> resource,
-                                 final Map<HttpRequestAttribute<?>, Object> parameters);
+    Optional<C> handleList(final List<I> list,
+                           final Optional<C> resource,
+                           final Map<HttpRequestAttribute<?>, Object> parameters);
+
+    /**
+     * Handles a resource identified by the ID.
+     */
+    Optional<V> handleOne(final I id,
+                          final Optional<V> resource,
+                          final Map<HttpRequestAttribute<?>, Object> parameters);
+
+    /**
+     * Handles a resource without an id.
+     */
+    Optional<V> handleNone(final Optional<V> resource,
+                           final Map<HttpRequestAttribute<?>, Object> parameters);
+
+    /**
+     * Handles a resource identified by a range of ids
+     */
+    Optional<C> handleRange(final Range<I> range,
+                            final Optional<C> resource,
+                            final Map<HttpRequestAttribute<?>, Object> parameters);
+
 }

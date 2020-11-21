@@ -17,7 +17,9 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
+import walkingkooka.collect.list.Lists;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.CharsetName;
@@ -63,163 +65,87 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         this.router = router;
     }
 
+    /**
+     * Disassembles the path into components.
+     * <ol>
+     * <li>{@link HateosResourceName} required</li>
+     * <li>{@link HateosResourceSelection} required or empty</li>
+     * <li>{@link LinkRelation} option defaults to {@link LinkRelation#SELF}</li>
+     * </ol>
+     */
     final void dispatch() {
         this.parameters = this.request.routerParameters();
 
-        Loop:
+        final int pathIndex = this.router.consumeBasePath(this.parameters);
+        if (-1 == pathIndex) {
+            this.badRequest("Bad routing");
+        } else {
+            this.extractResourceNameOrBadRequest(pathIndex);
+        }
+    }
 
-        do {
-            // verify correctly dispatched...
-            int pathIndex = this.router.consumeBasePath(this.parameters);
-            if (-1 == pathIndex) {
-                this.badRequest("Bad routing");
-                break;
-            }
-
-            // extract resource name....................................................................................
-            final String resourceNameString = this.pathComponentOrNull(pathIndex);
-            if (CharSequences.isNullOrEmpty(resourceNameString)) {
-                this.badRequest("Missing resource name");
-                break;
-            }
-
-            HateosResourceName resourceName;
+    private void extractResourceNameOrBadRequest(final int pathIndex) {
+        final String resourceNameString = this.pathComponent(pathIndex, null);
+        if (CharSequences.isNullOrEmpty(resourceNameString)) {
+            this.badRequest("Missing resource name");
+        } else {
+            HateosResourceName resourceName = null;
             try {
                 resourceName = HateosResourceName.with(resourceNameString);
             } catch (final RuntimeException invalid) {
                 this.badRequest("Invalid resource name " + CharSequences.quoteAndEscape(resourceNameString));
-                break;
             }
+            if (null != resourceName) {
+                this.handleResourceNameOrNotFound(resourceName, pathIndex + 1);
+            }
+        }
+    }
 
-            // id or range .............................................................................................
-            final String idOrRange = this.pathComponentOrNull(pathIndex + 1);
-            if (CharSequences.isNullOrEmpty(idOrRange)) {
-                this.idMissing(resourceName, pathIndex);
-                break;
-            }
-            if ("*".equals(idOrRange)) {
-                this.wildcard(resourceName, pathIndex);
-                break;
-            }
+    private void handleResourceNameOrNotFound(final HateosResourceName resourceName,
+                                              final int pathIndex) {
+        final HateosResourceMapping<?, ?, ?, ?> mapping = this.router.resourceNameToMapping.get(resourceName);
+        if (null == mapping) {
+            this.notFound(resourceName);
+        } else {
+            this.parseSelectionOrBadRequest(mapping, pathIndex);
+        }
+    }
 
-            boolean escaped = false;
-            final StringBuilder component = new StringBuilder();
-            String begin = null;
-
-            for (char c : idOrRange.toCharArray()) {
-                if (escaped) {
-                    escaped = false;
-                    component.append(c);
-                    continue;
-                }
-                if ('\\' == c) {
-                    escaped = true;
-                    continue;
-                }
-                if (HateosResource.HATEOS_LINK_RANGE_SEPARATOR == c) {
-                    if (null == begin) {
-                        begin = component.toString();
-                        component.setLength(0);
-                        continue;
-                    }
-                    // second dash found error!!!
-                    this.badRequest("Invalid character within range " + CharSequences.quoteAndEscape(idOrRange));
-                    break Loop;
-                }
-                component.append(c);
-            }
-
-            if (null == begin) {
-                this.id(resourceName, component.toString(), pathIndex);
-                break;
-            }
-            this.collection(resourceName,
-                    begin,
-                    component.toString(),
-                    idOrRange,
-                    pathIndex);
-        } while (false);
+    private void notFound(final HateosResourceName resourceName) {
+        this.setStatus(HttpStatusCode.NOT_FOUND, this.message(resourceName));
     }
 
     /**
-     * Fetches the path component at the path index or returns null.
+     * Attempts to parse the selection which may be missing, id, range, list or all.
      */
-    private String pathComponentOrNull(final int pathIndex) {
-        return HttpRequestAttributes.pathComponent(pathIndex).parameterValue(this.parameters)
-                .map(v -> v.value())
-                .orElse(null);
-    }
+    private void parseSelectionOrBadRequest(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                            final int pathIndex) {
+        final String selectionString = this.pathComponent(pathIndex, "");
+        HateosResourceSelection<?> selection = null;
+        try {
+            selection = mapping.selection.apply(null == selectionString ? "" : selectionString);
+        } catch (final RuntimeException invalid) {
+            this.badRequest(invalid.getMessage());
+        }
 
-    // ID MISSING.......................................................................................................
-
-    private void idMissing(final HateosResourceName resourceName,
-                           final int pathIndex) {
-        final LinkRelation<?> linkRelation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex + 2);
-        if (null != linkRelation) {
-            final HateosResourceMapping<?, ?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
-            if (null != mapping) {
-                mapping.handleId0(Optional.empty(), linkRelation, this);
-            }
+        if (null != selection) {
+            this.extractLinkRelation(mapping,
+                    selection,
+                    pathIndex + 1);
         }
     }
-
-    // ID...............................................................................................................
-
-    private void id(final HateosResourceName resourceName,
-                    final String id,
-                    final int pathIndex) {
-        final LinkRelation<?> linkRelation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex + 2);
-        if (null != linkRelation) {
-            this.id0(resourceName, id, linkRelation);
-        }
-    }
-
-    private void id0(final HateosResourceName resourceName,
-                     final String idText,
-                     final LinkRelation<?> linkRelation) {
-        final HateosResourceMapping<?, ?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
-        if (null != mapping) {
-            mapping.handleId(idText, linkRelation, this);
-        }
-    }
-
-    // WILDCARD.........................................................................................................
-
-    private void wildcard(final HateosResourceName resourceName,
-                          final int pathIndex) {
-        final LinkRelation<?> linkRelation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex + 2);
-        if (null != linkRelation) {
-            final HateosResourceMapping<?, ?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
-            if (null != mapping) {
-                mapping.handleIdRange(linkRelation, this);
-            }
-        }
-    }
-
-    // COLLECTION.......................................................................................................
 
     /**
-     * Dispatches a collection resource request, but with the range outstanding and unparsed.
+     * Extracts the link relation or defaults to {@link LinkRelation#SELF}.
      */
-    private void collection(final HateosResourceName resourceName,
-                            final String begin,
-                            final String end,
-                            final String rangeText,
-                            final int pathIndex) {
-        final LinkRelation<?> linkRelation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex + 2);
-        if (null != linkRelation) {
-            final HateosResourceMapping<?, ?, ?, ?> mapping = this.handlersOrResponseNotFound(resourceName, linkRelation);
-            if (null != mapping) {
-                mapping.handleIdRange(begin,
-                        end,
-                        rangeText,
-                        linkRelation,
-                        this);
-            }
+    private void extractLinkRelation(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                     final HateosResourceSelection<?> selection,
+                                     final int pathIndex) {
+        final LinkRelation<?> relation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex);
+        if (null != relation) {
+            this.methodSupportedTest(mapping, selection, relation);
         }
     }
-
-    // HELPERS .........................................................................................................
 
     /**
      * If not empty parse the relation otherwise return a default of {@link LinkRelation#SELF}, a null indicates an invalid relation.
@@ -246,9 +172,105 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     /**
+     * Validates that the request method is supported for the given {@link HateosResourceMapping}
+     */
+    private void methodSupportedTest(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                     final HateosResourceSelection<?> selection,
+                                     final LinkRelation<?> relation) {
+        final HttpMethod method = this.request.method();
+        final List<HttpMethod> supportedMethods = mapping.relationToMethods.getOrDefault(relation, Lists.empty());
+        if (supportedMethods.contains(method)) {
+            this.locateHandlerParseRequestBodyAndDispatch(mapping, selection, relation, method);
+        } else {
+            this.methodNotAllowed(mapping.resourceName, relation, supportedMethods);
+        }
+    }
+
+    /**
+     * <a href="https://restfulapi.net/http-status-codes/"></a>
+     * <pre>
+     * 405 (Method Not Allowed)
+     * The API responds with a 405 error to indicate that the client tried to use an HTTP method that the resource does not allow. For instance, a read-only resource could support only GET and HEAD, while a controller resource might allow GET and POST, but not PUT or DELETE.
+     *
+     * A 405 response must include the Allow header, which lists the HTTP methods that the resource supports. For example:
+     *
+     * Allow: GET, POST
+     * </pre>>
+     */
+    final void methodNotAllowed(final HateosResourceName resourceName,
+                                final LinkRelation<?> relation,
+                                final List<HttpMethod> allowed) {
+        this.setStatus(HttpStatusCode.METHOD_NOT_ALLOWED,
+                this.request.method() + " " + message(resourceName, relation));
+        this.response.addEntity(HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, allowed));
+    }
+
+    /**
+     * Locatest the locateHandlerParseRequestBodyAndDispatch, attempts to parse the request body into a resource.
+     */
+    private void locateHandlerParseRequestBodyAndDispatch(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                                          final HateosResourceSelection<?> selection,
+                                                          final LinkRelation<?> relation,
+                                                          final HttpMethod method) {
+        final HateosHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, selection, relation, method);
+        if (null != handler) {
+            final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
+            if(null != resource) {
+                final Optional<?> maybeResponseResource = selection.dispatch(Cast.to(handler), resource, this.parameters);
+                String responseText = null;
+                Class<?> responseValueType = null;
+
+                if (maybeResponseResource.isPresent()) {
+                    final Object responseResource = maybeResponseResource.get();
+                    responseText = this.hateosContentType()
+                            .toText(responseResource);
+                    responseValueType = responseResource.getClass();
+                }
+
+                this.setStatusAndBody(method + " resource successful",
+                        responseText,
+                        responseValueType);
+            }
+        }
+    }
+
+    /**
+     * Attempts to locate the locateHandlerParseRequestBodyAndDispatch for the given criteria or sets the response with not found.
+     */
+    private HateosHandler<?, ?, ?> handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                                     final HateosResourceSelection<?> selection,
+                                                     final LinkRelation<?> relation,
+                                                     final HttpMethod method) {
+        final HateosHandler<?, ?, ?> handler = mapping.relationAndMethodToHandlers.get(HateosResourceMappingLinkRelationHttpMethod.with(relation, method));
+        if (null == handler) {
+            this.notFound(mapping.resourceName, relation);
+        }
+        return handler;
+    }
+
+    private void notFound(final HateosResourceName resourceName,
+                          final LinkRelation<?> linkRelation) {
+        this.setStatus(HttpStatusCode.NOT_FOUND,
+                this.message(resourceName, linkRelation));
+    }
+
+    /**
+     * Parses the request body and its JSON into a resource and then dispatches the locateHandlerParseRequestBodyAndDispatch.
+     */
+    private Optional<?> parseBodyOrBadRequest(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                              final HateosResourceSelection<?> selection) {
+        Optional<?> resource = null;
+        final String bodyText = this.resourceTextOrBadRequest();
+        if (null != bodyText) {
+            resource = this.resourceOrBadRequest(bodyText, mapping, selection);
+        }
+        return resource;
+    }
+
+    /**
      * Reads and returns the body as text, with null signifying an error occured and a bad request response set.
      */
-    String resourceTextOrBadRequest() {
+    private String resourceTextOrBadRequest() {
         final HttpRequest request = this.request;
 
         String bodyText;
@@ -288,28 +310,18 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     /**
-     * Locates the {@link HateosResourceMapping} or writes {@link HttpStatusCode#NOT_FOUND} or {@link HttpStatusCode#METHOD_NOT_ALLOWED}
-     */
-    private HateosResourceMapping<?, ?, ?, ?> handlersOrResponseNotFound(final HateosResourceName resourceName,
-                                                                         final LinkRelation<?> linkRelation) {
-        final HateosResourceMapping<?, ?, ?, ?> mapping = this.router.resourceNameToMapping.get(resourceName);
-        if (null == mapping) {
-            this.notFound(resourceName, linkRelation);
-        }
-        return mapping;
-    }
-
-    /**
      * Using the given request resource text (request body) read that into an {@link Optional optional} {@link HateosResource resource}.
      */
-    <T> Optional<T> resourceOrBadRequest(final String requestText,
-                                         final HateosContentType hateosContentType,
-                                         final Class<T> type) {
-        Optional<T> resource;
+    private Optional<?> resourceOrBadRequest(final String requestText,
+                                             final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                             final HateosResourceSelection<?> selection) {
+        Optional<?> resource;
 
         if (requestText.isEmpty()) {
             resource = Optional.empty();
         } else {
+            final HateosContentType hateosContentType = this.router.contentType;
+            final Class<?> type = selection.resourceType(mapping);
             try {
                 resource = Optional.of(hateosContentType.fromNode(requestText, type));
             } catch (final Exception cause) {
@@ -320,35 +332,23 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         return resource;
     }
 
+    /**
+     * Fetches the path component at the path index or returns null.
+     */
+    private String pathComponent(final int pathIndex, final String missing) {
+        return HttpRequestAttributes.pathComponent(pathIndex).parameterValue(this.parameters)
+                .map(v -> v.value())
+                .orElse(missing);
+    }
+
     // error reporting..................................................................................................
 
     final void badRequest(final String message) {
         this.setStatus(HttpStatusCode.BAD_REQUEST, message);
     }
 
-    /**
-     * <a href="https://restfulapi.net/http-status-codes/"></a>
-     * <pre>
-     * 405 (Method Not Allowed)
-     * The API responds with a 405 error to indicate that the client tried to use an HTTP method that the resource does not allow. For instance, a read-only resource could support only GET and HEAD, while a controller resource might allow GET and POST, but not PUT or DELETE.
-     *
-     * A 405 response must include the Allow header, which lists the HTTP methods that the resource supports. For example:
-     *
-     * Allow: GET, POST
-     * </pre>>
-     */
-    final void methodNotAllowed(final HateosResourceName resourceName,
-                                final LinkRelation<?> relation,
-                                final List<HttpMethod> allowed) {
-        this.setStatus(HttpStatusCode.METHOD_NOT_ALLOWED,
-                this.request.method() + " " + message(resourceName, relation));
-        this.response.addEntity(HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, allowed));
-    }
-
-    private void notFound(final HateosResourceName resourceName,
-                          final LinkRelation<?> linkRelation) {
-        this.setStatus(HttpStatusCode.NOT_FOUND,
-                this.message(resourceName, linkRelation));
+    private String message(final HateosResourceName resourceName) {
+        return "resource: " + resourceName;
     }
 
     private String message(final HateosResourceName resourceName,
@@ -397,8 +397,9 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
     private final static AcceptCharset UTF8 = AcceptCharset.parse("utf-8");
 
-    private void setStatus(final HttpStatusCode statusCode, final String message) {
-        this.setStatus(statusCode.setMessage(message));
+    private void setStatus(final HttpStatusCode statusCode,
+                           final String message) {
+        this.setStatus(statusCode.setMessageOrDefault(message)); // message could be null if Exception#getMessage
     }
 
     private void setStatus(final HttpStatus status) {
