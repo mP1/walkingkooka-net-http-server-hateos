@@ -69,6 +69,11 @@ final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequ
                                       final HttpStatusCode code,
                                       final Throwable cause) {
         response.setStatus(code.setMessageOrDefault(cause.getMessage()));
+        handleFailureBody(response, cause);
+    }
+
+    static void handleFailureBody(final HttpResponse response,
+                                  final Throwable cause) {
         HateosResourceMappingRouterBiConsumerStackTrace.setResponseBody(response, cause);
     }
 
