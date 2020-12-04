@@ -231,55 +231,26 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 HttpStatusCode.BAD_REQUEST.setMessage("Content-Length: 999 != body length=2 mismatch"));
     }
 
-
-    private final static HttpEntity BAD_REQUEST_ENTITY = HttpEntity.EMPTY.addHeader(HttpHeaderName.CONTENT_TYPE, MediaType.TEXT_PLAIN).setBodyText("*");
-
     @Test
     public void testBadRequestIdAndInvalidJson() {
         this.routeAndCheck("/api/resource1/0x1f/contents",
                 "!invalid json",
-                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"),
-                BAD_REQUEST_ENTITY);
+                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
     }
 
     @Test
     public void testBadRequestWildcardAndInvalidJson() {
         this.routeAndCheck("/api/resource1/*/contents",
                 "!invalid json",
-                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"),
-                BAD_REQUEST_ENTITY);
+                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
     }
 
     @Test
     public void testBadRequestRangeAndInvalidJson() {
         this.routeAndCheck("/api/resource1/0x1-0x2/contents",
                 "!invalid json",
-                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"),
-                BAD_REQUEST_ENTITY);
+                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
     }
-
-//    private void routeAndCheckBadRequest() {
-//        final HttpRequest request = this.request(method,
-//                url,
-//                headers,
-//                body);
-//        final HttpResponse response = HttpResponses.recording();
-//        final Optional<BiConsumer<HttpRequest, HttpResponse>> handle = router.route(request.routerParameters());
-//        handle.ifPresent(h -> h.accept(request, response));
-//
-//        final HttpResponse expected = HttpResponses.recording();
-//
-//        if (null != status) {
-//            expected.setStatus(status);
-//        }
-//
-//        Arrays.stream(entities)
-//                .forEach(expected::addEntity);
-//
-//        assertEquals(expected,
-//                response,
-//                () -> request.toString());
-//    }
 
     // not implement....................................................................................................
 
@@ -1046,10 +1017,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
             expected.setStatus(status);
         }
 
-        if (entities.length == 1 && entities[0] == BAD_REQUEST_ENTITY) {
+        if (status.value().equals(HttpStatusCode.BAD_REQUEST) && response.entities().size() == 1) {
             assertEquals(status, expected.status().orElse(null), "status");
 
-            final HttpEntity entity = entities[0];
+            final HttpEntity entity = response.entities().get(0);
             assertEquals(Lists.of(MediaType.TEXT_PLAIN), entity.headers().get(HttpHeaderName.CONTENT_TYPE), () -> "content-type\n" + expected);
             assertNotEquals(Lists.empty(), entity.headers().get(HttpHeaderName.CONTENT_TYPE), () -> "content-type\n" + expected);
             assertNotEquals("", entity.bodyText(), () -> "body\n" + expected);

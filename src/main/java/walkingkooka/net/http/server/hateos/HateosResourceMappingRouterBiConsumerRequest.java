@@ -93,7 +93,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             try {
                 resourceName = HateosResourceName.with(resourceNameString);
             } catch (final RuntimeException invalid) {
-                this.badRequest("Invalid resource name " + CharSequences.quoteAndEscape(resourceNameString));
+                this.badRequest("Invalid resource name " + CharSequences.quoteAndEscape(resourceNameString), invalid);
             }
             if (null != resourceName) {
                 this.handleResourceNameOrNotFound(resourceName, pathIndex + 1);
@@ -125,7 +125,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         try {
             selection = mapping.selection.apply(null == selectionString ? "" : selectionString);
         } catch (final RuntimeException invalid) {
-            this.badRequest(invalid.getMessage());
+            this.badRequest(invalid.getMessage(), invalid);
         }
 
         if (null != selection) {
@@ -163,7 +163,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                     relation = LinkRelation.with(relationString);
                 } catch (final RuntimeException invalid) {
                     relation = null;
-                    this.badRequest("Invalid link relation " + CharSequences.quoteAndEscape(relationString));
+                    this.badRequest("Invalid link relation " + CharSequences.quoteAndEscape(relationString), invalid);
                 }
             }
         }
@@ -277,7 +277,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         try {
             bodyText = request.bodyText();
         } catch (final RuntimeException cause) {
-            this.badRequest("Invalid content: " + cause.getMessage());
+            this.badRequest("Invalid content: " + cause.getMessage(), cause);
             bodyText = null;
         }
 
