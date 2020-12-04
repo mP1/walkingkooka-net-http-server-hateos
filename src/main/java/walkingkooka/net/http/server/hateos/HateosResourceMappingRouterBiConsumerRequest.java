@@ -325,7 +325,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             try {
                 resource = Optional.of(hateosContentType.fromNode(requestText, type));
             } catch (final Exception cause) {
-                this.badRequest("Invalid " + hateosContentType + ": " + cause.getMessage());
+                this.badRequest("Invalid " + hateosContentType + ": " + cause.getMessage(), cause);
                 resource = null;
             }
         }
@@ -354,6 +354,15 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     private String message(final HateosResourceName resourceName,
                            final LinkRelation<?> linkRelation) {
         return "resource: " + resourceName + ", link relation: " + linkRelation;
+    }
+
+    /**
+     * Reports a bad request with the body filled with the stack trace of the provided {@link Throwable}.
+     */
+    final void badRequest(final String message,
+                          final Throwable cause) {
+        this.badRequest(message);
+        HateosResourceMappingRouterBiConsumer.handleFailureBody(this.response, cause);
     }
 
     /**
