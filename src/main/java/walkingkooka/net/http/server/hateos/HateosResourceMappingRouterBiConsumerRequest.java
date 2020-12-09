@@ -36,7 +36,6 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.CharSequences;
-import walkingkooka.tree.Node;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -218,18 +217,14 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             if(null != resource) {
                 final Optional<?> maybeResponseResource = selection.dispatch(Cast.to(handler), resource, this.parameters);
                 String responseText = null;
-                Class<?> responseValueType = null;
 
                 if (maybeResponseResource.isPresent()) {
                     final Object responseResource = maybeResponseResource.get();
                     responseText = this.hateosContentType()
                             .toText(responseResource);
-                    responseValueType = responseResource.getClass();
                 }
 
-                this.setStatusAndBody(method + " resource successful",
-                        responseText,
-                        responseValueType);
+                this.setStatusAndBody(responseText, selection.resourceType(mapping), method);
             }
         }
     }
@@ -366,32 +361,38 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     /**
-     * Sets the status to successful and body to the bytes of the encoded text of {@link Node}.
+     * Sets the status and message to match the content.
      */
-    void setStatusAndBody(final String message,
-                          final String content,
-                          final Class<?> contentValueType) {
+    void setStatusAndBody(final String content,
+                          final Class<?> contentValueType,
+                          final HttpMethod method) {
+
+        final HttpStatusCode statusCode;
+        final String contentTypeText = contentValueType.getSimpleName();
+
+        HttpEntity entity;
         if (null != content) {
-            this.setStatusAndBody0(message, content, contentValueType);
+            statusCode = HttpStatusCode.OK;
+
+            final CharsetName charsetName = this.selectCharsetName();
+            final HateosContentType hateosContentType = this.hateosContentType();
+            final MediaType contentType = hateosContentType.contentType();
+
+            entity = HttpEntity.EMPTY
+                    .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(charsetName))
+                    .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, contentTypeText) // this header is used a hint about the response.
+                    .setBodyText(content)
+                    .setContentLength();
         } else {
-            this.setStatus(HttpStatusCode.NO_CONTENT, message);
+            statusCode = HttpStatusCode.NO_CONTENT;
+            entity = HttpEntity.EMPTY;
         }
-    }
 
-    private void setStatusAndBody0(final String message,
-                                   final String content,
-                                   final Class<?> contentValueType) {
-        this.setStatus(HttpStatusCode.OK, message);
+        this.setStatus(statusCode.setMessage(method + " " + contentTypeText + " " + statusCode.status().message()));
 
-        final CharsetName charsetName = this.selectCharsetName();
-        final HateosContentType hateosContentType = this.hateosContentType();
-        final MediaType contentType = hateosContentType.contentType();
-
-        this.response.addEntity(HttpEntity.EMPTY
-                .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(charsetName))
-                .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, contentValueType.getSimpleName()) // this header is used a hint about the response.
-                .setBodyText(content)
-                .setContentLength());
+        if(!entity.isEmpty()) {
+            this.response.addEntity(entity);
+        }
     }
 
     private CharsetName selectCharsetName() {

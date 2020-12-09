@@ -457,7 +457,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     // id request.......................................................................................................
 
-    private final static String RESOURCE_SUCCESSFUL = HttpMethod.POST + " resource successful";
+    private final static String RESOURCE_SUCCESSFUL = HttpMethod.POST + " " + TestResource.class.getSimpleName() + " No content";
 
     @Test
     public void testRequestResourceBodyAbsentId() {
@@ -691,7 +691,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123/contents",
                 NO_BODY,
-                HttpStatusCode.OK.status().setMessage(RESOURCE_SUCCESSFUL),
+                HttpStatusCode.OK.status().setMessage("POST " + TestResource.class.getSimpleName() + " OK"),
                 this.httpEntity(RESOURCE_OUT));
     }
 
@@ -725,7 +725,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123-0x456/contents",
                 NO_BODY,
-                HttpStatusCode.OK.status().setMessage(RESOURCE_SUCCESSFUL),
+                HttpStatusCode.OK.status().setMessage("POST " + TestResource.class.getSimpleName() + " OK"),
                 this.httpEntity(COLLECTION_RESOURCE_OUT));
     }
 
