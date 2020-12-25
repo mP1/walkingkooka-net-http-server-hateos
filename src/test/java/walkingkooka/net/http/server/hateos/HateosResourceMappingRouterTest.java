@@ -1138,7 +1138,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private byte[] bytes(final String body,
                          final HttpRequest request) {
         return bytes(body,
-                HttpHeaderName.CONTENT_TYPE.headerValueOrFail(request));
+                HttpHeaderName.CONTENT_TYPE.headerOrFail(request));
     }
 
     private byte[] bytes(final String body,
