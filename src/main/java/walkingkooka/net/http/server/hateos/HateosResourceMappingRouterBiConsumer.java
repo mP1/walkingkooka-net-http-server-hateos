@@ -17,6 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpResponse;
@@ -69,12 +70,7 @@ final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequ
                                       final HttpStatusCode code,
                                       final Throwable cause) {
         response.setStatus(code.setMessageOrDefault(cause.getMessage()));
-        handleFailureBody(response, cause);
-    }
-
-    static void handleFailureBody(final HttpResponse response,
-                                  final Throwable cause) {
-        HateosResourceMappingRouterBiConsumerStackTrace.setResponseBody(response, cause);
+        response.addEntity(HttpEntity.dumpStackTrace(cause));
     }
 
     private final HateosResourceMappingRouter router;

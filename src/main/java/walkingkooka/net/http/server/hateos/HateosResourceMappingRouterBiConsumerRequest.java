@@ -357,7 +357,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     final void badRequest(final String message,
                           final Throwable cause) {
         this.badRequest(message);
-        HateosResourceMappingRouterBiConsumer.handleFailureBody(this.response, cause);
+        response.addEntity(HttpEntity.dumpStackTrace(cause));
     }
 
     /**
