@@ -21,6 +21,7 @@ import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.net.UrlPathName;
+import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.HttpHeaderName;
@@ -215,16 +216,19 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         if (null != handler) {
             final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
             if(null != resource) {
-                final Optional<?> maybeResponseResource = selection.dispatch(Cast.to(handler), resource, this.parameters);
-                String responseText = null;
+                final Accept accept = this.acceptCompatibleOrBadRequest();
+                if(null != accept) {
+                    final Optional<?> maybeResponseResource = selection.dispatch(Cast.to(handler), resource, this.parameters);
+                    String responseText = null;
 
-                if (maybeResponseResource.isPresent()) {
-                    final Object responseResource = maybeResponseResource.get();
-                    responseText = this.hateosContentType()
-                            .toText(responseResource);
+                    if (maybeResponseResource.isPresent()) {
+                        final Object responseResource = maybeResponseResource.get();
+                        responseText = this.hateosContentType()
+                                .toText(responseResource);
+                    }
+
+                    this.setStatusAndBody(responseText, selection.resourceType(mapping), method);
                 }
-
-                this.setStatusAndBody(responseText, selection.resourceType(mapping), method);
             }
         }
     }
@@ -325,6 +329,23 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             }
         }
         return resource;
+    }
+
+    private Accept acceptCompatibleOrBadRequest() {
+        final HttpHeaderName<Accept> header = HttpHeaderName.ACCEPT;
+        Accept accept = header.header(this.request)
+                .orElse(null);
+        if (null == accept) {
+            this.badRequest("Missing " + HttpHeaderName.ACCEPT);
+        } else {
+            final MediaType contentType = this.hateosContentType().contentType();
+            if (!accept.test(contentType)) {
+                this.badRequest("Header " + header + " expected " + contentType + " got " + accept);
+                accept = null;
+            }
+        }
+
+        return accept;
     }
 
     /**
