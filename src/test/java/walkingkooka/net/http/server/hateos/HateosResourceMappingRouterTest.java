@@ -252,6 +252,26 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
     }
 
+    @Test
+    public void testMissingAccept() {
+        this.routeAndCheck(this.createRouter(),
+                HttpMethod.POST,
+                "/api/resource1/0x1f/contents",
+                map(HttpHeaderName.CONTENT_TYPE, this.contentType(), HttpHeaderName.CONTENT_LENGTH, 2L),
+                "{}",
+                HttpStatusCode.BAD_REQUEST.setMessage("Missing Accept@@"));
+    }
+
+    @Test
+    public void testIncompatibleAccept() {
+        this.routeAndCheck(this.createRouter(),
+                HttpMethod.POST,
+                "/api/resource1/0x1f/contents",
+                map(HttpHeaderName.ACCEPT, MediaType.TEXT_PLAIN, HttpHeaderName.CONTENT_LENGTH, 2L, HttpHeaderName.CONTENT_TYPE, this.contentType()),
+                "{}",
+                HttpStatusCode.BAD_REQUEST.setMessage("Expected"));
+    }
+
     // not implement....................................................................................................
 
     @Test
@@ -427,6 +447,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
         final MediaType contentType = this.contentType();
         final Map<HttpHeaderName<?>, List<?>> headers = Maps.sorted();
+        headers.put(HttpHeaderName.ACCEPT, Lists.of(contentType.accept()));
         headers.put(HttpHeaderName.ACCEPT_CHARSET, list(AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText())));
         headers.put(HttpHeaderName.CONTENT_TYPE, list(contentType));
 
@@ -777,6 +798,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
             @Override
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(HttpHeaderName.CONTENT_TYPE, Lists.of(HateosContentType.JSON_CONTENT_TYPE),
+                        HttpHeaderName.ACCEPT, Lists.of(HateosContentType.JSON_CONTENT_TYPE.accept()),
                         HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8")));
             }
 
@@ -979,6 +1001,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                                final HttpStatus status,
                                final HttpEntity... entities) {
         final Map<HttpHeaderName<?>, List<?>> headers = Maps.sorted();
+        headers.put(HttpHeaderName.ACCEPT, Lists.of(HateosContentType.JSON_CONTENT_TYPE.accept()));
         headers.put(HttpHeaderName.ACCEPT_CHARSET, list(AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText())));
         headers.put(HttpHeaderName.CONTENT_TYPE, list(contentType));
 
@@ -1052,6 +1075,12 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header1, final Object value1,
                                                 final HttpHeaderName<?> header2, final Object value2) {
         return Maps.of(header1, list(value1), header2, list(value2));
+    }
+
+    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header1, final Object value1,
+                                                final HttpHeaderName<?> header2, final Object value2,
+                                                final HttpHeaderName<?> header3, final Object value3) {
+        return Maps.of(header1, list(value1), header2, list(value2), header3, list(value3));
     }
 
     private <T> List<T> list(final T...values) {
