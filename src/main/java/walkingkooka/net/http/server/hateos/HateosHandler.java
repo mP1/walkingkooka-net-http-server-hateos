@@ -23,6 +23,7 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -69,4 +70,58 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
                             final Optional<C> resource,
                             final Map<HttpRequestAttribute<?>, Object> parameters);
 
+    // parameter checkers...............................................................................................
+
+    /**
+     * Complains if the id is null.
+     */
+    static void checkId(final Comparable<?> id) {
+        Objects.requireNonNull(id, "id");
+    }
+
+    /**
+     * Complains if the {@link List} is null.
+     */
+    static void checkList(final List<?> list) {
+        Objects.requireNonNull(list, "list");
+    }
+    
+    /**
+     * Complains if the {@link Range} is null.
+     */
+    static void checkRange(final Range<?> range) {
+        Objects.requireNonNull(range, "range");
+    }
+
+    /**
+     * Complains if the resource is null.
+     */
+    static void checkResource(final Optional<?> resource) {
+        Objects.requireNonNull(resource, "resource");
+    }
+
+    /**
+     * Complains if the resource is null or present.
+     */
+    static void checkResourceEmpty(final Optional<?> resource) {
+        checkResource(resource);
+        resource.ifPresent((r) -> {
+            throw new IllegalArgumentException("Resource not allowed=" + r);
+        });
+    }
+
+    /**
+     * Complains if the resource is absent.
+     */
+    static <T> T checkResourceNotEmpty(final Optional<T> resource) {
+        checkResource(resource);
+        return resource.orElseThrow(() -> new IllegalArgumentException("Required resource missing"));
+    }
+
+    /**
+     * Checks parameters are present.
+     */
+    static void checkParameters(final Map<HttpRequestAttribute<?>, Object> parameters) {
+        Objects.requireNonNull(parameters, "parameters");
+    }
 }
