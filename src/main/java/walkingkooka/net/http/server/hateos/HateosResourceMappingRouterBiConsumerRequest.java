@@ -430,7 +430,11 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
     private void setStatus(final HttpStatusCode statusCode,
                            final String message) {
-        this.setStatus(statusCode.setMessageOrDefault(message)); // message could be null if Exception#getMessage
+        this.setStatus(
+                statusCode.setMessageOrDefault(
+                        HttpStatus.firstLineOfText(message)
+                )
+        ); // message could be null if Exception#getMessage
     }
 
     private void setStatus(final HttpStatus status) {

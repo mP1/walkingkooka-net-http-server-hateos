@@ -352,7 +352,8 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     // internal server error............................................................................................
 
-    private final static String INTERNAL_SERVER_ERROR_MESSAGE = "Because 123";
+    private final static String INTERNAL_SERVER_ERROR_MESSAGE = "Because 123\nline 2";
+    private final static String INTERNAL_SERVER_ERROR_MESSAGE_FIRST_LINE = HttpStatus.firstLineOfText(INTERNAL_SERVER_ERROR_MESSAGE);
 
     @Test
     public void testInternalServerErrorId() {
@@ -366,7 +367,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x1/contents",
                 NO_BODY,
-                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE),
+                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE_FIRST_LINE),
                 RuntimeException.class,
                 INTERNAL_SERVER_ERROR_MESSAGE);
     }
@@ -382,7 +383,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/*/contents",
                 NO_BODY,
-                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE),
+                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE_FIRST_LINE),
                 RuntimeException.class,
                 INTERNAL_SERVER_ERROR_MESSAGE);
     }
@@ -399,7 +400,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x1-0x2/contents",
                 NO_BODY,
-                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE),
+                HttpStatusCode.INTERNAL_SERVER_ERROR.status().setMessage(INTERNAL_SERVER_ERROR_MESSAGE_FIRST_LINE),
                 RuntimeException.class,
                 INTERNAL_SERVER_ERROR_MESSAGE);
     }
