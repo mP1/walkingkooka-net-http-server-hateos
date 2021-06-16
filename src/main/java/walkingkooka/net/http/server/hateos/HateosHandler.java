@@ -39,12 +39,18 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
 
     /**
      * Handles a all request for the resource.
+     * <pre>
+     * /resource/*
+     * </pre>>
      */
     Optional<C> handleAll(final Optional<C> resource,
                           final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
-     * Handles a resource identified by a range of ids
+     * Handles a resource identified by a list of ids
+     * <pre>
+     * /resource/1,20,300
+     * </pre>>
      */
     Optional<C> handleList(final List<I> list,
                            final Optional<C> resource,
@@ -52,6 +58,9 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
 
     /**
      * Handles a resource identified by the ID.
+     * <pre>
+     * /resource/123
+     * </pre>>
      */
     Optional<V> handleOne(final I id,
                           final Optional<V> resource,
@@ -59,12 +68,18 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
 
     /**
      * Handles a resource without an id.
+     * <pre>
+     * /resource
+     * </pre>>
      */
     Optional<V> handleNone(final Optional<V> resource,
                            final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
      * Handles a resource identified by a range of ids
+     * <pre>
+     * /resource/12-34
+     * </pre>>
      */
     Optional<C> handleRange(final Range<I> range,
                             final Optional<C> resource,
