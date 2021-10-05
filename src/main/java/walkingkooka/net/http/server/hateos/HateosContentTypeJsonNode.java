@@ -60,7 +60,7 @@ final class HateosContentTypeJsonNode extends HateosContentType {
      * Reads a resource object from its {@link JsonNode} representation.
      */
     @Override
-    <T> T fromNode(final String text,
+    <T> T fromText(final String text,
                    final Class<T> type) {
         return this.unmarshallContext.unmarshall(JsonNode.parse(text), type);
     }
