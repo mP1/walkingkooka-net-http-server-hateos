@@ -334,7 +334,9 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             final HateosContentType hateosContentType = this.router.contentType;
             final Class<?> type = selection.resourceType(mapping);
             try {
-                resource = Optional.of(hateosContentType.fromNode(requestText, type));
+                resource = Optional.of(
+                        hateosContentType.fromText(requestText, type)
+                );
             } catch (final Exception cause) {
                 this.badRequest("Invalid " + hateosContentType + ": " + cause.getMessage(), cause);
                 resource = null;

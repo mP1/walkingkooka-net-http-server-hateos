@@ -53,9 +53,9 @@ public abstract class HateosContentType {
     public abstract MediaType contentType();
 
     /**
-     * Reads a value from its {@link String text} representation.
+     * Reads a value from its {@link String text} representation into an object.
      */
-    abstract <T> T fromNode(final String text,
+    abstract <T> T fromText(final String text,
                             final Class<T> type);
 
     /**

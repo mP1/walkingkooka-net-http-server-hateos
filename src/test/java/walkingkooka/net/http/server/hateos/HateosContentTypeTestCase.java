@@ -55,7 +55,7 @@ public abstract class HateosContentTypeTestCase<C extends HateosContentType> imp
                                 final TestHateosResource resource) {
         assertEquals(resource,
                 this.hateosContentType()
-                        .fromNode(text, resourceType),
+                        .fromText(text, resourceType),
                 () -> "fromNode failed: " + text);
     }
 
