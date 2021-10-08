@@ -479,8 +479,6 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     // id request.......................................................................................................
 
-    private final static String RESOURCE_SUCCESSFUL = HttpMethod.POST + " " + TestResource.class.getSimpleName() + " No content";
-
     @Test
     public void testRequestResourceBodyAbsentId() {
         this.routeAndCheck(new FakeHateosHandler<>() {
@@ -496,7 +494,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123/contents",
                 NO_BODY,
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -514,7 +512,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123/contents",
                 "",
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -532,7 +530,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123/contents",
                 this.toJson(RESOURCE_IN),
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -552,7 +550,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource1/0x123/contents",
                 this.contentTypeUtf16(),
                 this.toJson(RESOURCE_IN),
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     private void checkId(final BigInteger id) {
@@ -579,7 +577,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/*/contents",
                 NO_BODY,
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -595,7 +593,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/*/contents",
                 "",
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -603,7 +601,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         this.routeAndCheck(new FakeHateosHandler<>() {
                                @Override
                                public Optional<TestResource> handleAll(final Optional<TestResource> resource,
-                                                                         final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                                                       final Map<HttpRequestAttribute<?>, Object> parameters) {
                                    checkResource(resource, Optional.of(COLLECTION_RESOURCE_IN));
 
                                    return Optional.empty();
@@ -611,7 +609,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/*/contents",
                 this.toJson(COLLECTION_RESOURCE_IN),
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     // range request....................................................................................................
@@ -632,7 +630,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123-0x456/contents",
                 NO_BODY,
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -650,7 +648,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123-0x456/contents",
                 "",
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -668,7 +666,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123-0x456/contents",
                 this.toJson(COLLECTION_RESOURCE_IN),
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     private void checkRange(final Range<BigInteger> id) {
@@ -698,7 +696,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123/contents",
                 NO_BODY,
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -713,7 +711,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123/contents",
                 NO_BODY,
-                HttpStatusCode.OK.status().setMessage("POST " + TestResource.class.getSimpleName() + " OK"),
+                HttpStatusCode.OK.status(),
                 this.httpEntity(RESOURCE_OUT));
     }
 
@@ -732,7 +730,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123-0x456/contents",
                 NO_BODY,
-                HttpStatusCode.NO_CONTENT.status().setMessage(RESOURCE_SUCCESSFUL));
+                HttpStatusCode.NO_CONTENT.status());
     }
 
     @Test
@@ -747,7 +745,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                            },
                 "/api/resource1/0x123-0x456/contents",
                 NO_BODY,
-                HttpStatusCode.OK.status().setMessage("POST " + TestResource.class.getSimpleName() + " OK"),
+                HttpStatusCode.OK.status(),
                 this.httpEntity(COLLECTION_RESOURCE_OUT));
     }
 

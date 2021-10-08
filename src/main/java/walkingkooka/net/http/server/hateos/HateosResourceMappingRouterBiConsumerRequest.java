@@ -404,7 +404,6 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                           final HttpMethod method) {
 
         final HttpStatusCode statusCode;
-        final String contentTypeText = contentValueType.getSimpleName();
 
         final HttpEntity entity;
         if (null != content) {
@@ -416,7 +415,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
             entity = HttpEntity.EMPTY
                     .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(charsetName))
-                    .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, contentTypeText) // this header is used a hint about the response.
+                    .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, contentValueType.getSimpleName()) // this header is used a hint about the response.
                     .setBodyText(content)
                     .setContentLength();
         } else {
@@ -424,7 +423,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             entity = HttpEntity.EMPTY;
         }
 
-        this.setStatus(statusCode.setMessage(method + " " + contentTypeText + " " + statusCode.status().message()));
+        this.setStatus(statusCode.status());
 
         if(!entity.isEmpty()) {
             this.response.addEntity(entity);
