@@ -82,16 +82,17 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     private boolean canHandle(final Map<HttpRequestAttribute<?>, Object> parameters) {
         // Optional.stream is not supported in J2cl hence the alternative.
         return HttpHeaderName.CONTENT_TYPE.parameterValue(parameters)
-                .map(this::isContentTypeCompatible).orElse(false) &&
+                .map(this::isContentTypeCompatible)
+                .orElse(false) &&
                 -1 != this.consumeBasePath(parameters);
     }
 
     /**
-     * Only returns true if the hateos content type and the given {@link MediaType} match less any parameters.
+     * Only returns true if the hateos content type and the given {@link MediaType} are compatible.
      */
     private boolean isContentTypeCompatible(final MediaType possible) {
-        final MediaType contentType = this.contentType.contentType();
-        return contentType.setParameters(MediaType.NO_PARAMETERS).equals(possible.setParameters(MediaType.NO_PARAMETERS));
+        return this.contentType.contentType()
+                .test(possible);
     }
 
     /**
