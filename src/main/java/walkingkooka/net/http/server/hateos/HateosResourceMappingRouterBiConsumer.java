@@ -17,9 +17,6 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.net.http.HttpEntity;
-import walkingkooka.net.http.HttpStatus;
-import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.tree.Node;
@@ -52,33 +49,11 @@ final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequ
         Objects.requireNonNull(request, "request");
         Objects.requireNonNull(response, "response");
 
-        try {
-            HateosResourceMappingRouterBiConsumerRequest.with(request, response, this.router)
-                    .dispatch();
-        } catch (final UnsupportedOperationException unsupported) {
-            handleFailure(response, HttpStatusCode.NOT_IMPLEMENTED, unsupported);
-        } catch (final IllegalArgumentException badRequest) {
-            handleFailure(response, HttpStatusCode.BAD_REQUEST, badRequest);
-        } catch (final RuntimeException internal) {
-            handleFailure(response, HttpStatusCode.INTERNAL_SERVER_ERROR, internal);
-        }
-    }
-
-    /**
-     * Updates the response with the given code and the message from the {@link Throwable}. The body of the response is set to the stacktrace.
-     */
-    private static void handleFailure(final HttpResponse response,
-                                      final HttpStatusCode code,
-                                      final Throwable cause) {
-        final String message = cause.getMessage();
-        response.setStatus(
-                code.setMessageOrDefault(
-                        null != message ?
-                        HttpStatus.firstLineOfText(cause.getMessage()) :
-                        message
-                )
-        );
-        response.addEntity(HttpEntity.dumpStackTrace(cause));
+        HateosResourceMappingRouterBiConsumerRequest.with(
+                request,
+                response,
+                this.router
+        ).dispatch();
     }
 
     private final HateosResourceMappingRouter router;
