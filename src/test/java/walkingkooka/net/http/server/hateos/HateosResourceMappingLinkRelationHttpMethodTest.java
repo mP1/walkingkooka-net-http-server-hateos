@@ -22,7 +22,6 @@ import walkingkooka.compare.ComparableTesting2;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingLinkRelationHttpMethodTest extends HateosResourceMappingTestCase2<HateosResourceMappingLinkRelationHttpMethod>
@@ -57,7 +56,7 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
 
     @Test
     public void testToString() {
-        assertEquals("self GET", this.createComparable().toString());
+        this.checkEquals("self GET", this.createComparable().toString());
     }
 
     @Override

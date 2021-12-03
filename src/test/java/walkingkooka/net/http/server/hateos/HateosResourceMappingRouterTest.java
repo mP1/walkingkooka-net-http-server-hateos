@@ -61,8 +61,6 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingRouterTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouter>
@@ -107,7 +105,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private void routeFails(final HttpRequest request) {
-        assertEquals(Optional.empty(),
+        this.checkEquals(Optional.empty(),
                 this.createRouter()
                         .route(request.routerParameters()),
                 () -> "" + request);
@@ -465,7 +463,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 () -> router.route(request.routerParameters()).get()
                         .accept(request, HttpResponses.fake())
         );
-        assertEquals(thrownMessage, thrown.getMessage(), "message");
+        this.checkEquals(thrownMessage, thrown.getMessage(), "message");
     }
 
     // id request.......................................................................................................
@@ -549,7 +547,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private void checkId(final BigInteger id, final BigInteger expected) {
-        assertEquals(expected, id, "id");
+        this.checkEquals(expected, id, "id");
     }
 
     // all request.................................................................................................
@@ -665,11 +663,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private void checkId(final Range<BigInteger> id, final Range<BigInteger> expected) {
-        assertEquals(expected, id, "id");
+        this.checkEquals(expected, id, "id");
     }
 
     private <T> void checkResource(final Optional<T> resource, final Optional<T> expected) {
-        assertEquals(expected, resource, "resource");
+        this.checkEquals(expected, resource, "resource");
     }
 
     // response id......................................................................................................
@@ -816,7 +814,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
         final HttpResponse response = HttpResponses.recording();
         target.accept(request, response);
-        assertEquals("{\n" +
+        this.checkEquals("{\n" +
                 "  \"type\": \"test-HateosResource\",\n" +
                 "  \"value\": {\n" +
                 "    \"id\": \"31\"\n" +
@@ -1031,18 +1029,18 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         }
 
         if (status.value().equals(HttpStatusCode.BAD_REQUEST) && response.entities().size() == 1) {
-            assertEquals(status, expected.status().orElse(null), "status");
+            this.checkEquals(status, expected.status().orElse(null), "status");
 
             final HttpEntity entity = response.entities().get(0);
-            assertEquals(Lists.of(MediaType.TEXT_PLAIN), entity.headers().get(HttpHeaderName.CONTENT_TYPE), () -> "content-type\n" + expected);
-            assertNotEquals(Lists.empty(), entity.headers().get(HttpHeaderName.CONTENT_TYPE), () -> "content-type\n" + expected);
-            assertNotEquals("", entity.bodyText(), () -> "body\n" + expected);
+            this.checkEquals(Lists.of(MediaType.TEXT_PLAIN), entity.headers().get(HttpHeaderName.CONTENT_TYPE), () -> "content-type\n" + expected);
+            this.checkNotEquals(Lists.empty(), entity.headers().get(HttpHeaderName.CONTENT_TYPE), () -> "content-type\n" + expected);
+            this.checkNotEquals("", entity.bodyText(), () -> "body\n" + expected);
 
         } else {
             Arrays.stream(entities)
                     .forEach(expected::addEntity);
 
-            assertEquals(expected,
+            this.checkEquals(expected,
                     response,
                     () -> request.toString());
         }

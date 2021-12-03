@@ -25,7 +25,6 @@ import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceIdRangeVisitorTest implements RangeVisitorTesting<HateosResourceIdRangeVisitor<BigInteger>, BigInteger> {
@@ -80,7 +79,7 @@ public final class HateosResourceIdRangeVisitorTest implements RangeVisitorTesti
     }
 
     private void idForHateosLinkAndCheck(final Range<BigInteger> range, final String text) {
-        assertEquals(text,
+        this.checkEquals(text,
                 HateosResourceIdRangeVisitor.hateosLinkId(range, HateosResourceIdRangeVisitorTest::idForHateosLink),
                 () -> "" + range);
     }
