@@ -24,8 +24,6 @@ import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public abstract class HateosContentTypeTestCase<C extends HateosContentType> implements ClassTesting2<C>,
         ToStringTesting<C>,
         TypeNameTesting<C> {
@@ -36,7 +34,7 @@ public abstract class HateosContentTypeTestCase<C extends HateosContentType> imp
 
     @Test
     public final void testContentType() {
-        assertEquals(this.contentType(), this.hateosContentType().contentType());
+        this.checkEquals(this.contentType(), this.hateosContentType().contentType());
     }
 
     abstract MediaType contentType();
@@ -53,7 +51,7 @@ public abstract class HateosContentTypeTestCase<C extends HateosContentType> imp
     final void fromNodeAndCheck(final String text,
                                 final Class<TestHateosResource> resourceType,
                                 final TestHateosResource resource) {
-        assertEquals(resource,
+        this.checkEquals(resource,
                 this.hateosContentType()
                         .fromText(text, resourceType),
                 () -> "fromNode failed: " + text);
@@ -61,7 +59,7 @@ public abstract class HateosContentTypeTestCase<C extends HateosContentType> imp
 
     final void toTextAndCheck(final HateosResource<?> resource,
                               final String text) {
-        assertEquals(text,
+        this.checkEquals(text,
                 this.hateosContentType().toText(resource),
                 () -> "toText failed: " + resource);
     }

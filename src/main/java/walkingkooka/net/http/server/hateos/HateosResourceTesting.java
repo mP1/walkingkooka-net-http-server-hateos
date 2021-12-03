@@ -20,8 +20,6 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.reflect.ClassTesting2;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * Mixin interface for testing {@link HateosResource}
  */
@@ -34,7 +32,7 @@ public interface HateosResourceTesting<H extends HateosResource> extends ClassTe
     }
 
     default void hateosLinkIdAndCheck(final HateosResource<?> resource, final String expected) {
-        assertEquals(expected,
+        this.checkEquals(expected,
                 resource.hateosLinkId(),
                 () -> resource + " hateosLinkId");
     }

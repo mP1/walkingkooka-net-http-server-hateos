@@ -35,8 +35,6 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extends HateosResourceMappingTestCase2<HateosResourceMappingObjectPostProcessorBiFunction>
         implements BiFunctionTesting<HateosResourceMappingObjectPostProcessorBiFunction, Object, JsonObject, JsonObject> {
 
@@ -75,7 +73,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
 
     private void marshallAndCheck(final Object resource,
                                   final JsonNode json) {
-        assertEquals(json,
+        this.checkEquals(json,
                 JsonNodeMarshallContexts.basic()
                         .setObjectPostProcessor(this.createBiFunction()).marshall(resource),
                 () -> resource.toString());

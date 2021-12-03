@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -225,7 +224,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
 
     private void check(final HateosResourceMapping<BigInteger, TestResource, TestResource2, TestHateosResource> mapping,
                        final Map<HateosResourceMappingLinkRelationHttpMethod, HateosHandler<BigInteger, TestResource, TestResource2>> relationAndMethodToHandler) {
-        assertEquals(relationAndMethodToHandler,
+        this.checkEquals(relationAndMethodToHandler,
                 mapping.relationAndMethodToHandlers,
                 "relationAndMethodToHandlers");
     }

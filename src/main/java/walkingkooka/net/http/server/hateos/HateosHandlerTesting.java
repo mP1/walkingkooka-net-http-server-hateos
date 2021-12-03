@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -87,7 +86,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                                    final Optional<C> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
                                    final Optional<C> expected) {
-        assertEquals(expected, handler.handleAll(resource, parameters));
+        this.checkEquals(expected, handler.handleAll(resource, parameters));
     }
 
     // handleList.......................................................................................................
@@ -153,7 +152,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
                                     final Optional<C> expected) {
-        assertEquals(expected, handler.handleList(list, resource, parameters));
+        this.checkEquals(expected, handler.handleList(list, resource, parameters));
     }
 
     // handleNone.......................................................................................................
@@ -203,7 +202,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                                     final Optional<V> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
                                     final Optional<V> expected) {
-        assertEquals(expected, handler.handleNone(resource, parameters));
+        this.checkEquals(expected, handler.handleNone(resource, parameters));
     }
 
     // handleOne.......................................................................................................
@@ -269,7 +268,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                                    final Optional<V> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
                                    final Optional<V> expected) {
-        assertEquals(expected, handler.handleOne(id, resource, parameters));
+        this.checkEquals(expected, handler.handleOne(id, resource, parameters));
     }
 
     // handleRange.......................................................................................................
@@ -335,7 +334,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                                      final Optional<C> resource,
                                      final Map<HttpRequestAttribute<?>, Object> parameters,
                                      final Optional<C> expected) {
-        assertEquals(expected, handler.handleRange(range, resource, parameters));
+        this.checkEquals(expected, handler.handleRange(range, resource, parameters));
     }
 
     // helpers..........................................................................................................

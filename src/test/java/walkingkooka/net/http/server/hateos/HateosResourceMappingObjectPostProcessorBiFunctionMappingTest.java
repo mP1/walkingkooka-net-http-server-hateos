@@ -30,8 +30,6 @@ import java.math.BigInteger;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest extends HateosResourceMappingTestCase2<HateosResourceMappingObjectPostProcessorBiFunctionMapping>
         implements ToStringTesting<HateosResourceMappingObjectPostProcessorBiFunctionMapping> {
 
@@ -117,7 +115,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
     private void addLinksAndCheck(final HateosResourceMappingObjectPostProcessorBiFunctionMapping mapping,
                                   final String withLinks) {
         final String before = "{\"a\": 1, \"b\": 2}";
-        assertEquals(JsonNode.parse(withLinks),
+        this.checkEquals(JsonNode.parse(withLinks),
                 mapping.addLinks(TestHateosResource.with(BigInteger.valueOf(123)),
                         JsonNode.parse(before).objectOrFail(),
                         Url.parseAbsolute("http://example.com/api"),
