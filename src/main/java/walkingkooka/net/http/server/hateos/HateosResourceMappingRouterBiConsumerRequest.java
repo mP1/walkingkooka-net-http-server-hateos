@@ -112,7 +112,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     private void notFound(final HateosResourceName resourceName) {
-        this.setStatus(HttpStatusCode.NOT_FOUND, this.message(resourceName));
+        this.setStatus(HttpStatusCode.NOT_FOUND, message(resourceName));
     }
 
     /**
@@ -260,7 +260,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                           final LinkRelation<?> linkRelation) {
         this.setStatus(
                 HttpStatusCode.NOT_FOUND,
-                this.message(resourceName, linkRelation)
+                message(resourceName, linkRelation)
         );
     }
 
