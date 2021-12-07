@@ -830,7 +830,8 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private HateosResourceMappingRouter createRouter(final HateosHandler<BigInteger, TestResource, TestResource> handler) {
-        final HateosHandler<BigInteger, TestResource, TestResource> invalid = new FakeHateosHandler(){};
+        final HateosHandler<BigInteger, TestResource, TestResource> invalid = new FakeHateosHandler<>() {
+        };
 
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mapping = this.mapping()
                 .set(LinkRelation.with("a1"), HttpMethod.POST, invalid)

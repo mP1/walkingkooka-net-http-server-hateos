@@ -25,11 +25,11 @@ import java.util.Optional;
 
 final class HateosResourceSelectionNone<I extends Comparable<I>> extends HateosResourceSelection<I> {
 
-    final static <I extends Comparable<I>> HateosResourceSelectionNone instance() {
-        return INSTANCE;
+    final static <I extends Comparable<I>> HateosResourceSelectionNone<I> instance() {
+        return Cast.to(INSTANCE);
     }
 
-    private static final HateosResourceSelectionNone INSTANCE = new HateosResourceSelectionNone();
+    private static final HateosResourceSelectionNone<?> INSTANCE = new HateosResourceSelectionNone<>();
 
     HateosResourceSelectionNone() {
         super();
