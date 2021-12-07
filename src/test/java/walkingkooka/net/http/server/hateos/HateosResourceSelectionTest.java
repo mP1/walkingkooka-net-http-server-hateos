@@ -17,14 +17,15 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.Cast;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 
-public final class HateosResourceSelectionTest implements ClassTesting<HateosResourceSelection> {
+public final class HateosResourceSelectionTest implements ClassTesting<HateosResourceSelection<?>> {
 
     @Override
-    public Class<HateosResourceSelection> type() {
-        return HateosResourceSelection.class;
+    public Class<HateosResourceSelection<?>> type() {
+        return Cast.to(HateosResourceSelection.class);
     }
 
     @Override

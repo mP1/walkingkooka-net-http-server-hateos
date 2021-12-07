@@ -17,6 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.Cast;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.AbsoluteUrl;
@@ -87,7 +88,7 @@ final class HateosResourceMappingObjectPostProcessorBiFunction implements BiFunc
         } while (Object.class != type);
 
         return null != mapping ?
-                mapping.addLinks((HateosResource) value, object, this.base, this.context) :
+                mapping.addLinks(Cast.to(value), object, this.base, this.context) :
                 object;
     }
 
