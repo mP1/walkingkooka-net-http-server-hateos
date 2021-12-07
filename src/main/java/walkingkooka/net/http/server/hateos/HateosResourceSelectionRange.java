@@ -27,7 +27,7 @@ import java.util.Optional;
 
 final class HateosResourceSelectionRange<I extends Comparable<I>> extends HateosResourceSelectionValue<I, Range<I>> {
 
-    final static <I extends Comparable<I>> HateosResourceSelectionRange<I> with(final Range<I> value) {
+    static <I extends Comparable<I>> HateosResourceSelectionRange<I> with(final Range<I> value) {
         Objects.requireNonNull(value, "value");
         return new HateosResourceSelectionRange<>(value);
     }

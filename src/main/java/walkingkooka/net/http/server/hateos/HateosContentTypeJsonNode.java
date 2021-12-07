@@ -33,8 +33,8 @@ import java.util.Objects;
  */
 final class HateosContentTypeJsonNode extends HateosContentType {
 
-    final static HateosContentTypeJsonNode with(final JsonNodeUnmarshallContext unmarshallContext,
-                                                final JsonNodeMarshallContext marshallContext) {
+    static HateosContentTypeJsonNode with(final JsonNodeUnmarshallContext unmarshallContext,
+                                          final JsonNodeMarshallContext marshallContext) {
         Objects.requireNonNull(unmarshallContext, "unmarshallContext");
         Objects.requireNonNull(marshallContext, "marshallContext");
 

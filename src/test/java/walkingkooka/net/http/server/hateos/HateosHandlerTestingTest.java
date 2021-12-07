@@ -37,7 +37,7 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
         TestHateosResource2> {
 
     @Override
-    public final void testTestNaming() {
+    public void testTestNaming() {
     }
 
     // handleAll....................................................................................................
@@ -218,17 +218,17 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
     }
 
     @Override
-    public final Map<HttpRequestAttribute<?>, Object> parameters() {
+    public Map<HttpRequestAttribute<?>, Object> parameters() {
         return HateosHandler.NO_PARAMETERS;
     }
 
     @Override
-    public final JavaVisibility typeVisibility() {
+    public JavaVisibility typeVisibility() {
         return JavaVisibility.PUBLIC;
     }
 
     @Override
-    public final String typeNamePrefix() {
+    public String typeNamePrefix() {
         return "";
     }
 }
