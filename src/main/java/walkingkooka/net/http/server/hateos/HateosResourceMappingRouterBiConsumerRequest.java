@@ -74,7 +74,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      * <li>{@link LinkRelation} option defaults to {@link LinkRelation#SELF}</li>
      * </ol>
      */
-    final void dispatch() {
+    void dispatch() {
         final int pathIndex = this.router.consumeBasePath(this.parameters);
         if (-1 == pathIndex) {
             this.badRequest("Bad routing");
@@ -202,9 +202,9 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      * Allow: GET, POST
      * </pre>>
      */
-    final void methodNotAllowed(final HateosResourceName resourceName,
-                                final LinkRelation<?> relation,
-                                final List<HttpMethod> allowed) {
+    void methodNotAllowed(final HateosResourceName resourceName,
+                          final LinkRelation<?> relation,
+                          final List<HttpMethod> allowed) {
         this.setStatus(
                 HttpStatusCode.METHOD_NOT_ALLOWED,
                 this.request.method() + " " + message(resourceName, relation)
@@ -374,7 +374,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
     // error reporting..................................................................................................
 
-    final void badRequest(final String message) {
+    void badRequest(final String message) {
         this.setStatus(HttpStatusCode.BAD_REQUEST, message);
     }
 
@@ -390,8 +390,8 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     /**
      * Reports a bad request with the body filled with the stack trace of the provided {@link Throwable}.
      */
-    final void badRequest(final String message,
-                          final Throwable cause) {
+    void badRequest(final String message,
+                    final Throwable cause) {
         this.badRequest(message);
         this.response.addEntity(HttpEntity.dumpStackTrace(cause));
     }
