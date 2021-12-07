@@ -204,7 +204,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
      * A lazy {@link Map} that maps a {@link LinkRelation} to all supported {@link HttpMethod}.
      * This is populated and used to fill the {@link HttpHeaderName#ALLOW} when an invalid request method is used.
      */
-    Map<LinkRelation<?>, List<HttpMethod>> relationToMethods;
+    final Map<LinkRelation<?>, List<HttpMethod>> relationToMethods;
 
     // toString.........................................................................................................
 
