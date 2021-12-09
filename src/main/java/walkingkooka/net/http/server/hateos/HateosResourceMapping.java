@@ -106,10 +106,8 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
         this.resourceType = resourceType;
         this.relationAndMethodToHandlers = relationAndMethodToHandlers;
 
-        /**
-         * Builds a map of {@link LinkRelation to all {@link List} of {@link HttpMethod}.
-         * Used by {@link #handlerOrMethodNotAllowed(LinkRelation, HateosResourceMappingRouterBiConsumerRequest) for the {@link HttpHeaderName#ALLOW}.
-         */
+        // Builds a map of {@link LinkRelation to all {@link List} of {@link HttpMethod}.
+        // Used by {@link #handlerOrMethodNotAllowed(LinkRelation, HateosResourceMappingRouterBiConsumerRequest) for the {@link HttpHeaderName#ALLOW}.
         final Map<LinkRelation<?>, List<HttpMethod>> relationToMethods = Maps.ordered();
         relationAndMethodToHandlers.keySet()
                 .stream()
