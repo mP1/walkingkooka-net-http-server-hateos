@@ -221,7 +221,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                                                           final HateosResourceSelection<?> selection,
                                                           final LinkRelation<?> relation,
                                                           final HttpMethod method) {
-        final HateosHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, selection, relation, method);
+        final HateosHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, relation, method);
         if (null != handler) {
             final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
             if(null != resource) {
@@ -236,7 +236,10 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                                 .toText(responseResource);
                     }
 
-                    this.setStatusAndBody(responseText, selection.resourceType(mapping), method);
+                    this.setStatusAndBody(
+                            responseText,
+                            selection.resourceType(mapping)
+                    );
                 }
             }
         }
@@ -246,7 +249,6 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      * Attempts to locate the locateHandlerParseRequestBodyAndDispatch for the given criteria or sets the response with not found.
      */
     private HateosHandler<?, ?, ?> handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                                     final HateosResourceSelection<?> selection,
                                                      final LinkRelation<?> relation,
                                                      final HttpMethod method) {
         final HateosHandler<?, ?, ?> handler = mapping.relationAndMethodToHandlers.get(HateosResourceMappingLinkRelationHttpMethod.with(relation, method));
@@ -400,8 +402,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      * Sets the status and message to match the content.
      */
     void setStatusAndBody(final String content,
-                          final Class<?> contentValueType,
-                          final HttpMethod method) {
+                          final Class<?> contentValueType) {
 
         final HttpStatusCode statusCode;
 
