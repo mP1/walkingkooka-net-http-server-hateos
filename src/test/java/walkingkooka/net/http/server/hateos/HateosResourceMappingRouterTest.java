@@ -48,12 +48,13 @@ import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.route.Router;
 import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
-import walkingkooka.tree.expression.ExpressionNumberContexts;
+import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -1167,7 +1168,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private JsonNodeUnmarshallContext unmarshallContext() {
-        return JsonNodeUnmarshallContexts.basic(ExpressionNumberContexts.fake());
+        return JsonNodeUnmarshallContexts.basic(
+                ExpressionNumberKind.DEFAULT,
+                MathContext.DECIMAL32
+        );
     }
 
     // ClassTesting.....................................................................................................
