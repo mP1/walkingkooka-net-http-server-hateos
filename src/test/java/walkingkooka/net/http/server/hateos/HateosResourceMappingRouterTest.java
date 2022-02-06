@@ -95,10 +95,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testGetWrongContentTypeUnrouted() {
+    public void testNonGetWrongContentTypeFails() {
         this.routeFails(
                 this.request(
-                        HttpMethod.GET,
+                        HttpMethod.POST,
                         "/api/",
                         MediaType.parse("text/plain;q=1"),
                         ""
@@ -107,7 +107,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testWrongContentTypeUnrouted() {
+    public void testNonGetWrongContentTypeUnrouted() {
         this.routeFails(
                 this.request(
                         HttpMethod.POST,

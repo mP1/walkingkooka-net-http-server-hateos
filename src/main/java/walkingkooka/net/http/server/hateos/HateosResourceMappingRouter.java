@@ -86,11 +86,9 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
         final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.parameterValue(parameters);
 
         // Optional.stream is not supported in J2cl hence the alternative.
-        return HttpMethod.GET.equals(method) ?
-                !contentType.isPresent() :// contentType should be missing because GET dont have a body
-                contentType.map(this::isContentTypeCompatible)
-                        .orElse(false) &&
-                        -1 != this.consumeBasePath(parameters);
+        return HttpMethod.GET.equals(method) || contentType.map(this::isContentTypeCompatible)
+                .orElse(false) &&
+                -1 != this.consumeBasePath(parameters);
     }
 
     /**
