@@ -84,20 +84,24 @@ public class JunitTest {
     @Test
     public void testHateosResourceMapping() throws Exception {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
-                (s) -> {
-                    return HateosResourceSelection.one(BigInteger.valueOf(Integer.parseInt(s.substring(2), 16))); // assumes hex digit in url
-                },
-                TestResource.class,
-                TestResource.class,
-                TestHateosResource.class)
-                .set(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosHandler<>() {
-                    @Override
-                    public Optional<TestResource> handleOne(final BigInteger id,
-                                                            final Optional<TestResource> resource,
-                                                            final Map<HttpRequestAttribute<?>, Object> parameters) {
-                        return Optional.of(TestResource.with(TestHateosResource.with(BigInteger.valueOf(31))));
-                    }
-                });
+                        (s) -> {
+                            return HateosResourceSelection.one(BigInteger.valueOf(Integer.parseInt(s.substring(2), 16))); // assumes hex digit in url
+                        },
+                        TestResource.class,
+                        TestResource.class,
+                        TestHateosResource.class)
+                .set(
+                        LinkRelation.CONTENTS,
+                        HttpMethod.POST,
+                        new FakeHateosHandler<>() {
+                            @Override
+                            public Optional<TestResource> handleOne(final BigInteger id,
+                                                                    final Optional<TestResource> resource,
+                                                                    final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                return Optional.of(TestResource.with(TestHateosResource.with(BigInteger.valueOf(31))));
+                            }
+                        }
+                );
 
         final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
                 HateosContentType.json(
@@ -123,7 +127,7 @@ public class JunitTest {
 
             @Override
             public HttpMethod method() {
-                return HttpMethod.GET;
+                return HttpMethod.POST;
             }
 
             @Override

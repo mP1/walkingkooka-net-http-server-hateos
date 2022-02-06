@@ -23,6 +23,7 @@ import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
@@ -77,14 +78,19 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     }
 
     /**
-     * Returns true if the content types are a match and the request path matches the base url.
+     * When the method=GET the content-type must be absent, while for other methods the content-type must match,
+     * along with the base path.
      */
     private boolean canHandle(final Map<HttpRequestAttribute<?>, Object> parameters) {
+        final HttpMethod method = (HttpMethod) parameters.get(HttpRequestAttributes.METHOD);
+        final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.parameterValue(parameters);
+
         // Optional.stream is not supported in J2cl hence the alternative.
-        return HttpHeaderName.CONTENT_TYPE.parameterValue(parameters)
-                .map(this::isContentTypeCompatible)
-                .orElse(false) &&
-                -1 != this.consumeBasePath(parameters);
+        return HttpMethod.GET.equals(method) ?
+                !contentType.isPresent() :// contentType should be missing because GET dont have a body
+                contentType.map(this::isContentTypeCompatible)
+                        .orElse(false) &&
+                        -1 != this.consumeBasePath(parameters);
     }
 
     /**
