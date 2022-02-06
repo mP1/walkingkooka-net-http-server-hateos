@@ -356,7 +356,6 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // internal server error............................................................................................
 
     private final static String INTERNAL_SERVER_ERROR_MESSAGE = "Because 123\nline 2";
-    private final static String INTERNAL_SERVER_ERROR_MESSAGE_FIRST_LINE = HttpStatus.firstLineOfText(INTERNAL_SERVER_ERROR_MESSAGE);
 
     @Test
     public void testInternalServerErrorId() {
