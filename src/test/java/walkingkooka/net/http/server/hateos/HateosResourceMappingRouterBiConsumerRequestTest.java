@@ -24,6 +24,8 @@ import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequests;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
@@ -33,14 +35,23 @@ public final class HateosResourceMappingRouterBiConsumerRequestTest extends Hate
 
     @Test
     public void testToString() {
-        final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(Url.parseAbsolute("http://example.com"),
+        final Indentation indentation = Indentation.with("   ");
+        final LineEnding lineEnding = LineEnding.NL;
+
+        final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(
+                Url.parseAbsolute("http://example.com"),
                 HateosContentType.json(JsonNodeUnmarshallContexts.fake(), JsonNodeMarshallContexts.fake()),
-                Sets.empty());
+                Sets.empty(),
+                indentation,
+                lineEnding
+        );
         final HttpRequest request = HttpRequests.fake();
         final HttpResponse response = HttpResponses.fake();
 
-        this.toStringAndCheck(HateosResourceMappingRouterBiConsumerRequest.with(request, response, router),
-                router + " " + request + " " + response);
+        this.toStringAndCheck(
+                HateosResourceMappingRouterBiConsumerRequest.with(request, response, router, indentation, lineEnding),
+                router + " " + request + " " + response + " indentation=\"   \" lineEndings=\"\\n\""
+        );
     }
 
     // ClassTesting......................................................................................................

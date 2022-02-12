@@ -31,6 +31,8 @@ import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.route.Router;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 
 import java.util.Comparator;
 import java.util.List;
@@ -163,8 +165,16 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
      */
     public static Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router(final AbsoluteUrl base,
                                                                                                 final HateosContentType contentType,
-                                                                                                final Set<HateosResourceMapping<?, ?, ?, ?>> mappings) {
-        return HateosResourceMappingRouter.with(base, contentType, mappings);
+                                                                                                final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
+                                                                                                final Indentation indentation,
+                                                                                                final LineEnding lineEnding) {
+        return HateosResourceMappingRouter.with(
+                base,
+                contentType,
+                mappings,
+                indentation,
+                lineEnding
+        );
     }
 
     final HateosResourceName resourceName;

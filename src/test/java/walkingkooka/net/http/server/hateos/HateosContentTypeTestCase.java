@@ -23,10 +23,15 @@ import walkingkooka.net.header.MediaType;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 
 public abstract class HateosContentTypeTestCase<C extends HateosContentType> implements ClassTesting2<C>,
         ToStringTesting<C>,
         TypeNameTesting<C> {
+
+    final static Indentation INDENTATION = Indentation.with("  ");
+    final static LineEnding LINE_ENDING = LineEnding.NL;
 
     HateosContentTypeTestCase() {
         super();
@@ -60,8 +65,20 @@ public abstract class HateosContentTypeTestCase<C extends HateosContentType> imp
     final void toTextAndCheck(final HateosResource<?> resource,
                               final String text) {
         this.checkEquals(text,
-                this.hateosContentType().toText(resource),
+                this.hateosContentType()
+                        .toText(resource, INDENTATION, LINE_ENDING),
                 () -> "toText failed: " + resource);
+    }
+
+    final void toTextAndCheck(final HateosResource<?> resource,
+                              final Indentation indentation,
+                              final LineEnding lineEnding,
+                              final String text) {
+        this.checkEquals(
+                text,
+                this.hateosContentType().toText(resource, indentation, lineEnding),
+                () -> "toText failed: " + resource
+        );
     }
 
     abstract C hateosContentType();

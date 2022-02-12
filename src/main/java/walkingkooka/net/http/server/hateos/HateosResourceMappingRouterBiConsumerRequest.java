@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
+import walkingkooka.ToStringBuilderOption;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.AcceptCharset;
@@ -36,6 +37,8 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -49,19 +52,29 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
     static HateosResourceMappingRouterBiConsumerRequest with(final HttpRequest request,
                                                              final HttpResponse response,
-                                                             final HateosResourceMappingRouter router) {
-        return new HateosResourceMappingRouterBiConsumerRequest(request,
+                                                             final HateosResourceMappingRouter router,
+                                                             final Indentation indentation,
+                                                             final LineEnding lineEnding) {
+        return new HateosResourceMappingRouterBiConsumerRequest(
+                request,
                 response,
-                router);
+                router,
+                indentation,
+                lineEnding
+        );
     }
 
     private HateosResourceMappingRouterBiConsumerRequest(final HttpRequest request,
                                                          final HttpResponse response,
-                                                         final HateosResourceMappingRouter router) {
+                                                         final HateosResourceMappingRouter router,
+                                                         final Indentation indentation,
+                                                         final LineEnding lineEnding) {
         super();
         this.request = request;
         this.response = response;
         this.router = router;
+        this.indentation = indentation;
+        this.lineEnding = lineEnding;
 
         this.parameters = this.request.routerParameters();
     }
@@ -232,8 +245,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
                     if (maybeResponseResource.isPresent()) {
                         final Object responseResource = maybeResponseResource.get();
-                        responseText = this.hateosContentType()
-                                .toText(responseResource);
+                        responseText = this.toText(responseResource);
                     }
 
                     this.setStatusAndBody(
@@ -244,6 +256,14 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             }
         }
     }
+
+    private String toText(final Object body) {
+        return this.hateosContentType()
+                .toText(body, this.indentation, this.lineEnding);
+    }
+
+    private final Indentation indentation;
+    private final LineEnding lineEnding;
 
     /**
      * Attempts to locate the locateHandlerParseRequestBodyAndDispatch for the given criteria or sets the response with not found.
@@ -475,6 +495,9 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                 .value(this.router)
                 .value(this.request)
                 .value(this.response)
+                .enable(ToStringBuilderOption.ESCAPE)
+                .label("indentation").value(this.indentation)
+                .label("lineEndings").value(this.lineEnding)
                 .build();
     }
 }

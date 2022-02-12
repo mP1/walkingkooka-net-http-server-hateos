@@ -49,6 +49,8 @@ import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.route.Router;
 import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
@@ -60,6 +62,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
@@ -81,6 +84,84 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private final static TestResource COLLECTION_RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
 
     private final static CharsetName DEFAULT_CHARSET = CharsetName.UTF_8;
+
+    private final static Set<HateosResourceMapping<?, ?, ?, ?>> MAPPINGS = Sets.empty();
+    private final static Indentation INDENTATION = Indentation.with("  ");
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
+
+    @Test
+    public void testWithNullBaseFails() {
+        this.withFails(
+                null,
+                this.hateosContentType(),
+                MAPPINGS,
+                INDENTATION,
+                LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testWithNullContentTypeFails() {
+        this.withFails(
+                this.baseUrl(),
+                null,
+                MAPPINGS,
+                INDENTATION,
+                LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testWithNullMappingsFails() {
+        this.withFails(
+                this.baseUrl(),
+                this.hateosContentType(),
+                null,
+                INDENTATION,
+                LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testWithNullIndentationFails() {
+        this.withFails(
+                this.baseUrl(),
+                this.hateosContentType(),
+                MAPPINGS,
+                null,
+                LINE_ENDING
+        );
+    }
+
+    @Test
+    public void testWithNullLineEndingFails() {
+        this.withFails(
+                this.baseUrl(),
+                this.hateosContentType(),
+                MAPPINGS,
+                INDENTATION,
+                null
+        );
+    }
+
+    private void withFails(final AbsoluteUrl base,
+                           final HateosContentType contentType,
+                           final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
+                           final Indentation indentation,
+                           final LineEnding lineEnding) {
+        assertThrows(
+                NullPointerException.class,
+                () -> HateosResourceMappingRouter.with(
+                        base,
+                        contentType,
+                        mappings,
+                        indentation,
+                        lineEnding
+                )
+        );
+    }
+
+    // route............................................................................................................
 
     @Test
     public void testMissingBaseUnrouted() {
@@ -797,9 +878,13 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                             }
                         });
 
-        final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
+        final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(
+                AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
                 HateosContentType.json(this.unmarshallContext(), JsonNodeMarshallContexts.basic()),
-                Sets.of(mapping));
+                Sets.of(mapping),
+                INDENTATION,
+                LINE_ENDING
+        );
 
         final HttpRequest request = new FakeHttpRequest() {
 
@@ -886,7 +971,9 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         Sets.of(
                                 getMapping,
                                 mappingWithBody
-                        )
+                        ),
+                        INDENTATION,
+                        LINE_ENDING
                 )
         );
     }

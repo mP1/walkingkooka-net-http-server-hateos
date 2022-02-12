@@ -79,17 +79,18 @@ final class HateosContentTypeJsonNode extends HateosContentType {
      * </pre>
      */
     @Override
-    String toText(final Object value) {
+    String toText(final Object value,
+                  final Indentation indentation,
+                  final LineEnding lineEnding) {
         final StringBuilder b = new StringBuilder();
 
-        try (final IndentingPrinter printer = Printers.stringBuilder(b, LineEnding.SYSTEM).indenting(INDENTATION)) {
-            this.marshallContext.marshall(value).printJson(printer);
+        try (final IndentingPrinter printer = Printers.stringBuilder(b, lineEnding).indenting(indentation)) {
+            this.marshallContext.marshall(value)
+                    .printJson(printer);
             printer.flush();
         }
         return b.toString();
     }
-
-    private final static Indentation INDENTATION = Indentation.with("  ");
 
     private final JsonNodeMarshallContext marshallContext;
 

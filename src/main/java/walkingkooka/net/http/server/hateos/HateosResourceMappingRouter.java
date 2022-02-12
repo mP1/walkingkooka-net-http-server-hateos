@@ -30,6 +30,8 @@ import walkingkooka.net.http.server.HttpRequestAttributes;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.route.RouteException;
 import walkingkooka.route.Router;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 
 import java.util.Map;
 import java.util.Objects;
@@ -45,25 +47,40 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
 
     static HateosResourceMappingRouter with(final AbsoluteUrl base,
                                             final HateosContentType contentType,
-                                            final Set<HateosResourceMapping<?, ?, ?, ?>> mappings) {
+                                            final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
+                                            final Indentation indentation,
+                                            final LineEnding lineEnding) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(contentType, "contentType");
         Objects.requireNonNull(mappings, "mappings");
+        Objects.requireNonNull(indentation, "indentation");
+        Objects.requireNonNull(lineEnding, "lineEnding");
 
-        return new HateosResourceMappingRouter(base, contentType, mappings);
+        return new HateosResourceMappingRouter(
+                base,
+                contentType,
+                mappings,
+                indentation,
+                lineEnding
+        );
     }
 
     private HateosResourceMappingRouter(final AbsoluteUrl base,
                                         final HateosContentType contentType,
-                                        final Set<HateosResourceMapping<?, ?, ?, ?>> mappings) {
+                                        final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
+                                        final Indentation indentation,
+                                        final LineEnding lineEnding) {
         super();
         this.base = base;
         this.contentType = contentType;
         this.resourceNameToMapping = Maps.sorted();
 
-        for (HateosResourceMapping<?, ?, ?, ?> mapping : mappings) {
+        for (final HateosResourceMapping<?, ?, ?, ?> mapping : mappings) {
             this.resourceNameToMapping.put(mapping.resourceName, mapping);
         }
+
+        this.indentation = indentation;
+        this.lineEnding = lineEnding;
     }
 
     // Router...........................................................................................................
@@ -72,9 +89,11 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     public Optional<BiConsumer<HttpRequest, HttpResponse>> route(final Map<HttpRequestAttribute<?>, Object> parameters) throws RouteException {
         Objects.requireNonNull(parameters, "parameters");
 
-        return Optional.ofNullable(this.canHandle(parameters) ?
-                HateosResourceMappingRouterBiConsumer.with(this) :
-                null);
+        return Optional.ofNullable(
+                this.canHandle(parameters) ?
+                        this.handler() :
+                        null
+        );
     }
 
     /**
@@ -118,6 +137,17 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     final AbsoluteUrl base;
     final HateosContentType contentType;
     final Map<HateosResourceName, HateosResourceMapping<?, ?, ?, ?>> resourceNameToMapping;
+
+    private BiConsumer<HttpRequest, HttpResponse> handler() {
+        return HateosResourceMappingRouterBiConsumer.with(
+                this,
+                this.indentation,
+                this.lineEnding
+        );
+    }
+
+    private final Indentation indentation;
+    private final LineEnding lineEnding;
 
     // toString.........................................................................................................
 

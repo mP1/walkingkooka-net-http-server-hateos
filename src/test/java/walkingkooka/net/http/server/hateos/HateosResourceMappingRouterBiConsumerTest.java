@@ -20,6 +20,8 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
@@ -31,12 +33,21 @@ public final class HateosResourceMappingRouterBiConsumerTest extends HateosResou
 
     @Test
     public void testToString() {
-        final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(Url.parseAbsolute("http://example.com"),
-                HateosContentType.json(JsonNodeUnmarshallContexts.fake(), JsonNodeMarshallContexts.fake()),
-                Sets.empty());
+        final Indentation indentation = Indentation.with("   ");
+        final LineEnding lineEnding = LineEnding.NL;
 
-        this.toStringAndCheck(HateosResourceMappingRouterBiConsumer.with(router),
-                router.toString());
+        final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(
+                Url.parseAbsolute("http://example.com"),
+                HateosContentType.json(JsonNodeUnmarshallContexts.fake(), JsonNodeMarshallContexts.fake()),
+                Sets.empty(),
+                indentation,
+                lineEnding
+        );
+
+        this.toStringAndCheck(
+                HateosResourceMappingRouterBiConsumer.with(router, indentation, lineEnding),
+                router.toString()
+        );
     }
 
     // ClassTesting......................................................................................................
