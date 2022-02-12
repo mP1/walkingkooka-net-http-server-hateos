@@ -19,6 +19,8 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpResponse;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.Node;
 
 import java.util.Objects;
@@ -32,16 +34,26 @@ final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequ
     /**
      * Factory called by {@link HateosResourceMappingRouter#route}
      */
-    static <N extends Node<N, ?, ?, ?>> HateosResourceMappingRouterBiConsumer with(final HateosResourceMappingRouter router) {
-        return new HateosResourceMappingRouterBiConsumer(router);
+    static <N extends Node<N, ?, ?, ?>> HateosResourceMappingRouterBiConsumer with(final HateosResourceMappingRouter router,
+                                                                                   final Indentation indentation,
+                                                                                   final LineEnding lineEnding) {
+        return new HateosResourceMappingRouterBiConsumer(
+                router,
+                indentation,
+                lineEnding
+        );
     }
 
     /**
      * Private ctor use factory.
      */
-    private HateosResourceMappingRouterBiConsumer(final HateosResourceMappingRouter router) {
+    private HateosResourceMappingRouterBiConsumer(final HateosResourceMappingRouter router,
+                                                  final Indentation indentation,
+                                                  final LineEnding lineEnding) {
         super();
         this.router = router;
+        this.indentation = indentation;
+        this.lineEnding = lineEnding;
     }
 
     @Override
@@ -52,11 +64,15 @@ final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequ
         HateosResourceMappingRouterBiConsumerRequest.with(
                 request,
                 response,
-                this.router
+                this.router,
+                this.indentation,
+                this.lineEnding
         ).dispatch();
     }
 
     private final HateosResourceMappingRouter router;
+    private final Indentation indentation;
+    private final LineEnding lineEnding;
 
     @Override
     public String toString() {

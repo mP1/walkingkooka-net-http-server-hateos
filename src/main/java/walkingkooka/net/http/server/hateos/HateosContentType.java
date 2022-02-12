@@ -18,6 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
@@ -59,9 +61,11 @@ public abstract class HateosContentType {
                             final Class<T> type);
 
     /**
-     * Marshalls the value into text.
+     * Marshalls the value into text. The {@link Indentation} and {@link LineEnding} can be used to pretty print JSON.
      */
-    abstract String toText(final Object value);
+    abstract String toText(final Object value,
+                           final Indentation indentation,
+                           final LineEnding lineEnding);
 
     abstract public String toString();
 }

@@ -19,6 +19,8 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
@@ -58,11 +60,25 @@ public final class HateosContentTypeJsonNodeTest extends HateosContentTypeTestCa
     }
 
     @Test
-    public void testToText() {
-        this.toTextAndCheck(TestHateosResource.with(BigInteger.valueOf(123)),
+    public void testToTextWithIndentation() {
+        this.toTextAndCheck(
+                TestHateosResource.with(BigInteger.valueOf(123)),
                 "{\n" +
                         "  \"id\": \"123\"\n" +
-                        "}");
+                        "}"
+        );
+    }
+
+    @Test
+    public void testToTextWithoutIndentationLineEndingNone() {
+        this.toTextAndCheck(
+                TestHateosResource.with(BigInteger.valueOf(123)),
+                Indentation.EMPTY,
+                LineEnding.NONE,
+                "{" +
+                        "\"id\": \"123\"" +
+                        "}"
+        );
     }
 
     @Override
