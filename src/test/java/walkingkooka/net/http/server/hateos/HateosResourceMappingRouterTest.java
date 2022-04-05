@@ -879,7 +879,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         });
 
         final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(
-                AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
+                AbsoluteUrl.parseAbsolute("https://www.example.com/api"),
                 HateosContentType.json(this.unmarshallContext(), JsonNodeMarshallContexts.basic()),
                 Sets.of(mapping),
                 INDENTATION,
@@ -979,7 +979,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private AbsoluteUrl baseUrl() {
-        return Url.parseAbsolute("http://www.example.com/api");
+        return Url.parseAbsolute("https://www.example.com/api");
     }
 
     // assumes a GET get-resource id

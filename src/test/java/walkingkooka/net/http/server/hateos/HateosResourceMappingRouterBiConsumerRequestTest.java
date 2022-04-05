@@ -39,7 +39,7 @@ public final class HateosResourceMappingRouterBiConsumerRequestTest extends Hate
         final LineEnding lineEnding = LineEnding.NL;
 
         final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(
-                Url.parseAbsolute("http://example.com"),
+                Url.parseAbsolute("https://example.com"),
                 HateosContentType.json(JsonNodeUnmarshallContexts.fake(), JsonNodeMarshallContexts.fake()),
                 Sets.empty(),
                 indentation,
