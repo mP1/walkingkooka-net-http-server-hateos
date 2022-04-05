@@ -112,7 +112,6 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
         // Used by {@link #handlerOrMethodNotAllowed(LinkRelation, HateosResourceMappingRouterBiConsumerRequest) for the {@link HttpHeaderName#ALLOW}.
         final Map<LinkRelation<?>, List<HttpMethod>> relationToMethods = Maps.ordered();
         relationAndMethodToHandlers.keySet()
-                .stream()
                 .forEach(relationAndMethod -> {
                     final LinkRelation<?> r = relationAndMethod.relation;
                     List<HttpMethod> m = relationToMethods.get(r);
