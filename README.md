@@ -14,26 +14,7 @@ These mappings are also used by the `Router` to create the links for `HateosReso
 from a unit test is shown below:
 
 ```json
-{
-  "a": 1,
-  "b": 2,
-  "_links": [{
-    "href": "http://example.com/api/resource1/7b",
-    "method": "GET",
-    "rel": "self",
-    "type": "application/hal+json"
-  }, {
-    "href": "http://example.com/api/resource1/7b",
-    "method": "POST",
-    "rel": "self",
-    "type": "application/hal+json"
-  }, {
-    "href": "http://example.com/api/resource1/7b/about",
-    "method": "DELETE",
-    "rel": "about",
-    "type": "application/hal+json"
-  }]
-}
+https://
 ```
 
 

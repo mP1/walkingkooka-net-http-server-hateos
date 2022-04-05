@@ -39,7 +39,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 "  \"a\": 1,\n" +
                 "  \"b\": 2,\n" +
                 "  \"_links\": [{\n" +
-                "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
+                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
                 "    \"type\": \"application/json\"\n" +
@@ -55,12 +55,12 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 "  \"a\": 1,\n" +
                 "  \"b\": 2,\n" +
                 "  \"_links\": [{\n" +
-                "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
+                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
                 "    \"type\": \"application/json\"\n" +
                 "  }, {\n" +
-                "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
+                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"POST\",\n" +
                 "    \"rel\": \"self\",\n" +
                 "    \"type\": \"application/json\"\n" +
@@ -76,7 +76,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 "  \"a\": 1,\n" +
                 "  \"b\": 2,\n" +
                 "  \"_links\": [{\n" +
-                "    \"href\": \"http://example.com/api/resource1/7b/contents\",\n" +
+                "    \"href\": \"https://example.com/api/resource1/7b/contents\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"contents\",\n" +
                 "    \"type\": \"application/json\"\n" +
@@ -91,17 +91,17 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 "  \"a\": 1,\n" +
                 "  \"b\": 2,\n" +
                 "  \"_links\": [{\n" +
-                "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
+                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
                 "    \"type\": \"application/json\"\n" +
                 "  }, {\n" +
-                "    \"href\": \"http://example.com/api/resource1/7b\",\n" +
+                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"POST\",\n" +
                 "    \"rel\": \"self\",\n" +
                 "    \"type\": \"application/json\"\n" +
                 "  }, {\n" +
-                "    \"href\": \"http://example.com/api/resource1/7b/about\",\n" +
+                "    \"href\": \"https://example.com/api/resource1/7b/about\",\n" +
                 "    \"method\": \"DELETE\",\n" +
                 "    \"rel\": \"about\",\n" +
                 "    \"type\": \"application/json\"\n" +
@@ -118,7 +118,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
         this.checkEquals(JsonNode.parse(withLinks),
                 mapping.addLinks(TestHateosResource.with(BigInteger.valueOf(123)),
                         JsonNode.parse(before).objectOrFail(),
-                        Url.parseAbsolute("http://example.com/api"),
+                        Url.parseAbsolute("https://example.com/api"),
                         this.marshallContext()),
                 () -> mapping.toString());
     }

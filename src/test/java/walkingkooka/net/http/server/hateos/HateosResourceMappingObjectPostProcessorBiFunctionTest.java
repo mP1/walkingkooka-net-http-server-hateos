@@ -53,17 +53,17 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
                 JsonNode.parse("{\n" +
                         "  \"id\": \"123\",\n" +
                         "  \"_links\": [{\n" +
-                        "    \"href\": \"http://example.com/api/resource-1/7b\",\n" +
+                        "    \"href\": \"https://example.com/api/resource-1/7b\",\n" +
                         "    \"method\": \"POST\",\n" +
                         "    \"rel\": \"self\",\n" +
                         "    \"type\": \"application/json\"\n" +
                         "  }, {\n" +
-                        "    \"href\": \"http://example.com/api/resource-1/7b/contents\",\n" +
+                        "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
                         "    \"method\": \"GET\",\n" +
                         "    \"rel\": \"contents\",\n" +
                         "    \"type\": \"application/json\"\n" +
                         "  }, {\n" +
-                        "    \"href\": \"http://example.com/api/resource-1/7b/contents\",\n" +
+                        "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
                         "    \"method\": \"POST\",\n" +
                         "    \"rel\": \"contents\",\n" +
                         "    \"type\": \"application/json\"\n" +
@@ -97,7 +97,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
     }
 
     private AbsoluteUrl baseUrl() {
-        return Url.parseAbsolute("http://example.com/api");
+        return Url.parseAbsolute("https://example.com/api");
     }
 
     private HateosResourceName resourceName1() {
