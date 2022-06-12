@@ -22,6 +22,7 @@ import walkingkooka.collect.Range;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.TypeNameTesting;
+import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
         V,
         C>
         extends ClassTesting2<H>,
+        TreePrintableTesting,
         TypeNameTesting<H> {
     
     // handleAll.......................................................................................................
