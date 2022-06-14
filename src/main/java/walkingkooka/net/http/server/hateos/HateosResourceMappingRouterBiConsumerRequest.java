@@ -198,7 +198,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
         final List<HttpMethod> supportedMethods = mapping.relationToMethods.get(relation);
         if (null != supportedMethods && supportedMethods.contains(method)) {
-            this.locateHandlerParseRequestBodyAndDispatch(mapping, selection, relation, method);
+            this.locateHandlerParseRequestBodyDispatchSetResponseStatusCode(mapping, selection, relation, method);
         } else {
             this.methodNotAllowed(mapping.resourceName, relation, supportedMethods);
         }
@@ -228,19 +228,24 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     /**
-     * Locatest the locateHandlerParseRequestBodyAndDispatch, attempts to parse the request body into a resource.
+     * Using the mapping and relation attempts to locate a matching {@link HateosHandler}, followed by parsing the
+     * request body into a {@link HateosResource} and then writes the response and sets the status code.
      */
-    private void locateHandlerParseRequestBodyAndDispatch(final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                                          final HateosResourceSelection<?> selection,
-                                                          final LinkRelation<?> relation,
-                                                          final HttpMethod method) {
+    private void locateHandlerParseRequestBodyDispatchSetResponseStatusCode(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                                                            final HateosResourceSelection<?> selection,
+                                                                            final LinkRelation<?> relation,
+                                                                            final HttpMethod method) {
         final HateosHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, relation, method);
         if (null != handler) {
             final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
-            if(null != resource) {
+            if (null != resource) {
                 final Accept accept = this.acceptCompatibleOrBadRequest();
-                if(null != accept) {
-                    final Optional<?> maybeResponseResource = selection.dispatch(Cast.to(handler), resource, this.parameters);
+                if (null != accept) {
+                    final Optional<?> maybeResponseResource = selection.dispatch(
+                            Cast.to(handler),
+                            resource,
+                            this.parameters
+                    );
                     String responseText = null;
 
                     if (maybeResponseResource.isPresent()) {
@@ -266,7 +271,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     private final LineEnding lineEnding;
 
     /**
-     * Attempts to locate the locateHandlerParseRequestBodyAndDispatch for the given criteria or sets the response with not found.
+     * Attempts to locate the locateHandlerParseRequestBodyDispatchSetResponseStatusCode for the given criteria or sets the response with not found.
      */
     private HateosHandler<?, ?, ?> handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                                      final LinkRelation<?> relation,
@@ -287,7 +292,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     /**
-     * Parses the request body and its JSON into a resource and then dispatches the locateHandlerParseRequestBodyAndDispatch.
+     * Parses the request body and its JSON into a resource and then dispatches the locateHandlerParseRequestBodyDispatchSetResponseStatusCode.
      */
     private Optional<?> parseBodyOrBadRequest(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                               final HateosResourceSelection<?> selection) {
