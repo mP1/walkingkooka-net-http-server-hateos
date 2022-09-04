@@ -330,21 +330,21 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     public void testBadRequestIdAndInvalidJson() {
         this.routeAndCheck("/api/resource-with-body/0x1f/contents",
                 "!invalid json",
-                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
+                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Invalid character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
     }
 
     @Test
     public void testBadRequestWildcardAndInvalidJson() {
         this.routeAndCheck("/api/resource-with-body/*/contents",
                 "!invalid json",
-                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
+                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Invalid character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
     }
 
     @Test
     public void testBadRequestRangeAndInvalidJson() {
         this.routeAndCheck("/api/resource-with-body/0x1-0x2/contents",
                 "!invalid json",
-                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Unrecognized character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
+                HttpStatusCode.BAD_REQUEST.setMessage("Invalid JSON: Invalid character '!' at (1,1) \"!invalid json\" expected NULL | BOOLEAN | STRING | NUMBER | ARRAY | OBJECT"));
     }
 
     @Test
