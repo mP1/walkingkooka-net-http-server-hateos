@@ -86,7 +86,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private final static CharsetName DEFAULT_CHARSET = CharsetName.UTF_8;
 
     private final static Set<HateosResourceMapping<?, ?, ?, ?>> MAPPINGS = Sets.empty();
-    private final static Indentation INDENTATION = Indentation.with("  ");
+    private final static Indentation INDENTATION = Indentation.SPACES2;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     @Test
