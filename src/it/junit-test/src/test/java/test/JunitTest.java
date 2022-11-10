@@ -115,7 +115,7 @@ public class JunitTest {
                         JsonNodeMarshallContexts.basic()
                 ),
                 Sets.of(mapping),
-                Indentation.with("  "),
+                Indentation.SPACES2,
                 LineEnding.NL
         );
 

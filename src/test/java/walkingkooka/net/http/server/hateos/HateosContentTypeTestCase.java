@@ -30,7 +30,7 @@ public abstract class HateosContentTypeTestCase<C extends HateosContentType> imp
         ToStringTesting<C>,
         TypeNameTesting<C> {
 
-    final static Indentation INDENTATION = Indentation.with("  ");
+    final static Indentation INDENTATION = Indentation.SPACES2;
     final static LineEnding LINE_ENDING = LineEnding.NL;
 
     HateosContentTypeTestCase() {
