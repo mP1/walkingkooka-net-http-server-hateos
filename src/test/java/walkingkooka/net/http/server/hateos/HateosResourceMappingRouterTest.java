@@ -244,6 +244,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
+    public void testBadRequestUnknownRelation() {
+        this.routeAndCheck(
+                "/api/resource-with-body/0x1/clear",
+                HttpStatusCode.BAD_REQUEST.setMessage("Unknown link relation \"clear\"")
+        );
+    }
+
+    @Test
     public void testMethodNotSupported() {
         this.methodNotSupportedAndCheck("AAA");
     }
