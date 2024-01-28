@@ -189,7 +189,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     /**
-     * Validates that the request method is supported for the given {@link HateosResourceMapping}
+     * Validates that the request method and {@link LinkRelation} is supported for the given {@link HateosResourceMapping}
      */
     private void methodSupportedTest(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                      final HateosResourceSelection<?> selection,
@@ -197,10 +197,24 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         final HttpMethod method = this.request.method();
 
         final List<HttpMethod> supportedMethods = mapping.relationToMethods.get(relation);
-        if (null != supportedMethods && supportedMethods.contains(method)) {
-            this.locateHandlerParseRequestBodyDispatchSetResponseStatusCode(mapping, selection, relation, method);
+        if (null == supportedMethods) {
+            this.badRequest(
+                    "Unknown link relation " +
+                            CharSequences.quoteAndEscape(
+                                    relation.toHeaderText()
+                            )
+            );
         } else {
-            this.methodNotAllowed(mapping.resourceName, relation, supportedMethods);
+            if (supportedMethods.contains(method)) {
+                this.locateHandlerParseRequestBodyDispatchSetResponseStatusCode(
+                        mapping,
+                        selection,
+                        relation,
+                        method
+                );
+            } else {
+                this.methodNotAllowed(mapping.resourceName, relation, supportedMethods);
+            }
         }
     }
 
