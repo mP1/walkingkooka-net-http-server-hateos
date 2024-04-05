@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
+import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.List;
@@ -69,6 +70,15 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
      */
     HateosResourceSelection() {
         super();
+    }
+
+    /**
+     * The status code when the response is NOT empty.
+     */
+    HttpStatusCode successStatusCode() {
+        return this.isNone() ?
+                HttpStatusCode.CREATED :
+                HttpStatusCode.OK;
     }
 
     /**
