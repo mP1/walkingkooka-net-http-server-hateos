@@ -268,6 +268,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
                     }
 
                     this.setStatusAndBody(
+                            selection,
                             responseText,
                             selection.resourceType(mapping)
                     );
@@ -440,14 +441,16 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     /**
      * Sets the status and message to match the content.
      */
-    void setStatusAndBody(final String content,
+    void setStatusAndBody(final HateosResourceSelection<?> selection,
+                          final String content,
                           final Class<?> contentValueType) {
 
         final HttpStatusCode statusCode;
 
         final HttpEntity entity;
         if (null != content) {
-            statusCode = HttpStatusCode.OK;
+            // CREATED if HateosResourceSuccess.none and OK for others
+            statusCode = selection.successStatusCode();
 
             final CharsetName charsetName = this.selectCharsetName();
             final HateosContentType hateosContentType = this.hateosContentType();

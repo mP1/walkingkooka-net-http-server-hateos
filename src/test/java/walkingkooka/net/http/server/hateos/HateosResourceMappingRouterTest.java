@@ -796,6 +796,42 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         this.checkEquals(expected, resource, "resource");
     }
 
+    // response none......................................................................................................
+
+    @Test
+    public void testResponseNoneIdResourceBodyAbsent() {
+        this.routeAndCheck(
+                new FakeHateosHandler<>() {
+
+                    @Override
+                    public Optional<TestResource> handleNone(final Optional<TestResource> resource,
+                                                             final Map<HttpRequestAttribute<?>, Object> parameters) {
+                        return Optional.empty();
+                    }
+                },
+                "/api/resource-with-body",
+                NO_BODY,
+                HttpStatusCode.NO_CONTENT.status()
+        );
+    }
+
+    @Test
+    public void testResponseNoneIdResourceBodyJson() {
+        this.routeAndCheck(
+                new FakeHateosHandler<>() {
+                    @Override
+                    public Optional<TestResource> handleNone(final Optional<TestResource> resource,
+                                                             final Map<HttpRequestAttribute<?>, Object> parameters) {
+                        return Optional.of(RESOURCE_OUT);
+                    }
+                },
+                "/api/resource-with-body",
+                NO_BODY,
+                HttpStatusCode.CREATED.status(),
+                this.httpEntity(RESOURCE_OUT)
+        );
+    }
+
     // response id......................................................................................................
 
     @Test
@@ -967,6 +1003,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 .set(LinkRelation.SELF, HttpMethod.GET, handler);
 
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mappingWithBody = this.mappingWithBody()
+                .set(LinkRelation.SELF, HttpMethod.POST, handler)
                 .set(LinkRelation.with("a1"), HttpMethod.POST, handler)
                 .set(LinkRelation.CONTENTS, HttpMethod.PUT, handler)
                 .set(LinkRelation.CONTENTS, HttpMethod.DELETE, handler)
