@@ -144,7 +144,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         }
 
         if (null != selection) {
-            this.extractLinkRelation(
+            this.linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(
                     mapping,
                     selection,
                     pathIndex + 1
@@ -155,12 +155,12 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     /**
      * Extracts the link relation or defaults to {@link LinkRelation#SELF}.
      */
-    private void extractLinkRelation(final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                     final HateosResourceSelection<?> selection,
-                                     final int pathIndex) {
+    private void linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                                                               final HateosResourceSelection<?> selection,
+                                                                               final int pathIndex) {
         final LinkRelation<?> relation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex);
         if (null != relation) {
-            this.methodSupportedTest(mapping, selection, relation);
+            this.methodSupportedChallengeAndDispatch(mapping, selection, relation);
         }
     }
 
@@ -191,9 +191,9 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     /**
      * Validates that the request method and {@link LinkRelation} is supported for the given {@link HateosResourceMapping}
      */
-    private void methodSupportedTest(final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                     final HateosResourceSelection<?> selection,
-                                     final LinkRelation<?> relation) {
+    private void methodSupportedChallengeAndDispatch(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                                     final HateosResourceSelection<?> selection,
+                                                     final LinkRelation<?> relation) {
         final HttpMethod method = this.request.method();
 
         final List<HttpMethod> supportedMethods = mapping.relationToMethods.get(relation);
@@ -206,7 +206,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
             );
         } else {
             if (supportedMethods.contains(method)) {
-                this.locateHandlerParseRequestBodyDispatchSetResponseStatusCode(
+                this.locateHandlerParseRequestBodyDispatchSetResponse(
                         mapping,
                         selection,
                         relation,
@@ -229,9 +229,9 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      * Allow: GET, POST
      * </pre>>
      */
-    void methodNotAllowed(final HateosResourceName resourceName,
-                          final LinkRelation<?> relation,
-                          final List<HttpMethod> allowed) {
+    private void methodNotAllowed(final HateosResourceName resourceName,
+                                  final LinkRelation<?> relation,
+                                  final List<HttpMethod> allowed) {
         this.setStatus(
                 HttpStatusCode.METHOD_NOT_ALLOWED,
                 this.request.method() + " " + message(resourceName, relation)
@@ -245,10 +245,10 @@ final class HateosResourceMappingRouterBiConsumerRequest {
      * Using the mapping and relation attempts to locate a matching {@link HateosHandler}, followed by parsing the
      * request body into a {@link HateosResource} and then writes the response and sets the status code.
      */
-    private void locateHandlerParseRequestBodyDispatchSetResponseStatusCode(final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                                                            final HateosResourceSelection<?> selection,
-                                                                            final LinkRelation<?> relation,
-                                                                            final HttpMethod method) {
+    private void locateHandlerParseRequestBodyDispatchSetResponse(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                                                  final HateosResourceSelection<?> selection,
+                                                                  final LinkRelation<?> relation,
+                                                                  final HttpMethod method) {
         final HateosHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, relation, method);
         if (null != handler) {
             final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
@@ -285,7 +285,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     private final LineEnding lineEnding;
 
     /**
-     * Attempts to locate the locateHandlerParseRequestBodyDispatchSetResponseStatusCode for the given criteria or sets the response with not found.
+     * Attempts to locate the locateHandlerParseRequestBodyDispatchSetResponse for the given criteria or sets the response with not found.
      */
     private HateosHandler<?, ?, ?> handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                                      final LinkRelation<?> relation,
@@ -306,7 +306,7 @@ final class HateosResourceMappingRouterBiConsumerRequest {
     }
 
     /**
-     * Parses the request body and its JSON into a resource and then dispatches the locateHandlerParseRequestBodyDispatchSetResponseStatusCode.
+     * Parses the request body and its JSON into a resource and then dispatches the locateHandlerParseRequestBodyDispatchSetResponse.
      */
     private Optional<?> parseBodyOrBadRequest(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                               final HateosResourceSelection<?> selection) {
