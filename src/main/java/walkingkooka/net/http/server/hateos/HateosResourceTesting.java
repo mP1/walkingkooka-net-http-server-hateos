@@ -36,4 +36,20 @@ public interface HateosResourceTesting<H extends HateosResource> extends ClassTe
                 resource.hateosLinkId(),
                 () -> resource + " hateosLinkId");
     }
+
+    default void idAndCheck(final String expected) {
+        this.idAndCheck(
+                this.createHateosResource(),
+                expected
+        );
+    }
+
+    default void idAndCheck(final HateosResource<?> resource,
+                            final String expected) {
+        this.checkEquals(
+                expected,
+                resource.id(),
+                () -> resource + " id"
+        );
+    }
 }
