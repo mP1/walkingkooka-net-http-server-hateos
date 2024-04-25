@@ -23,7 +23,7 @@ import walkingkooka.reflect.ClassTesting2;
 /**
  * Mixin interface for testing {@link HateosResource}
  */
-public interface HateosResourceTesting<H extends HateosResource> extends ClassTesting2<H> {
+public interface HateosResourceTesting<H extends HateosResource<I>, I> extends ClassTesting2<H> {
 
     H createHateosResource();
 
