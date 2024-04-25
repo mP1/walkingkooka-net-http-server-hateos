@@ -475,15 +475,13 @@ final class HateosResourceMappingRouterBiConsumerRequest {
 
     private CharsetName selectCharsetName() {
         final AcceptCharset acceptCharset = HttpHeaderName.ACCEPT_CHARSET.header(this.request)
-                .orElse(UTF8);
+                .orElse(AcceptCharset.UTF_8);
         final Optional<Charset> charset = acceptCharset.charset();
         if (!charset.isPresent()) {
             throw new NotAcceptableHeaderException("AcceptCharset " + acceptCharset + " contain unsupported charset");
         }
         return CharsetName.with(charset.get().name());
     }
-
-    private final static AcceptCharset UTF8 = AcceptCharset.parse("utf-8");
 
     private void setStatus(final HttpStatusCode statusCode,
                            final String message) {
