@@ -20,6 +20,8 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.reflect.ClassTesting2;
 
+import java.util.Optional;
+
 /**
  * Mixin interface for testing {@link HateosResource}
  */
@@ -37,7 +39,7 @@ public interface HateosResourceTesting<H extends HateosResource<I>, I> extends C
                 () -> resource + " hateosLinkId");
     }
 
-    default void idAndCheck(final String expected) {
+    default void idAndCheck(final Optional<I> expected) {
         this.idAndCheck(
                 this.createHateosResource(),
                 expected
@@ -45,7 +47,7 @@ public interface HateosResourceTesting<H extends HateosResource<I>, I> extends C
     }
 
     default void idAndCheck(final HateosResource<?> resource,
-                            final String expected) {
+                            final Optional<I> expected) {
         this.checkEquals(
                 expected,
                 resource.id(),
