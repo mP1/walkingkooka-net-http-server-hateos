@@ -71,7 +71,7 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
                                         final Indentation indentation,
                                         final LineEnding lineEnding) {
         super();
-        this.base = base;
+        this.base = base.normalize();
         this.contentType = contentType;
         this.resourceNameToMapping = Maps.sorted();
 
