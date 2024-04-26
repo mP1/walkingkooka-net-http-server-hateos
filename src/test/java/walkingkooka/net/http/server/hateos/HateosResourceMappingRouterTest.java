@@ -376,6 +376,26 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
+    public void testGetRequiresNormalize() {
+        this.routeAndCheck(
+                this.createRouter(
+                        new FakeHateosHandler<>() {
+                            @Override
+                            public Optional<TestResource> handleOne(final BigInteger id,
+                                                                    final Optional<TestResource> resource,
+                                                                    final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                return Optional.empty();
+                            }
+                        }),
+                HttpMethod.GET,
+                "/api/get-resource/./0x1f",
+                map(HttpHeaderName.ACCEPT, Accept.with(Lists.of(this.contentType()))),
+                "",
+                HttpStatusCode.NO_CONTENT.status()
+        );
+    }
+
+    @Test
     public void testPostMissingAccept() {
         this.routeAndCheck(
                 this.createRouter(),
