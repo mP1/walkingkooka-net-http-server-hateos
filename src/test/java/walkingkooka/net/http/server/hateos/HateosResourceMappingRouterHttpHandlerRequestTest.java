@@ -20,14 +20,16 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
+import walkingkooka.net.http.server.HttpRequest;
+import walkingkooka.net.http.server.HttpRequests;
+import walkingkooka.net.http.server.HttpResponse;
+import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
-import java.util.function.BiConsumer;
-
-public final class HateosResourceMappingRouterBiConsumerTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterBiConsumer> {
+public final class HateosResourceMappingRouterHttpHandlerRequestTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterHttpHandlerRequest> {
 
     // toString.........................................................................................................
 
@@ -43,29 +45,31 @@ public final class HateosResourceMappingRouterBiConsumerTest extends HateosResou
                 indentation,
                 lineEnding
         );
+        final HttpRequest request = HttpRequests.fake();
+        final HttpResponse response = HttpResponses.fake();
 
         this.toStringAndCheck(
-                HateosResourceMappingRouterBiConsumer.with(router, indentation, lineEnding),
-                router.toString()
+                HateosResourceMappingRouterHttpHandlerRequest.with(request, response, router, indentation, lineEnding),
+                router + " " + request + " " + response + " indentation=\"   \" lineEndings=\"\\n\""
         );
     }
 
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingRouterBiConsumer> type() {
-        return HateosResourceMappingRouterBiConsumer.class;
+    public Class<HateosResourceMappingRouterHttpHandlerRequest> type() {
+        return HateosResourceMappingRouterHttpHandlerRequest.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosResourceMapping.class.getSimpleName();
+        return HateosResourceMappingRouterHttpHandler.class.getSimpleName();
     }
 
     @Override
     public String typeNameSuffix() {
-        return BiConsumer.class.getSimpleName();
+        return "Request";
     }
 }

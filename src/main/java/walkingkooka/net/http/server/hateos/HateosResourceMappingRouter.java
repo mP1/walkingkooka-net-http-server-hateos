@@ -24,10 +24,9 @@ import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
-import walkingkooka.net.http.server.HttpRequest;
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
-import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.route.RouteException;
 import walkingkooka.route.Router;
 import walkingkooka.text.Indentation;
@@ -37,13 +36,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiConsumer;
 
 /**
  * A {@link Router} that dispatches to the given {@link HateosResourceMapping mappings}.
  * Note that any exceptions that are thrown, will have their stack trace in the response body with content-type=text/plain
  */
-final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> {
+final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?>, HttpHandler> {
 
     static HateosResourceMappingRouter with(final AbsoluteUrl base,
                                             final HateosContentType contentType,
@@ -86,12 +84,12 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     // Router...........................................................................................................
 
     @Override
-    public Optional<BiConsumer<HttpRequest, HttpResponse>> route(final Map<HttpRequestAttribute<?>, Object> parameters) throws RouteException {
+    public Optional<HttpHandler> route(final Map<HttpRequestAttribute<?>, Object> parameters) throws RouteException {
         Objects.requireNonNull(parameters, "parameters");
 
         return Optional.ofNullable(
                 this.canHandle(parameters) ?
-                        this.handler() :
+                        this.httpHandler() :
                         null
         );
     }
@@ -138,8 +136,8 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     final HateosContentType contentType;
     final Map<HateosResourceName, HateosResourceMapping<?, ?, ?, ?>> resourceNameToMapping;
 
-    private BiConsumer<HttpRequest, HttpResponse> handler() {
-        return HateosResourceMappingRouterBiConsumer.with(
+    private HttpHandler httpHandler() {
+        return HateosResourceMappingRouterHttpHandler.with(
                 this,
                 this.indentation,
                 this.lineEnding

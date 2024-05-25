@@ -48,14 +48,14 @@ import java.util.Optional;
 /**
  * Handles dispatching a request, after extracting ids and parsing request bodies.
  */
-final class HateosResourceMappingRouterBiConsumerRequest {
+final class HateosResourceMappingRouterHttpHandlerRequest {
 
-    static HateosResourceMappingRouterBiConsumerRequest with(final HttpRequest request,
-                                                             final HttpResponse response,
-                                                             final HateosResourceMappingRouter router,
-                                                             final Indentation indentation,
-                                                             final LineEnding lineEnding) {
-        return new HateosResourceMappingRouterBiConsumerRequest(
+    static HateosResourceMappingRouterHttpHandlerRequest with(final HttpRequest request,
+                                                              final HttpResponse response,
+                                                              final HateosResourceMappingRouter router,
+                                                              final Indentation indentation,
+                                                              final LineEnding lineEnding) {
+        return new HateosResourceMappingRouterHttpHandlerRequest(
                 request,
                 response,
                 router,
@@ -64,11 +64,11 @@ final class HateosResourceMappingRouterBiConsumerRequest {
         );
     }
 
-    private HateosResourceMappingRouterBiConsumerRequest(final HttpRequest request,
-                                                         final HttpResponse response,
-                                                         final HateosResourceMappingRouter router,
-                                                         final Indentation indentation,
-                                                         final LineEnding lineEnding) {
+    private HateosResourceMappingRouterHttpHandlerRequest(final HttpRequest request,
+                                                          final HttpResponse response,
+                                                          final HateosResourceMappingRouter router,
+                                                          final Indentation indentation,
+                                                          final LineEnding lineEnding) {
         super();
         this.request = request;
         this.response = response;
