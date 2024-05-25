@@ -17,6 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.Indentation;
@@ -29,15 +30,15 @@ import java.util.function.BiConsumer;
 /**
  * A {@link BiConsumer} which examines the request and then dispatches to the selected {@link HateosHandler}.
  */
-final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequest, HttpResponse> {
+final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
 
     /**
      * Factory called by {@link HateosResourceMappingRouter#route}
      */
-    static <N extends Node<N, ?, ?, ?>> HateosResourceMappingRouterBiConsumer with(final HateosResourceMappingRouter router,
-                                                                                   final Indentation indentation,
-                                                                                   final LineEnding lineEnding) {
-        return new HateosResourceMappingRouterBiConsumer(
+    static <N extends Node<N, ?, ?, ?>> HateosResourceMappingRouterHttpHandler with(final HateosResourceMappingRouter router,
+                                                                                    final Indentation indentation,
+                                                                                    final LineEnding lineEnding) {
+        return new HateosResourceMappingRouterHttpHandler(
                 router,
                 indentation,
                 lineEnding
@@ -47,9 +48,9 @@ final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequ
     /**
      * Private ctor use factory.
      */
-    private HateosResourceMappingRouterBiConsumer(final HateosResourceMappingRouter router,
-                                                  final Indentation indentation,
-                                                  final LineEnding lineEnding) {
+    private HateosResourceMappingRouterHttpHandler(final HateosResourceMappingRouter router,
+                                                   final Indentation indentation,
+                                                   final LineEnding lineEnding) {
         super();
         this.router = router;
         this.indentation = indentation;
@@ -57,11 +58,12 @@ final class HateosResourceMappingRouterBiConsumer implements BiConsumer<HttpRequ
     }
 
     @Override
-    public void accept(final HttpRequest request, final HttpResponse response) {
+    public void handle(final HttpRequest request,
+                       final HttpResponse response) {
         Objects.requireNonNull(request, "request");
         Objects.requireNonNull(response, "response");
 
-        HateosResourceMappingRouterBiConsumerRequest.with(
+        HateosResourceMappingRouterHttpHandlerRequest.with(
                 request,
                 response,
                 this.router,

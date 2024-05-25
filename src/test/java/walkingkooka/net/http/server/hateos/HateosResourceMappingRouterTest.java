@@ -41,6 +41,7 @@ import walkingkooka.net.http.HttpStatus;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.HttpTransport;
 import walkingkooka.net.http.server.FakeHttpRequest;
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
@@ -63,7 +64,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -71,7 +71,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class HateosResourceMappingRouterTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouter>
         implements RouterTesting2<HateosResourceMappingRouter,
                 HttpRequestAttribute<?>,
-                BiConsumer<HttpRequest, HttpResponse>> {
+        HttpHandler> {
 
     private final static String NO_BODY = null;
 
@@ -606,8 +606,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
         final Throwable thrown = assertThrows(
                 thrownType,
-                () -> router.route(request.routerParameters()).get()
-                        .accept(request, HttpResponses.fake())
+                () -> router.route(
+                                request.routerParameters()
+                        )
+                        .get()
+                        .handle(
+                                request,
+                                HttpResponses.fake()
+                        )
         );
         this.checkEquals(thrownMessage, thrown.getMessage(), "message");
     }
@@ -942,9 +948,12 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                             }
                         });
 
-        final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(
+        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
                 AbsoluteUrl.parseAbsolute("https://www.example.com/api"),
-                HateosContentType.json(this.unmarshallContext(), JsonNodeMarshallContexts.basic()),
+                HateosContentType.json(
+                        this.unmarshallContext(),
+                        JsonNodeMarshallContexts.basic()
+                ),
                 Sets.of(mapping),
                 INDENTATION,
                 LINE_ENDING
@@ -999,10 +1008,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final BiConsumer<HttpRequest, HttpResponse> target = router.route(request.routerParameters()).orElseThrow(() -> new Error("Unable to route"));
+        final HttpHandler httpHandler = router.route(
+                request.routerParameters()
+        ).orElseThrow(
+                () -> new Error("Unable to route")
+        );
 
         final HttpResponse response = HttpResponses.recording();
-        target.accept(request, response);
+        httpHandler.handle(request, response);
         this.checkEquals("{\n" +
                 "  \"type\": \"test-HateosResource\",\n" +
                 "  \"value\": {\n" +
@@ -1232,8 +1245,13 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 headers,
                 body);
         final HttpResponse response = HttpResponses.recording();
-        final Optional<BiConsumer<HttpRequest, HttpResponse>> handle = router.route(request.routerParameters());
-        handle.ifPresent(h -> h.accept(request, response));
+        final Optional<HttpHandler> handle = router.route(request.routerParameters());
+        handle.ifPresent(
+                h -> h.handle(
+                        request,
+                        response
+                )
+        );
 
         final HttpResponse expected = HttpResponses.recording();
 

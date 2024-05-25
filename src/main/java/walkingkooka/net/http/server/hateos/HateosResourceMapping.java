@@ -27,9 +27,8 @@ import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.HttpStatusCode;
-import walkingkooka.net.http.server.HttpRequest;
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequestAttribute;
-import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.route.Router;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -40,7 +39,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
@@ -162,11 +160,11 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Creates a {@link Router} from the provided {@link HateosResourceMapping mappings}.
      */
-    public static Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router(final AbsoluteUrl base,
-                                                                                                final HateosContentType contentType,
-                                                                                                final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
-                                                                                                final Indentation indentation,
-                                                                                                final LineEnding lineEnding) {
+    public static Router<HttpRequestAttribute<?>, HttpHandler> router(final AbsoluteUrl base,
+                                                                      final HateosContentType contentType,
+                                                                      final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
+                                                                      final Indentation indentation,
+                                                                      final LineEnding lineEnding) {
         return HateosResourceMappingRouter.with(
                 base,
                 contentType,

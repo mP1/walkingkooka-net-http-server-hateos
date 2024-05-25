@@ -1,10 +1,9 @@
 package test;
 
 import com.google.gwt.junit.client.GWTTestCase;
-
 import walkingkooka.collect.list.Lists;
-import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
@@ -15,22 +14,21 @@ import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpTransport;
 import walkingkooka.net.http.server.FakeHttpRequest;
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
+import walkingkooka.net.http.server.hateos.FakeHateosHandler;
+import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.net.http.server.hateos.HateosContentType;
-import walkingkooka.net.http.server.hateos.HateosResource;
 import walkingkooka.net.http.server.hateos.HateosResourceMapping;
 import walkingkooka.net.http.server.hateos.HateosResourceName;
 import walkingkooka.net.http.server.hateos.HateosResourceSelection;
-import walkingkooka.net.http.server.hateos.FakeHateosHandler;
-import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.route.Router;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
-import walkingkooka.tree.expression.ExpressionNumberContexts;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
@@ -41,7 +39,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class TestGwtTest extends GWTTestCase {
@@ -58,7 +55,7 @@ public class TestGwtTest extends GWTTestCase {
         );
     }
 
-    public void testHateosResourceName() throws Exception {
+    public void testHateosResourceName()  {
         final String name = "name123";
 
         assertEquals(
@@ -68,17 +65,17 @@ public class TestGwtTest extends GWTTestCase {
         );
     }
 
-    public void testNewHateosHandler() throws Exception {
+    public void testNewHateosHandler()  {
         new FakeHateosHandler<String, String, Collection<String>>() {
         };
     }
 
-    public void testNewHateosResource() throws Exception {
+    public void testNewHateosResource()  {
         new FakeHateosResource<String>() {
         };
     }
 
-    public void testHateosResourceMapping() throws Exception {
+    public void testHateosResourceMapping()  {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
                         (s) -> {
                             return HateosResourceSelection.one(BigInteger.valueOf(Integer.parseInt(s.substring(2), 16))); // assumes hex digit in url
@@ -99,7 +96,7 @@ public class TestGwtTest extends GWTTestCase {
                         }
                 );
 
-        final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(
+        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
                 AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
                 HateosContentType.json(
                         JsonNodeUnmarshallContexts.basic(
@@ -163,11 +160,11 @@ public class TestGwtTest extends GWTTestCase {
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final BiConsumer<HttpRequest, HttpResponse> target = router.route(request.routerParameters())
+        final HttpHandler httpHandler = router.route(request.routerParameters())
                 .orElseThrow(() -> new Error("Unable to route"));
 
         final HttpResponse response = HttpResponses.recording();
-        target.accept(request, response);
+        httpHandler.handle(request, response);
         assertEquals(
                 "{\n" +
                 "  \"type\": \"test-HateosResource\",\n" +

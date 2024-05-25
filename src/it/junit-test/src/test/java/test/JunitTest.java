@@ -32,6 +32,7 @@ import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpTransport;
 import walkingkooka.net.http.server.FakeHttpRequest;
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
@@ -105,7 +106,7 @@ public class JunitTest {
                         }
                 );
 
-        final Router<HttpRequestAttribute<?>, BiConsumer<HttpRequest, HttpResponse>> router = HateosResourceMapping.router(
+        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
                 AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
                 HateosContentType.json(
                         JsonNodeUnmarshallContexts.basic(
@@ -170,16 +171,26 @@ public class JunitTest {
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final BiConsumer<HttpRequest, HttpResponse> target = router.route(request.routerParameters()).orElseThrow(() -> new Error("Unable to route"));
+        final HttpHandler httpHandler = router.route(
+                request.routerParameters()
+        ).orElseThrow(
+                () -> new Error("Unable to route")
+        );
 
         final HttpResponse response = HttpResponses.recording();
-        target.accept(request, response);
-        Assert.assertEquals("{\n" +
+        httpHandler.handle(request, response);
+
+        Assert.assertEquals(
+                "{\n" +
                 "  \"type\": \"test-HateosResource\",\n" +
                 "  \"value\": {\n" +
                 "    \"id\": \"31\"\n" +
                 "  }\n" +
-                "}", response.entities().get(0).bodyText());
+                "}",
+                response.entities()
+                        .get(0)
+                        .bodyText()
+        );
     }
 
     private HateosResourceName resourceName() {
