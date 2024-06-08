@@ -21,10 +21,10 @@ import walkingkooka.collect.Range;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.test.Fake;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A {@link HateosHandler} where all methods throw {@link UnsupportedOperationException}.
@@ -38,10 +38,10 @@ public class FakeHateosHandler<I extends Comparable<I>, V, C> implements HateosH
         throw new UnsupportedOperationException();
     }
 
-    public Optional<C> handleList(final List<I> ids,
+    public Optional<C> handleMany(final Set<I> ids,
                                   final Optional<C> resource,
                                   final Map<HttpRequestAttribute<?>, Object> parameters) {
-        Objects.requireNonNull(ids, "list");
+        HateosHandler.checkManyIds(ids);
         check(resource, parameters);
 
         throw new UnsupportedOperationException();

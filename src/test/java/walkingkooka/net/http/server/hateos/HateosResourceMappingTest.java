@@ -22,6 +22,7 @@ import walkingkooka.Cast;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.Range;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.reflect.JavaVisibility;
@@ -274,9 +275,13 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
             if(-1 != range) {
                 return HateosResourceSelection.range(Range.greaterThanEquals(new BigInteger(s.substring(0, range))).and(Range.lessThanEquals(new BigInteger(s.substring(range +1)))));
             }
-            final int list = s.indexOf(",");
-            if(-1 == list) {
-                return HateosResourceSelection.list(Arrays.stream(s.split(",")).map(BigInteger::new).collect(Collectors.toList()));
+            final int many = s.indexOf(",");
+            if (-1 == many) {
+                return HateosResourceSelection.many(
+                        Arrays.stream(s.split(","))
+                                .map(BigInteger::new)
+                                .collect(Collectors.toCollection(Sets::sorted))
+                );
             }
             return HateosResourceSelection.one(new BigInteger(s));
         };

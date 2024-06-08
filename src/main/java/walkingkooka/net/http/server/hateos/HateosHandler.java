@@ -21,10 +21,10 @@ import walkingkooka.collect.Range;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Handles a HATEOS request for a {@link HateosResource} including the marshalling between to and from text from
@@ -47,12 +47,12 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
                           final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
-     * Handles a resource identified by a list of ids
+     * Handles a resource identified by a set of ids
      * <pre>
      * /resource/1,20,300
      * </pre>>
      */
-    Optional<C> handleList(final List<I> ids,
+    Optional<C> handleMany(final Set<I> ids,
                            final Optional<C> resource,
                            final Map<HttpRequestAttribute<?>, Object> parameters);
 
@@ -95,9 +95,9 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
     }
 
     /**
-     * Complains if the {@link List} is null.
+     * Complains if the {@link Set} is null.
      */
-    static <I extends Comparable<I>> List<I> checkIdList(final List<I> ids) {
+    static <I extends Comparable<I>> Set<I> checkManyIds(final Set<I> ids) {
         return Objects.requireNonNull(ids, "ids");
     }
     
