@@ -90,22 +90,22 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
     /**
      * Complains if the id is null.
      */
-    static void checkId(final Comparable<?> id) {
-        Objects.requireNonNull(id, "id");
+    static <I extends Comparable<I>> I checkId(final I id) {
+        return Objects.requireNonNull(id, "id");
     }
 
     /**
      * Complains if the {@link List} is null.
      */
-    static void checkList(final List<?> list) {
-        Objects.requireNonNull(list, "list");
+    static <I extends Comparable<I>> List<I> checkIdList(final List<I> ids) {
+        return Objects.requireNonNull(ids, "ids");
     }
     
     /**
      * Complains if the {@link Range} is null.
      */
-    static void checkRange(final Range<?> range) {
-        Objects.requireNonNull(range, "range");
+    static <I extends Comparable<I>> Range<I> checkIdRange(final Range<I> range) {
+        return Objects.requireNonNull(range, "range");
     }
 
     /**
