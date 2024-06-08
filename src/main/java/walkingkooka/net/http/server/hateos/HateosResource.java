@@ -31,7 +31,7 @@ public interface HateosResource<I> extends HasId<Optional<I>> {
     /**
      * Comparator that may be used to sort {@link HateosResource} using their IDs.
      */
-    static <H extends HateosResource<I>, I extends Comparable<I>> HateosResourceIdComparator<H, I> instance() {
+    static <H extends HateosResource<I>, I extends Comparable<I>> HateosResourceIdComparator<H, I> comparator() {
         return HateosResourceIdComparator.instance();
     }
 
