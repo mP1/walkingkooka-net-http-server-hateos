@@ -20,19 +20,19 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.Cast;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
-final class HateosResourceSelectionList<I extends Comparable<I>> extends HateosResourceSelectionValue<I, List<I>> {
+final class HateosResourceSelectionMany<I extends Comparable<I>> extends HateosResourceSelectionValue<I, Set<I>> {
 
-    static <I extends Comparable<I>> HateosResourceSelectionList<I> with(final List<I> value) {
+    static <I extends Comparable<I>> HateosResourceSelectionMany<I> with(final Set<I> value) {
         Objects.requireNonNull(value, "value");
-        return new HateosResourceSelectionList<>(value);
+        return new HateosResourceSelectionMany<>(value);
     }
 
-    HateosResourceSelectionList(final List<I> value) {
+    HateosResourceSelectionMany(final Set<I> value) {
         super(value);
     }
 
@@ -40,6 +40,10 @@ final class HateosResourceSelectionList<I extends Comparable<I>> extends HateosR
     Optional<?> dispatch(final HateosHandler<I, ?, ?> handler,
                          final Optional<?> resource,
                          final Map<HttpRequestAttribute<?>, Object> parameters) {
-        return handler.handleList(this.value(), Cast.to(resource), parameters);
+        return handler.handleMany(
+                this.value(),
+                Cast.to(resource),
+                parameters
+        );
     }
 }

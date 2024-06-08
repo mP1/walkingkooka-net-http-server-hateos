@@ -20,14 +20,14 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.collect.Range;
-import walkingkooka.collect.list.Lists;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
@@ -66,20 +66,20 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
                 Optional.of(out));
     }
 
-    // handleList.......................................................................................................
+    // handleMany.......................................................................................................
 
     @Test
-    public void testHandleListAndCheck() {
-        final List<BigInteger> ids = this.list();
+    public void testHandleManyAndCheck() {
+        final Set<BigInteger> ids = this.manyIds();
         final Optional<TestHateosResource2> in = this.collectionResource();
         final Map<HttpRequestAttribute<?>, Object> parameters = this.parameters();
 
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
-        this.handleListAndCheck(
+        this.handleManyAndCheck(
                 new FakeHateosHandler<>() {
                     @Override
-                    public Optional<TestHateosResource2> handleList(final List<BigInteger> i,
+                    public Optional<TestHateosResource2> handleMany(final Set<BigInteger> i,
                                                                     final Optional<TestHateosResource2> r,
                                                                     final Map<HttpRequestAttribute<?>, Object> p) {
                         assertSame(ids, i);
@@ -192,8 +192,11 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
     }
 
     @Override
-    public List<BigInteger> list() {
-        return Lists.of(BigInteger.ONE, BigInteger.valueOf(22));
+    public Set<BigInteger> manyIds() {
+        return Sets.of(
+                BigInteger.ONE,
+                BigInteger.valueOf(22)
+        );
     }
 
     @Override

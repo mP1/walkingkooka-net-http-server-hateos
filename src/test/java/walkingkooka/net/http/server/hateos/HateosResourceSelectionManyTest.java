@@ -18,24 +18,24 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Cast;
-import walkingkooka.collect.list.Lists;
+import walkingkooka.collect.set.Sets;
 
-import java.util.List;
+import java.util.Set;
 
-public final class HateosResourceSelectionListTest extends HateosResourceSelectionValueTestCase<HateosResourceSelectionList<Integer>, Integer, List<Integer>> {
+public final class HateosResourceSelectionManyTest extends HateosResourceSelectionValueTestCase<HateosResourceSelectionMany<Integer>, Integer, Set<Integer>> {
 
     @Override
-    public HateosResourceSelectionList<Integer> createHateosResourceSelection(final List<Integer> list) {
-        return HateosResourceSelectionList.with(list);
+    public HateosResourceSelectionMany<Integer> createHateosResourceSelection(final Set<Integer> ids) {
+        return HateosResourceSelectionMany.with(ids);
     }
 
     @Override
-    List<Integer> value() {
-        return Lists.of(11, 22);
+    Set<Integer> value() {
+        return Sets.of(11, 22);
     }
 
     @Override
-    public Class<HateosResourceSelectionList<Integer>> type() {
-        return Cast.to(HateosResourceSelectionList.class);
+    public Class<HateosResourceSelectionMany<Integer>> type() {
+        return Cast.to(HateosResourceSelectionMany.class);
     }
 }

@@ -21,9 +21,9 @@ import walkingkooka.collect.Range;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A selection which may be nothing, a single item, a range or list.
@@ -38,10 +38,10 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
     }
 
     /**
-     * {@see HateosResourceSelectionList}
+     * {@see HateosResourceSelectionMany}
      */
-    public static <I extends Comparable<I>> HateosResourceSelection<I> list(final List<I> value) {
-        return HateosResourceSelectionList.with(value);
+    public static <I extends Comparable<I>> HateosResourceSelection<I> many(final Set<I> value) {
+        return HateosResourceSelectionMany.with(value);
     }
 
     /**
@@ -89,10 +89,10 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
     }
 
     /**
-     * Only {@link HateosResourceSelectionList} returns true.
+     * Only {@link HateosResourceSelectionMany} returns true.
      */
-    public final boolean isList() {
-        return this instanceof HateosResourceSelectionList;
+    public final boolean isMany() {
+        return this instanceof HateosResourceSelectionMany;
     }
 
     /**

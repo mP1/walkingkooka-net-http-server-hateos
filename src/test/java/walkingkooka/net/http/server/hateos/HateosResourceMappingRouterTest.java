@@ -1092,7 +1092,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     final int list = s.indexOf(",");
                     if (-1 != list) {
                         try {
-                            return HateosResourceSelection.list(Arrays.stream(s.split(",")).map(HateosResourceMappingRouterTest::parse).collect(Collectors.toList()));
+                            return HateosResourceSelection.many(
+                                    Arrays.stream(s.split(","))
+                                            .map(HateosResourceMappingRouterTest::parse)
+                                            .collect(Collectors.toCollection(Sets::sorted))
+                            );
                         } catch (final RuntimeException cause) {
                             throw new IllegalArgumentException("Invalid list " + CharSequences.quoteAndEscape(s));
                         }

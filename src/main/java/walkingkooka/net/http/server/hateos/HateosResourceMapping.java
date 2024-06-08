@@ -193,7 +193,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosHandler#handleList(List, Optional, Map)},</li>
+     * <li>{@link HateosHandler#handleMany(List, Optional, Map)},</li>
      * <li>{@link HateosHandler#handleRange(Range, Optional, Map)},</li>
      * <li>{@link HateosHandler#handleAll(Optional, Map)},</li>
      * </ol>

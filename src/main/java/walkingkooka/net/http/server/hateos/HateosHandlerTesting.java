@@ -24,9 +24,9 @@ import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.TypeNameTesting;
 import walkingkooka.text.printer.TreePrintableTesting;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -91,70 +91,74 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
         this.checkEquals(expected, handler.handleAll(resource, parameters));
     }
 
-    // handleList.......................................................................................................
+    // handleMany.......................................................................................................
 
     @Test
-    default void testHandleListNullLIstFails() {
-        this.handleListFails(null,
+    default void testHandleManyNullIdsFails() {
+        this.handleManyFails(
+                null,
                 this.collectionResource(),
                 this.parameters(),
-                NullPointerException.class);
+                NullPointerException.class
+        );
     }
 
     @Test
-    default void testHandleListNullResourceFails() {
-        this.handleListFails(this.list(),
+    default void testHandleManyNullResourceFails() {
+        this.handleManyFails(
+                this.manyIds(),
                 null,
                 this.parameters(),
                 NullPointerException.class);
     }
 
     @Test
-    default void testHandleListNullParametersFails() {
-        this.handleListFails(this.list(),
+    default void testHandleManyNullParametersFails() {
+        this.handleManyFails(
+                this.manyIds(),
                 this.collectionResource(),
                 null,
                 NullPointerException.class);
     }
 
-    default <T extends Throwable> T handleListFails(final List<I> list,
+    default <T extends Throwable> T handleManyFails(final Set<I> ids,
                                                     final Optional<C> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
                                                     final Class<T> thrown) {
-        return this.handleListFails(this.createHandler(),
-                list,
+        return this.handleManyFails(this.createHandler(),
+                ids,
                 resource,
                 parameters,
                 thrown);
     }
 
-    default <T extends Throwable> T handleListFails(final HateosHandler<I, V, C> handler,
-                                                    final List<I> list,
+    default <T extends Throwable> T handleManyFails(final HateosHandler<I, V, C> handler,
+                                                    final Set<I> ids,
                                                     final Optional<C> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
                                                     final Class<T> thrown) {
         return assertThrows(thrown, () -> {
-            handler.handleList(list, resource, parameters);
+            handler.handleMany(ids, resource, parameters);
         });
     }
 
-    default void handleListAndCheck(final List<I> list,
+    default void handleManyAndCheck(final Set<I> ids,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
                                     final Optional<C> expected) {
-        this.handleListAndCheck(this.createHandler(),
-                list,
+        this.handleManyAndCheck(this.createHandler(),
+                ids,
                 resource,
                 parameters,
                 expected);
     }
 
-    default void handleListAndCheck(final HateosHandler<I, V, C> handler,
-                                    final List<I> list,
+    default void handleManyAndCheck(final HateosHandler<I, V, C> handler,
+                                    final Set<I> ids,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
                                     final Optional<C> expected) {
-        this.checkEquals(expected, handler.handleList(list, resource, parameters));
+        this.checkEquals(expected, handler.handleMany(ids, resource, parameters));
     }
 
     // handleNone.......................................................................................................
@@ -345,7 +349,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
 
     I id();
 
-    List<I> list();
+    Set<I> manyIds();
 
     Range<I> range();
 
