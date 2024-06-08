@@ -70,7 +70,7 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
 
     @Test
     public void testHandleListAndCheck() {
-        final List<BigInteger> list = this.list();
+        final List<BigInteger> ids = this.list();
         final Optional<TestHateosResource2> in = this.collectionResource();
         final Map<HttpRequestAttribute<?>, Object> parameters = this.parameters();
 
@@ -79,17 +79,17 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
         this.handleListAndCheck(
                 new FakeHateosHandler<>() {
                     @Override
-                    public Optional<TestHateosResource2> handleList(final List<BigInteger> l,
+                    public Optional<TestHateosResource2> handleList(final List<BigInteger> i,
                                                                     final Optional<TestHateosResource2> r,
                                                                     final Map<HttpRequestAttribute<?>, Object> p) {
-                        assertSame(list, l);
+                        assertSame(ids, i);
                         assertSame(in, r);
                         assertSame(parameters, p);
 
                         return Optional.of(out);
                     }
                 },
-                list,
+                ids,
                 in,
                 parameters,
                 Optional.of(out));

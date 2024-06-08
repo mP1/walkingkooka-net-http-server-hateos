@@ -52,7 +52,7 @@ public interface HateosHandler<I extends Comparable<I>, V, C> {
      * /resource/1,20,300
      * </pre>>
      */
-    Optional<C> handleList(final List<I> list,
+    Optional<C> handleList(final List<I> ids,
                            final Optional<C> resource,
                            final Map<HttpRequestAttribute<?>, Object> parameters);
 

@@ -38,10 +38,10 @@ public class FakeHateosHandler<I extends Comparable<I>, V, C> implements HateosH
         throw new UnsupportedOperationException();
     }
 
-    public Optional<C> handleList(final List<I> list,
+    public Optional<C> handleList(final List<I> ids,
                                   final Optional<C> resource,
                                   final Map<HttpRequestAttribute<?>, Object> parameters) {
-        Objects.requireNonNull(list, "list");
+        Objects.requireNonNull(ids, "list");
         check(resource, parameters);
 
         throw new UnsupportedOperationException();
