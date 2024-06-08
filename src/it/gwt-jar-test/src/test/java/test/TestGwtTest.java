@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+@walkingkooka.j2cl.locale.LocaleAware
 public class TestGwtTest extends GWTTestCase {
 
     @Override
