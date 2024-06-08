@@ -29,6 +29,13 @@ import java.util.function.Function;
 public interface HateosResource<I> extends HasId<Optional<I>> {
 
     /**
+     * Comparator that may be used to sort {@link HateosResource} using their IDs.
+     */
+    static <H extends HateosResource<I>, I extends Comparable<I>> HateosResourceIdComparator<H, I> instance() {
+        return HateosResourceIdComparator.instance();
+    }
+
+    /**
      * Accepts a {@link Range} and converts it into a {@link String}.
      */
     static <I extends Comparable<I>> String rangeHateosLinkId(final Range<I> range,
