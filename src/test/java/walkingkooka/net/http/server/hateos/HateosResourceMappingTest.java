@@ -29,6 +29,7 @@ import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -74,6 +75,42 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
                 this.valueType(),
                 null,
                 this.resourceType());
+    }
+
+    @Test
+    public void testWithInterfaceCollectionTypeFails() {
+        final IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> HateosResourceMapping.with(
+                        this.resourceName(),
+                        this.selection(),
+                        this.valueType(),
+                        Collection.class,
+                        this.resourceType()
+                )
+        );
+        this.checkEquals(
+                "Collection type java.util.Collection is an interface expected concrete class",
+                thrown.getMessage()
+        );
+    }
+
+    @Test
+    public void testWithArrayCollectionTypeFails() {
+        final IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> HateosResourceMapping.with(
+                        this.resourceName(),
+                        this.selection(),
+                        this.valueType(),
+                        Object[].class,
+                        this.resourceType()
+                )
+        );
+        this.checkEquals(
+                "Collection type [Ljava.lang.Object; is an array expected concrete class",
+                thrown.getMessage()
+        );
     }
 
     @Test
