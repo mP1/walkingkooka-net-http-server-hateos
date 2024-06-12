@@ -122,6 +122,28 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
                 null);
     }
 
+    @Test
+    public void testWithInterfaceResourceTypeFails() {
+        final IllegalArgumentException thrown = assertThrows(
+                IllegalArgumentException.class,
+                () -> HateosResourceMapping.with(
+                        this.resourceName(),
+                        this.selection(),
+                        this.valueType(),
+                        this.collectionType(),
+                        TestHateosResourceInterface.class
+                )
+        );
+        this.checkEquals(
+                "Resource type walkingkooka.net.http.server.hateos.HateosResourceMappingTest$TestHateosResourceInterface is an interface expected a concrete class",
+                thrown.getMessage()
+        );
+    }
+
+    interface TestHateosResourceInterface extends HateosResource<BigInteger> {
+
+    }
+
     private void withFails(
             final HateosResourceName resourceName,
             final Function<String, HateosResourceSelection<BigInteger>> selection,
