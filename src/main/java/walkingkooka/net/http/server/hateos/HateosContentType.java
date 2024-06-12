@@ -17,16 +17,33 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
+
+import java.util.Set;
 
 /**
  * Controls the content type of hateos messages.
  */
 public abstract class HateosContentType {
+
+    /**
+     * {@see HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor}
+     */
+    public static JsonNodeMarshallContextObjectPostProcessor addLinks(final AbsoluteUrl base,
+                                                                      final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
+                                                                      final JsonNodeMarshallContext context) {
+        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor.with(
+                base,
+                mappings,
+                context
+        );
+    }
 
     /**
      * A {@link MediaType} for json hateos content.
