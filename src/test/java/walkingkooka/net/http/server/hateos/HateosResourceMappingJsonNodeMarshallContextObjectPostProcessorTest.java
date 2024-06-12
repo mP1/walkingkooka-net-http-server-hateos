@@ -26,17 +26,15 @@ import walkingkooka.net.Url;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonNode;
-import walkingkooka.tree.json.JsonObject;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessorTesting;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.util.BiFunctionTesting;
 
 import java.math.BigInteger;
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extends HateosResourceMappingTestCase2<HateosResourceMappingObjectPostProcessorBiFunction>
-        implements BiFunctionTesting<HateosResourceMappingObjectPostProcessorBiFunction, Object, JsonObject, JsonObject> {
+public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorTest extends HateosResourceMappingTestCase2<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor>
+        implements JsonNodeMarshallContextObjectPostProcessorTesting<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor> {
 
     // apply............................................................................................................
 
@@ -90,8 +88,8 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
     // BiFunction.......................................................................................................
 
     @Override
-    public HateosResourceMappingObjectPostProcessorBiFunction createBiFunction() {
-        return HateosResourceMappingObjectPostProcessorBiFunction.with(this.baseUrl(),
+    public HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor createBiFunction() {
+        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor.with(this.baseUrl(),
                 this.mappings(),
                 this.marshallContext());
     }
@@ -138,8 +136,8 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingObjectPostProcessorBiFunction> type() {
-        return HateosResourceMappingObjectPostProcessorBiFunction.class;
+    public Class<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor> type() {
+        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor.class;
     }
 
     // TypeNameTesting..................................................................................................
@@ -147,10 +145,5 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionTest extend
     @Override
     public String typeNamePrefix() {
         return HateosResourceMapping.class.getSimpleName();
-    }
-
-    @Override
-    public String typeNameSuffix() {
-        return BiFunction.class.getSimpleName();
     }
 }
