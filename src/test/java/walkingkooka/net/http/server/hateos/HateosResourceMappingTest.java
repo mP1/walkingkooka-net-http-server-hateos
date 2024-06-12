@@ -90,7 +90,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
                 )
         );
         this.checkEquals(
-                "Collection type java.util.Collection is an interface expected concrete class",
+                "Collection type java.util.Collection is an interface expected a concrete class",
                 thrown.getMessage()
         );
     }
@@ -108,7 +108,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
                 )
         );
         this.checkEquals(
-                "Collection type [Ljava.lang.Object; is an array expected concrete class",
+                "Collection type [Ljava.lang.Object; is an array expected a concrete class",
                 thrown.getMessage()
         );
     }
