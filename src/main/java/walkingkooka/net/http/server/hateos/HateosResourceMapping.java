@@ -79,6 +79,14 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
         Objects.requireNonNull(selection, "selection");
         Objects.requireNonNull(valueType, "valueType");
         Objects.requireNonNull(collectionType, "collectionType");
+
+        if (collectionType.isInterface()) {
+            throw new IllegalArgumentException("Collection type " + collectionType.getName() + " is an interface expected concrete class");
+        }
+        if (collectionType.isArray()) {
+            throw new IllegalArgumentException("Collection type " + collectionType.getName() + " is an array expected concrete class");
+        }
+
         Objects.requireNonNull(resourceType, "resourceType");
 
         return new HateosResourceMapping<>(resourceName,
