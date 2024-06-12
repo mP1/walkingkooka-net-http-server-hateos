@@ -30,8 +30,8 @@ import java.math.BigInteger;
 import java.util.Map;
 import java.util.Set;
 
-public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest extends HateosResourceMappingTestCase2<HateosResourceMappingObjectPostProcessorBiFunctionMapping>
-        implements ToStringTesting<HateosResourceMappingObjectPostProcessorBiFunctionMapping> {
+public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMappingTest extends HateosResourceMappingTestCase2<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping>
+        implements ToStringTesting<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping> {
 
     @Test
     public void testSelfGetAddLinks() {
@@ -112,7 +112,7 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
                 withLinks);
     }
 
-    private void addLinksAndCheck(final HateosResourceMappingObjectPostProcessorBiFunctionMapping mapping,
+    private void addLinksAndCheck(final HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping mapping,
                                   final String withLinks) {
         final String before = "{\"a\": 1, \"b\": 2}";
         this.checkEquals(JsonNode.parse(withLinks),
@@ -128,26 +128,26 @@ public final class HateosResourceMappingObjectPostProcessorBiFunctionMappingTest
         this.toStringAndCheck(this.createMapping(), "resource1, about=GET, contents=GET, POST");
     }
 
-    private HateosResourceMappingObjectPostProcessorBiFunctionMapping createMapping() {
+    private HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping createMapping() {
         return this.createMapping(Maps.of(LinkRelation.ABOUT, Sets.of(HttpMethod.GET), LinkRelation.CONTENTS, Sets.of(HttpMethod.GET, HttpMethod.POST)));
     }
 
-    private HateosResourceMappingObjectPostProcessorBiFunctionMapping createMapping(final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
-        return HateosResourceMappingObjectPostProcessorBiFunctionMapping.with(HateosResourceName.with("resource1"), relationToMethods);
+    private HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping createMapping(final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
+        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping.with(HateosResourceName.with("resource1"), relationToMethods);
     }
 
     // TypeTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingObjectPostProcessorBiFunctionMapping> type() {
-        return HateosResourceMappingObjectPostProcessorBiFunctionMapping.class;
+    public Class<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping> type() {
+        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosResourceMappingObjectPostProcessorBiFunction.class.getSimpleName();
+        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor.class.getSimpleName();
     }
 
     @Override
