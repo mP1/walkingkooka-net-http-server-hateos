@@ -20,7 +20,7 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
-import walkingkooka.net.http.server.hateos.FakeHateosHandler;
+import walkingkooka.net.http.server.hateos.FakeHateosResourceHandler;
 import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.net.http.server.hateos.HateosContentType;
 import walkingkooka.net.http.server.hateos.HateosResourceMapping;
@@ -67,7 +67,7 @@ public class TestGwtTest extends GWTTestCase {
     }
 
     public void testNewHateosHandler()  {
-        new FakeHateosHandler<String, String, Collection<String>>() {
+        new FakeHateosResourceHandler<String, String, Collection<String>>() {
         };
     }
 
@@ -87,7 +87,7 @@ public class TestGwtTest extends GWTTestCase {
                 .set(
                         LinkRelation.CONTENTS,
                         HttpMethod.POST,
-                        new FakeHateosHandler<>() {
+                        new FakeHateosResourceHandler<>() {
                             @Override
                             public Optional<TestResource> handleOne(final BigInteger id,
                                                                     final Optional<TestResource> resource,

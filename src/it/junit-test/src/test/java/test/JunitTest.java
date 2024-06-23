@@ -43,7 +43,7 @@ import walkingkooka.net.http.server.hateos.HateosResource;
 import walkingkooka.net.http.server.hateos.HateosResourceMapping;
 import walkingkooka.net.http.server.hateos.HateosResourceName;
 import walkingkooka.net.http.server.hateos.HateosResourceSelection;
-import walkingkooka.net.http.server.hateos.FakeHateosHandler;
+import walkingkooka.net.http.server.hateos.FakeHateosResourceHandler;
 import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.route.Router;
 import walkingkooka.text.Indentation;
@@ -74,7 +74,7 @@ public class JunitTest {
 
     @Test
     public void testNewHateosHandler() throws Exception {
-        new FakeHateosHandler<String, String, Collection<String>>() {
+        new FakeHateosResourceHandler<String, String, Collection<String>>() {
         };
     }
 
@@ -96,7 +96,7 @@ public class JunitTest {
                 .set(
                         LinkRelation.CONTENTS,
                         HttpMethod.POST,
-                        new FakeHateosHandler<>() {
+                        new FakeHateosResourceHandler<>() {
                             @Override
                             public Optional<TestResource> handleOne(final BigInteger id,
                                                                     final Optional<TestResource> resource,
