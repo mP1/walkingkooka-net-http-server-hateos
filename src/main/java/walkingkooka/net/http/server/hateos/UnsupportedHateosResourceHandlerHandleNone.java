@@ -25,7 +25,7 @@ import java.util.Optional;
 /**
  * A {@link HateosResourceHandler#handleNone(Optional, Map)} that throws {@link UnsupportedOperationException}.
  */
-public interface UnsupportedHateosResourceHandlerHandleNone<I extends Comparable<I>, V, C> {
+public interface UnsupportedHateosResourceHandlerHandleNone<I extends Comparable<I>, V, C> extends HateosResourceHandler<I, V, C> {
 
     default Optional<V> handleNone(final Optional<V> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters) {
