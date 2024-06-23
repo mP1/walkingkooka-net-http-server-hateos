@@ -28,6 +28,7 @@ import java.util.Set;
  */
 public interface UnsupportedHateosResourceHandlerHandleMany<I extends Comparable<I>, V, C> extends HateosResourceHandler<I, V, C> {
 
+    @Override
     default Optional<C> handleMany(final Set<I> ids,
                                    final Optional<C> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters) {
