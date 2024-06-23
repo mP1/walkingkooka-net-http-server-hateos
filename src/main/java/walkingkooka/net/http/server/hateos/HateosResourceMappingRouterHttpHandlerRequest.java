@@ -242,14 +242,14 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     }
 
     /**
-     * Using the mapping and relation attempts to locate a matching {@link HateosHandler}, followed by parsing the
+     * Using the mapping and relation attempts to locate a matching {@link HateosResourceHandler}, followed by parsing the
      * request body into a {@link HateosResource} and then writes the response and sets the status code.
      */
     private void locateHandlerParseRequestBodyDispatchSetResponse(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                                                   final HateosResourceSelection<?> selection,
                                                                   final LinkRelation<?> relation,
                                                                   final HttpMethod method) {
-        final HateosHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, relation, method);
+        final HateosResourceHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, relation, method);
         if (null != handler) {
             final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
             if (null != resource) {
@@ -288,10 +288,10 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Attempts to locate the locateHandlerParseRequestBodyDispatchSetResponse for the given criteria or sets the response with not found.
      */
-    private HateosHandler<?, ?, ?> handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                                     final LinkRelation<?> relation,
-                                                     final HttpMethod method) {
-        final HateosHandler<?, ?, ?> handler = mapping.relationAndMethodToHandlers.get(HateosResourceMappingLinkRelationHttpMethod.with(relation, method));
+    private HateosResourceHandler<?, ?, ?> handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                                             final LinkRelation<?> relation,
+                                                             final HttpMethod method) {
+        final HateosResourceHandler<?, ?, ?> handler = mapping.relationAndMethodToHandlers.get(HateosResourceMappingLinkRelationHttpMethod.with(relation, method));
         if (null == handler) {
             this.notFound(mapping.resourceName, relation);
         }

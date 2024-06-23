@@ -17,25 +17,18 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.reflect.JavaVisibility;
-import walkingkooka.reflect.PublicStaticHelperTesting;
+import walkingkooka.reflect.PublicStaticHelper;
 
-import java.lang.reflect.Method;
+public final class HateosResourceHandlers implements PublicStaticHelper {
 
-public final class HateosHandlersTest implements PublicStaticHelperTesting<HateosHandlers> {
-
-    @Override
-    public Class<HateosHandlers> type() {
-        return HateosHandlers.class;
+    /**
+     * {@see FakeHateosResourceHandler}
+     */
+    public static <I extends Comparable<I>, V, C> HateosResourceHandler<I, V, C> fake() {
+        return new FakeHateosResourceHandler<>();
     }
 
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
-    }
-
-    @Override
-    public boolean canHavePublicTypes(final Method method) {
-        return true;
+    private HateosResourceHandlers() {
+        throw new UnsupportedOperationException();
     }
 }

@@ -31,9 +31,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Mixin interface for testing {@link HateosHandler}
+ * Mixin interface for testing {@link HateosResourceHandler}
  */
-public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
+public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I, V, C>,
         I extends Comparable<I>,
         V,
         C>
@@ -66,7 +66,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 thrown);
     }
 
-    default <T extends Throwable> T handleAllFails(final HateosHandler<I, V, C> handler,
+    default <T extends Throwable> T handleAllFails(final HateosResourceHandler<I, V, C> handler,
                                                    final Optional<C> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
                                                    final Class<T> thrown) {
@@ -84,7 +84,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 expected);
     }
 
-    default void handleAllAndCheck(final HateosHandler<I, V, C> handler,
+    default void handleAllAndCheck(final HateosResourceHandler<I, V, C> handler,
                                    final Optional<C> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
                                    final Optional<C> expected) {
@@ -132,7 +132,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 thrown);
     }
 
-    default <T extends Throwable> T handleManyFails(final HateosHandler<I, V, C> handler,
+    default <T extends Throwable> T handleManyFails(final HateosResourceHandler<I, V, C> handler,
                                                     final Set<I> ids,
                                                     final Optional<C> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
@@ -153,7 +153,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 expected);
     }
 
-    default void handleManyAndCheck(final HateosHandler<I, V, C> handler,
+    default void handleManyAndCheck(final HateosResourceHandler<I, V, C> handler,
                                     final Set<I> ids,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
@@ -186,7 +186,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 thrown);
     }
 
-    default <T extends Throwable> T handleNoneFails(final HateosHandler<I, V, C> handler,
+    default <T extends Throwable> T handleNoneFails(final HateosResourceHandler<I, V, C> handler,
                                                     final Optional<V> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
                                                     final Class<T> thrown) {
@@ -204,7 +204,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 expected);
     }
 
-    default void handleNoneAndCheck(final HateosHandler<I, V, C> handler,
+    default void handleNoneAndCheck(final HateosResourceHandler<I, V, C> handler,
                                     final Optional<V> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
                                     final Optional<V> expected) {
@@ -248,7 +248,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 thrown);
     }
 
-    default <T extends Throwable> T handleOneFails(final HateosHandler<I, V, C> handler,
+    default <T extends Throwable> T handleOneFails(final HateosResourceHandler<I, V, C> handler,
                                                    final I id,
                                                    final Optional<V> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
@@ -269,7 +269,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 expected);
     }
 
-    default void handleOneAndCheck(final HateosHandler<I, V, C> handler,
+    default void handleOneAndCheck(final HateosResourceHandler<I, V, C> handler,
                                    final I id,
                                    final Optional<V> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
@@ -314,7 +314,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 thrown);
     }
 
-    default <T extends Throwable> T handleRangeFails(final HateosHandler<I, V, C> handler,
+    default <T extends Throwable> T handleRangeFails(final HateosResourceHandler<I, V, C> handler,
                                                      final Range<I> range,
                                                      final Optional<C> resource,
                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
@@ -335,7 +335,7 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
                 expected);
     }
 
-    default void handleRangeAndCheck(final HateosHandler<I, V, C> handler,
+    default void handleRangeAndCheck(final HateosResourceHandler<I, V, C> handler,
                                      final Range<I> range,
                                      final Optional<C> resource,
                                      final Map<HttpRequestAttribute<?>, Object> parameters,
@@ -361,6 +361,6 @@ public interface HateosHandlerTesting<H extends HateosHandler<I, V, C>,
 
     @Override
     default String typeNameSuffix() {
-        return HateosHandler.class.getSimpleName();
+        return HateosResourceHandler.class.getSimpleName();
     }
 }
