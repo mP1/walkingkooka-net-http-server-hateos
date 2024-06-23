@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 
 /**
- * A {@link BiConsumer} which examines the request and then dispatches to the selected {@link HateosHandler}.
+ * A {@link BiConsumer} which examines the request and then dispatches to the selected {@link HateosResourceHandler}.
  */
 final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
 

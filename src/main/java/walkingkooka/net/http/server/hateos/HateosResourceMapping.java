@@ -43,7 +43,7 @@ import java.util.function.Function;
 
 /**
  * Holds all mappings for a single {@link HateosResource}, where a mapping is a combination of {@link HttpMethod} and
- * {@link LinkRelation} mapped to individual {@link HateosHandler}.
+ * {@link LinkRelation} mapped to individual {@link HateosResourceHandler}.
  * <br>
  * A very brief summary of {@link HttpStatusCode} used follows and required conditions. Different {@link HttpStatusCode}
  * indicate errors in the request or failure in executing the handler.
@@ -111,7 +111,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
                                   final Class<V> valueType,
                                   final Class<C> collectionType,
                                   final Class<H> resourceType,
-                                  final Map<HateosResourceMappingLinkRelationHttpMethod, HateosHandler<I, V, C>> relationAndMethodToHandlers) {
+                                  final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceHandler<I, V, C>> relationAndMethodToHandlers) {
         super();
         this.resourceName = resourceName;
         this.selection = selection;
@@ -142,15 +142,15 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     }
 
     /**
-     * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosHandler}.
+     * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosResourceHandler}.
      */
     public HateosResourceMapping<I, V, C, H> set(final LinkRelation<?> relation,
                                                  final HttpMethod method,
-                                                 final HateosHandler<I, V, C> handler) {
+                                                 final HateosResourceHandler<I, V, C> handler) {
         final HateosResourceMappingLinkRelationHttpMethod key = HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
         Objects.requireNonNull(handler, "handler");
 
-        final Map<HateosResourceMappingLinkRelationHttpMethod, HateosHandler<I, V, C>> copy = Maps.sorted();
+        final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceHandler<I, V, C>> copy = Maps.sorted();
         copy.putAll(this.relationAndMethodToHandlers);
         final Object replaced = copy.put(key, handler);
 
@@ -165,9 +165,9 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     }
 
     /**
-     * Mapping of all {@link LinkRelation} and {@link HttpMethod} to {@link HateosHandler}.
+     * Mapping of all {@link LinkRelation} and {@link HttpMethod} to {@link HateosResourceHandler}.
      */
-    final Map<HateosResourceMappingLinkRelationHttpMethod, HateosHandler<I, V, C>> relationAndMethodToHandlers;
+    final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceHandler<I, V, C>> relationAndMethodToHandlers;
 
     // HateosResourceMappingRouter...............................................................................
 
@@ -198,8 +198,8 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosHandler#handleNone(Optional, Map)},</li>
-     * <li>{@link HateosHandler#handleOne(Comparable, Optional, Map)},</li>
+     * <li>{@link HateosResourceHandler#handleNone(Optional, Map)},</li>
+     * <li>{@link HateosResourceHandler#handleOne(Comparable, Optional, Map)},</li>
      * </ol>
      */
     final Class<V> valueType;
@@ -207,9 +207,9 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosHandler#handleMany(Set, Optional, Map)},</li>
-     * <li>{@link HateosHandler#handleRange(Range, Optional, Map)},</li>
-     * <li>{@link HateosHandler#handleAll(Optional, Map)},</li>
+     * <li>{@link HateosResourceHandler#handleMany(Set, Optional, Map)},</li>
+     * <li>{@link HateosResourceHandler#handleRange(Range, Optional, Map)},</li>
+     * <li>{@link HateosResourceHandler#handleAll(Optional, Map)},</li>
      * </ol>
      */
     final Class<C> collectionType;

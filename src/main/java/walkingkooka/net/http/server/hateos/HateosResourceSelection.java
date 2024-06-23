@@ -125,7 +125,7 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
                 mapping.collectionType;
     }
 
-    abstract Optional<?> dispatch(final HateosHandler<I, ?, ?> handler,
+    abstract Optional<?> dispatch(final HateosResourceHandler<I, ?, ?> handler,
                                   final Optional<?> resource,
                                   final Map<HttpRequestAttribute<?>, Object> parameters);
 

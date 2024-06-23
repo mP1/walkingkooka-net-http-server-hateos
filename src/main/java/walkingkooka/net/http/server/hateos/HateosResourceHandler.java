@@ -30,7 +30,7 @@ import java.util.Set;
  * Handles a HATEOS request for a {@link HateosResource} including the marshalling between to and from text from
  * the {@link walkingkooka.net.http.server.HttpRequest#body()}.
  */
-public interface HateosHandler<I extends Comparable<I>, V, C> {
+public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
 
     /**
      * An empty {@link Map} with no parameters.

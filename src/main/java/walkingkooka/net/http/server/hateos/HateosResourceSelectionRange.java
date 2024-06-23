@@ -37,7 +37,7 @@ final class HateosResourceSelectionRange<I extends Comparable<I>> extends Hateos
     }
 
     @Override
-    Optional<?> dispatch(final HateosHandler<I, ?, ?> handler,
+    Optional<?> dispatch(final HateosResourceHandler<I, ?, ?> handler,
                          final Optional<?> resource,
                          final Map<HttpRequestAttribute<?>, Object> parameters) {
         return handler.handleRange(this.value(), Cast.to(resource), parameters);

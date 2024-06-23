@@ -27,9 +27,9 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link HateosHandler} where all methods throw {@link UnsupportedOperationException}.
+ * A {@link HateosResourceHandler} where all methods throw {@link UnsupportedOperationException}.
  */
-public class FakeHateosHandler<I extends Comparable<I>, V, C> implements HateosHandler<I, V, C>, Fake {
+public class FakeHateosResourceHandler<I extends Comparable<I>, V, C> implements HateosResourceHandler<I, V, C>, Fake {
 
     public Optional<C> handleAll(final Optional<C> resource,
                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
@@ -41,7 +41,7 @@ public class FakeHateosHandler<I extends Comparable<I>, V, C> implements HateosH
     public Optional<C> handleMany(final Set<I> ids,
                                   final Optional<C> resource,
                                   final Map<HttpRequestAttribute<?>, Object> parameters) {
-        HateosHandler.checkManyIds(ids);
+        HateosResourceHandler.checkManyIds(ids);
         check(resource, parameters);
 
         throw new UnsupportedOperationException();

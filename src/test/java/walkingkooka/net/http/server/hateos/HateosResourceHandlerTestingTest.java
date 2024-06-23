@@ -31,7 +31,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-public final class HateosHandlerTestingTest implements HateosHandlerTesting<FakeHateosHandler<BigInteger, TestHateosResource, TestHateosResource2>,
+public final class HateosResourceHandlerTestingTest implements HateosResourceHandlerTesting<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2>,
         BigInteger,
         TestHateosResource,
         TestHateosResource2> {
@@ -50,7 +50,7 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleAllAndCheck(
-                new FakeHateosHandler<>() {
+                new FakeHateosResourceHandler<>() {
 
                     @Override
                     public Optional<TestHateosResource2> handleAll(final Optional<TestHateosResource2> r,
@@ -77,7 +77,7 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleManyAndCheck(
-                new FakeHateosHandler<>() {
+                new FakeHateosResourceHandler<>() {
                     @Override
                     public Optional<TestHateosResource2> handleMany(final Set<BigInteger> i,
                                                                     final Optional<TestHateosResource2> r,
@@ -105,7 +105,7 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
         final TestHateosResource out = TestHateosResource.with(BigInteger.ONE);
 
         this.handleNoneAndCheck(
-                new FakeHateosHandler<>() {
+                new FakeHateosResourceHandler<>() {
 
                     @Override
                     public Optional<TestHateosResource> handleNone(final Optional<TestHateosResource> r,
@@ -132,7 +132,7 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
         final TestHateosResource out = TestHateosResource.with(BigInteger.ONE);
 
         this.handleOneAndCheck(
-                new FakeHateosHandler<>() {
+                new FakeHateosResourceHandler<>() {
                     @Override
                     public Optional<TestHateosResource> handleOne(final BigInteger i,
                                                                   final Optional<TestHateosResource> r,
@@ -161,7 +161,7 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleRangeAndCheck(
-                new FakeHateosHandler<>() {
+                new FakeHateosResourceHandler<>() {
                     @Override
                     public Optional<TestHateosResource2> handleRange(final Range<BigInteger> rr,
                                                                      final Optional<TestHateosResource2> r,
@@ -182,8 +182,8 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
     // helpers..........................................................................................................
 
     @Override
-    public FakeHateosHandler<BigInteger, TestHateosResource, TestHateosResource2> createHandler() {
-        return new FakeHateosHandler<>();
+    public FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2> createHandler() {
+        return new FakeHateosResourceHandler<>();
     }
 
     @Override
@@ -216,13 +216,13 @@ public final class HateosHandlerTestingTest implements HateosHandlerTesting<Fake
     }
 
     @Override
-    public Class<FakeHateosHandler<BigInteger, TestHateosResource, TestHateosResource2>> type() {
-        return Cast.to(FakeHateosHandler.class);
+    public Class<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2>> type() {
+        return Cast.to(FakeHateosResourceHandler.class);
     }
 
     @Override
     public Map<HttpRequestAttribute<?>, Object> parameters() {
-        return HateosHandler.NO_PARAMETERS;
+        return HateosResourceHandler.NO_PARAMETERS;
     }
 
     @Override

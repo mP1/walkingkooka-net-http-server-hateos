@@ -19,7 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 /**
  * An ID that is impossible to create. This is useful for resources that do not have an id and only the resource is
- * required by the {@link HateosHandler}.
+ * required by the {@link HateosResourceHandler}.
  */
 public final class InvalidId implements Comparable<InvalidId> {
 
