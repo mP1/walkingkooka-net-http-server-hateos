@@ -28,6 +28,7 @@ import java.util.Optional;
  */
 public interface UnsupportedHateosResourceHandlerHandleRange<I extends Comparable<I>, V, C> extends HateosResourceHandler<I, V, C> {
 
+    @Override
     default Optional<C> handleRange(final Range<I> range,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters) {
