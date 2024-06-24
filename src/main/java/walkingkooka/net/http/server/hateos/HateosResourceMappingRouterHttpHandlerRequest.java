@@ -17,6 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.Binary;
 import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.ToStringBuilderOption;
@@ -249,23 +250,28 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                                         final HateosResourceSelection<?> selection,
                                         final LinkRelation<?> relation,
                                         final HttpMethod method) {
-        final HateosResourceHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, relation, method);
+        final HateosResourceMappingHandler handler = this.handlerOrNotFound(mapping, relation, method);
         if (null != handler) {
-            this.handleHateosResourceHandler(
+            handler.handle(
+                    this,
                     mapping,
-                    selection,
-                    handler
+                    selection
             );
         }
     }
 
     /**
-     * Attempts to locate the locateHandlerAndHandle for the given criteria or sets the response with not found.
+     * Attempts to locate the {@link HateosResourceMappingHandler} for the given criteria or sets the response with not found.
      */
-    private HateosResourceHandler<?, ?, ?> handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
+    private HateosResourceMappingHandler handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                                              final LinkRelation<?> relation,
                                                              final HttpMethod method) {
-        final HateosResourceHandler<?, ?, ?> handler = mapping.relationAndMethodToHandlers.get(HateosResourceMappingLinkRelationHttpMethod.with(relation, method));
+        final HateosResourceMappingHandler handler = mapping.relationAndMethodToHandlers.get(
+                HateosResourceMappingLinkRelationHttpMethod.with(
+                        relation,
+                        method
+                )
+        );
         if (null == handler) {
             this.notFound(mapping.resourceName, relation);
         }
@@ -280,14 +286,46 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         );
     }
 
-    private void handleHateosResourceHandler(final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                             final HateosResourceSelection<?> selection,
-                                             final HateosResourceHandler<?, ?, ?> handler) {
+    // HateosHttpEntityHandler..........................................................................................
+
+    void handleHateosHttpEntityHandler(final HateosHttpEntityHandler<?> handler,
+                                       final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                       final HateosResourceSelection<?> selection) {
+        final HttpEntity responseHttpEntity = selection.handleHateosHttpEntityHandler(
+                Cast.to(handler),
+                this.httpEntity()
+        );
+
+        final HttpResponse response = this.response;
+
+        response.setStatus(
+                responseHttpEntity.isEmpty() ?
+                        HttpStatusCode.NO_CONTENT.status() :
+                        HttpStatusCode.OK.status()
+        );
+        response.addEntity(responseHttpEntity);
+    }
+
+    private HttpEntity httpEntity() {
+        final HttpRequest request = this.request;
+
+        return HttpEntity.EMPTY.setHeaders(
+                request.headers()
+        ).setBody(
+                Binary.with(request.body())
+        );
+    }
+
+    // HateosResourceHandler............................................................................................
+
+    void handleHateosResourceHandler(final HateosResourceHandler<?, ?, ?> handler,
+                                     final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                     final HateosResourceSelection<?> selection) {
         final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
         if (null != resource) {
             final Accept accept = this.acceptCompatibleOrBadRequest();
             if (null != accept) {
-                final Optional<?> maybeResponseResource = selection.dispatch(
+                final Optional<?> maybeResponseResource = selection.handleHateosResourceHandler(
                         Cast.to(handler),
                         resource,
                         this.parameters

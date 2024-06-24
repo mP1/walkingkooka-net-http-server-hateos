@@ -21,9 +21,6 @@ import walkingkooka.ToStringBuilder;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.UrlPathName;
-import walkingkooka.net.header.HttpHeaderName;
-import walkingkooka.net.header.MediaType;
-import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
@@ -87,34 +84,35 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     public Optional<HttpHandler> route(final Map<HttpRequestAttribute<?>, Object> parameters) throws RouteException {
         Objects.requireNonNull(parameters, "parameters");
 
+        // a handler will be returned if the request path matche the path
         return Optional.ofNullable(
-                this.canHandle(parameters) ?
+                -1 != this.consumeBasePath(parameters) ?
                         this.httpHandler() :
                         null
         );
     }
 
-    /**
-     * When the method=GET the content-type must be absent, while for other methods the content-type must match,
-     * along with the base path.
-     */
-    private boolean canHandle(final Map<HttpRequestAttribute<?>, Object> parameters) {
-        final HttpMethod method = (HttpMethod) parameters.get(HttpRequestAttributes.METHOD);
-        final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.parameterValue(parameters);
-
-        // Optional.stream is not supported in J2cl hence the alternative.
-        return HttpMethod.GET.equals(method) || contentType.map(this::isContentTypeCompatible)
-                .orElse(false) &&
-                -1 != this.consumeBasePath(parameters);
-    }
-
-    /**
-     * Only returns true if the hateos content type and the given {@link MediaType} are compatible.
-     */
-    private boolean isContentTypeCompatible(final MediaType possible) {
-        return this.contentType.contentType()
-                .test(possible);
-    }
+//    /**
+//     * When the method=GET the content-type must be absent, while for other methods the content-type must match,
+//     * along with the base path.
+//     */
+//    private boolean canHandle(final Map<HttpRequestAttribute<?>, Object> parameters) {
+//        final HttpMethod method = (HttpMethod) parameters.get(HttpRequestAttributes.METHOD);
+//        final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.parameterValue(parameters);
+//
+//        // Optional.stream is not supported in J2cl hence the alternative.
+//        return HttpMethod.GET.equals(method) || contentType.map(this::isContentTypeCompatible)
+//                .orElse(false) &&
+//                -1 != this.consumeBasePath(parameters);
+//    }
+//
+//    /**
+//     * Only returns true if the hateos content type and the given {@link MediaType} are compatible.
+//     */
+//    private boolean isContentTypeCompatible(final MediaType possible) {
+//        return this.contentType.contentType()
+//                .test(possible);
+//    }
 
     /**
      * Attempts to consume the {@link #base} completely returning the index to the {@link HateosResourceName} component within the path or -1.
