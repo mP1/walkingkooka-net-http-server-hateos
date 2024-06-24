@@ -144,9 +144,9 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosResourceHandler}.
      */
-    public HateosResourceMapping<I, V, C, H> set(final LinkRelation<?> relation,
-                                                 final HttpMethod method,
-                                                 final HateosResourceHandler<I, V, C> handler) {
+    public HateosResourceMapping<I, V, C, H> setHateosResourceHandler(final LinkRelation<?> relation,
+                                                                      final HttpMethod method,
+                                                                      final HateosResourceHandler<I, V, C> handler) {
         final HateosResourceMappingLinkRelationHttpMethod key = HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
         Objects.requireNonNull(handler, "handler");
 
