@@ -111,18 +111,19 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
     /**
      * Complains if the resource is null.
      */
-    static void checkResource(final Optional<?> resource) {
-        Objects.requireNonNull(resource, "resource");
+    static <T> Optional<T> checkResource(final Optional<T> resource) {
+        return Objects.requireNonNull(resource, "resource");
     }
 
     /**
      * Complains if the resource is null or present.
      */
-    static void checkResourceEmpty(final Optional<?> resource) {
+    static <T> Optional<T> checkResourceEmpty(final Optional<T> resource) {
         checkResource(resource);
         resource.ifPresent((r) -> {
             throw new IllegalArgumentException("Resource not allowed=" + r);
         });
+        return resource;
     }
 
     /**
@@ -136,7 +137,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
     /**
      * Checks parameters are present.
      */
-    static void checkParameters(final Map<HttpRequestAttribute<?>, Object> parameters) {
-        Objects.requireNonNull(parameters, "parameters");
+    static Map<HttpRequestAttribute<?>, Object> checkParameters(final Map<HttpRequestAttribute<?>, Object> parameters) {
+        return Objects.requireNonNull(parameters, "parameters");
     }
 }
