@@ -43,7 +43,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>> {
      * </pre>>
      */
     HttpEntity handleMany(final Set<I> ids,
-                           final HttpEntity entity);
+                          final HttpEntity entity);
 
     /**
      * Handles a resources identified by the given id
@@ -52,7 +52,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>> {
      * </pre>>
      */
     HttpEntity handleOne(final I id,
-                          final HttpEntity entity);
+                         final HttpEntity entity);
 
     /**
      * Handles a collection of resources without any Id
