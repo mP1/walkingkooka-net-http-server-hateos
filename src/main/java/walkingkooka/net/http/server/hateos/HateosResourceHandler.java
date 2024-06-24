@@ -27,8 +27,8 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Handles a HATEOS request for a {@link HateosResource} including the marshalling between to and from text from
- * the {@link walkingkooka.net.http.server.HttpRequest#body()}.
+ * Handles a HATEOS request for one or more {@link HateosResource} handling the unmarshalling of the request body and
+ * marshalling of the response to the response body.
  */
 public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
 
@@ -38,7 +38,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
     Map<HttpRequestAttribute<?>, Object> NO_PARAMETERS = Maps.empty();
 
     /**
-     * Handles a all request for the resource.
+     * Handles a request for a resource
      * <pre>
      * /resource/*
      * </pre>>
@@ -47,7 +47,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
                           final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
-     * Handles a resource identified by a setHateosResourceHandler of ids
+     * Handles a collection of resources identified by the given Ids
      * <pre>
      * /resource/1,20,300
      * </pre>>
@@ -57,7 +57,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
                            final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
-     * Handles a resource identified by the ID.
+     * Handles a resources identified by the given id
      * <pre>
      * /resource/123
      * </pre>>
@@ -67,7 +67,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
                           final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
-     * Handles a resource without an id.
+     * Handles a collection of resources without any Id
      * <pre>
      * /resource
      * </pre>>
@@ -76,7 +76,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
                            final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
-     * Handles a resource identified by a range of ids
+     * Handles a collection of resources identified by the given Ids
      * <pre>
      * /resource/12-34
      * </pre>>
