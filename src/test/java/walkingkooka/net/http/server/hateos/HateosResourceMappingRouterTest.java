@@ -1026,7 +1026,8 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         new FakeHateosHttpEntityHandler<>() {
                             @Override
                             public HttpEntity handleOne(final BigInteger id,
-                                                        final HttpEntity entity) {
+                                                        final HttpEntity entity,
+                                                        final Map<HttpRequestAttribute<?>, Object> parameters) {
                                 checkEquals(
                                         mediaType,
                                         HttpHeaderName.CONTENT_TYPE.headerOrFail(entity)

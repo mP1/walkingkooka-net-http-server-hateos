@@ -18,12 +18,17 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.http.HttpEntity;
+import walkingkooka.net.http.server.HttpRequestAttribute;
+
+import java.util.Map;
 
 public interface UnsupportedHateosHttpEntityHandlerHandleNone<I extends Comparable<I>> extends HateosHttpEntityHandler<I> {
 
     @Override
-    default HttpEntity handleNone(final HttpEntity entity) {
+    default HttpEntity handleNone(final HttpEntity entity,
+                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
         HateosHttpEntityHandler.checkHttpEntity(entity);
+        HateosHttpEntityHandler.checkParameters(parameters);
 
         throw new UnsupportedOperationException();
     }

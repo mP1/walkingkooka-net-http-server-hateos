@@ -19,35 +19,42 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
 import walkingkooka.net.http.HttpEntity;
+import walkingkooka.net.http.server.HttpRequestAttribute;
 
+import java.util.Map;
 import java.util.Set;
 
 public class FakeHateosHttpEntityHandler<I extends Comparable<I>> implements HateosHttpEntityHandler<I> {
     @Override
-    public HttpEntity handleAll(final HttpEntity entity) {
+    public HttpEntity handleAll(final HttpEntity entity,
+                                final Map<HttpRequestAttribute<?>, Object> parameters) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public HttpEntity handleMany(final Set<I> ids,
-                                 final HttpEntity entity) {
+                                 final HttpEntity entity,
+                                 final Map<HttpRequestAttribute<?>, Object> parameters) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public HttpEntity handleOne(final I id,
-                                final HttpEntity entity) {
+                                final HttpEntity entity,
+                                final Map<HttpRequestAttribute<?>, Object> parameters) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public HttpEntity handleNone(final HttpEntity entity) {
+    public HttpEntity handleNone(final HttpEntity entity,
+                                 final Map<HttpRequestAttribute<?>, Object> parameters) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public HttpEntity handleRange(final Range<I> range,
-                                  final HttpEntity entity) {
+                                  final HttpEntity entity,
+                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
         throw new UnsupportedOperationException();
     }
 }
