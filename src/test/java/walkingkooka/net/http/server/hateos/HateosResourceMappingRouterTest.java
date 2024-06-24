@@ -936,7 +936,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         TestResource.class,
                         TestResource.class,
                         TestHateosResource.class)
-                .set(
+                .setHateosResourceHandler(
                         LinkRelation.CONTENTS,
                         HttpMethod.POST,
                         new FakeHateosResourceHandler<>() {
@@ -1033,15 +1033,15 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     private HateosResourceMappingRouter createRouter(final HateosResourceHandler<BigInteger, TestResource, TestResource> handler) {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> getMapping = this.getMapping()
-                .set(LinkRelation.SELF, HttpMethod.GET, handler);
+                .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.GET, handler);
 
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mappingWithBody = this.mappingWithBody()
-                .set(LinkRelation.SELF, HttpMethod.POST, handler)
-                .set(LinkRelation.with("a1"), HttpMethod.POST, handler)
-                .set(LinkRelation.CONTENTS, HttpMethod.PUT, handler)
-                .set(LinkRelation.CONTENTS, HttpMethod.DELETE, handler)
-                .set(LinkRelation.CONTENTS, HttpMethod.POST, handler)
-                .set(LinkRelation.with("z1"), HttpMethod.POST, handler);
+                .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, handler)
+                .setHateosResourceHandler(LinkRelation.with("a1"), HttpMethod.POST, handler)
+                .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.PUT, handler)
+                .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.DELETE, handler)
+                .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.POST, handler)
+                .setHateosResourceHandler(LinkRelation.with("z1"), HttpMethod.POST, handler);
         return Cast.to(
                 HateosResourceMapping.router(
                         this.baseUrl(),

@@ -47,7 +47,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
                           final Map<HttpRequestAttribute<?>, Object> parameters);
 
     /**
-     * Handles a resource identified by a set of ids
+     * Handles a resource identified by a setHateosResourceHandler of ids
      * <pre>
      * /resource/1,20,300
      * </pre>>

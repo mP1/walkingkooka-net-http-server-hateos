@@ -321,7 +321,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     }
 
     /**
-     * Reads and returns the body as text, with null signifying an error occured and a bad request response set.
+     * Reads and returns the body as text, with null signifying an error occured and a bad request response setHateosResourceHandler.
      */
     private String resourceTextOrBadRequest() {
         final HttpRequest request = this.request;
@@ -505,7 +505,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     final HateosResourceMappingRouter router;
 
     /**
-     * Only set when a valid request is dispatched.
+     * Only setHateosResourceHandler when a valid request is dispatched.
      */
     final Map<HttpRequestAttribute<?>, Object> parameters;
 

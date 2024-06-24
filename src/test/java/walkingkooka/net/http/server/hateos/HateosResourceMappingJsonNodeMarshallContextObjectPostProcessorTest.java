@@ -115,16 +115,16 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                 TestResource.class,
                 TestResource2.class,
                 TestHateosResource.class)
-                .set(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosResourceHandler<>())
-                .set(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosResourceHandler<>())
-                .set(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
+                .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosResourceHandler<>())
+                .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosResourceHandler<>())
+                .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
 
         final HateosResourceMapping<?, ?, ?, ?> mapping2 = HateosResourceMapping.with(resourceName2,
                 this.selection(),
                 TestResource.class,
                 TestResource2.class,
                 TestHateosResource2.class)
-                .set(LinkRelation.ABOUT, HttpMethod.PUT, new FakeHateosResourceHandler<>());
+                .setHateosResourceHandler(LinkRelation.ABOUT, HttpMethod.PUT, new FakeHateosResourceHandler<>());
 
         return Sets.of(mapping1, mapping2);
     }
