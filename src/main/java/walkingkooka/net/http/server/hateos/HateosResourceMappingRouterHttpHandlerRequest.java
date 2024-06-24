@@ -206,7 +206,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             );
         } else {
             if (supportedMethods.contains(method)) {
-                this.locateHandlerParseRequestBodyDispatchSetResponse(
+                this.locateHandlerAndHandle(
                         mapping,
                         selection,
                         relation,
@@ -245,48 +245,22 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
      * Using the mapping and relation attempts to locate a matching {@link HateosResourceHandler}, followed by parsing the
      * request body into a {@link HateosResource} and then writes the response and sets the status code.
      */
-    private void locateHandlerParseRequestBodyDispatchSetResponse(final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                                                  final HateosResourceSelection<?> selection,
-                                                                  final LinkRelation<?> relation,
-                                                                  final HttpMethod method) {
+    private void locateHandlerAndHandle(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                        final HateosResourceSelection<?> selection,
+                                        final LinkRelation<?> relation,
+                                        final HttpMethod method) {
         final HateosResourceHandler<?, ?, ?> handler = this.handlerOrNotFound(mapping, relation, method);
         if (null != handler) {
-            final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
-            if (null != resource) {
-                final Accept accept = this.acceptCompatibleOrBadRequest();
-                if (null != accept) {
-                    final Optional<?> maybeResponseResource = selection.dispatch(
-                            Cast.to(handler),
-                            resource,
-                            this.parameters
-                    );
-                    String responseText = null;
-
-                    if (maybeResponseResource.isPresent()) {
-                        final Object responseResource = maybeResponseResource.get();
-                        responseText = this.toText(responseResource);
-                    }
-
-                    this.setStatusAndBody(
-                            selection,
-                            responseText,
-                            selection.resourceType(mapping)
-                    );
-                }
-            }
+            this.handleHateosResourceHandler(
+                    mapping,
+                    selection,
+                    handler
+            );
         }
     }
 
-    private String toText(final Object body) {
-        return this.hateosContentType()
-                .toText(body, this.indentation, this.lineEnding);
-    }
-
-    private final Indentation indentation;
-    private final LineEnding lineEnding;
-
     /**
-     * Attempts to locate the locateHandlerParseRequestBodyDispatchSetResponse for the given criteria or sets the response with not found.
+     * Attempts to locate the locateHandlerAndHandle for the given criteria or sets the response with not found.
      */
     private HateosResourceHandler<?, ?, ?> handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                                              final LinkRelation<?> relation,
@@ -306,8 +280,36 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         );
     }
 
+    private void handleHateosResourceHandler(final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                             final HateosResourceSelection<?> selection,
+                                             final HateosResourceHandler<?, ?, ?> handler) {
+        final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
+        if (null != resource) {
+            final Accept accept = this.acceptCompatibleOrBadRequest();
+            if (null != accept) {
+                final Optional<?> maybeResponseResource = selection.dispatch(
+                        Cast.to(handler),
+                        resource,
+                        this.parameters
+                );
+                String responseText = null;
+
+                if (maybeResponseResource.isPresent()) {
+                    final Object responseResource = maybeResponseResource.get();
+                    responseText = this.toText(responseResource);
+                }
+
+                this.setStatusAndBody(
+                        selection,
+                        responseText,
+                        selection.resourceType(mapping)
+                );
+            }
+        }
+    }
+
     /**
-     * Parses the request body and its JSON into a resource and then dispatches the locateHandlerParseRequestBodyDispatchSetResponse.
+     * Parses the request body and its JSON into a resource and then dispatches the locateHandlerAndHandle.
      */
     private Optional<?> parseBodyOrBadRequest(final HateosResourceMapping<?, ?, ?, ?> mapping,
                                               final HateosResourceSelection<?> selection) {
@@ -317,11 +319,12 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         if (null != bodyText) {
             resource = this.resourceOrBadRequest(bodyText, mapping, selection);
         }
+
         return resource;
     }
 
     /**
-     * Reads and returns the body as text, with null signifying an error occured and a bad request response setHateosResourceHandler.
+     * Reads and returns the body as text, with null signifying an error occured and a bad request response.
      */
     private String resourceTextOrBadRequest() {
         final HttpRequest request = this.request;
@@ -413,6 +416,17 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                 .map(v -> v.value())
                 .orElse(missing);
     }
+
+    /**
+     * Marshals the given response to a String which will become the response body text.
+     */
+    private String toText(final Object body) {
+        return this.hateosContentType()
+                .toText(body, this.indentation, this.lineEnding);
+    }
+
+    private final Indentation indentation;
+    private final LineEnding lineEnding;
 
     // error reporting..................................................................................................
 
