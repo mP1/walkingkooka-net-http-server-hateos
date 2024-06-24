@@ -22,7 +22,7 @@ import walkingkooka.net.http.HttpEntity;
 
 import java.util.Set;
 
-public class FakeHateosHttpEntityHandler<I extends Comparable<I>, V, C> implements HateosHttpEntityHandler<I> {
+public class FakeHateosHttpEntityHandler<I extends Comparable<I>> implements HateosHttpEntityHandler<I> {
     @Override
     public HttpEntity handleAll(final HttpEntity entity) {
         throw new UnsupportedOperationException();
