@@ -21,13 +21,12 @@ import walkingkooka.collect.Range;
 import walkingkooka.net.http.HttpEntity;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 /**
  * Handles a HATEOS request for a one or more {@link HateosResource} as a single {@link walkingkooka.net.http.HttpEntity}.
  */
-public interface HateosHttpEntityHandler<I extends Comparable<I>, V, C> {
+public interface HateosHttpEntityHandler<I extends Comparable<I>> {
 
     /**
      * Handles a request for a resource.
@@ -35,7 +34,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, V, C> {
      * /resource/*
      * </pre>>
      */
-    Optional<C> handleAll(final HttpEntity entity);
+    HttpEntity handleAll(final HttpEntity entity);
 
     /**
      * Handles a collection of resources identified by the given Ids
@@ -43,7 +42,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, V, C> {
      * /resource/1,20,300
      * </pre>>
      */
-    Optional<C> handleMany(final Set<I> ids,
+    HttpEntity handleMany(final Set<I> ids,
                            final HttpEntity entity);
 
     /**
@@ -52,7 +51,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, V, C> {
      * /resource/123
      * </pre>>
      */
-    Optional<V> handleOne(final I id,
+    HttpEntity handleOne(final I id,
                           final HttpEntity entity);
 
     /**
@@ -61,7 +60,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, V, C> {
      * /resource
      * </pre>>
      */
-    Optional<V> handleNone(final HttpEntity entity);
+    HttpEntity handleNone(final HttpEntity entity);
 
     /**
      * Handles a collection of resources identified by the given Ids
@@ -69,8 +68,8 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, V, C> {
      * /resource/12-34
      * </pre>>
      */
-    Optional<C> handleRange(final Range<I> range,
-                            final HttpEntity entity);
+    HttpEntity handleRange(final Range<I> range,
+                           final HttpEntity entity);
 
     // parameter checkers...............................................................................................
 
