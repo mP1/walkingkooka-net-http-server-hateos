@@ -93,7 +93,7 @@ public class JunitTest {
                         TestResource.class,
                         TestResource.class,
                         TestHateosResource.class)
-                .set(
+                .setHateosResourceHandler(
                         LinkRelation.CONTENTS,
                         HttpMethod.POST,
                         new FakeHateosResourceHandler<>() {

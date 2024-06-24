@@ -84,7 +84,7 @@ public class TestGwtTest extends GWTTestCase {
                         TestResource.class,
                         TestResource.class,
                         TestHateosResource.class)
-                .set(
+                .setHateosResourceHandler(
                         LinkRelation.CONTENTS,
                         HttpMethod.POST,
                         new FakeHateosResourceHandler<>() {
