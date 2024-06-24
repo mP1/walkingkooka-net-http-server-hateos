@@ -39,10 +39,12 @@ final class HateosResourceSelectionRange<I extends Comparable<I>> extends Hateos
 
     @Override
     HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I> handler,
-                                             final HttpEntity entity) {
+                                             final HttpEntity entity,
+                                             final Map<HttpRequestAttribute<?>, Object> parameters) {
         return handler.handleRange(
                 this.value(),
-                entity
+                entity,
+                parameters
         );
     }
 

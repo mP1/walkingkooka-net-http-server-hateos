@@ -293,7 +293,8 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                                        final HateosResourceSelection<?> selection) {
         final HttpEntity responseHttpEntity = selection.handleHateosHttpEntityHandler(
                 Cast.to(handler),
-                this.httpEntity()
+                this.httpEntity(),
+                this.parameters
         );
 
         final HttpResponse response = this.response;

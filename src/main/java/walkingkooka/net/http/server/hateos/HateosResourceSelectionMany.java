@@ -39,10 +39,12 @@ final class HateosResourceSelectionMany<I extends Comparable<I>> extends HateosR
 
     @Override
     HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I> handler,
-                                             final HttpEntity entity) {
+                                             final HttpEntity entity,
+                                             final Map<HttpRequestAttribute<?>, Object> parameters) {
         return handler.handleMany(
                 this.value(),
-                entity
+                entity,
+                parameters
         );
     }
 

@@ -38,8 +38,12 @@ final class HateosResourceSelectionNone<I extends Comparable<I>> extends HateosR
 
     @Override
     HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I> handler,
-                                             final HttpEntity entity) {
-        return handler.handleNone(entity);
+                                             final HttpEntity entity,
+                                             final Map<HttpRequestAttribute<?>, Object> parameters) {
+        return handler.handleNone(
+                entity,
+                parameters
+        );
     }
 
     @Override

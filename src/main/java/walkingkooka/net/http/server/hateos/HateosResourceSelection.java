@@ -127,7 +127,8 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
     }
 
     abstract HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I> handler,
-                                                      final HttpEntity entity);
+                                                      final HttpEntity entity,
+                                                      final Map<HttpRequestAttribute<?>, Object> parameters);
 
     abstract Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?> handler,
                                                      final Optional<?> resource,
