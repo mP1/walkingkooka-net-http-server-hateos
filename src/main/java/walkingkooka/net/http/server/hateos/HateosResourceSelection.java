@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
+import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
@@ -125,9 +126,12 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
                 mapping.collectionType;
     }
 
-    abstract Optional<?> dispatch(final HateosResourceHandler<I, ?, ?> handler,
-                                  final Optional<?> resource,
-                                  final Map<HttpRequestAttribute<?>, Object> parameters);
+    abstract HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I> handler,
+                                                      final HttpEntity entity);
+
+    abstract Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?> handler,
+                                                     final Optional<?> resource,
+                                                     final Map<HttpRequestAttribute<?>, Object> parameters);
 
     @Override
     abstract public String toString();

@@ -59,6 +59,7 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.BigInteger;
 import java.math.MathContext;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -170,30 +171,6 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         HttpMethod.POST,
                         "/missing-base/",
                         this.contentType(),
-                        ""
-                )
-        );
-    }
-
-    @Test
-    public void testNonGetWrongContentTypeFails() {
-        this.routeFails(
-                this.request(
-                        HttpMethod.POST,
-                        "/api/",
-                        MediaType.parse("text/plain;q=1"),
-                        ""
-                )
-        );
-    }
-
-    @Test
-    public void testNonGetWrongContentTypeUnrouted() {
-        this.routeFails(
-                this.request(
-                        HttpMethod.POST,
-                        "/api/resource-with-body/1",
-                        MediaType.parse("text/plain;q=1"),
                         ""
                 )
         );
@@ -1022,6 +999,129 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "    \"id\": \"31\"\n" +
                 "  }\n" +
                 "}", response.entities().get(0).bodyText());
+    }
+
+    @Test
+    public void testSetHateosHttpEntityHandlerAndRoute() {
+        final MediaType mediaType = MediaType.TEXT_PLAIN;
+
+        final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mapping = HateosResourceMapping.with(
+                        HateosResourceName.with("resource-with-body"),
+                        (s) -> {
+                            return HateosResourceSelection.one(
+                                    BigInteger.valueOf(
+                                            Integer.parseInt(
+                                                    s.substring(2),
+                                                    16
+                                            )
+                                    )
+                            ); // assumes hex digit in url
+                        },
+                        TestResource.class,
+                        TestResource.class,
+                        TestHateosResource.class)
+                .setHateosHttpEntityHandler(
+                        LinkRelation.CONTENTS,
+                        HttpMethod.POST,
+                        new FakeHateosHttpEntityHandler<>() {
+                            @Override
+                            public HttpEntity handleOne(final BigInteger id,
+                                                        final HttpEntity entity) {
+                                checkEquals(
+                                        mediaType,
+                                        HttpHeaderName.CONTENT_TYPE.headerOrFail(entity)
+                                );
+                                return HttpEntity.EMPTY.setBodyText(
+                                        id +
+                                                "\n" +
+                                                entity.bodyText()
+                                );
+                            }
+                        });
+
+        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
+                AbsoluteUrl.parseAbsolute("https://www.example.com/api"),
+                HateosContentType.json(
+                        this.unmarshallContext(),
+                        JsonNodeMarshallContexts.basic()
+                ),
+                Sets.of(mapping),
+                INDENTATION,
+                LINE_ENDING
+        );
+
+        final HttpRequest request = new FakeHttpRequest() {
+
+            @Override
+            public HttpTransport transport() {
+                return HttpTransport.UNSECURED;
+            }
+
+            @Override
+            public HttpProtocolVersion protocolVersion() {
+                return HttpProtocolVersion.VERSION_1_0;
+            }
+
+            @Override
+            public HttpMethod method() {
+                return HttpMethod.POST;
+            }
+
+            @Override
+            public RelativeUrl url() {
+                return Url.parseRelative("/api/resource-with-body/0x123/contents");
+            }
+
+            @Override
+            public Map<HttpHeaderName<?>, List<?>> headers() {
+                return Maps.of(
+                        HttpHeaderName.CONTENT_TYPE, Lists.of(mediaType),
+                        HttpHeaderName.ACCEPT, Lists.of(mediaType.accept()),
+                        HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
+                );
+            }
+
+            @Override
+            public byte[] body() {
+                return this.bodyText()
+                        .getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Test
+            public String bodyText() {
+                return "RequestBodyText123";
+            }
+
+            @Override
+            public Map<HttpRequestParameterName, List<String>> parameters() {
+                return Maps.empty();
+            }
+
+            @Override
+            public List<String> parameterValues(final HttpRequestParameterName parameterName) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public String toString() {
+                return this.method() + " " + this.url() + " " + parameters();
+            }
+        };
+        final HttpHandler httpHandler = router.route(
+                request.routerParameters()
+        ).orElseThrow(
+                () -> new Error("Unable to route")
+        );
+
+        final HttpResponse response = HttpResponses.recording();
+        httpHandler.handle(request, response);
+        this.checkEquals(
+                "291\n" + // 0x123
+                        "RequestBodyText123",
+                response.entities()
+                        .get(0)
+                        .bodyText()
+        );
     }
 
     // HELPERS .........................................................................................................

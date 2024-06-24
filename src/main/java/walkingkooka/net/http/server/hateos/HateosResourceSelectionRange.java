@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Cast;
 import walkingkooka.collect.Range;
+import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.Map;
@@ -37,9 +38,22 @@ final class HateosResourceSelectionRange<I extends Comparable<I>> extends Hateos
     }
 
     @Override
-    Optional<?> dispatch(final HateosResourceHandler<I, ?, ?> handler,
-                         final Optional<?> resource,
-                         final Map<HttpRequestAttribute<?>, Object> parameters) {
-        return handler.handleRange(this.value(), Cast.to(resource), parameters);
+    HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I> handler,
+                                             final HttpEntity entity) {
+        return handler.handleRange(
+                this.value(),
+                entity
+        );
+    }
+
+    @Override
+    Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?> handler,
+                                            final Optional<?> resource,
+                                            final Map<HttpRequestAttribute<?>, Object> parameters) {
+        return handler.handleRange(
+                this.value(),
+                Cast.to(resource),
+                parameters
+        );
     }
 }
