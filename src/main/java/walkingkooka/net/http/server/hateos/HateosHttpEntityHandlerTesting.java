@@ -42,26 +42,43 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     // handleAll.......................................................................................................
 
     @Test
-    default void testHandleAllNullEntityFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleAll(
-                                null,
-                                HateosHttpEntityHandler.NO_PARAMETERS
-                        )
+    default void testHandleAllWithNullEntityFails() {
+        this.handleAllFails(
+                null,
+                HateosHttpEntityHandler.NO_PARAMETERS,
+                NullPointerException.class
         );
     }
 
     @Test
-    default void testHandleAllNullParametersFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleAll(
-                                HttpEntity.EMPTY,
-                                null
-                        )
+    default void testHandleAllWithNullParametersFails() {
+        this.handleAllFails(
+                this.entity(),
+                null,
+                NullPointerException.class
+        );
+    }
+
+    default <T extends Throwable> T handleAllFails(final HttpEntity entity,
+                                                   final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final Class<T> thrown) {
+        return this.handleAllFails(
+                this.createHandler(),
+                entity,
+                parameters,
+                thrown);
+    }
+
+    default <T extends Throwable> T handleAllFails(final HateosHttpEntityHandler<I> handler,
+                                                   final HttpEntity entity,
+                                                   final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final Class<T> thrown) {
+        return assertThrows(
+                thrown,
+                () -> handler.handleAll(
+                        entity,
+                        parameters
+                )
         );
     }
 
@@ -92,41 +109,49 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     // handleMany.......................................................................................................
 
     @Test
-    default void testHandleManyNullIdsFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleMany(
-                                null,
-                                HttpEntity.EMPTY,
-                                HateosHttpEntityHandler.NO_PARAMETERS
-                        )
+    default void testHandleManyWithNullEntityFails() {
+        this.handleManyFails(
+                this.manyIds(),
+                null,
+                HateosHttpEntityHandler.NO_PARAMETERS,
+                NullPointerException.class
         );
     }
 
     @Test
-    default void testHandleManyNullEntityFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleMany(
-                                this.manyIds(),
-                                null,
-                                HateosHttpEntityHandler.NO_PARAMETERS
-                        )
+    default void testHandleManyWithNullParametersFails() {
+        this.handleManyFails(
+                this.manyIds(),
+                this.entity(),
+                null,
+                NullPointerException.class
         );
     }
 
-    @Test
-    default void testHandleManyNullParametersFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleMany(
-                                this.manyIds(),
-                                HttpEntity.EMPTY,
-                                null
-                        )
+    default <T extends Throwable> T handleManyFails(final Set<I> ids,
+                                                    final HttpEntity entity,
+                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final Class<T> thrown) {
+        return this.handleManyFails(
+                this.createHandler(),
+                ids,
+                entity,
+                parameters,
+                thrown);
+    }
+
+    default <T extends Throwable> T handleManyFails(final HateosHttpEntityHandler<I> handler,
+                                                    final Set<I> ids,
+                                                    final HttpEntity entity,
+                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final Class<T> thrown) {
+        return assertThrows(
+                thrown,
+                () -> handler.handleMany(
+                        ids,
+                        entity,
+                        parameters
+                )
         );
     }
 
@@ -161,26 +186,40 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     // handleNone.......................................................................................................
 
     @Test
-    default void testHandleNoneNullEntityFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleNone(
-                                null,
-                                HateosHttpEntityHandler.NO_PARAMETERS
-                        )
+    default void testHandleNoneWithNullEntityFails() {
+        this.handleNoneFails(
+                null,
+                HateosHttpEntityHandler.NO_PARAMETERS,
+                NullPointerException.class
         );
     }
 
     @Test
-    default void testHandleNoneNullParametersFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleNone(
-                                HttpEntity.EMPTY,
-                                null
-                        )
+    default void testHandleNoneWithNullParametersFails() {
+        this.handleNoneFails(
+                this.entity(),
+                null,
+                NullPointerException.class
+        );
+    }
+
+    default <T extends Throwable> T handleNoneFails(final HttpEntity entity,
+                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final Class<T> thrown) {
+        return this.handleNoneFails(
+                this.createHandler(),
+                entity,
+                parameters,
+                thrown);
+    }
+
+    default <T extends Throwable> T handleNoneFails(final HateosHttpEntityHandler<I> handler,
+                                                    final HttpEntity entity,
+                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final Class<T> thrown) {
+        return assertThrows(
+                thrown,
+                () -> handler.handleNone(entity, parameters)
         );
     }
 
@@ -211,41 +250,49 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     // handleOne........................................................................................................
 
     @Test
-    default void testHandleOneNullIdsFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleOne(
-                                null,
-                                HttpEntity.EMPTY,
-                                HateosHttpEntityHandler.NO_PARAMETERS
-                        )
+    default void testHandleOneWithNullEntityFails() {
+        this.handleOneFails(
+                this.id(),
+                null,
+                HateosHttpEntityHandler.NO_PARAMETERS,
+                NullPointerException.class
         );
     }
 
     @Test
-    default void testHandleOneNullEntityFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleOne(
-                                this.id(),
-                                null,
-                                HateosHttpEntityHandler.NO_PARAMETERS
-                        )
+    default void testHandleOneWithNullParametersFails() {
+        this.handleOneFails(
+                this.id(),
+                this.entity(),
+                null,
+                NullPointerException.class
         );
     }
 
-    @Test
-    default void testHandleOneNullParametersFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleOne(
-                                this.id(),
-                                HttpEntity.EMPTY,
-                                null
-                        )
+    default <T extends Throwable> T handleOneFails(final I id,
+                                                   final HttpEntity entity,
+                                                   final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final Class<T> thrown) {
+        return this.handleOneFails(
+                this.createHandler(),
+                id,
+                entity,
+                parameters,
+                thrown);
+    }
+
+    default <T extends Throwable> T handleOneFails(final HateosHttpEntityHandler<I> handler,
+                                                   final I id,
+                                                   final HttpEntity entity,
+                                                   final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final Class<T> thrown) {
+        return assertThrows(
+                thrown,
+                () -> handler.handleOne(
+                        id,
+                        entity,
+                        parameters
+                )
         );
     }
 
@@ -280,41 +327,60 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     // handleRange......................................................................................................
 
     @Test
-    default void testHandleRangeNullIdsFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleRange(
-                                null,
-                                HttpEntity.EMPTY,
-                                HateosHttpEntityHandler.NO_PARAMETERS
-                        )
+    default void testHandleRangeWithNullIdsFails() {
+        this.handleRangeFails(
+                null,
+                this.entity(),
+                HateosHttpEntityHandler.NO_PARAMETERS,
+                NullPointerException.class
         );
     }
 
     @Test
-    default void testHandleRangeNullEntityFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleRange(
-                                this.range(),
-                                null,
-                                HateosHttpEntityHandler.NO_PARAMETERS
-                        )
+    default void testHandleRangeWithNullEntityFails() {
+        this.handleRangeFails(
+                this.range(),
+                null,
+                HateosHttpEntityHandler.NO_PARAMETERS,
+                NullPointerException.class
         );
     }
 
     @Test
-    default void testHandleRangeNullParametersFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> this.createHandler()
-                        .handleRange(
-                                this.range(),
-                                HttpEntity.EMPTY,
-                                null
-                        )
+    default void testHandleRangeWithNullParametersFails() {
+        this.handleRangeFails(
+                this.range(),
+                this.entity(),
+                null,
+                NullPointerException.class
+        );
+    }
+
+    default <T extends Throwable> T handleRangeFails(final Range<I> ids,
+                                                     final HttpEntity entity,
+                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final Class<T> thrown) {
+        return this.handleRangeFails(
+                this.createHandler(),
+                ids,
+                entity,
+                parameters,
+                thrown
+        );
+    }
+
+    default <T extends Throwable> T handleRangeFails(final HateosHttpEntityHandler<I> handler,
+                                                     final Range<I> ids,
+                                                     final HttpEntity entity,
+                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final Class<T> thrown) {
+        return assertThrows(
+                thrown,
+                () -> handler.handleRange(
+                        ids,
+                        entity,
+                        parameters
+                )
         );
     }
 
