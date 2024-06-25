@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
+import walkingkooka.collect.map.Maps;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
@@ -29,6 +30,11 @@ import java.util.Set;
  * Handles a HATEOS request for a one or more {@link HateosResource} as a single {@link walkingkooka.net.http.HttpEntity}.
  */
 public interface HateosHttpEntityHandler<I extends Comparable<I>> {
+
+    /**
+     * An empty {@link Map} with no parameters.
+     */
+    Map<HttpRequestAttribute<?>, Object> NO_PARAMETERS = Maps.empty();
 
     /**
      * Handles a request for a resource.
