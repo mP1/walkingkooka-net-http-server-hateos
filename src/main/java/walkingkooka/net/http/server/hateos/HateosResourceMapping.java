@@ -58,7 +58,7 @@ import java.util.function.Function;
  * <li>{@link HttpStatusCode#NOT_IMPLEMENTED} - The handler throws an {@link UnsupportedOperationException}</li>
  * </ul>
  */
-public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>> {
+public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> {
 
     /**
      * This header will appear in any successful JSON response and contains the simple java type name (Class#getSimpleName())
@@ -69,16 +69,18 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Creates a new {@link HateosResourceMapping}
      */
-    public static <I extends Comparable<I>, V, C, H extends HateosResource<I>> HateosResourceMapping<I, V, C, H> with(
+    public static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMapping<I, V, C, H, X> with(
             final HateosResourceName resourceName,
             final Function<String, HateosResourceSelection<I>> selection,
             final Class<V> valueType,
             final Class<C> collectionType,
-            final Class<H> resourceType) {
+            final Class<H> resourceType,
+            final Class<X> contextType) {
         Objects.requireNonNull(resourceName, "resourceName");
         Objects.requireNonNull(selection, "selection");
         Objects.requireNonNull(valueType, "valueType");
         Objects.requireNonNull(collectionType, "collectionType");
+        Objects.requireNonNull(contextType, "contextType");
 
         if (collectionType.isInterface()) {
             throw new IllegalArgumentException("Collection type " + collectionType.getName() + " is an interface expected a concrete class");
@@ -95,12 +97,14 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
             throw new IllegalArgumentException("Resource type " + resourceType.getName() + " is an array expected a concrete class");
         }
 
-        return new HateosResourceMapping<>(resourceName,
+        return new HateosResourceMapping<>(
+                resourceName,
                 selection,
                 valueType,
                 collectionType,
                 resourceType,
-                Maps.empty());
+                Maps.empty()
+        );
     }
 
     /**
@@ -144,9 +148,9 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosHttpEntityHandler}.
      */
-    public HateosResourceMapping<I, V, C, H> setHateosHttpEntityHandler(final LinkRelation<?> relation,
-                                                                        final HttpMethod method,
-                                                                        final HateosHttpEntityHandler<I> handler) {
+    public HateosResourceMapping<I, V, C, H, X> setHateosHttpEntityHandler(final LinkRelation<?> relation,
+                                                                           final HttpMethod method,
+                                                                           final HateosHttpEntityHandler<I, ?> handler) {
         final HateosResourceMappingLinkRelationHttpMethod relationAndMethod = HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
         Objects.requireNonNull(handler, "handler");
 
@@ -159,9 +163,9 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosResourceHandler}.
      */
-    public HateosResourceMapping<I, V, C, H> setHateosResourceHandler(final LinkRelation<?> relation,
-                                                                      final HttpMethod method,
-                                                                      final HateosResourceHandler<I, V, C> handler) {
+    public HateosResourceMapping<I, V, C, H, X> setHateosResourceHandler(final LinkRelation<?> relation,
+                                                                         final HttpMethod method,
+                                                                         final HateosResourceHandler<I, V, C, X> handler) {
         final HateosResourceMappingLinkRelationHttpMethod relationAndMethod = HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
         Objects.requireNonNull(handler, "handler");
 
@@ -174,8 +178,8 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosResourceHandler}.
      */
-    private HateosResourceMapping<I, V, C, H> setHandler(final HateosResourceMappingLinkRelationHttpMethod relationAndMethod,
-                                                         final HateosResourceMappingHandler handler) {
+    private HateosResourceMapping<I, V, C, H, X> setHandler(final HateosResourceMappingLinkRelationHttpMethod relationAndMethod,
+                                                            final HateosResourceMappingHandler handler) {
         final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceMappingHandler> copy = Maps.sorted();
         copy.putAll(this.relationAndMethodToHandlers);
         final Object replaced = copy.put(
@@ -206,16 +210,16 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
      * Creates a {@link Router} from the provided {@link HateosResourceMapping mappings}.
      */
     public static Router<HttpRequestAttribute<?>, HttpHandler> router(final AbsoluteUrl base,
-                                                                      final HateosContentType contentType,
-                                                                      final Set<HateosResourceMapping<?, ?, ?, ?>> mappings,
+                                                                      final Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings,
                                                                       final Indentation indentation,
-                                                                      final LineEnding lineEnding) {
+                                                                      final LineEnding lineEnding,
+                                                                      final HateosResourceHandlerContext context) {
         return HateosResourceMappingRouter.with(
                 base,
-                contentType,
                 mappings,
                 indentation,
-                lineEnding
+                lineEnding,
+                context
         );
     }
 
@@ -229,8 +233,8 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosResourceHandler#handleNone(Optional, Map)},</li>
-     * <li>{@link HateosResourceHandler#handleOne(Comparable, Optional, Map)},</li>
+     * <li>{@link HateosResourceHandler#handleNone(Optional, Map, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleOne(Comparable, Optional, Map, HateosResourceHandlerContext)},</li>
      * </ol>
      */
     final Class<V> valueType;
@@ -238,9 +242,9 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosResourceHandler#handleMany(Set, Optional, Map)},</li>
-     * <li>{@link HateosResourceHandler#handleRange(Range, Optional, Map)},</li>
-     * <li>{@link HateosResourceHandler#handleAll(Optional, Map)},</li>
+     * <li>{@link HateosResourceHandler#handleMany(Set, Optional, Map, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleRange(Range, Optional, Map, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleAll(Optional, Map, HateosResourceHandlerContext)},</li>
      * </ol>
      */
     final Class<C> collectionType;

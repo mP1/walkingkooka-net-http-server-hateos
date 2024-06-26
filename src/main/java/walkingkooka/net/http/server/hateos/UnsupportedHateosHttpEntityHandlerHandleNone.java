@@ -22,13 +22,15 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.Map;
 
-public interface UnsupportedHateosHttpEntityHandlerHandleNone<I extends Comparable<I>> extends HateosHttpEntityHandler<I> {
+public interface UnsupportedHateosHttpEntityHandlerHandleNone<I extends Comparable<I>, X extends HateosResourceHandlerContext> extends HateosHttpEntityHandler<I, X> {
 
     @Override
     default HttpEntity handleNone(final HttpEntity entity,
-                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                  final Map<HttpRequestAttribute<?>, Object> parameters,
+                                  final X context) {
         HateosHttpEntityHandler.checkHttpEntity(entity);
         HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
     }

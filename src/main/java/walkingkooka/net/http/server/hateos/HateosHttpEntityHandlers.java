@@ -24,7 +24,7 @@ public final class HateosHttpEntityHandlers implements PublicStaticHelper {
     /**
      * {@see FakeHateosHttpEntityHandler}
      */
-    public static <I extends Comparable<I>> HateosHttpEntityHandler<I> fake() {
+    public static <I extends Comparable<I>, X extends HateosResourceHandlerContext> HateosHttpEntityHandler<I, X> fake() {
         return new FakeHateosHttpEntityHandler<>();
     }
 

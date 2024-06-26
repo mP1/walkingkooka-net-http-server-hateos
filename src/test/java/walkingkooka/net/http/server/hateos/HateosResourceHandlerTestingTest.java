@@ -22,6 +22,7 @@ import walkingkooka.Cast;
 import walkingkooka.collect.Range;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.http.server.HttpRequestAttribute;
+import walkingkooka.net.http.server.hateos.HateosResourceHandlerTestingTest.TestHateosResourceHandlerContext;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
@@ -31,13 +32,20 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-public final class HateosResourceHandlerTestingTest implements HateosResourceHandlerTesting<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2>,
+public final class HateosResourceHandlerTestingTest implements HateosResourceHandlerTesting<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosResourceHandlerContext>,
         BigInteger,
         TestHateosResource,
-        TestHateosResource2> {
+        TestHateosResource2,
+        TestHateosResourceHandlerContext> {
 
     @Override
     public void testTestNaming() {
+    }
+
+    private final static TestHateosResourceHandlerContext CONTEXT = new TestHateosResourceHandlerContext();
+
+    static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
+
     }
 
     // handleAll....................................................................................................
@@ -54,16 +62,20 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
 
                     @Override
                     public Optional<TestHateosResource2> handleAll(final Optional<TestHateosResource2> r,
-                                                                   final Map<HttpRequestAttribute<?>, Object> p) {
+                                                                   final Map<HttpRequestAttribute<?>, Object> p,
+                                                                   final TestHateosResourceHandlerContext x) {
                         assertSame(in, r);
                         assertSame(parameters, p);
+                        assertSame(CONTEXT, x);
 
                         return Optional.of(out);
                     }
                 },
                 in,
                 parameters,
-                Optional.of(out));
+                CONTEXT,
+                Optional.of(out)
+        );
     }
 
     // handleMany.......................................................................................................
@@ -81,10 +93,12 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                     @Override
                     public Optional<TestHateosResource2> handleMany(final Set<BigInteger> i,
                                                                     final Optional<TestHateosResource2> r,
-                                                                    final Map<HttpRequestAttribute<?>, Object> p) {
+                                                                    final Map<HttpRequestAttribute<?>, Object> p,
+                                                                    final TestHateosResourceHandlerContext x) {
                         assertSame(ids, i);
                         assertSame(in, r);
                         assertSame(parameters, p);
+                        assertSame(CONTEXT, x);
 
                         return Optional.of(out);
                     }
@@ -92,7 +106,9 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                 ids,
                 in,
                 parameters,
-                Optional.of(out));
+                CONTEXT,
+                Optional.of(out)
+        );
     }
 
     // handleNone....................................................................................................
@@ -109,16 +125,20 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
 
                     @Override
                     public Optional<TestHateosResource> handleNone(final Optional<TestHateosResource> r,
-                                                                   final Map<HttpRequestAttribute<?>, Object> p) {
+                                                                   final Map<HttpRequestAttribute<?>, Object> p,
+                                                                   final TestHateosResourceHandlerContext x) {
                         assertSame(in, r);
                         assertSame(parameters, p);
+                        assertSame(CONTEXT, x);
 
                         return Optional.of(out);
                     }
                 },
                 in,
                 parameters,
-                Optional.of(out));
+                CONTEXT,
+                Optional.of(out)
+        );
     }
 
     // handleOne.......................................................................................................
@@ -136,10 +156,12 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                     @Override
                     public Optional<TestHateosResource> handleOne(final BigInteger i,
                                                                   final Optional<TestHateosResource> r,
-                                                                  final Map<HttpRequestAttribute<?>, Object> p) {
+                                                                  final Map<HttpRequestAttribute<?>, Object> p,
+                                                                  final TestHateosResourceHandlerContext x) {
                         assertSame(id, i);
                         assertSame(in, r);
                         assertSame(parameters, p);
+                        assertSame(CONTEXT, x);
 
                         return Optional.of(out);
                     }
@@ -147,7 +169,9 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                 id,
                 in,
                 parameters,
-                Optional.of(out));
+                CONTEXT,
+                Optional.of(out)
+        );
     }
 
     // handleRange.......................................................................................................
@@ -165,10 +189,12 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                     @Override
                     public Optional<TestHateosResource2> handleRange(final Range<BigInteger> rr,
                                                                      final Optional<TestHateosResource2> r,
-                                                                     final Map<HttpRequestAttribute<?>, Object> p) {
+                                                                     final Map<HttpRequestAttribute<?>, Object> p,
+                                                                     final TestHateosResourceHandlerContext x) {
                         assertSame(range, rr);
                         assertSame(in, r);
                         assertSame(parameters, p);
+                        assertSame(CONTEXT, x);
 
                         return Optional.of(out);
                     }
@@ -176,13 +202,15 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                 range,
                 in,
                 parameters,
-                Optional.of(out));
+                CONTEXT,
+                Optional.of(out)
+        );
     }
 
     // helpers..........................................................................................................
 
     @Override
-    public FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2> createHandler() {
+    public FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosResourceHandlerContext> createHandler() {
         return new FakeHateosResourceHandler<>();
     }
 
@@ -216,13 +244,18 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
     }
 
     @Override
-    public Class<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2>> type() {
-        return Cast.to(FakeHateosResourceHandler.class);
+    public Map<HttpRequestAttribute<?>, Object> parameters() {
+        return HateosResourceHandler.NO_PARAMETERS;
     }
 
     @Override
-    public Map<HttpRequestAttribute<?>, Object> parameters() {
-        return HateosResourceHandler.NO_PARAMETERS;
+    public TestHateosResourceHandlerContext context() {
+        return new TestHateosResourceHandlerContext();
+    }
+
+    @Override
+    public Class<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosResourceHandlerContext>> type() {
+        return Cast.to(FakeHateosResourceHandler.class);
     }
 
     @Override

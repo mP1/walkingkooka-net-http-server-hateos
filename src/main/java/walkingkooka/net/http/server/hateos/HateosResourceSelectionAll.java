@@ -37,20 +37,27 @@ final class HateosResourceSelectionAll<I extends Comparable<I>> extends HateosRe
     }
 
     @Override
-    HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I> handler,
+    HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I, ?> handler,
                                              final HttpEntity entity,
-                                             final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                             final HateosResourceHandlerContext context) {
         return handler.handleAll(
                 entity,
-                parameters
+                parameters,
+                Cast.to(context)
         );
     }
 
     @Override
-    Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?> handler,
+    Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?, ?> handler,
                                             final Optional<?> resource,
-                                            final Map<HttpRequestAttribute<?>, Object> parameters) {
-        return handler.handleAll(Cast.to(resource), parameters);
+                                            final Map<HttpRequestAttribute<?>, Object> parameters,
+                                            final HateosResourceHandlerContext context) {
+        return handler.handleAll(
+                Cast.to(resource),
+                parameters,
+                Cast.to(context)
+        );
     }
 
     @Override

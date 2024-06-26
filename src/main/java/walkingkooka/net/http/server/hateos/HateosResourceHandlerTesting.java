@@ -33,62 +33,98 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Mixin interface for testing {@link HateosResourceHandler}
  */
-public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I, V, C>,
+public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I, V, C, X>,
         I extends Comparable<I>,
         V,
-        C>
+        C,
+        X extends HateosResourceHandlerContext>
         extends ClassTesting2<H>,
         TreePrintableTesting,
         TypeNameTesting<H> {
-    
+
     // handleAll.......................................................................................................
 
     @Test
     default void testHandleAllNullResourceFails() {
-        this.handleAllFails(null,
+        this.handleAllFails(
+                null,
                 this.parameters(),
+                this.context(),
                 NullPointerException.class);
     }
 
     @Test
     default void testHandleAllNullParametersFails() {
-        this.handleAllFails(this.collectionResource(),
+        this.handleAllFails(
+                this.collectionResource(),
+                null,
+                this.context(),
+                NullPointerException.class);
+    }
+
+    @Test
+    default void testHandleAllNullContextFails() {
+        this.handleAllFails(
+                this.collectionResource(),
+                this.parameters(),
                 null,
                 NullPointerException.class);
     }
 
     default <T extends Throwable> T handleAllFails(final Optional<C> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final X context,
                                                    final Class<T> thrown) {
-        return this.handleAllFails(this.createHandler(),
+        return this.handleAllFails(
+                this.createHandler(),
                 resource,
                 parameters,
-                thrown);
+                context,
+                thrown
+        );
     }
 
-    default <T extends Throwable> T handleAllFails(final HateosResourceHandler<I, V, C> handler,
+    default <T extends Throwable> T handleAllFails(final HateosResourceHandler<I, V, C, X> handler,
                                                    final Optional<C> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final X context,
                                                    final Class<T> thrown) {
-        return assertThrows(thrown, () -> {
-            handler.handleAll(resource, parameters);
-        });
+        return assertThrows(
+                thrown, () -> {
+                    handler.handleAll(
+                            resource,
+                            parameters,
+                            context
+                    );
+                });
     }
 
     default void handleAllAndCheck(final Optional<C> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final X context,
                                    final Optional<C> expected) {
-        this.handleAllAndCheck(this.createHandler(),
+        this.handleAllAndCheck(
+                this.createHandler(),
                 resource,
                 parameters,
-                expected);
+                context,
+                expected
+        );
     }
 
-    default void handleAllAndCheck(final HateosResourceHandler<I, V, C> handler,
+    default void handleAllAndCheck(final HateosResourceHandler<I, V, C, X> handler,
                                    final Optional<C> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final X context,
                                    final Optional<C> expected) {
-        this.checkEquals(expected, handler.handleAll(resource, parameters));
+        this.checkEquals(
+                expected,
+                handler.handleAll(
+                        resource,
+                        parameters,
+                        context
+                )
+        );
     }
 
     // handleMany.......................................................................................................
@@ -99,6 +135,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 null,
                 this.collectionResource(),
                 this.parameters(),
+                this.context(),
                 NullPointerException.class
         );
     }
@@ -109,8 +146,11 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.manyIds(),
                 null,
                 this.parameters(),
-                NullPointerException.class);
+                this.context(),
+                NullPointerException.class
+        );
     }
+
 
     @Test
     default void testHandleManyNullParametersFails() {
@@ -118,229 +158,393 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.manyIds(),
                 this.collectionResource(),
                 null,
-                NullPointerException.class);
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleManyNullContextFails() {
+        this.handleManyFails(
+                this.manyIds(),
+                this.collectionResource(),
+                this.parameters(),
+                null,
+                NullPointerException.class
+        );
     }
 
     default <T extends Throwable> T handleManyFails(final Set<I> ids,
                                                     final Optional<C> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final X context,
                                                     final Class<T> thrown) {
-        return this.handleManyFails(this.createHandler(),
+        return this.handleManyFails(
+                this.createHandler(),
                 ids,
                 resource,
                 parameters,
-                thrown);
+                context,
+                thrown
+        );
     }
 
-    default <T extends Throwable> T handleManyFails(final HateosResourceHandler<I, V, C> handler,
+    default <T extends Throwable> T handleManyFails(final HateosResourceHandler<I, V, C, X> handler,
                                                     final Set<I> ids,
                                                     final Optional<C> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final X context,
                                                     final Class<T> thrown) {
-        return assertThrows(thrown, () -> {
-            handler.handleMany(ids, resource, parameters);
-        });
+        return assertThrows(
+                thrown,
+                () -> {
+                    handler.handleMany(
+                            ids,
+                            resource,
+                            parameters,
+                            context
+                    );
+                });
     }
 
     default void handleManyAndCheck(final Set<I> ids,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final X context,
                                     final Optional<C> expected) {
-        this.handleManyAndCheck(this.createHandler(),
+        this.handleManyAndCheck(
+                this.createHandler(),
                 ids,
                 resource,
                 parameters,
-                expected);
+                context,
+                expected
+        );
     }
 
-    default void handleManyAndCheck(final HateosResourceHandler<I, V, C> handler,
+    default void handleManyAndCheck(final HateosResourceHandler<I, V, C, X> handler,
                                     final Set<I> ids,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final X context,
                                     final Optional<C> expected) {
-        this.checkEquals(expected, handler.handleMany(ids, resource, parameters));
+        this.checkEquals(
+                expected,
+                handler.handleMany(
+                        ids,
+                        resource,
+                        parameters,
+                        context
+                )
+        );
     }
 
     // handleNone.......................................................................................................
 
     @Test
     default void testHandleNoneNullResourceFails() {
-        this.handleNoneFails(null,
+        this.handleNoneFails(
+                null,
                 this.parameters(),
-                NullPointerException.class);
+                this.context(),
+                NullPointerException.class
+        );
     }
 
     @Test
     default void testHandleNoneNullParametersFails() {
-        this.handleNoneFails(this.resource(),
+        this.handleNoneFails(
+                this.resource(),
                 null,
-                NullPointerException.class);
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleNoneNullContextFails() {
+        this.handleNoneFails(
+                this.resource(),
+                this.parameters(),
+                null,
+                NullPointerException.class
+        );
     }
 
     default <T extends Throwable> T handleNoneFails(final Optional<V> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final X context,
                                                     final Class<T> thrown) {
-        return this.handleNoneFails(this.createHandler(),
+        return this.handleNoneFails(
+                this.createHandler(),
                 resource,
                 parameters,
-                thrown);
+                context,
+                thrown
+        );
     }
 
-    default <T extends Throwable> T handleNoneFails(final HateosResourceHandler<I, V, C> handler,
+    default <T extends Throwable> T handleNoneFails(final HateosResourceHandler<I, V, C, X> handler,
                                                     final Optional<V> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final X context,
                                                     final Class<T> thrown) {
-        return assertThrows(thrown, () -> {
-            handler.handleNone(resource, parameters);
-        });
+        return assertThrows(
+                thrown, () -> {
+                    handler.handleNone(
+                            resource,
+                            parameters,
+                            context
+                    );
+                }
+        );
     }
 
     default void handleNoneAndCheck(final Optional<V> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final X context,
                                     final Optional<V> expected) {
-        this.handleNoneAndCheck(this.createHandler(),
+        this.handleNoneAndCheck(
+                this.createHandler(),
                 resource,
                 parameters,
-                expected);
+                context,
+                expected
+        );
     }
 
-    default void handleNoneAndCheck(final HateosResourceHandler<I, V, C> handler,
+    default void handleNoneAndCheck(final HateosResourceHandler<I, V, C, X> handler,
                                     final Optional<V> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final X context,
                                     final Optional<V> expected) {
-        this.checkEquals(expected, handler.handleNone(resource, parameters));
+        this.checkEquals(
+                expected,
+                handler.handleNone(
+                        resource,
+                        parameters,
+                        context
+                )
+        );
     }
 
     // handleOne.......................................................................................................
 
     @Test
     default void testHandleOneNullIdFails() {
-        this.handleOneFails(null,
+        this.handleOneFails(
+                null,
                 this.resource(),
                 this.parameters(),
+                this.context(),
                 NullPointerException.class);
     }
 
     @Test
     default void testHandleOneNullResourceFails() {
-        this.handleOneFails(this.id(),
+        this.handleOneFails(
+                this.id(),
                 null,
                 this.parameters(),
+                this.context(),
                 NullPointerException.class);
     }
 
     @Test
     default void testHandleOneNullParametersFails() {
-        this.handleOneFails(this.id(),
+        this.handleOneFails(
+                this.id(),
                 this.resource(),
                 null,
-                NullPointerException.class);
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleOneNullContextFails() {
+        this.handleOneFails(
+                this.id(),
+                this.resource(),
+                this.parameters(),
+                null,
+                NullPointerException.class
+        );
     }
 
     default <T extends Throwable> T handleOneFails(final I id,
                                                    final Optional<V> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final X context,
                                                    final Class<T> thrown) {
-        return this.handleOneFails(this.createHandler(),
+        return this.handleOneFails(
+                this.createHandler(),
                 id,
                 resource,
                 parameters,
-                thrown);
+                context,
+                thrown
+        );
     }
 
-    default <T extends Throwable> T handleOneFails(final HateosResourceHandler<I, V, C> handler,
+    default <T extends Throwable> T handleOneFails(final HateosResourceHandler<I, V, C, X> handler,
                                                    final I id,
                                                    final Optional<V> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final X context,
                                                    final Class<T> thrown) {
-        return assertThrows(thrown, () -> {
-            handler.handleOne(id, resource, parameters);
-        });
+        return assertThrows(
+                thrown,
+                () -> {
+                    handler.handleOne(
+                            id,
+                            resource,
+                            parameters,
+                            context
+                    );
+                });
     }
 
     default void handleOneAndCheck(final I id,
                                    final Optional<V> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final X context,
                                    final Optional<V> expected) {
-        this.handleOneAndCheck(this.createHandler(),
+        this.handleOneAndCheck(
+                this.createHandler(),
                 id,
                 resource,
                 parameters,
-                expected);
+                context,
+                expected
+        );
     }
 
-    default void handleOneAndCheck(final HateosResourceHandler<I, V, C> handler,
+    default void handleOneAndCheck(final HateosResourceHandler<I, V, C, X> handler,
                                    final I id,
                                    final Optional<V> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final X context,
                                    final Optional<V> expected) {
-        this.checkEquals(expected, handler.handleOne(id, resource, parameters));
+        this.checkEquals(
+                expected,
+                handler.handleOne(
+                        id,
+                        resource,
+                        parameters,
+                        context
+                )
+        );
     }
 
     // handleRange.......................................................................................................
 
     @Test
     default void testHandleRangeNullRangeFails() {
-        this.handleRangeFails(null,
+        this.handleRangeFails(
+                null,
                 this.collectionResource(),
                 this.parameters(),
-                NullPointerException.class);
+                this.context(),
+                NullPointerException.class
+        );
     }
 
     @Test
     default void testHandleRangeNullResourceFails() {
-        this.handleRangeFails(this.range(),
+        this.handleRangeFails(
+                this.range(),
                 null,
                 this.parameters(),
-                NullPointerException.class);
+                this.context(),
+                NullPointerException.class
+        );
     }
 
     @Test
     default void testHandleRangeNullParametersFails() {
-        this.handleRangeFails(this.range(),
+        this.handleRangeFails(
+                this.range(),
                 this.collectionResource(),
                 null,
-                NullPointerException.class);
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleRangeNullContextFails() {
+        this.handleRangeFails(
+                this.range(),
+                this.collectionResource(),
+                this.parameters(),
+                null,
+                NullPointerException.class
+        );
     }
 
     default <T extends Throwable> T handleRangeFails(final Range<I> range,
                                                      final Optional<C> resource,
                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final X context,
                                                      final Class<T> thrown) {
-        return this.handleRangeFails(this.createHandler(),
+        return this.handleRangeFails(
+                this.createHandler(),
                 range,
                 resource,
                 parameters,
-                thrown);
+                context,
+                thrown
+        );
     }
 
-    default <T extends Throwable> T handleRangeFails(final HateosResourceHandler<I, V, C> handler,
+    default <T extends Throwable> T handleRangeFails(final HateosResourceHandler<I, V, C, X> handler,
                                                      final Range<I> range,
                                                      final Optional<C> resource,
                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final X context,
                                                      final Class<T> thrown) {
-        return assertThrows(thrown, () -> {
-            handler.handleRange(range, resource, parameters);
-        });
+        return assertThrows(
+                thrown, () -> {
+                    handler.handleRange(
+                            range,
+                            resource,
+                            parameters,
+                            context);
+                }
+        );
     }
 
     default void handleRangeAndCheck(final Range<I> range,
                                      final Optional<C> resource,
                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                     final X context,
                                      final Optional<C> expected) {
-        this.handleRangeAndCheck(this.createHandler(),
+        this.handleRangeAndCheck(
+                this.createHandler(),
                 range,
                 resource,
                 parameters,
-                expected);
+                context,
+                expected
+        );
     }
 
-    default void handleRangeAndCheck(final HateosResourceHandler<I, V, C> handler,
+    default void handleRangeAndCheck(final HateosResourceHandler<I, V, C, X> handler,
                                      final Range<I> range,
                                      final Optional<C> resource,
                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                     final X context,
                                      final Optional<C> expected) {
-        this.checkEquals(expected, handler.handleRange(range, resource, parameters));
+        this.checkEquals(
+                expected,
+                handler.handleRange(
+                        range,
+                        resource,
+                        parameters,
+                        context
+                )
+        );
     }
 
     // helpers..........................................................................................................
@@ -358,6 +562,8 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     Optional<C> collectionResource();
 
     Map<HttpRequestAttribute<?>, Object> parameters();
+
+    X context();
 
     @Override
     default String typeNameSuffix() {

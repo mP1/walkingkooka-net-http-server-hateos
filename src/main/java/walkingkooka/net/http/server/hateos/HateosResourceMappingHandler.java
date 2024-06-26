@@ -33,7 +33,7 @@ abstract class HateosResourceMappingHandler {
     /**
      * {see HateosResourceMappingHandlerHateosResourceHandler}
      */
-    static HateosResourceMappingHandlerHateosResourceHandler hateosResourceHandler(final HateosResourceHandler<?, ?, ?> handler) {
+    static HateosResourceMappingHandlerHateosResourceHandler hateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
         return HateosResourceMappingHandlerHateosResourceHandler.with(handler);
     }
 
@@ -42,6 +42,7 @@ abstract class HateosResourceMappingHandler {
     }
 
     abstract void handle(final HateosResourceMappingRouterHttpHandlerRequest request,
-                         final HateosResourceMapping<?, ?, ?, ?> mapping,
-                         final HateosResourceSelection<?> selection);
+                         final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+                         final HateosResourceSelection<?> selection,
+                         final HateosResourceHandlerContext context);
 }

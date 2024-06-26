@@ -24,17 +24,19 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link HateosResourceHandler#handleMany(Set, Optional, Map)} that throws {@link UnsupportedOperationException}.
+ * A {@link HateosResourceHandler#handleMany(Set, Optional, Map, HateosResourceHandlerContext)} that throws {@link UnsupportedOperationException}.
  */
-public interface UnsupportedHateosResourceHandlerHandleMany<I extends Comparable<I>, V, C> extends HateosResourceHandler<I, V, C> {
+public interface UnsupportedHateosResourceHandlerHandleMany<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> extends HateosResourceHandler<I, V, C, X> {
 
     @Override
     default Optional<C> handleMany(final Set<I> ids,
                                    final Optional<C> resource,
-                                   final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                   final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final X context) {
         HateosResourceHandler.checkManyIds(ids);
         HateosResourceHandler.checkResource(resource);
         HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
     }

@@ -24,6 +24,7 @@ import walkingkooka.naming.StringName;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.header.LinkRelation;
+import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessorTesting;
@@ -54,17 +55,17 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                         "    \"href\": \"https://example.com/api/resource-1/7b\",\n" +
                         "    \"method\": \"POST\",\n" +
                         "    \"rel\": \"self\",\n" +
-                        "    \"type\": \"application/json\"\n" +
+                        "    \"type\": \"application/test-json-123\"\n" +
                         "  }, {\n" +
                         "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
                         "    \"method\": \"GET\",\n" +
                         "    \"rel\": \"contents\",\n" +
-                        "    \"type\": \"application/json\"\n" +
+                        "    \"type\": \"application/test-json-123\"\n" +
                         "  }, {\n" +
                         "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
                         "    \"method\": \"POST\",\n" +
                         "    \"rel\": \"contents\",\n" +
-                        "    \"type\": \"application/json\"\n" +
+                        "    \"type\": \"application/test-json-123\"\n" +
                         "  }]\n" +
                         "}"));
     }
@@ -89,9 +90,11 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
 
     @Override
     public HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor createBiFunction() {
-        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor.with(this.baseUrl(),
+        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor.with(
+                this.baseUrl(),
                 this.mappings(),
-                this.marshallContext());
+                new TestHateosResourceHandlerContext()
+        );
     }
 
     private AbsoluteUrl baseUrl() {
@@ -106,24 +109,29 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
         return HateosResourceName.with("resource-2");
     }
 
-    private Set<HateosResourceMapping<?, ?, ?, ?>> mappings() {
+    private Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings() {
         final HateosResourceName resourceName1 = this.resourceName1();
         final HateosResourceName resourceName2 = this.resourceName2();
 
-        final HateosResourceMapping<?, ?, ?, ?> mapping1 = HateosResourceMapping.with(resourceName1,
-                this.selection(),
-                TestResource.class,
-                TestResource2.class,
-                TestHateosResource.class)
-                .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosResourceHandler<>())
+        final HateosResourceMapping<?, ?, ?, ?, ?> mapping1 = HateosResourceMapping.with(
+                        resourceName1,
+                        this.selection(),
+                        TestResource.class,
+                        TestResource2.class,
+                        TestHateosResource.class,
+                        TestHateosResourceHandlerContext.class
+                ).setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosResourceHandler<>())
                 .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosResourceHandler<>())
                 .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
 
-        final HateosResourceMapping<?, ?, ?, ?> mapping2 = HateosResourceMapping.with(resourceName2,
-                this.selection(),
-                TestResource.class,
-                TestResource2.class,
-                TestHateosResource2.class)
+        final HateosResourceMapping<?, ?, ?, ?, ?> mapping2 = HateosResourceMapping.with(
+                        resourceName2,
+                        this.selection(),
+                        TestResource.class,
+                        TestResource2.class,
+                        TestHateosResource2.class,
+                        TestHateosResourceHandlerContext.class
+                )
                 .setHateosResourceHandler(LinkRelation.ABOUT, HttpMethod.PUT, new FakeHateosResourceHandler<>());
 
         return Sets.of(mapping1, mapping2);
@@ -131,6 +139,20 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
 
     private Function<String, HateosResourceSelection<BigInteger>> selection() {
         return s -> HateosResourceSelection.one(new BigInteger(s));
+    }
+
+    static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
+
+        @Override
+        public MediaType contentType() {
+            return MediaType.parse("application/test-json-123");
+        }
+
+        @Override
+        public JsonNode marshall(final Object value) {
+            return JsonNodeMarshallContexts.basic()
+                    .marshall(value);
+        }
     }
 
     // ClassTesting......................................................................................................

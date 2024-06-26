@@ -30,7 +30,7 @@ import java.util.Set;
  * Handles a HATEOS request for one or more {@link HateosResource} handling the unmarshalling of the request body and
  * marshalling of the response to the response body.
  */
-public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
+public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> {
 
     /**
      * An empty {@link Map} with no parameters.
@@ -44,7 +44,8 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
      * </pre>>
      */
     Optional<C> handleAll(final Optional<C> resource,
-                          final Map<HttpRequestAttribute<?>, Object> parameters);
+                          final Map<HttpRequestAttribute<?>, Object> parameters,
+                          final X context);
 
     /**
      * Handles a collection of resources identified by the given Ids
@@ -54,7 +55,8 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
      */
     Optional<C> handleMany(final Set<I> ids,
                            final Optional<C> resource,
-                           final Map<HttpRequestAttribute<?>, Object> parameters);
+                           final Map<HttpRequestAttribute<?>, Object> parameters,
+                           final X context);
 
     /**
      * Handles a resources identified by the given id
@@ -64,7 +66,8 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
      */
     Optional<V> handleOne(final I id,
                           final Optional<V> resource,
-                          final Map<HttpRequestAttribute<?>, Object> parameters);
+                          final Map<HttpRequestAttribute<?>, Object> parameters,
+                          final X context);
 
     /**
      * Handles a collection of resources without any Id
@@ -73,7 +76,8 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
      * </pre>>
      */
     Optional<V> handleNone(final Optional<V> resource,
-                           final Map<HttpRequestAttribute<?>, Object> parameters);
+                           final Map<HttpRequestAttribute<?>, Object> parameters,
+                           final X context);
 
     /**
      * Handles a collection of resources identified by the given Ids
@@ -83,7 +87,8 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
      */
     Optional<C> handleRange(final Range<I> range,
                             final Optional<C> resource,
-                            final Map<HttpRequestAttribute<?>, Object> parameters);
+                            final Map<HttpRequestAttribute<?>, Object> parameters,
+                            final X context);
 
     // parameter checkers...............................................................................................
 
@@ -139,5 +144,12 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C> {
      */
     static Map<HttpRequestAttribute<?>, Object> checkParameters(final Map<HttpRequestAttribute<?>, Object> parameters) {
         return Objects.requireNonNull(parameters, "parameters");
+    }
+
+    /**
+     * Requires a {@link HateosResourceHandlerContext} to be present.
+     */
+    static <X extends HateosResourceHandlerContext> X checkContext(final X context) {
+        return Objects.requireNonNull(context, "context");
     }
 }

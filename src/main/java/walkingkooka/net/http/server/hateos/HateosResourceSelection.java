@@ -120,19 +120,21 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
     /**
      * Returns the {@link Class type} for this resource.
      */
-    final Class<?> resourceType(final HateosResourceMapping<?, ?, ?, ?> mapping) {
+    final Class<?> resourceType(final HateosResourceMapping<?, ?, ?, ?, ?> mapping) {
         return this.isNone() || this.isOne() ?
                 mapping.valueType :
                 mapping.collectionType;
     }
 
-    abstract HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I> handler,
+    abstract HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I, ?> handler,
                                                       final HttpEntity entity,
-                                                      final Map<HttpRequestAttribute<?>, Object> parameters);
+                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                      final HateosResourceHandlerContext context);
 
-    abstract Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?> handler,
+    abstract Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?, ?> handler,
                                                      final Optional<?> resource,
-                                                     final Map<HttpRequestAttribute<?>, Object> parameters);
+                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final HateosResourceHandlerContext context);
 
     @Override
     abstract public String toString();

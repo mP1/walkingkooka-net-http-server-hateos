@@ -23,15 +23,17 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * A {@link HateosResourceHandler#handleNone(Optional, Map)} that throws {@link UnsupportedOperationException}.
+ * A {@link HateosResourceHandler#handleNone(Optional, Map, HateosResourceHandlerContext)} that throws {@link UnsupportedOperationException}.
  */
-public interface UnsupportedHateosResourceHandlerHandleNone<I extends Comparable<I>, V, C> extends HateosResourceHandler<I, V, C> {
+public interface UnsupportedHateosResourceHandlerHandleNone<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> extends HateosResourceHandler<I, V, C, X> {
 
     @Override
     default Optional<V> handleNone(final Optional<V> resource,
-                                   final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                   final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final X context) {
         HateosResourceHandler.checkResource(resource);
         HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
     }

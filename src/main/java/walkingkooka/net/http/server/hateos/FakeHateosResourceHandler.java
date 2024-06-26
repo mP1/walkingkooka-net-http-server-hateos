@@ -22,59 +22,67 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.test.Fake;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 /**
  * A {@link HateosResourceHandler} where all methods throw {@link UnsupportedOperationException}.
  */
-public class FakeHateosResourceHandler<I extends Comparable<I>, V, C> implements HateosResourceHandler<I, V, C>, Fake {
+public class FakeHateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> implements HateosResourceHandler<I, V, C, X>, Fake {
 
     public Optional<C> handleAll(final Optional<C> resource,
-                                 final Map<HttpRequestAttribute<?>, Object> parameters) {
-        check(resource, parameters);
+                                 final Map<HttpRequestAttribute<?>, Object> parameters,
+                                 final X context) {
+        HateosResourceHandler.checkResource(resource);
+        HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
     }
 
     public Optional<C> handleMany(final Set<I> ids,
                                   final Optional<C> resource,
-                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                  final Map<HttpRequestAttribute<?>, Object> parameters,
+                                  final X context) {
         HateosResourceHandler.checkManyIds(ids);
-        check(resource, parameters);
+        HateosResourceHandler.checkResource(resource);
+        HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
     }
 
     public Optional<V> handleNone(final Optional<V> resource,
-                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
-        check(resource, parameters);
+                                  final Map<HttpRequestAttribute<?>, Object> parameters,
+                                  final X context) {
+        HateosResourceHandler.checkResource(resource);
+        HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
     }
 
     public Optional<V> handleOne(final I id,
                                  final Optional<V> resource,
-                                 final Map<HttpRequestAttribute<?>, Object> parameters) {
-        Objects.requireNonNull(id, "id");
-        check(resource, parameters);
+                                 final Map<HttpRequestAttribute<?>, Object> parameters,
+                                 final X context) {
+        HateosResourceHandler.checkId(id);
+        HateosResourceHandler.checkResource(resource);
+        HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
     }
 
     public Optional<C> handleRange(final Range<I> range,
                                    final Optional<C> resource,
-                                   final Map<HttpRequestAttribute<?>, Object> parameters) {
-        Objects.requireNonNull(range, "range");
-        check(resource, parameters);
+                                   final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final X context) {
+        HateosResourceHandler.checkIdRange(range);
+        HateosResourceHandler.checkResource(resource);
+        HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
-    }
-
-    private static void check(final Optional<?> resource,
-                              final Map<HttpRequestAttribute<?>, Object> parameters) {
-        Objects.requireNonNull(resource, "resource");
-        Objects.requireNonNull(parameters, "parameters");
     }
 }

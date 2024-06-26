@@ -40,6 +40,9 @@ import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.Printers;
+import walkingkooka.tree.json.JsonNode;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -55,13 +58,15 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                                                               final HttpResponse response,
                                                               final HateosResourceMappingRouter router,
                                                               final Indentation indentation,
-                                                              final LineEnding lineEnding) {
+                                                              final LineEnding lineEnding,
+                                                              final HateosResourceHandlerContext context) {
         return new HateosResourceMappingRouterHttpHandlerRequest(
                 request,
                 response,
                 router,
                 indentation,
-                lineEnding
+                lineEnding,
+                context
         );
     }
 
@@ -69,13 +74,15 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                                                           final HttpResponse response,
                                                           final HateosResourceMappingRouter router,
                                                           final Indentation indentation,
-                                                          final LineEnding lineEnding) {
+                                                          final LineEnding lineEnding,
+                                                          final HateosResourceHandlerContext context) {
         super();
         this.request = request;
         this.response = response;
         this.router = router;
         this.indentation = indentation;
         this.lineEnding = lineEnding;
+        this.context = context;
 
         this.parameters = this.request.routerParameters();
     }
@@ -117,7 +124,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
     private void handleResourceNameOrNotFound(final HateosResourceName resourceName,
                                               final int pathIndex) {
-        final HateosResourceMapping<?, ?, ?, ?> mapping = this.router.resourceNameToMapping.get(resourceName);
+        final HateosResourceMapping<?, ?, ?, ?, ?> mapping = this.router.resourceNameToMapping.get(resourceName);
         if (null == mapping) {
             this.notFound(resourceName);
         } else {
@@ -132,7 +139,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Attempts to parse the selection which may be missing, id, range, list or all.
      */
-    private void parseSelectionOrBadRequest(final HateosResourceMapping<?, ?, ?, ?> mapping,
+    private void parseSelectionOrBadRequest(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                             final int pathIndex) {
         final String selectionString = this.pathComponent(pathIndex, "");
 
@@ -156,7 +163,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Extracts the link relation or defaults to {@link LinkRelation#SELF}.
      */
-    private void linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(final HateosResourceMapping<?, ?, ?, ?> mapping,
+    private void linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                                                                final HateosResourceSelection<?> selection,
                                                                                final int pathIndex) {
         final LinkRelation<?> relation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex);
@@ -192,7 +199,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Validates that the request method and {@link LinkRelation} is supported for the given {@link HateosResourceMapping}
      */
-    private void methodSupportedChallengeAndDispatch(final HateosResourceMapping<?, ?, ?, ?> mapping,
+    private void methodSupportedChallengeAndDispatch(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                                      final HateosResourceSelection<?> selection,
                                                      final LinkRelation<?> relation) {
         final HttpMethod method = this.request.method();
@@ -246,24 +253,31 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
      * Using the mapping and relation attempts to locate a matching {@link HateosResourceHandler}, followed by parsing the
      * request body into a {@link HateosResource} and then writes the response and sets the status code.
      */
-    private void locateHandlerAndHandle(final HateosResourceMapping<?, ?, ?, ?> mapping,
+    private void locateHandlerAndHandle(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                         final HateosResourceSelection<?> selection,
                                         final LinkRelation<?> relation,
                                         final HttpMethod method) {
-        final HateosResourceMappingHandler handler = this.handlerOrNotFound(mapping, relation, method);
+        final HateosResourceMappingHandler handler = this.handlerOrNotFound(
+                mapping,
+                relation,
+                method
+        );
         if (null != handler) {
             handler.handle(
                     this,
                     mapping,
-                    selection
+                    selection,
+                    this.context
             );
         }
     }
 
+    private final HateosResourceHandlerContext context;
+
     /**
      * Attempts to locate the {@link HateosResourceMappingHandler} for the given criteria or sets the response with not found.
      */
-    private HateosResourceMappingHandler handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?> mapping,
+    private HateosResourceMappingHandler handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                                              final LinkRelation<?> relation,
                                                              final HttpMethod method) {
         final HateosResourceMappingHandler handler = mapping.relationAndMethodToHandlers.get(
@@ -288,13 +302,15 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
     // HateosHttpEntityHandler..........................................................................................
 
-    void handleHateosHttpEntityHandler(final HateosHttpEntityHandler<?> handler,
-                                       final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                       final HateosResourceSelection<?> selection) {
+    void handleHateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler,
+                                       final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+                                       final HateosResourceSelection<?> selection,
+                                       final HateosResourceHandlerContext context) {
         final HttpEntity responseHttpEntity = selection.handleHateosHttpEntityHandler(
                 Cast.to(handler),
                 this.httpEntity(),
-                this.parameters
+                this.parameters,
+                context
         );
 
         final HttpResponse response = this.response;
@@ -319,9 +335,10 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
     // HateosResourceHandler............................................................................................
 
-    void handleHateosResourceHandler(final HateosResourceHandler<?, ?, ?> handler,
-                                     final HateosResourceMapping<?, ?, ?, ?> mapping,
-                                     final HateosResourceSelection<?> selection) {
+    void handleHateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler,
+                                     final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+                                     final HateosResourceSelection<?> selection,
+                                     final HateosResourceHandlerContext context) {
         final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
         if (null != resource) {
             final Accept accept = this.acceptCompatibleOrBadRequest();
@@ -329,7 +346,8 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                 final Optional<?> maybeResponseResource = selection.handleHateosResourceHandler(
                         Cast.to(handler),
                         resource,
-                        this.parameters
+                        this.parameters,
+                        context
                 );
                 String responseText = null;
 
@@ -350,7 +368,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Parses the request body and its JSON into a resource and then dispatches the locateHandlerAndHandle.
      */
-    private Optional<?> parseBodyOrBadRequest(final HateosResourceMapping<?, ?, ?, ?> mapping,
+    private Optional<?> parseBodyOrBadRequest(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                               final HateosResourceSelection<?> selection) {
         Optional<?> resource = null;
 
@@ -408,21 +426,24 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
      * Using the given request resource text (request body) read that into an {@link Optional optional} {@link HateosResource resource}.
      */
     private Optional<?> resourceOrBadRequest(final String requestText,
-                                             final HateosResourceMapping<?, ?, ?, ?> mapping,
+                                             final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                              final HateosResourceSelection<?> selection) {
         Optional<?> resource;
 
         if (requestText.isEmpty()) {
             resource = Optional.empty();
         } else {
-            final HateosContentType hateosContentType = this.router.contentType;
             final Class<?> type = selection.resourceType(mapping);
+            final HateosResourceHandlerContext context = this.context;
             try {
                 resource = Optional.of(
-                        hateosContentType.fromText(requestText, type)
+                        context.unmarshall(
+                                JsonNode.parse(requestText),
+                                type
+                        )
                 );
             } catch (final Exception cause) {
-                this.badRequest("Invalid " + hateosContentType + ": " + cause.getMessage(), cause);
+                this.badRequest("Invalid " + context.contentType() + ": " + cause.getMessage(), cause);
                 resource = null;
             }
         }
@@ -437,7 +458,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         if (null == accept) {
             this.badRequest("Missing " + HttpHeaderName.ACCEPT);
         } else {
-            final MediaType contentType = this.hateosContentType().contentType();
+            final MediaType contentType = this.context.contentType();
             if (!accept.test(contentType)) {
                 this.badRequest("Header " + header + " expected " + contentType + " got " + accept);
                 accept = null;
@@ -460,9 +481,20 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
      * Marshals the given response to a String which will become the response body text.
      */
     private String toText(final Object body) {
-        return this.hateosContentType()
-                .toText(body, this.indentation, this.lineEnding);
+        final StringBuilder b = new StringBuilder();
+
+        try (final IndentingPrinter printer = Printers.stringBuilder(
+                b,
+                this.lineEnding
+        ).indenting(this.indentation)) {
+            this.context.marshall(body)
+                    .printJson(printer);
+            printer.flush();
+        }
+        return b.toString();
     }
+
+    // these two properties will be removed when a Converter is convert request text -> values and values -> response text.
 
     private final Indentation indentation;
     private final LineEnding lineEnding;
@@ -506,8 +538,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             statusCode = selection.successStatusCode();
 
             final CharsetName charsetName = this.selectCharsetName();
-            final HateosContentType hateosContentType = this.hateosContentType();
-            final MediaType contentType = hateosContentType.contentType();
+            final MediaType contentType = this.context.contentType();
 
             entity = HttpEntity.EMPTY
                     .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(charsetName))
@@ -547,10 +578,6 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
     private void setStatus(final HttpStatus status) {
         this.response.setStatus(status);
-    }
-
-    HateosContentType hateosContentType() {
-        return this.router.contentType;
     }
 
     final HttpRequest request;

@@ -23,8 +23,6 @@ import walkingkooka.net.Url;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 public final class HateosResourceMappingRouterHttpHandlerTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterHttpHandler> {
 
@@ -34,17 +32,23 @@ public final class HateosResourceMappingRouterHttpHandlerTest extends HateosReso
     public void testToString() {
         final Indentation indentation = Indentation.with("   ");
         final LineEnding lineEnding = LineEnding.NL;
+        final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
         final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(
                 Url.parseAbsolute("https://example.com"),
-                HateosContentType.json(JsonNodeUnmarshallContexts.fake(), JsonNodeMarshallContexts.fake()),
                 Sets.empty(),
                 indentation,
-                lineEnding
+                lineEnding,
+                context
         );
 
         this.toStringAndCheck(
-                HateosResourceMappingRouterHttpHandler.with(router, indentation, lineEnding),
+                HateosResourceMappingRouterHttpHandler.with(
+                        router,
+                        indentation,
+                        lineEnding,
+                        context
+                ),
                 router.toString()
         );
     }

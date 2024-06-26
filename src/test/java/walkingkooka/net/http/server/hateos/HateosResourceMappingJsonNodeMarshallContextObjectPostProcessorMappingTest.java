@@ -23,8 +23,10 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
 import walkingkooka.net.header.LinkRelation;
+import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonNode;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
 import java.math.BigInteger;
 import java.util.Map;
@@ -42,7 +44,7 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                 "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/json\"\n" +
+                "    \"type\": \"application/test-json\"\n" +
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET))),
@@ -58,12 +60,12 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                 "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/json\"\n" +
+                "    \"type\": \"application/test-json\"\n" +
                 "  }, {\n" +
                 "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"POST\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/json\"\n" +
+                "    \"type\": \"application/test-json\"\n" +
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET, HttpMethod.POST))),
@@ -79,7 +81,7 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                 "    \"href\": \"https://example.com/api/resource1/7b/contents\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"contents\",\n" +
-                "    \"type\": \"application/json\"\n" +
+                "    \"type\": \"application/test-json\"\n" +
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.CONTENTS, Sets.of(HttpMethod.GET))), withLinks);
@@ -94,17 +96,17 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                 "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/json\"\n" +
+                "    \"type\": \"application/test-json\"\n" +
                 "  }, {\n" +
                 "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
                 "    \"method\": \"POST\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/json\"\n" +
+                "    \"type\": \"application/test-json\"\n" +
                 "  }, {\n" +
                 "    \"href\": \"https://example.com/api/resource1/7b/about\",\n" +
                 "    \"method\": \"DELETE\",\n" +
                 "    \"rel\": \"about\",\n" +
-                "    \"type\": \"application/json\"\n" +
+                "    \"type\": \"application/test-json\"\n" +
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET, HttpMethod.POST),
@@ -119,7 +121,20 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                 mapping.addLinks(TestHateosResource.with(BigInteger.valueOf(123)),
                         JsonNode.parse(before).objectOrFail(),
                         Url.parseAbsolute("https://example.com/api"),
-                        this.marshallContext()),
+                        new FakeHateosResourceHandlerContext() {
+
+                            @Override
+                            public MediaType contentType() {
+                                return MediaType.parse("application/test-json");
+                            }
+
+                            @Override
+                            public JsonNode marshall(final Object value) {
+                                return JsonNodeMarshallContexts.basic()
+                                        .marshall(value);
+                            }
+                        }
+                ),
                 () -> mapping.toString());
     }
 
