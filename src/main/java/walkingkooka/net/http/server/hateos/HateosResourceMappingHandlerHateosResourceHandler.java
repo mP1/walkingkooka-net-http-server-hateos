@@ -21,27 +21,29 @@ import java.util.Objects;
 
 final class HateosResourceMappingHandlerHateosResourceHandler extends HateosResourceMappingHandler {
 
-    static HateosResourceMappingHandlerHateosResourceHandler with(final HateosResourceHandler<?, ?, ?> handler) {
+    static HateosResourceMappingHandlerHateosResourceHandler with(final HateosResourceHandler<?, ?, ?, ?> handler) {
         return new HateosResourceMappingHandlerHateosResourceHandler(
                 Objects.requireNonNull(handler, "handler")
         );
     }
 
-    private HateosResourceMappingHandlerHateosResourceHandler(final HateosResourceHandler<?, ?, ?> handler) {
+    private HateosResourceMappingHandlerHateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
         this.handler = handler;
     }
 
     void handle(final HateosResourceMappingRouterHttpHandlerRequest request,
-                final HateosResourceMapping<?, ?, ?, ?> mapping,
-                final HateosResourceSelection<?> selection) {
+                final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+                final HateosResourceSelection<?> selection,
+                final HateosResourceHandlerContext context) {
         request.handleHateosResourceHandler(
                 this.handler,
                 mapping,
-                selection
+                selection,
+                context
         );
     }
 
-    private final HateosResourceHandler<?, ?, ?> handler;
+    private final HateosResourceHandler<?, ?, ?, ?> handler;
 
     @Override
     public int hashCode() {

@@ -30,7 +30,6 @@ import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.JsonObject;
 import walkingkooka.tree.json.JsonPropertyName;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 
 import java.util.List;
 import java.util.Map;
@@ -57,7 +56,7 @@ final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMappi
     JsonObject addLinks(final HateosResource<?> resource,
                             final JsonObject object,
                             final AbsoluteUrl base,
-                            final JsonNodeMarshallContext context) {
+                        final HateosResourceHandlerContext context) {
         // base + resource name.
         final UrlPath pathAndResourceNameAndId = base.path()
                 .append(this.name)
@@ -71,7 +70,7 @@ final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMappi
                 // TODO add support for title/title* and hreflang
                 final Map<LinkParameterName<?>, Object> parameters = Maps.of(LinkParameterName.METHOD, method,
                         LinkParameterName.REL, Lists.of(relation),
-                        LinkParameterName.TYPE, HateosContentTypeJsonNode.JSON_CONTENT_TYPE);
+                        LinkParameterName.TYPE, context.contentType());
 
                 links.add(context.marshall(Link.with(base.setPath(LinkRelation.SELF == relation ?
                         pathAndResourceNameAndId :

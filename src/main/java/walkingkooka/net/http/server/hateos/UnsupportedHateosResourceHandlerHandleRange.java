@@ -24,17 +24,19 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * A {@link HateosResourceHandler#handleRange(Range, Optional, Map)} that throws {@link UnsupportedOperationException}.
+ * A {@link HateosResourceHandler#handleRange(Range, Optional, Map, HateosResourceHandlerContext)} that throws {@link UnsupportedOperationException}.
  */
-public interface UnsupportedHateosResourceHandlerHandleRange<I extends Comparable<I>, V, C> extends HateosResourceHandler<I, V, C> {
+public interface UnsupportedHateosResourceHandlerHandleRange<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> extends HateosResourceHandler<I, V, C, X> {
 
     @Override
     default Optional<C> handleRange(final Range<I> range,
                                     final Optional<C> resource,
-                                    final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final X context) {
         HateosResourceHandler.checkIdRange(range);
         HateosResourceHandler.checkResource(resource);
         HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
     }

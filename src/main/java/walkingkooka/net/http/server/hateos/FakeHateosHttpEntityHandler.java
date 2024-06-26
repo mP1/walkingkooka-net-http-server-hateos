@@ -24,37 +24,65 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import java.util.Map;
 import java.util.Set;
 
-public class FakeHateosHttpEntityHandler<I extends Comparable<I>> implements HateosHttpEntityHandler<I> {
+public class FakeHateosHttpEntityHandler<I extends Comparable<I>, X extends HateosResourceHandlerContext> implements HateosHttpEntityHandler<I, X> {
     @Override
     public HttpEntity handleAll(final HttpEntity entity,
-                                final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                final Map<HttpRequestAttribute<?>, Object> parameters,
+                                final X context) {
+        HateosHttpEntityHandler.checkHttpEntity(entity);
+        HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkContext(context);
+
         throw new UnsupportedOperationException();
     }
 
     @Override
     public HttpEntity handleMany(final Set<I> ids,
                                  final HttpEntity entity,
-                                 final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                 final Map<HttpRequestAttribute<?>, Object> parameters,
+                                 final X context) {
+        HateosHttpEntityHandler.checkManyIds(ids);
+        HateosHttpEntityHandler.checkHttpEntity(entity);
+        HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkContext(context);
+
         throw new UnsupportedOperationException();
     }
 
     @Override
     public HttpEntity handleOne(final I id,
                                 final HttpEntity entity,
-                                final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                final Map<HttpRequestAttribute<?>, Object> parameters,
+                                final X context) {
+        HateosHttpEntityHandler.checkId(id);
+        HateosHttpEntityHandler.checkHttpEntity(entity);
+        HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkContext(context);
+
         throw new UnsupportedOperationException();
     }
 
     @Override
     public HttpEntity handleNone(final HttpEntity entity,
-                                 final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                 final Map<HttpRequestAttribute<?>, Object> parameters,
+                                 final X context) {
+        HateosHttpEntityHandler.checkHttpEntity(entity);
+        HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkContext(context);
+
         throw new UnsupportedOperationException();
     }
 
     @Override
     public HttpEntity handleRange(final Range<I> range,
                                   final HttpEntity entity,
-                                  final Map<HttpRequestAttribute<?>, Object> parameters) {
+                                  final Map<HttpRequestAttribute<?>, Object> parameters,
+                                  final X context) {
+        HateosHttpEntityHandler.checkIdRange(range);
+        HateosHttpEntityHandler.checkHttpEntity(entity);
+        HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkContext(context);
+
         throw new UnsupportedOperationException();
     }
 }

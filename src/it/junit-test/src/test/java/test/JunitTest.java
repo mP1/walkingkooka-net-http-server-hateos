@@ -20,14 +20,15 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import walkingkooka.collect.list.Lists;
-import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.collect.set.Sets;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
+import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpTransport;
@@ -38,86 +39,102 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
-import walkingkooka.net.http.server.hateos.HateosContentType;
-import walkingkooka.net.http.server.hateos.HateosResource;
+import walkingkooka.net.http.server.hateos.FakeHateosResource;
+import walkingkooka.net.http.server.hateos.FakeHateosResourceHandler;
+import walkingkooka.net.http.server.hateos.FakeHateosResourceHandlerContext;
 import walkingkooka.net.http.server.hateos.HateosResourceMapping;
 import walkingkooka.net.http.server.hateos.HateosResourceName;
 import walkingkooka.net.http.server.hateos.HateosResourceSelection;
-import walkingkooka.net.http.server.hateos.FakeHateosResourceHandler;
-import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.route.Router;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
-import walkingkooka.tree.expression.ExpressionNumberContexts;
-import walkingkooka.tree.expression.ExpressionNumberKind;
+import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.BigInteger;
-import java.math.MathContext;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 @J2clTestInput(JunitTest.class)
 public class JunitTest {
 
     @Test
-    public void testHateosResourceName() throws Exception {
-        final String name = "name123";
-
-        Assert.assertEquals(name, HateosResourceName.with(name).value());
+    public void testAssertEquals() {
+        checkEquals(
+                1,
+                1
+        );
     }
 
     @Test
-    public void testNewHateosHandler() throws Exception {
-        new FakeHateosResourceHandler<String, String, Collection<String>>() {
+    public void testHateosResourceName()  {
+        final String name = "name123";
+
+        checkEquals(
+                name,
+                HateosResourceName.with(name)
+                        .value()
+        );
+    }
+
+    @Test
+    public void testNewHateosHandler()  {
+        new FakeHateosResourceHandler<String, String, Collection<String>, TestHateosResourceHandlerContext>() {
         };
     }
 
     @Test
-    public void testNewHateosResource() throws Exception {
+    public void testNewHateosResource()  {
         new FakeHateosResource<String>() {
         };
     }
 
     @Test
-    public void testHateosResourceMapping() throws Exception {
-        final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
-                        (s) -> {
-                            return HateosResourceSelection.one(BigInteger.valueOf(Integer.parseInt(s.substring(2), 16))); // assumes hex digit in url
-                        },
-                        TestResource.class,
-                        TestResource.class,
-                        TestHateosResource.class)
-                .setHateosResourceHandler(
-                        LinkRelation.CONTENTS,
-                        HttpMethod.POST,
-                        new FakeHateosResourceHandler<>() {
-                            @Override
-                            public Optional<TestResource> handleOne(final BigInteger id,
-                                                                    final Optional<TestResource> resource,
-                                                                    final Map<HttpRequestAttribute<?>, Object> parameters) {
-                                return Optional.of(TestResource.with(TestHateosResource.with(BigInteger.valueOf(31))));
-                            }
-                        }
-                );
+    public void testHateosResourceMapping()  {
+        final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
+                (s) -> {
+                    return HateosResourceSelection.one(
+                            BigInteger.valueOf(
+                                    Integer.parseInt(
+                                            s.substring(2),
+                                            16
+                                    )
+                            )
+                    ); // assumes hex digit in url
+                },
+                TestResource.class,
+                TestResource.class,
+                TestHateosResource.class,
+                TestHateosResourceHandlerContext.class
+        ).setHateosResourceHandler(
+                LinkRelation.CONTENTS,
+                HttpMethod.POST,
+                new FakeHateosResourceHandler<>() {
+                    @Override
+                    public Optional<TestResource> handleOne(final BigInteger id,
+                                                            final Optional<TestResource> resource,
+                                                            final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final TestHateosResourceHandlerContext context) {
+                        return Optional.of(
+                                TestResource.with(
+                                        TestHateosResource.with(
+                                                BigInteger.valueOf(31)
+                                        )
+                                )
+                        );
+                    }
+                }
+        );
 
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
                 AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
-                HateosContentType.json(
-                        JsonNodeUnmarshallContexts.basic(
-                                ExpressionNumberKind.DEFAULT,
-                                MathContext.DECIMAL32
-                        ),
-                        JsonNodeMarshallContexts.basic()
-                ),
                 Sets.of(mapping),
                 Indentation.SPACES2,
-                LineEnding.NL
+                LineEnding.NL,
+                new TestHateosResourceHandlerContext()
         );
 
         final HttpRequest request = new FakeHttpRequest() {
@@ -145,13 +162,12 @@ public class JunitTest {
             @Override
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(
-                        HttpHeaderName.CONTENT_TYPE, Lists.of(HateosContentType.JSON_CONTENT_TYPE),
-                        HttpHeaderName.ACCEPT, Lists.of(HateosContentType.JSON_CONTENT_TYPE.accept()),
+                        HttpHeaderName.CONTENT_TYPE, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE),
+                        HttpHeaderName.ACCEPT, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE.accept()),
                         HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
                 );
             }
 
-            @Test
             public String bodyText() {
                 return "";
             }
@@ -171,22 +187,18 @@ public class JunitTest {
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final HttpHandler httpHandler = router.route(
-                request.routerParameters()
-        ).orElseThrow(
-                () -> new Error("Unable to route")
-        );
+        final HttpHandler httpHandler = router.route(request.routerParameters())
+                .orElseThrow(() -> new Error("Unable to route"));
 
         final HttpResponse response = HttpResponses.recording();
         httpHandler.handle(request, response);
-
-        Assert.assertEquals(
+        checkEquals(
                 "{\n" +
-                "  \"type\": \"test-HateosResource\",\n" +
-                "  \"value\": {\n" +
-                "    \"id\": \"31\"\n" +
-                "  }\n" +
-                "}",
+                        "  \"type\": \"test-HateosResource\",\n" +
+                        "  \"value\": {\n" +
+                        "    \"id\": \"31\"\n" +
+                        "  }\n" +
+                        "}",
                 response.entities()
                         .get(0)
                         .bodyText()
@@ -211,5 +223,28 @@ public class JunitTest {
 
     private Class<TestHateosResource> resourceType() {
         return TestHateosResource.class;
+    }
+
+    static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
+
+        final static MediaType CONTENT_TYPE = MediaType.parse("application/test-json");
+
+        @Override
+        public MediaType contentType() {
+            return CONTENT_TYPE;
+        }
+
+        @Override
+        public JsonNode marshall(final Object value) {
+            return JsonNodeMarshallContexts.basic()
+                    .marshall(value);
+        }
+    }
+    static void checkEquals(final Object expected,
+                            final Object actual) {
+        Assert.assertEquals(
+                expected,
+                actual
+        );
     }
 }

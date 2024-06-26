@@ -37,11 +37,13 @@ final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
      */
     static <N extends Node<N, ?, ?, ?>> HateosResourceMappingRouterHttpHandler with(final HateosResourceMappingRouter router,
                                                                                     final Indentation indentation,
-                                                                                    final LineEnding lineEnding) {
+                                                                                    final LineEnding lineEnding,
+                                                                                    final HateosResourceHandlerContext context) {
         return new HateosResourceMappingRouterHttpHandler(
                 router,
                 indentation,
-                lineEnding
+                lineEnding,
+                context
         );
     }
 
@@ -50,11 +52,13 @@ final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
      */
     private HateosResourceMappingRouterHttpHandler(final HateosResourceMappingRouter router,
                                                    final Indentation indentation,
-                                                   final LineEnding lineEnding) {
+                                                   final LineEnding lineEnding,
+                                                   final HateosResourceHandlerContext context) {
         super();
         this.router = router;
         this.indentation = indentation;
         this.lineEnding = lineEnding;
+        this.context = context;
     }
 
     @Override
@@ -68,13 +72,16 @@ final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
                 response,
                 this.router,
                 this.indentation,
-                this.lineEnding
+                this.lineEnding,
+                this.context
         ).dispatch();
     }
 
     private final HateosResourceMappingRouter router;
     private final Indentation indentation;
     private final LineEnding lineEnding;
+
+    private final HateosResourceHandlerContext context;
 
     @Override
     public String toString() {

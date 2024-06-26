@@ -24,7 +24,7 @@ public final class HateosResourceHandlers implements PublicStaticHelper {
     /**
      * {@see FakeHateosResourceHandler}
      */
-    public static <I extends Comparable<I>, V, C> HateosResourceHandler<I, V, C> fake() {
+    public static <I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> HateosResourceHandler<I, V, C, X> fake() {
         return new FakeHateosResourceHandler<>();
     }
 

@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * Handles a HATEOS request for a one or more {@link HateosResource} as a single {@link walkingkooka.net.http.HttpEntity}.
  */
-public interface HateosHttpEntityHandler<I extends Comparable<I>> {
+public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends HateosResourceHandlerContext> {
 
     /**
      * An empty {@link Map} with no parameters.
@@ -43,7 +43,8 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>> {
      * </pre>>
      */
     HttpEntity handleAll(final HttpEntity entity,
-                         final Map<HttpRequestAttribute<?>, Object> parameters);
+                         final Map<HttpRequestAttribute<?>, Object> parameters,
+                         final X context);
 
     /**
      * Handles a collection of resources identified by the given Ids
@@ -53,7 +54,8 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>> {
      */
     HttpEntity handleMany(final Set<I> ids,
                           final HttpEntity entity,
-                          final Map<HttpRequestAttribute<?>, Object> parameters);
+                          final Map<HttpRequestAttribute<?>, Object> parameters,
+                          final X context);
 
     /**
      * Handles a resources identified by the given id
@@ -63,7 +65,8 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>> {
      */
     HttpEntity handleOne(final I id,
                          final HttpEntity entity,
-                         final Map<HttpRequestAttribute<?>, Object> parameters);
+                         final Map<HttpRequestAttribute<?>, Object> parameters,
+                         final X context);
 
     /**
      * Handles a collection of resources without any Id
@@ -72,7 +75,8 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>> {
      * </pre>>
      */
     HttpEntity handleNone(final HttpEntity entity,
-                          final Map<HttpRequestAttribute<?>, Object> parameters);
+                          final Map<HttpRequestAttribute<?>, Object> parameters,
+                          final X context);
 
     /**
      * Handles a collection of resources identified by the given Ids
@@ -82,7 +86,8 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>> {
      */
     HttpEntity handleRange(final Range<I> range,
                            final HttpEntity entity,
-                           final Map<HttpRequestAttribute<?>, Object> parameters);
+                           final Map<HttpRequestAttribute<?>, Object> parameters,
+                           final X context);
 
     // parameter checkers...............................................................................................
 
@@ -119,5 +124,12 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>> {
      */
     static Map<HttpRequestAttribute<?>, Object> checkParameters(final Map<HttpRequestAttribute<?>, Object> parameters) {
         return Objects.requireNonNull(parameters, "parameters");
+    }
+
+    /**
+     * Requires a {@link HateosResourceHandlerContext} to be present.
+     */
+    static <X extends HateosResourceHandlerContext> X checkContext(final X context) {
+        return Objects.requireNonNull(context, "context");
     }
 }
