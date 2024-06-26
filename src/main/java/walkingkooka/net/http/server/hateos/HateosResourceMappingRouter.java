@@ -92,28 +92,6 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
         );
     }
 
-//    /**
-//     * When the method=GET the content-type must be absent, while for other methods the content-type must match,
-//     * along with the base path.
-//     */
-//    private boolean canHandle(final Map<HttpRequestAttribute<?>, Object> parameters) {
-//        final HttpMethod method = (HttpMethod) parameters.get(HttpRequestAttributes.METHOD);
-//        final Optional<MediaType> contentType = HttpHeaderName.CONTENT_TYPE.parameterValue(parameters);
-//
-//        // Optional.stream is not supported in J2cl hence the alternative.
-//        return HttpMethod.GET.equals(method) || contentType.map(this::isContentTypeCompatible)
-//                .orElse(false) &&
-//                -1 != this.consumeBasePath(parameters);
-//    }
-//
-//    /**
-//     * Only returns true if the hateos content type and the given {@link MediaType} are compatible.
-//     */
-//    private boolean isContentTypeCompatible(final MediaType possible) {
-//        return this.contentType.contentType()
-//                .test(possible);
-//    }
-
     /**
      * Attempts to consume the {@link #base} completely returning the index to the {@link HateosResourceName} component within the path or -1.
      */
