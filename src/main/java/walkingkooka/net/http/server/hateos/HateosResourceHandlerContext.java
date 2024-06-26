@@ -18,9 +18,15 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Context;
+import walkingkooka.net.header.MediaType;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 /**
  * {@link Context} that accompanies all {@link HateosResourceHandler methods}.
  */
-public interface HateosResourceHandlerContext extends HateosHandlerContext {
+public interface HateosResourceHandlerContext extends JsonNodeMarshallContext,
+        JsonNodeUnmarshallContext {
+
+    MediaType contentType();
 }
