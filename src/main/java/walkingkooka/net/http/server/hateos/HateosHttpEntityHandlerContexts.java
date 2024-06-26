@@ -25,6 +25,13 @@ import walkingkooka.reflect.PublicStaticHelper;
 public final class HateosHttpEntityHandlerContexts implements PublicStaticHelper {
 
     /**
+     * {@see FakeHateosHttpEntityHandlerContext}
+     */
+    public static HateosHttpEntityHandlerContext fake() {
+        return new FakeHateosHttpEntityHandlerContext();
+    }
+
+    /**
      * Stop creation
      */
     private HateosHttpEntityHandlerContexts() {
