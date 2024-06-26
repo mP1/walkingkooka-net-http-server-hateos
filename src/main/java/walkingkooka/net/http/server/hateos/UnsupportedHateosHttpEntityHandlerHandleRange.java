@@ -31,7 +31,7 @@ public interface UnsupportedHateosHttpEntityHandlerHandleRange<I extends Compara
                                    final Map<HttpRequestAttribute<?>, Object> parameters) {
         HateosHttpEntityHandler.checkIdRange(ids);
         HateosHttpEntityHandler.checkHttpEntity(entity);
-
+        HateosHttpEntityHandler.checkParameters(parameters);
 
         throw new UnsupportedOperationException();
     }
