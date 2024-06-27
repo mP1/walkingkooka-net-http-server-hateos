@@ -128,7 +128,10 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         if (null == mapping) {
             this.notFound(resourceName);
         } else {
-            this.parseSelectionOrBadRequest(mapping, pathIndex);
+            this.parseSelectionOrBadRequest(
+                    mapping,
+                    pathIndex
+            );
         }
     }
 
@@ -145,7 +148,12 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
         HateosResourceSelection<?> selection;
         try {
-            selection = mapping.selection.apply(null == selectionString ? "" : selectionString);
+            selection = mapping.selection.apply(
+                    null == selectionString ?
+                            "" :
+                            selectionString,
+                    Cast.to(this.context)
+            );
         } catch (final RuntimeException invalid) {
             selection = null;
             this.badRequest(invalid.getMessage(), invalid);

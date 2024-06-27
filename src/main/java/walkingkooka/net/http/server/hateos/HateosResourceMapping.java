@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 /**
  * Holds all mappings for a single {@link HateosResource}, where a mapping is a combination of {@link HttpMethod} and
@@ -71,7 +71,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
      */
     public static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMapping<I, V, C, H, X> with(
             final HateosResourceName resourceName,
-            final Function<String, HateosResourceSelection<I>> selection,
+            final BiFunction<String, X, HateosResourceSelection<I>> selection,
             final Class<V> valueType,
             final Class<C> collectionType,
             final Class<H> resourceType,
@@ -111,7 +111,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
      * Private ctor use factory.
      */
     private HateosResourceMapping(final HateosResourceName resourceName,
-                                  final Function<String, HateosResourceSelection<I>> selection,
+                                  final BiFunction<String, X, HateosResourceSelection<I>> selection,
                                   final Class<V> valueType,
                                   final Class<C> collectionType,
                                   final Class<H> resourceType,
@@ -228,7 +228,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * A parser function that converts a {@link String} from the url path into an {@link Comparable id}.
      */
-    final Function<String, HateosResourceSelection<I>> selection;
+    final BiFunction<String, X, HateosResourceSelection<I>> selection;
 
     /**
      * The type used to marshall the resource for

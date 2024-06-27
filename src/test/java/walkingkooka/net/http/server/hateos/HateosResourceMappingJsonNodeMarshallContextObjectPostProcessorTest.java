@@ -32,7 +32,7 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
 import java.math.BigInteger;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorTest extends HateosResourceMappingTestCase2<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor>
         implements JsonNodeMarshallContextObjectPostProcessorTesting<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor> {
@@ -115,7 +115,7 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
 
         final HateosResourceMapping<?, ?, ?, ?, ?> mapping1 = HateosResourceMapping.with(
                         resourceName1,
-                        this.selection(),
+                        this.selectionParser(),
                         TestResource.class,
                         TestResource2.class,
                         TestHateosResource.class,
@@ -126,7 +126,7 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
 
         final HateosResourceMapping<?, ?, ?, ?, ?> mapping2 = HateosResourceMapping.with(
                         resourceName2,
-                        this.selection(),
+                        this.selectionParser(),
                         TestResource.class,
                         TestResource2.class,
                         TestHateosResource2.class,
@@ -137,8 +137,10 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
         return Sets.of(mapping1, mapping2);
     }
 
-    private Function<String, HateosResourceSelection<BigInteger>> selection() {
-        return s -> HateosResourceSelection.one(new BigInteger(s));
+    private BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selectionParser() {
+        return (s, x) -> HateosResourceSelection.one(
+                new BigInteger(s)
+        );
     }
 
     static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
