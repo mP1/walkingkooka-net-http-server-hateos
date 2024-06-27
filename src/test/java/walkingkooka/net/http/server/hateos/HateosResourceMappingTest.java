@@ -32,7 +32,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -44,8 +44,6 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
 
     static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
     }
-
-    ;
 
     @Test
     public void testWithNullResourceNameFails() {
@@ -170,7 +168,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
 
     private void withFails(
             final HateosResourceName resourceName,
-            final Function<String, HateosResourceSelection<BigInteger>> selection,
+            final BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selection,
             final Class<TestResource> valueType,
             final Class<TestResource2> collectionType,
             final Class<TestHateosResource> resourceType,
@@ -703,8 +701,8 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
         return HateosResourceName.with("abc123");
     }
 
-    private Function<String, HateosResourceSelection<BigInteger>> selection() {
-        return (s) -> {
+    private BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selection() {
+        return (s, x) -> {
             if(s.isEmpty()) {
                 return HateosResourceSelection.none();
             }

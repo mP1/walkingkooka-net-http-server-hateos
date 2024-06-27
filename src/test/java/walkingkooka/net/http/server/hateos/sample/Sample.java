@@ -98,7 +98,7 @@ public class Sample {
 
     public void testHateosResourceMapping() {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
-                (s) -> {
+                (s, x) -> {
                     return HateosResourceSelection.one(
                             BigInteger.valueOf(
                                     Integer.parseInt(

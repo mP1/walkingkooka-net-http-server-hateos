@@ -960,8 +960,15 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     public void testMapRouteAndCheckStandaloneForItJunitTest() {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
                 HateosResourceName.with("resource-with-body"),
-                        (s) -> {
-                            return HateosResourceSelection.one(BigInteger.valueOf(Integer.parseInt(s.substring(2), 16))); // assumes hex digit in url
+                (s, x) -> {
+                    return HateosResourceSelection.one(
+                            BigInteger.valueOf(
+                                    Integer.parseInt(
+                                            s.substring(2),
+                                            16
+                                    )
+                            )
+                    ); // assumes hex digit in url
                         },
                         TestResource.class,
                         TestResource.class,
@@ -1071,7 +1078,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
                         HateosResourceName.with("resource-with-body"),
-                        (s) -> {
+                (s, x) -> {
                             return HateosResourceSelection.one(
                                     BigInteger.valueOf(
                                             Integer.parseInt(
@@ -1229,7 +1236,9 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> getMapping() {
         return HateosResourceMapping.with(
                 HateosResourceName.with("get-resource"),
-                (s) -> HateosResourceSelection.one(parse(s)),
+                (s, x) -> HateosResourceSelection.one(
+                        parse(s)
+                ),
                 TestResource.class,
                 TestResource.class,
                 TestHateosResource.class,
@@ -1240,7 +1249,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mappingWithBody() {
         return HateosResourceMapping.with(
                 HateosResourceName.with("resource-with-body"),
-                (s) -> {
+                (s, x) -> {
                     if (s.isEmpty()) {
                         return HateosResourceSelection.none();
                     }
