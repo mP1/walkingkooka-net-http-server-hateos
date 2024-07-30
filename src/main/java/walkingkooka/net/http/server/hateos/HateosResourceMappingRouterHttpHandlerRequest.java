@@ -579,7 +579,9 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                            final String message) {
         this.setStatus(
                 statusCode.setMessageOrDefault(
-                        HttpStatus.firstLineOfText(message)
+                        CharSequences.isNullOrEmpty(message) ?
+                                null :
+                                HttpStatus.firstLineOfText(message)
                 )
         ); // message could be null if Exception#getMessage
     }
