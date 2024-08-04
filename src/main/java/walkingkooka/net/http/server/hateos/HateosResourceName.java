@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.naming.Name;
+import walkingkooka.net.UrlPathName;
 import walkingkooka.predicate.character.CharPredicate;
 import walkingkooka.predicate.character.CharPredicates;
 import walkingkooka.text.CaseSensitivity;
@@ -54,7 +55,19 @@ public final class HateosResourceName implements Name, Comparable<HateosResource
 
     private final String name;
 
-    // Object
+    // UrlName..........................................................................................................
+
+    public UrlPathName toUrlPathName() {
+        if (null == this.urlPathName) {
+            this.urlPathName = UrlPathName.with(this.name);
+        }
+
+        return this.urlPathName;
+    }
+
+    private UrlPathName urlPathName;
+
+    // Object...........................................................................................................
 
     @Override
     public int hashCode() {

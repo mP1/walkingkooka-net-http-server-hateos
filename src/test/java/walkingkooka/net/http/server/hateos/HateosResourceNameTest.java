@@ -17,7 +17,9 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import org.junit.jupiter.api.Test;
 import walkingkooka.naming.NameTesting2;
+import walkingkooka.net.UrlPathName;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseSensitivity;
@@ -69,6 +71,21 @@ public final class HateosResourceNameTest implements ClassTesting2<HateosResourc
     public String possibleInvalidChars(final int position) {
         return CONTROL + RFC2045_TSPECIAL;
     }
+
+    // toUrlPathName....................................................................................................
+
+    @Test
+    public void testToUrlName() {
+        final String text = "HateosResource123";
+
+        this.checkEquals(
+                UrlPathName.with(text),
+                HateosResourceName.with(text)
+                        .toUrlPathName()
+        );
+    }
+
+    // test.............................................................................................................
 
     @Override
     public Class<HateosResourceName> type() {
