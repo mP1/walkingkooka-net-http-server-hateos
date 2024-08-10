@@ -1324,7 +1324,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
         if (!CharSequences.isNullOrEmpty(body)) {
             entities = new HttpEntity[]{HttpEntity.EMPTY
-                    .addHeader(HttpHeaderName.CONTENT_TYPE, contentType)
+                    .setContentType(contentType)
                     .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, valueType)
                     .setBodyText(body)
                     .setContentLength()};
