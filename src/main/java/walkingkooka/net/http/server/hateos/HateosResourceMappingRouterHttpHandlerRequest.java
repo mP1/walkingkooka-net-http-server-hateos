@@ -549,7 +549,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             final MediaType contentType = this.context.contentType();
 
             entity = HttpEntity.EMPTY
-                    .addHeader(HttpHeaderName.CONTENT_TYPE, contentType.setCharset(charsetName))
+                    .setContentType(contentType.setCharset(charsetName))
                     .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, contentValueType.getSimpleName()) // this header is used a hint about the response.
                     .setBodyText(content)
                     .setContentLength();
