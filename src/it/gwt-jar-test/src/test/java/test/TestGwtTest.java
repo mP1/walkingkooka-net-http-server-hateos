@@ -183,8 +183,7 @@ public class TestGwtTest extends GWTTestCase {
                         "    \"id\": \"31\"\n" +
                         "  }\n" +
                         "}",
-                response.entities()
-                        .get(0)
+                response.entity()
                         .bodyText()
         );
     }

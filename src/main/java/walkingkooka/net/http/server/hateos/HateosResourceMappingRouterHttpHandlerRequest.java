@@ -252,7 +252,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                 HttpStatusCode.METHOD_NOT_ALLOWED,
                 this.request.method() + " " + message(resourceName, relation)
         );
-        this.response.addEntity(
+        this.response.setEntity(
                 HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, allowed)
         );
     }
@@ -328,7 +328,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                         HttpStatusCode.NO_CONTENT.status() :
                         HttpStatusCode.OK.status()
         );
-        response.addEntity(responseHttpEntity);
+        response.setEntity(responseHttpEntity);
     }
 
     private HttpEntity httpEntity() {
@@ -528,7 +528,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     void badRequest(final String message,
                     final Throwable cause) {
         this.badRequest(message);
-        this.response.addEntity(HttpEntity.dumpStackTrace(cause));
+        this.response.setEntity(HttpEntity.dumpStackTrace(cause));
     }
 
     /**
@@ -559,10 +559,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         }
 
         this.setStatus(statusCode.status());
-
-        if(!entity.isEmpty()) {
-            this.response.addEntity(entity);
-        }
+        this.response.setEntity(entity);
     }
 
     private CharsetName selectCharsetName() {
