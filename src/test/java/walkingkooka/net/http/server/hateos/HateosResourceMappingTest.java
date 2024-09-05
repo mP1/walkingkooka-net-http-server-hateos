@@ -22,7 +22,7 @@ import walkingkooka.Cast;
 import walkingkooka.ToStringTesting;
 import walkingkooka.collect.Range;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.collect.set.Sets;
+import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingTest.TestHateosResourceHandlerContext;
@@ -718,7 +718,7 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
                 return HateosResourceSelection.many(
                         Arrays.stream(s.split(","))
                                 .map(BigInteger::new)
-                                .collect(Collectors.toCollection(Sets::sorted))
+                                .collect(Collectors.toCollection(SortedSets::tree))
                 );
             }
             return HateosResourceSelection.one(new BigInteger(s));

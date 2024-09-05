@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.set.Sets;
+import walkingkooka.collect.set.SortedSets;
 
 import java.util.Objects;
 import java.util.Set;
@@ -36,7 +37,7 @@ public interface HateosResourceSet<H extends HateosResource<I>, I> extends Set<H
                 this.stream()
                         .map(h -> h.id().orElse(null)) // flatMap gives errors in INTELLIJ
                         .filter(Objects::nonNull)
-                        .collect(Collectors.toCollection(Sets::sorted))
+                        .collect(Collectors.toCollection(SortedSets::tree))
         );
     }
 }

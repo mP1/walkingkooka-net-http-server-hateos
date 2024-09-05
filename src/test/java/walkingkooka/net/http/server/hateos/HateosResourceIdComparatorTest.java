@@ -20,7 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.collect.list.Lists;
-import walkingkooka.collect.set.Sets;
+import walkingkooka.collect.set.SortedSets;
 import walkingkooka.compare.ComparatorTesting2;
 
 import java.math.BigInteger;
@@ -97,7 +97,7 @@ public final class HateosResourceIdComparatorTest implements ComparatorTesting2<
         final TestHateosResource b = TestHateosResource.with(BigInteger.ONE);
         final TestHateosResource c = TestHateosResource.with(BigInteger.TEN);
 
-        final Set<TestHateosResource> sorted = Sets.sorted(HateosResourceIdComparator.instance());
+        final Set<TestHateosResource> sorted = SortedSets.tree(HateosResourceIdComparator.instance());
         sorted.add(none);
         sorted.add(a);
         sorted.add(none);
