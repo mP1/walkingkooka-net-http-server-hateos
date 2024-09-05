@@ -24,6 +24,7 @@ import walkingkooka.collect.Range;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
+import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
@@ -1368,7 +1369,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                             return HateosResourceSelection.many(
                                     Arrays.stream(s.split(","))
                                             .map(HateosResourceMappingRouterTest::parse)
-                                            .collect(Collectors.toCollection(Sets::sorted))
+                                            .collect(Collectors.toCollection(SortedSets::tree))
                             );
                         } catch (final RuntimeException cause) {
                             throw new IllegalArgumentException("Invalid list " + CharSequences.quoteAndEscape(s));
