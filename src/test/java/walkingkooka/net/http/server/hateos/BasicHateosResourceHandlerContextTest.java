@@ -20,9 +20,9 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.tree.expression.ExpressionNumberKind;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.MathContext;
@@ -32,31 +32,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class BasicHateosResourceHandlerContextTest implements HateosResourceHandlerContextTesting<BasicHateosResourceHandlerContext>,
         ToStringTesting<BasicHateosResourceHandlerContext> {
 
-    private final static JsonNodeMarshallContext MARSHALL_CONTEXT = JsonNodeMarshallContexts.basic();
-
-    private final static JsonNodeUnmarshallContext UNMARSHALL_CONTEXT = JsonNodeUnmarshallContexts.basic(
-            ExpressionNumberKind.BIG_DECIMAL,
-            MathContext.DECIMAL32
+    private final static JsonNodeMarshallUnmarshallContext CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
+            JsonNodeMarshallContexts.basic(),
+            JsonNodeUnmarshallContexts.basic(
+                    ExpressionNumberKind.BIG_DECIMAL,
+                    MathContext.DECIMAL32
+            )
     );
 
-
     @Test
-    public void testWithNullMarshallContextFails() {
+    public void testWithNullContextFails() {
         assertThrows(
                 NullPointerException.class,
                 () -> BasicHateosResourceHandlerContext.with(
-                        null,
-                        UNMARSHALL_CONTEXT
-                )
-        );
-    }
-
-    @Test
-    public void testWithNullUnmarshallContextFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> BasicHateosResourceHandlerContext.with(
-                        MARSHALL_CONTEXT,
                         null
                 )
         );
@@ -65,8 +53,7 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     @Override
     public BasicHateosResourceHandlerContext createContext() {
         return BasicHateosResourceHandlerContext.with(
-                MARSHALL_CONTEXT,
-                UNMARSHALL_CONTEXT
+                CONTEXT
         );
     }
 
@@ -76,9 +63,7 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     public void testToString() {
         this.toStringAndCheck(
                 this.createContext(),
-                        MARSHALL_CONTEXT +
-                        " " +
-                        UNMARSHALL_CONTEXT
+                CONTEXT.toString()
         );
     }
 
