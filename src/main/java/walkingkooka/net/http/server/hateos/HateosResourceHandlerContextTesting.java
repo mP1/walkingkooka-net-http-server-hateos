@@ -17,11 +17,9 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContextTesting;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextTesting;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting;
 
-public interface HateosResourceHandlerContextTesting<C extends HateosResourceHandlerContext> extends JsonNodeMarshallContextTesting<C>,
-        JsonNodeUnmarshallContextTesting<C> {
+public interface HateosResourceHandlerContextTesting<C extends HateosResourceHandlerContext> extends JsonNodeMarshallUnmarshallContextTesting<C> {
 
     @Override
     default String typeNameSuffix() {

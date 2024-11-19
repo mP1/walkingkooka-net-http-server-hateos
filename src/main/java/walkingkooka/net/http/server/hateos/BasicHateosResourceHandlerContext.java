@@ -18,27 +18,22 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
 import java.util.Objects;
 
 final class BasicHateosResourceHandlerContext implements HateosResourceHandlerContext,
         JsonNodeMarshallUnmarshallContextDelegator {
 
-    static BasicHateosResourceHandlerContext with(final JsonNodeMarshallContext marshallContext,
-                                                  final JsonNodeUnmarshallContext unmarshallContext) {
+    static BasicHateosResourceHandlerContext with(final JsonNodeMarshallUnmarshallContext context) {
         return new BasicHateosResourceHandlerContext(
-                Objects.requireNonNull(marshallContext, "marshallContext"),
-                Objects.requireNonNull(unmarshallContext, "unmarshallContext")
+                Objects.requireNonNull(context, "context")
         );
     }
 
-    private BasicHateosResourceHandlerContext(final JsonNodeMarshallContext marshallContext,
-                                              final JsonNodeUnmarshallContext unmarshallContext) {
-        this.marshallContext = marshallContext;
-        this.unmarshallContext = unmarshallContext;
+    private BasicHateosResourceHandlerContext(final JsonNodeMarshallUnmarshallContext context) {
+        this.context = context;
     }
 
     @Override
@@ -46,28 +41,17 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
         return MediaType.APPLICATION_JSON;
     }
 
-    // JsonNodeMarshallContext..........................................................................................
+    // JsonNodeMarshallUnmarshallContext................................................................................
 
     @Override
-    public JsonNodeMarshallContext jsonNodeMarshallContext() {
-        return this.marshallContext;
+    public JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext() {
+        return this.context;
     }
 
-    private final JsonNodeMarshallContext marshallContext;
-
-    // JsonNodeUnmarshallContext........................................................................................
-
-    @Override
-    public JsonNodeUnmarshallContext jsonNodeUnmarshallContext() {
-        return this.unmarshallContext;
-    }
-
-    private final JsonNodeUnmarshallContext unmarshallContext;
+    private final JsonNodeMarshallUnmarshallContext context;
 
     @Override
     public String toString() {
-        return this.marshallContext +
-                " " +
-                this.unmarshallContext;
+        return this.context.toString();
     }
 }
