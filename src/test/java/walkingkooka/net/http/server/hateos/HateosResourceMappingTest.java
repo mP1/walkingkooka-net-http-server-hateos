@@ -665,25 +665,6 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
         );
     }
 
-    // toString..........................................................................................................
-
-    @Test
-    public void testToString() {
-        final HateosResourceMapping<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mapping = this.createMapping();
-        final LinkRelation<?> relation = this.relation();
-        final HttpMethod method = this.method();
-        final HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> handler = new FakeHateosResourceHandler<>() {
-
-            @Override
-            public String toString() {
-                return "Handler123";
-            }
-        };
-
-        this.toStringAndCheck(mapping.setHateosResourceHandler(relation, method, handler),
-                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" item POST=Handler123");
-    }
-
     // helpers..........................................................................................................
 
     private HateosResourceMapping<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> createMapping() {
@@ -747,6 +728,53 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
 
     private HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> hateosResourceHandler() {
         return new FakeHateosResourceHandler<>();
+    }
+
+    // toString..........................................................................................................
+
+    @Test
+    public void testToString() {
+        final HateosResourceMapping<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mapping = this.createMapping();
+        final LinkRelation<?> relation = this.relation();
+        final HttpMethod method = this.method();
+        final HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> handler = new FakeHateosResourceHandler<>() {
+
+            @Override
+            public String toString() {
+                return "Handler123";
+            }
+        };
+
+        this.toStringAndCheck(mapping.setHateosResourceHandler(relation, method, handler),
+                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" item POST=Handler123");
+    }
+
+    @Test
+    public void testToStringMultiple() {
+        this.toStringAndCheck(
+                this.createMapping()
+                        .setHateosResourceHandler(
+                                LinkRelation.SELF,
+                                HttpMethod.GET,
+                                new FakeHateosResourceHandler<>() {
+
+                                    @Override
+                                    public String toString() {
+                                        return "Handler111";
+                                    }
+                                }
+                        ).setHateosResourceHandler(
+                                LinkRelation.SELF,
+                                HttpMethod.POST,
+                                new FakeHateosResourceHandler<>() {
+
+                                    @Override
+                                    public String toString() {
+                                        return "Handler222";
+                                    }
+                                }
+                        ),
+                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" self GET=Handler111,self POST=Handler222");
     }
 
     // ClassVisibility..................................................................................................
