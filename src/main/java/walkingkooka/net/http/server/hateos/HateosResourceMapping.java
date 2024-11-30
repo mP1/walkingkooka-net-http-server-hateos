@@ -270,6 +270,8 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
 
         b.value(this.resourceName);
         b.value(this.resourceType.getName());
+
+        b.valueSeparator(",");
         b.value(this.relationAndMethodToHandlers);
 
         return b.build();
