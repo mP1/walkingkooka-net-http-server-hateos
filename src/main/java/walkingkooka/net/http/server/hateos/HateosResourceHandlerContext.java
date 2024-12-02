@@ -26,5 +26,10 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
  */
 public interface HateosResourceHandlerContext extends JsonNodeMarshallUnmarshallContext {
 
+    /**
+     * The default {@link MediaType}. Currently only json is supported.
+     */
+    MediaType HATEOS_DEFAULT_CONTENT_TYPE = MediaType.APPLICATION_JSON;
+
     MediaType contentType();
 }

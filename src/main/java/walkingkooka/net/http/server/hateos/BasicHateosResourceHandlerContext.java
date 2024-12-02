@@ -38,7 +38,7 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
 
     @Override
     public MediaType contentType() {
-        return MediaType.APPLICATION_JSON;
+        return HATEOS_DEFAULT_CONTENT_TYPE;
     }
 
     // JsonNodeMarshallUnmarshallContext................................................................................
