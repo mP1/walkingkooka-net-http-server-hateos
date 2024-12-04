@@ -21,10 +21,27 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
 import walkingkooka.net.http.server.HttpHandler;
+import walkingkooka.net.http.server.HttpHandlerTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-public final class HateosResourceMappingRouterHttpHandlerTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterHttpHandler> {
+public final class HateosResourceMappingRouterHttpHandlerTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterHttpHandler>
+        implements HttpHandlerTesting<HateosResourceMappingRouterHttpHandler> {
+    @Override
+    public HateosResourceMappingRouterHttpHandler createHttpHandler() {
+        return HateosResourceMappingRouterHttpHandler.with(
+                HateosResourceMappingRouter.with(
+                        Url.parseAbsolute("https://example.com"),
+                        Sets.empty(),
+                        Indentation.SPACES2,
+                        LineEnding.NL,
+                        HateosResourceHandlerContexts.fake()
+                ),
+                Indentation.SPACES2,
+                LineEnding.NL,
+                HateosResourceHandlerContexts.fake()
+        );
+    }
 
     // toString.........................................................................................................
 
