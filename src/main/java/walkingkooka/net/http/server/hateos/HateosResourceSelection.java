@@ -32,6 +32,16 @@ import java.util.Set;
 public abstract class HateosResourceSelection<I extends Comparable<I>> {
 
     /**
+     * Useful constant for a selection of NONE.
+     */
+    public final static String NONE = "";
+
+    /**
+     * Useful constant for a selection of ALL.
+     */
+    public final static String ALL = "*";
+
+    /**
      * {@see HateosResourceSelectionAll}
      */
     public static <I extends Comparable<I>> HateosResourceSelection<I> all() {
