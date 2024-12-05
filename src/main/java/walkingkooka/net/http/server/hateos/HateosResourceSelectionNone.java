@@ -62,6 +62,6 @@ final class HateosResourceSelectionNone<I extends Comparable<I>> extends HateosR
 
     @Override
     public String toString() {
-        return "";
+        return NONE;
     }
 }
