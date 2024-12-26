@@ -136,7 +136,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
      */
     static <T> T checkResourceNotEmpty(final Optional<T> resource) {
         checkResource(resource);
-        return resource.orElseThrow(() -> new IllegalArgumentException("Required resource missing"));
+        return resource.orElseThrow(() -> new IllegalArgumentException("Missing resource"));
     }
 
     /**
