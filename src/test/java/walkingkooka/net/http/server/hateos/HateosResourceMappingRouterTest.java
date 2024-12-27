@@ -1132,7 +1132,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 );
             }
 
-            @Test
+            @Override
             public String bodyText() {
                 return "";
             }
@@ -1259,7 +1259,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         .getBytes(StandardCharsets.UTF_8);
             }
 
-            @Test
+            @Override
             public String bodyText() {
                 return "RequestBodyText123";
             }
