@@ -152,6 +152,7 @@ public class TestGwtTest extends GWTTestCase {
                 );
             }
 
+            @Override
             public String bodyText() {
                 return "";
             }

@@ -168,6 +168,7 @@ public class JunitTest {
                 );
             }
 
+            @Override
             public String bodyText() {
                 return "";
             }

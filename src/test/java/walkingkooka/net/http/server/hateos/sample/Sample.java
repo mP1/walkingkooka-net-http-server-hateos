@@ -171,6 +171,7 @@ public class Sample {
                 );
             }
 
+            @Override
             public String bodyText() {
                 return "";
             }
