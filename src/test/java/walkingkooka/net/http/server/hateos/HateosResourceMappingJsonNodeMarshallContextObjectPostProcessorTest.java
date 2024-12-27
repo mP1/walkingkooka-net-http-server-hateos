@@ -75,7 +75,7 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
         this.checkEquals(json,
                 JsonNodeMarshallContexts.basic()
                         .setObjectPostProcessor(this.createBiFunction()).marshall(resource),
-                () -> resource.toString());
+                resource::toString);
     }
 
     // toString.........................................................................................................

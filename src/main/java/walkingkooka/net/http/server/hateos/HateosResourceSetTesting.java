@@ -35,7 +35,7 @@ public interface HateosResourceSetTesting<S extends Set<H>, H extends HateosReso
 
         assertThrows(
                 UnsupportedOperationException.class,
-                () -> set.clear()
+                set::clear
         );
     }
 }
