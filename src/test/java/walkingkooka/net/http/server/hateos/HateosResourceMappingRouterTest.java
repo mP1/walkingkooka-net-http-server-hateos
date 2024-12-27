@@ -1538,7 +1538,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         }
         expected.setEntity(entity);
 
-        if (status.value().equals(HttpStatusCode.BAD_REQUEST) && false == response.entity().isEmpty()) {
+        if (null != status && status.value().equals(HttpStatusCode.BAD_REQUEST) && false == response.entity().isEmpty()) {
             this.checkEquals(status, expected.status().orElse(null), "status");
 
             final HttpEntity responseEntity = response.entity();
