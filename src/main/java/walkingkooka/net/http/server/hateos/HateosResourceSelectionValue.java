@@ -32,6 +32,7 @@ abstract class HateosResourceSelectionValue<I extends Comparable<I>, V> extends 
         this.value = value;
     }
 
+    @Override
     public final V value() {
         return this.value;
     }

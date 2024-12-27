@@ -31,6 +31,7 @@ final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosRe
         this.handler = handler;
     }
 
+    @Override
     void handle(final HateosResourceMappingRouterHttpHandlerRequest request,
                 final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                 final HateosResourceSelection<?> selection,

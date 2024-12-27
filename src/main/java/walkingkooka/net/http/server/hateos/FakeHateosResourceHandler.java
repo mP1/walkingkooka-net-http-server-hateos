@@ -30,6 +30,7 @@ import java.util.Set;
  */
 public class FakeHateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> implements HateosResourceHandler<I, V, C, X>, Fake {
 
+    @Override
     public Optional<C> handleAll(final Optional<C> resource,
                                  final Map<HttpRequestAttribute<?>, Object> parameters,
                                  final X context) {
@@ -40,6 +41,7 @@ public class FakeHateosResourceHandler<I extends Comparable<I>, V, C, X extends 
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Optional<C> handleMany(final Set<I> ids,
                                   final Optional<C> resource,
                                   final Map<HttpRequestAttribute<?>, Object> parameters,
@@ -52,6 +54,7 @@ public class FakeHateosResourceHandler<I extends Comparable<I>, V, C, X extends 
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Optional<V> handleNone(final Optional<V> resource,
                                   final Map<HttpRequestAttribute<?>, Object> parameters,
                                   final X context) {
@@ -62,6 +65,7 @@ public class FakeHateosResourceHandler<I extends Comparable<I>, V, C, X extends 
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Optional<V> handleOne(final I id,
                                  final Optional<V> resource,
                                  final Map<HttpRequestAttribute<?>, Object> parameters,
@@ -74,6 +78,7 @@ public class FakeHateosResourceHandler<I extends Comparable<I>, V, C, X extends 
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Optional<C> handleRange(final Range<I> range,
                                    final Optional<C> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
