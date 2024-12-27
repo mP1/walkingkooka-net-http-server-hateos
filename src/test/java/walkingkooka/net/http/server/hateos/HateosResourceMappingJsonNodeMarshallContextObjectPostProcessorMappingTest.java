@@ -135,7 +135,7 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                             }
                         }
                 ),
-                () -> mapping.toString());
+                mapping::toString);
     }
 
     @Test

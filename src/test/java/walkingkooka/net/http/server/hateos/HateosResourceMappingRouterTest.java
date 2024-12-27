@@ -1550,7 +1550,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
             this.checkEquals(
                     expected,
                     response,
-                    () -> request.toString());
+                    request::toString);
         }
     }
 
