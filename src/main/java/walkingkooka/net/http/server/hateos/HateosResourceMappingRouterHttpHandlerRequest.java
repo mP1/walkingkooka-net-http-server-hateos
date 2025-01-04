@@ -550,7 +550,6 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
             entity = HttpEntity.EMPTY
                     .setContentType(contentType.setCharset(charsetName))
-                    .addHeader(HateosResourceMapping.X_CONTENT_TYPE_NAME, contentValueType.getSimpleName()) // this header is used a hint about the response.
                     .setBodyText(content)
                     .setContentLength();
         } else {
@@ -559,7 +558,15 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         }
 
         this.setStatus(statusCode.status());
-        this.response.setEntity(entity);
+
+        // This header is used to dispatch FetcherWatcher#onXXX.
+        // Even NO_CONTENT responses require this header so the web app will be aware of successful DELETEs(which reply with NO_CONTENT).
+        this.response.setEntity(
+                entity.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        contentValueType.getSimpleName()
+                )
+        );
     }
 
     private CharsetName selectCharsetName() {
