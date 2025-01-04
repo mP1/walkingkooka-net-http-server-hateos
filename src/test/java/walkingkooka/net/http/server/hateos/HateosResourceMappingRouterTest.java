@@ -86,6 +86,8 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     private final static MediaType CONTENT_TYPE = MediaType.parse("application/test-json");
 
+    private final static String RESOURCE_TYPE_NAME = TestResource.class.getSimpleName();
+
     private final static CharsetName DEFAULT_CHARSET = CharsetName.UTF_8;
 
     private final static Set<HateosResourceMapping<?, ?, ?, ?, ?>> MAPPINGS = Sets.empty();
@@ -425,7 +427,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 map(HttpHeaderName.ACCEPT, Accept.with(Lists.of(this.contentType()))),
                 "",
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -447,7 +452,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 map(HttpHeaderName.ACCEPT, Accept.with(Lists.of(this.contentType()))),
                 "",
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -706,7 +714,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/0x123/contents",
                 NO_BODY,
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -728,7 +739,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/0x123/contents",
                 "",
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -750,7 +764,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/0x123/contents",
                 this.toJson(RESOURCE_IN),
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -774,7 +791,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 this.contentTypeUtf16(),
                 this.toJson(RESOURCE_IN),
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -805,7 +825,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/*/contents",
                 NO_BODY,
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -825,7 +848,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/*/contents",
                 "",
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -845,7 +871,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/*/contents",
                 this.toJson(COLLECTION_RESOURCE_IN),
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -870,7 +899,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/0x123-0x456/contents",
                 NO_BODY,
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -892,7 +924,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/0x123-0x456/contents",
                 "",
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -914,7 +949,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/0x123-0x456/contents",
                 this.toJson(COLLECTION_RESOURCE_IN),
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -947,7 +985,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body",
                 NO_BODY,
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -987,7 +1028,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/0x123/contents",
                 NO_BODY,
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 
@@ -1028,7 +1072,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 "/api/resource-with-body/0x123-0x456/contents",
                 NO_BODY,
                 HttpStatusCode.NO_CONTENT.status(),
-                HttpEntity.EMPTY
+                HttpEntity.EMPTY.addHeader(
+                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        RESOURCE_TYPE_NAME
+                )
         );
     }
 

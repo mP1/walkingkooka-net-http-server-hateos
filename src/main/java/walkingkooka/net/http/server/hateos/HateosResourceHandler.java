@@ -29,6 +29,8 @@ import java.util.Set;
 /**
  * Handles a HATEOS request for one or more {@link HateosResource} handling the unmarshalling of the request body and
  * marshalling of the response to the response body.
+ * Note that 2xx responses, especially {@link walkingkooka.net.http.HttpStatusCode#OK} and {@link walkingkooka.net.http.HttpStatusCode#NO_CONTENT},
+ * response should always contain {@link HateosResourceMapping#X_CONTENT_TYPE_NAME}, which is used by the client to dispatch watcher events.
  */
 public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> {
 
