@@ -107,7 +107,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
     static <I extends Comparable<I>> Set<I> checkManyIds(final Set<I> ids) {
         return Objects.requireNonNull(ids, "ids");
     }
-    
+
     /**
      * Complains if the {@link Range} is null.
      */

@@ -57,7 +57,7 @@ public class TestGwtTest extends GWTTestCase {
         );
     }
 
-    public void testHateosResourceName()  {
+    public void testHateosResourceName() {
         final String name = "name123";
 
         checkEquals(
@@ -67,17 +67,17 @@ public class TestGwtTest extends GWTTestCase {
         );
     }
 
-    public void testNewHateosHandler()  {
+    public void testNewHateosHandler() {
         new FakeHateosResourceHandler<String, String, Collection<String>, TestHateosResourceHandlerContext>() {
         };
     }
 
-    public void testNewHateosResource()  {
+    public void testNewHateosResource() {
         new FakeHateosResource<String>() {
         };
     }
 
-    public void testHateosResourceMapping()  {
+    public void testHateosResourceMapping() {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
                 (s, x) -> {
                     return HateosResourceSelection.one(

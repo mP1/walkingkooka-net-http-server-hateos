@@ -110,7 +110,7 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                 "  }]\n" +
                 "}";
         this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET, HttpMethod.POST),
-                LinkRelation.ABOUT, Sets.of(HttpMethod.DELETE))),
+                        LinkRelation.ABOUT, Sets.of(HttpMethod.DELETE))),
                 withLinks);
     }
 
