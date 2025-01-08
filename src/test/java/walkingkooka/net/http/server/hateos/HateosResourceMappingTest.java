@@ -684,15 +684,15 @@ public final class HateosResourceMappingTest extends HateosResourceMappingTestCa
 
     private BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selection() {
         return (s, x) -> {
-            if(s.isEmpty()) {
+            if (s.isEmpty()) {
                 return HateosResourceSelection.none();
             }
-            if("*".equals(s)) {
+            if ("*".equals(s)) {
                 return HateosResourceSelection.all();
             }
             final int range = s.indexOf("-");
-            if(-1 != range) {
-                return HateosResourceSelection.range(Range.greaterThanEquals(new BigInteger(s.substring(0, range))).and(Range.lessThanEquals(new BigInteger(s.substring(range +1)))));
+            if (-1 != range) {
+                return HateosResourceSelection.range(Range.greaterThanEquals(new BigInteger(s.substring(0, range))).and(Range.lessThanEquals(new BigInteger(s.substring(range + 1)))));
             }
             final int many = s.indexOf(",");
             if (-1 == many) {

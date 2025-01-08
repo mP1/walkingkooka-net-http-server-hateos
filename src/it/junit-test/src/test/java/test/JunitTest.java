@@ -70,7 +70,7 @@ public class JunitTest {
     }
 
     @Test
-    public void testHateosResourceName()  {
+    public void testHateosResourceName() {
         final String name = "name123";
 
         checkEquals(
@@ -81,19 +81,19 @@ public class JunitTest {
     }
 
     @Test
-    public void testNewHateosHandler()  {
+    public void testNewHateosHandler() {
         new FakeHateosResourceHandler<String, String, Collection<String>, TestHateosResourceHandlerContext>() {
         };
     }
 
     @Test
-    public void testNewHateosResource()  {
+    public void testNewHateosResource() {
         new FakeHateosResource<String>() {
         };
     }
 
     @Test
-    public void testHateosResourceMapping()  {
+    public void testHateosResourceMapping() {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
                 (s, x) -> {
                     return HateosResourceSelection.one(
@@ -240,6 +240,7 @@ public class JunitTest {
                     .marshall(value);
         }
     }
+
     static void checkEquals(final Object expected,
                             final Object actual) {
         Assert.assertEquals(

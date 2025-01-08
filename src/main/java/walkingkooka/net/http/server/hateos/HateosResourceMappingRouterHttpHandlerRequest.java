@@ -286,8 +286,8 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
      * Attempts to locate the {@link HateosResourceMappingHandler} for the given criteria or sets the response with not found.
      */
     private HateosResourceMappingHandler handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
-                                                             final LinkRelation<?> relation,
-                                                             final HttpMethod method) {
+                                                           final LinkRelation<?> relation,
+                                                           final HttpMethod method) {
         final HateosResourceMappingHandler handler = mapping.relationAndMethodToHandlers.get(
                 HateosResourceMappingLinkRelationHttpMethod.with(
                         relation,
@@ -518,7 +518,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     }
 
     private static String message(final HateosResourceName resourceName,
-                           final LinkRelation<?> linkRelation) {
+                                  final LinkRelation<?> linkRelation) {
         return message(resourceName) + ", link relation: " + linkRelation;
     }
 

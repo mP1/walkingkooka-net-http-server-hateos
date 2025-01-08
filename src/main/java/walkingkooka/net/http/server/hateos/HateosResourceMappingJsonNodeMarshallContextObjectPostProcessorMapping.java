@@ -54,8 +54,8 @@ final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMappi
     }
 
     JsonObject addLinks(final HateosResource<?> resource,
-                            final JsonObject object,
-                            final AbsoluteUrl base,
+                        final JsonObject object,
+                        final AbsoluteUrl base,
                         final HateosResourceHandlerContext context) {
         // base + resource name.
         final UrlPath pathAndResourceNameAndId = base.path()
@@ -73,8 +73,8 @@ final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMappi
                         LinkParameterName.TYPE, context.contentType());
 
                 links.add(context.marshall(Link.with(base.setPath(LinkRelation.SELF == relation ?
-                        pathAndResourceNameAndId :
-                        pathAndResourceNameAndId.append(UrlPathName.with(relation.value().toString()))))
+                                pathAndResourceNameAndId :
+                                pathAndResourceNameAndId.append(UrlPathName.with(relation.value().toString()))))
                         .setParameters(parameters)));
             }
 
