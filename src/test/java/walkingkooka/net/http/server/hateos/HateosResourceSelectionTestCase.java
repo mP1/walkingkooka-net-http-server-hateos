@@ -49,17 +49,16 @@ public abstract class HateosResourceSelectionTestCase<S extends HateosResourceSe
     }
 
     @Override
-    public final String isMethodTypeNamePrefix() {
-        return HateosResourceSelection.class.getSimpleName();
-    }
-
-    @Override
-    public final String isMethodTypeNameSuffix() {
-        return "";
-    }
-
-    @Override
     public final Predicate<String> isMethodIgnoreMethodFilter() {
         return (m) -> true;
+    }
+
+    @Override
+    public final String toIsMethodName(final String typeName) {
+        return this.toIsMethodNameWithPrefixSuffix(
+                typeName,
+                HateosResourceSelection.class.getSimpleName(), // drop-prefix
+                "" // drop-suffix
+        );
     }
 }
