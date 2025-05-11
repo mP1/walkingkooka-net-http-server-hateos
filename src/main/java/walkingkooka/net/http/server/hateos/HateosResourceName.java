@@ -32,9 +32,14 @@ public final class HateosResourceName implements Name, Comparable<HateosResource
      * Factory that creates a {@link HateosResourceName}
      */
     public static HateosResourceName with(final String name) {
-        CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(name, "name", INITIAL, PART);
-
-        return new HateosResourceName(name);
+        return new HateosResourceName(
+                CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(
+                        name,
+                        "name",
+                        INITIAL,
+                        PART
+                )
+        );
     }
 
     private final static CharPredicate INITIAL = CharPredicates.letter();
