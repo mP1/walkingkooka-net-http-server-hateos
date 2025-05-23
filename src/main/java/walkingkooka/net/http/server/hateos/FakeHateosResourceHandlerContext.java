@@ -64,6 +64,11 @@ public class FakeHateosResourceHandlerContext extends FakeJsonNodeMarshallContex
     }
 
     @Override
+    public <T> Optional<T> unmarshallOptionalWithType(final JsonNode json) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public <T> List<T> unmarshallList(final JsonNode json,
                                       final Class<T> type) {
         throw new UnsupportedOperationException();
