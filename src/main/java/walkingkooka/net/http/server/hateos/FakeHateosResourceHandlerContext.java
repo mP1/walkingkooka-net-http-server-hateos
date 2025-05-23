@@ -27,6 +27,7 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 import java.math.MathContext;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -53,6 +54,12 @@ public class FakeHateosResourceHandlerContext extends FakeJsonNodeMarshallContex
     public <T extends Enum<T>> Set<T> unmarshallEnumSet(final JsonNode json,
                                                         final Class<T> type,
                                                         final Function<String, T> function) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> Optional<T> unmarshallOptional(final JsonNode json,
+                                              final Class<T> type) {
         throw new UnsupportedOperationException();
     }
 
