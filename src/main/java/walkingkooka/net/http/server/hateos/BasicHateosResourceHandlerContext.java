@@ -20,6 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
 import java.util.Objects;
 
@@ -42,6 +43,16 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
     }
 
     // JsonNodeMarshallUnmarshallContext................................................................................
+
+    @Override
+    public HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {
+        final JsonNodeMarshallUnmarshallContext before = this.context;
+        final JsonNodeMarshallUnmarshallContext after = before.setPreProcessor(processor);
+
+        return before.equals(after) ?
+                this :
+                new BasicHateosResourceHandlerContext(after);
+    }
 
     @Override
     public JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext() {
