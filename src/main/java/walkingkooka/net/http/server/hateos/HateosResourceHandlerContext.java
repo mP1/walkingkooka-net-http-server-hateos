@@ -20,6 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.Context;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
 /**
  * {@link Context} that accompanies all {@link HateosResourceHandler methods}.
@@ -32,4 +33,7 @@ public interface HateosResourceHandlerContext extends JsonNodeMarshallUnmarshall
     MediaType HATEOS_DEFAULT_CONTENT_TYPE = MediaType.APPLICATION_JSON;
 
     MediaType contentType();
+
+    @Override
+    HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor);
 }
