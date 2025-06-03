@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Context;
+import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
@@ -28,9 +29,10 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 public interface HateosResourceHandlerContext extends JsonNodeMarshallUnmarshallContext {
 
     /**
-     * The default {@link MediaType}. Currently only json is supported.
+     * The default {@link MediaType}.
+     * Currently only json is supported, with an assumed charset of UTF8
      */
-    MediaType HATEOS_DEFAULT_CONTENT_TYPE = MediaType.APPLICATION_JSON;
+    MediaType HATEOS_DEFAULT_CONTENT_TYPE = MediaType.APPLICATION_JSON.setCharset(CharsetName.UTF_8);
 
     MediaType contentType();
 
