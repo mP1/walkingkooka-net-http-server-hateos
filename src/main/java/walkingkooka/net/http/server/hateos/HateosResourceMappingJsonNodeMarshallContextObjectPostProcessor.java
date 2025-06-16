@@ -84,7 +84,7 @@ final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor impl
                 break;
             }
             type = type.getSuperclass();
-        } while (Object.class != type);
+        } while (null != type && Object.class != type);
 
         return null != mapping ?
                 mapping.addLinks(Cast.to(value), object, this.base, this.context) :
