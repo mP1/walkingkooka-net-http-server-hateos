@@ -20,6 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
@@ -91,7 +92,7 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
                 ), // request,
                 response,
                 HateosResourceMappingRouter.with(
-                        Url.parseAbsolute("https://example.com"),
+                        UrlPath.ROOT,
                         Sets.of(
                                 HateosResourceMapping.with(
                                         HateosResourceName.with("TestResource123"),
@@ -134,7 +135,7 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
         final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(
-                Url.parseAbsolute("https://example.com"),
+                UrlPath.ROOT,
                 Sets.empty(),
                 indentation,
                 lineEnding,
@@ -144,8 +145,15 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
         final HttpResponse response = HttpResponses.fake();
 
         this.toStringAndCheck(
-                HateosResourceMappingRouterHttpHandlerRequest.with(request, response, router, indentation, lineEnding, context),
-                router + " " + request + " " + response + " indentation=\"   \" lineEndings=\"\\n\""
+                HateosResourceMappingRouterHttpHandlerRequest.with(
+                        request,
+                        response,
+                        router,
+                        indentation,
+                        lineEnding,
+                        context
+                ),
+                request + " " + response + " indentation=\"   \" lineEndings=\"\\n\""
         );
     }
 

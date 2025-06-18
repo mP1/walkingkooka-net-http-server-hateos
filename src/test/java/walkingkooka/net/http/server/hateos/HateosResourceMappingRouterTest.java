@@ -25,9 +25,9 @@ import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
-import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.CharsetName;
@@ -119,10 +119,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         }
     }
 
-    private final static AbsoluteUrl BASE_URL = Url.parseAbsolute("https://www.example.com/api");
+    private final static UrlPath BASE_PATH = UrlPath.parse("/api");
 
     @Test
-    public void testWithNullBaseFails() {
+    public void testWithNullBasePathFails() {
         assertThrows(
                 NullPointerException.class,
                 () -> HateosResourceMappingRouter.with(
@@ -140,7 +140,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         assertThrows(
                 NullPointerException.class,
                 () -> HateosResourceMappingRouter.with(
-                        BASE_URL,
+                        BASE_PATH,
                         null,
                         INDENTATION,
                         LINE_ENDING,
@@ -154,7 +154,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         assertThrows(
                 NullPointerException.class,
                 () -> HateosResourceMappingRouter.with(
-                        BASE_URL,
+                        BASE_PATH,
                         MAPPINGS,
                         null,
                         LINE_ENDING,
@@ -168,7 +168,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         assertThrows(
                 NullPointerException.class,
                 () -> HateosResourceMappingRouter.with(
-                        BASE_URL,
+                        BASE_PATH,
                         MAPPINGS,
                         INDENTATION,
                         null,
@@ -182,7 +182,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         assertThrows(
                 NullPointerException.class,
                 () -> HateosResourceMappingRouter.with(
-                        BASE_URL,
+                        BASE_PATH,
                         MAPPINGS,
                         INDENTATION,
                         LINE_ENDING,
@@ -1160,7 +1160,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         );
 
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
-                AbsoluteUrl.parseAbsolute("https://www.example.com/api"),
+                UrlPath.parse("/api"),
                 Sets.of(mapping),
                 INDENTATION,
                 LINE_ENDING,
@@ -1283,7 +1283,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         );
 
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
-                AbsoluteUrl.parseAbsolute("https://www.example.com/api"),
+                UrlPath.parse("api"),
                 Sets.of(mapping),
                 INDENTATION,
                 LINE_ENDING,
@@ -1383,7 +1383,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 .setHateosResourceHandler(LinkRelation.with("z1"), HttpMethod.POST, handler);
         return Cast.to(
                 HateosResourceMapping.router(
-                        BASE_URL,
+                        BASE_PATH,
                         Sets.of(
                                 getMapping,
                                 mappingWithBody

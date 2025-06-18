@@ -18,8 +18,9 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.ToStringBuilder;
+import walkingkooka.ToStringBuilderOption;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.net.AbsoluteUrl;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequestAttribute;
@@ -40,7 +41,7 @@ import java.util.Set;
  */
 final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?>, HttpHandler> {
 
-    static HateosResourceMappingRouter with(final AbsoluteUrl base,
+    static HateosResourceMappingRouter with(final UrlPath base,
                                             final Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings,
                                             final Indentation indentation,
                                             final LineEnding lineEnding,
@@ -60,7 +61,7 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
         );
     }
 
-    private HateosResourceMappingRouter(final AbsoluteUrl base,
+    private HateosResourceMappingRouter(final UrlPath base,
                                         final Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings,
                                         final Indentation indentation,
                                         final LineEnding lineEnding,
@@ -99,7 +100,7 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     int consumeBasePath(final Map<HttpRequestAttribute<?>, Object> parameters) {
         // base path must be matched..................................................................................
         int pathIndex = 0;
-        for (UrlPathName name : this.base.path()) {
+        for (final UrlPathName name : this.base) {
             if (false == name.equals(parameters.get(HttpRequestAttributes.pathComponent(pathIndex)))) {
                 pathIndex = -1;
                 break;
@@ -109,7 +110,7 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
         return pathIndex;
     }
 
-    final AbsoluteUrl base;
+    final UrlPath base;
     final Map<HateosResourceName, HateosResourceMapping<?, ?, ?, ?, ?>> resourceNameToMapping;
 
     private HttpHandler httpHandler() {
@@ -138,6 +139,7 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     @Override
     public String toString() {
         return ToStringBuilder.empty()
+                .enable(ToStringBuilderOption.SKIP_IF_DEFAULT_VALUE)
                 .value(this.base)
                 .value(this.resourceNameToMapping.values())
                 .build();

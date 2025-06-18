@@ -22,7 +22,7 @@ import walkingkooka.ToStringBuilderOption;
 import walkingkooka.collect.Range;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.net.AbsoluteUrl;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
@@ -209,7 +209,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Creates a {@link Router} from the provided {@link HateosResourceMapping mappings}.
      */
-    public static Router<HttpRequestAttribute<?>, HttpHandler> router(final AbsoluteUrl base,
+    public static Router<HttpRequestAttribute<?>, HttpHandler> router(final UrlPath base,
                                                                       final Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings,
                                                                       final Indentation indentation,
                                                                       final LineEnding lineEnding,
