@@ -194,7 +194,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // route............................................................................................................
 
     @Test
-    public void testMissingBaseUnrouted() {
+    public void testRouteMissingBaseUnrouted() {
         this.routeFails(
                 this.request(
                         HttpMethod.POST,
@@ -217,7 +217,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // BAD REQUEST......................................................................................................
 
     @Test
-    public void testBadRequestMissingResourceName() {
+    public void testRouteBadRequestMissingResourceName() {
         this.routeAndCheck(
                 "/api/",
                 HttpStatusCode.BAD_REQUEST.setMessage("Missing resource name"),
@@ -226,7 +226,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestInvalidResourceName() {
+    public void testRouteBadRequestInvalidResourceName() {
         this.routeAndCheck(
                 "/api/999-invalid",
                 HttpStatusCode.BAD_REQUEST.setMessage("Invalid resource name \"999-invalid\""),
@@ -235,7 +235,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testNotFoundUnknownHateosResource() {
+    public void testRouteNotFoundUnknownHateosResource() {
         this.routeAndCheck(
                 "/api/unknown123",
                 HttpStatusCode.NOT_FOUND.setMessage("resource: unknown123"),
@@ -244,7 +244,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testNotFoundUnknownHateosResourceIdRelation() {
+    public void testRouteNotFoundUnknownHateosResourceIdRelation() {
         this.routeAndCheck(
                 "/api/unknown123/456/contents",
                 HttpStatusCode.NOT_FOUND.setMessage("resource: unknown123"),
@@ -253,7 +253,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestInvalidRelation() {
+    public void testRouteBadRequestInvalidRelation() {
         assertThrows(InvalidCharacterException.class, () -> {
             LinkRelation.with("!!");
         });
@@ -265,7 +265,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestUnknownRelation() {
+    public void testRouteBadRequestUnknownRelation() {
         this.routeAndCheck(
                 "/api/resource-with-body/0x1/clear",
                 HttpStatusCode.BAD_REQUEST.setMessage("Unknown link relation \"clear\""),
@@ -274,17 +274,17 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testMethodNotSupported() {
+    public void testRouteMethodNotSupported() {
         this.methodNotSupportedAndCheck("AAA");
     }
 
     @Test
-    public void testMethodNotSupported2() {
+    public void testRouteMethodNotSupported2() {
         this.methodNotSupportedAndCheck("GHI");
     }
 
     @Test
-    public void testMethodNotSupported3() {
+    public void testRouteMethodNotSupported3() {
         this.methodNotSupportedAndCheck("Z");
     }
 
@@ -301,7 +301,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestInvalidResourceId() {
+    public void testRouteBadRequestInvalidResourceId() {
         this.routeAndCheck(
                 "/api/resource-with-body/@/contents",
                 HttpStatusCode.BAD_REQUEST.setMessage("Invalid id \"@\""),
@@ -310,7 +310,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestInvalidList() {
+    public void testRouteBadRequestInvalidList() {
         this.routeAndCheck(
                 "/api/resource-with-body/0x1,invalid/contents",
                 HttpStatusCode.BAD_REQUEST.setMessage("Invalid list \"0x1,invalid\""),
@@ -319,7 +319,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestInvalidRange() {
+    public void testRouteBadRequestInvalidRange() {
         this.routeAndCheck(
                 "/api/resource-with-body/0x1-0x2-0x3/contents",
                 HttpStatusCode.BAD_REQUEST.setMessage("Invalid range \"0x1-0x2-0x3\""),
@@ -328,7 +328,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testContentLengthPresentBodyAbsent() {
+    public void testRouteContentLengthPresentBodyAbsent() {
         this.routeAndCheck(
                 this.createRouter(),
                 HttpMethod.POST,
@@ -341,7 +341,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testContentLengthPresentBodyEmpty() {
+    public void testRouteContentLengthPresentBodyEmpty() {
         this.routeAndCheck(
                 this.createRouter(),
                 HttpMethod.POST,
@@ -354,7 +354,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testContentLengthRequiredBodyPresentWithoutContentLength() {
+    public void testRouteContentLengthRequiredBodyPresentWithoutContentLength() {
         this.routeAndCheck(
                 this.createRouter(),
                 HttpMethod.POST,
@@ -367,7 +367,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testContentLengthBodyLengthMismatchFails() {
+    public void testRouteContentLengthBodyLengthMismatchFails() {
         this.routeAndCheck(
                 this.createRouter(),
                 HttpMethod.POST,
@@ -380,7 +380,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestIdAndInvalidJson() {
+    public void testRouteBadRequestIdAndInvalidJson() {
         this.routeAndCheck(
                 "/api/resource-with-body/0x1f/contents",
                 "!invalid json",
@@ -390,7 +390,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestWildcardAndInvalidJson() {
+    public void testRouteBadRequestWildcardAndInvalidJson() {
         this.routeAndCheck(
                 "/api/resource-with-body/*/contents",
                 "!invalid json",
@@ -400,7 +400,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testBadRequestRangeAndInvalidJson() {
+    public void testRouteBadRequestRangeAndInvalidJson() {
         this.routeAndCheck(
                 "/api/resource-with-body/0x1-0x2/contents",
                 "!invalid json",
@@ -410,7 +410,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testGetWithoutContentType() {
+    public void testRouteGetWithoutContentType() {
         this.routeAndCheck(
                 this.createRouter(
                         new FakeHateosResourceHandler<>() {
@@ -442,7 +442,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testGetRequiresNormalize() {
+    public void testRouteGetRequiresNormalize() {
         this.routeAndCheck(
                 this.createRouter(
                         new FakeHateosResourceHandler<>() {
@@ -474,7 +474,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testPostMissingAccept() {
+    public void testRoutePostMissingAccept() {
         this.routeAndCheck(
                 this.createRouter(),
                 HttpMethod.POST,
@@ -487,7 +487,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testIncompatibleAccept() {
+    public void testRouteIncompatibleAccept() {
         this.routeAndCheck(
                 this.createRouter(),
                 HttpMethod.POST,
@@ -509,7 +509,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // not implement....................................................................................................
 
     @Test
-    public void testNotImplementedId() {
+    public void testRouteNotImplementedId() {
         final String customMessage = "Custom message 123! something something else";
 
         this.routeThrowsAndCheck(
@@ -530,7 +530,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testNotImplementedWildcard() {
+    public void testRouteNotImplementedWildcard() {
         final String customMessage = "Custom message 123!";
 
         this.routeThrowsAndCheck(
@@ -551,7 +551,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testNotImplementedRange() {
+    public void testRouteNotImplementedRange() {
         final String customMessage = "Custom message 123!";
 
         this.routeThrowsAndCheck(
@@ -572,7 +572,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testNotImplementedIdUnsupportedOperationExceptionWithMessage() {
+    public void testRouteNotImplementedIdUnsupportedOperationExceptionWithMessage() {
         final String message = "message 456";
 
         this.routeThrowsAndCheck(
@@ -597,7 +597,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     private final static String INTERNAL_SERVER_ERROR_MESSAGE = "Because 123\nline 2";
 
     @Test
-    public void testInternalServerErrorId() {
+    public void testRouteInternalServerErrorId() {
         this.routeThrowsAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -616,7 +616,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testInternalServerErrorWildcard() {
+    public void testRouteInternalServerErrorWildcard() {
         this.routeThrowsAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -634,7 +634,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testRangeInternalServerErrorRange() {
+    public void testRouteRangeInternalServerErrorRange() {
         this.routeThrowsAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -653,7 +653,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testInternalServerErrorExceptionWithoutMessageId() {
+    public void testRouteInternalServerErrorExceptionWithoutMessageId() {
         final String message = "Something went wrong";
 
         this.routeThrowsAndCheck(
@@ -718,7 +718,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // id request.......................................................................................................
 
     @Test
-    public void testRequestResourceBodyAbsentId() {
+    public void testRouteRequestResourceBodyAbsentId() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -743,7 +743,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testRequestResourceBodyEmptyId() {
+    public void testRouteRequestResourceBodyEmptyId() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -768,7 +768,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testRequestResourceBodyJsonId() {
+    public void testRouteRequestResourceBodyJsonId() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -793,7 +793,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testRequestResourceBodyJsonIdCharsetUtf16() {
+    public void testRouteRequestResourceBodyJsonIdCharsetUtf16() {
         this.routeAndCheck(
                 this.createRouter(new FakeHateosResourceHandler<>() {
                     @Override
@@ -830,7 +830,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // all request.................................................................................................
 
     @Test
-    public void testRequestResourceBodyAbsentWildcard() {
+    public void testRouteRequestResourceBodyAbsentWildcard() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
 
@@ -854,7 +854,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testRequestResourceBodyEmptyWildcard() {
+    public void testRouteRequestResourceBodyEmptyWildcard() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -877,7 +877,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testRequestResourceBodyJsonWildcard() {
+    public void testRouteRequestResourceBodyJsonWildcard() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -902,7 +902,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // range request....................................................................................................
 
     @Test
-    public void testRequestResourceBodyAbsentRange() {
+    public void testRouteRequestResourceBodyAbsentRange() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
 
@@ -928,7 +928,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testRequestResourceBodyEmptyRange() {
+    public void testRouteRequestResourceBodyEmptyRange() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -953,7 +953,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testRequestResourceBodyJsonRange() {
+    public void testRouteRequestResourceBodyJsonRange() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -992,7 +992,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // response none......................................................................................................
 
     @Test
-    public void testResponseNoneIdResourceBodyAbsent() {
+    public void testRouteResponseNoneIdResourceBodyAbsent() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
 
@@ -1014,7 +1014,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testResponseNoneIdResourceBodyJson() {
+    public void testRouteResponseNoneIdResourceBodyJson() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -1034,7 +1034,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // response id......................................................................................................
 
     @Test
-    public void testResponseResourceBodyAbsent() {
+    public void testRouteResponseResourceBodyAbsent() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
 
@@ -1057,7 +1057,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testResponseResourceBodyJson() {
+    public void testRouteResponseResourceBodyJson() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -1078,7 +1078,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     // response collection..............................................................................................
 
     @Test
-    public void testResponseResourceBodyAbsentCollection() {
+    public void testRouteResponseResourceBodyAbsentCollection() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
 
@@ -1101,7 +1101,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testResponseResourceBodyJsonCollection() {
+    public void testRouteResponseResourceBodyJsonCollection() {
         this.routeAndCheck(
                 new FakeHateosResourceHandler<>() {
                     @Override
@@ -1121,7 +1121,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     // this test contains everything in a single method so it can be copied over to JunitTest.
     @Test
-    public void testMapRouteAndCheckStandaloneForItJunitTest() {
+    public void testRouteAndCheckStandaloneForItJunitTest() {
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
                 HateosResourceName.with("resource-with-body"),
                 (s, x) -> {
