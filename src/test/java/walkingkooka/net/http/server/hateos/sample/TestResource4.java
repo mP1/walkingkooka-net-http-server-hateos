@@ -27,13 +27,13 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 /**
  * A simple container for the actual {@link HateosResource}.
  */
-public final class TestResource {
+public final class TestResource4 {
 
-    static TestResource with(final Object value) {
-        return new TestResource(value);
+    static TestResource4 with(final Object value) {
+        return new TestResource4(value);
     }
 
-    private TestResource(final Object value) {
+    private TestResource4(final Object value) {
         super();
         this.value = value;
     }
@@ -42,8 +42,8 @@ public final class TestResource {
 
     // JsonNodeContext...................................................................................................
 
-    static TestResource unmarshall(final JsonNode node,
-                                   final JsonNodeUnmarshallContext context) {
+    static TestResource4 unmarshall(final JsonNode node,
+                                    final JsonNodeUnmarshallContext context) {
         return with(context.unmarshallWithType(node));
     }
 
@@ -52,10 +52,10 @@ public final class TestResource {
     }
 
     static {
-        JsonNodeContext.register("testResource",
-                TestResource::unmarshall,
-                TestResource::marshall,
-                TestResource.class);
+        JsonNodeContext.register("testResource4",
+                TestResource4::unmarshall,
+                TestResource4::marshall,
+                TestResource4.class);
     }
 
     // Object...........................................................................................................
@@ -67,10 +67,10 @@ public final class TestResource {
 
     @Override
     public boolean equals(final Object other) {
-        return this == other || other instanceof TestResource && equals0(Cast.to(other));
+        return this == other || other instanceof TestResource4 && equals0(Cast.to(other));
     }
 
-    private boolean equals0(final TestResource other) {
+    private boolean equals0(final TestResource4 other) {
         return this.value.equals(other.value);
     }
 

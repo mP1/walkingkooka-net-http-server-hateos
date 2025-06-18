@@ -34,7 +34,6 @@ import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequests;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
-import walkingkooka.net.http.server.hateos.sample.TestResource;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 

@@ -68,7 +68,7 @@ public final class TestHateosResource2 extends FakeHateosResource<BigInteger> {
     private final static JsonPropertyName ID = JsonPropertyName.with("id");
 
     static {
-        JsonNodeContext.register("test-HateosResource3",
+        JsonNodeContext.register("test-HateosResource2",
                 TestHateosResource2::unmarshall,
                 TestHateosResource2::marshall,
                 TestHateosResource2.class);
