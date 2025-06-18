@@ -130,7 +130,7 @@ public class JunitTest {
         );
 
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
-                UrlPath.ROOT,
+                UrlPath.parse("/api"),
                 Sets.of(mapping),
                 Indentation.SPACES2,
                 LineEnding.NL,
