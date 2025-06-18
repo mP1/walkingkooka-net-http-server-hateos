@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.Range;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.TypeNameTesting;
@@ -42,13 +43,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
         TreePrintableTesting,
         TypeNameTesting<H> {
 
-    // handleAll.......................................................................................................
+    // handleAll........................................................................................................
 
     @Test
     default void testHandleAllNullResourceFails() {
         this.handleAllFails(
                 null,
                 this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class);
     }
@@ -57,6 +59,17 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default void testHandleAllNullParametersFails() {
         this.handleAllFails(
                 this.collectionResource(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class);
+    }
+
+    @Test
+    default void testHandleAllNullPathFails() {
+        this.handleAllFails(
+                this.collectionResource(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class);
@@ -67,18 +80,21 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
         this.handleAllFails(
                 this.collectionResource(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class);
     }
 
     default <T extends Throwable> T handleAllFails(final Optional<C> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final UrlPath path,
                                                    final X context,
                                                    final Class<T> thrown) {
         return this.handleAllFails(
                 this.createHandler(),
                 resource,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -87,6 +103,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default <T extends Throwable> T handleAllFails(final HateosResourceHandler<I, V, C, X> handler,
                                                    final Optional<C> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final UrlPath path,
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
@@ -94,6 +111,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                     handler.handleAll(
                             resource,
                             parameters,
+                            path,
                             context
                     );
                 });
@@ -101,12 +119,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
 
     default void handleAllAndCheck(final Optional<C> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context,
                                    final Optional<C> expected) {
         this.handleAllAndCheck(
                 this.createHandler(),
                 resource,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -115,6 +135,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default void handleAllAndCheck(final HateosResourceHandler<I, V, C, X> handler,
                                    final Optional<C> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context,
                                    final Optional<C> expected) {
         this.checkEquals(
@@ -122,6 +143,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 handler.handleAll(
                         resource,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -135,6 +157,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 null,
                 this.collectionResource(),
                 this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -146,17 +169,30 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.manyIds(),
                 null,
                 this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
     }
-
 
     @Test
     default void testHandleManyNullParametersFails() {
         this.handleManyFails(
                 this.manyIds(),
                 this.collectionResource(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleManyNullPathFails() {
+        this.handleManyFails(
+                this.manyIds(),
+                this.collectionResource(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -169,6 +205,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.manyIds(),
                 this.collectionResource(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -177,6 +214,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default <T extends Throwable> T handleManyFails(final Set<I> ids,
                                                     final Optional<C> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final UrlPath path,
                                                     final X context,
                                                     final Class<T> thrown) {
         return this.handleManyFails(
@@ -184,6 +222,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 ids,
                 resource,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -193,6 +232,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                     final Set<I> ids,
                                                     final Optional<C> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final UrlPath path,
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
@@ -202,6 +242,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                             ids,
                             resource,
                             parameters,
+                            path,
                             context
                     );
                 });
@@ -210,6 +251,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default void handleManyAndCheck(final Set<I> ids,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context,
                                     final Optional<C> expected) {
         this.handleManyAndCheck(
@@ -217,6 +259,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 ids,
                 resource,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -226,6 +269,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                     final Set<I> ids,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context,
                                     final Optional<C> expected) {
         this.checkEquals(
@@ -234,6 +278,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                         ids,
                         resource,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -246,6 +291,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
         this.handleNoneFails(
                 null,
                 this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -255,6 +301,18 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default void testHandleNoneNullParametersFails() {
         this.handleNoneFails(
                 this.resource(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleNoneNullPathFails() {
+        this.handleNoneFails(
+                this.resource(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -266,6 +324,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
         this.handleNoneFails(
                 this.resource(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -273,12 +332,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
 
     default <T extends Throwable> T handleNoneFails(final Optional<V> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final UrlPath path,
                                                     final X context,
                                                     final Class<T> thrown) {
         return this.handleNoneFails(
                 this.createHandler(),
                 resource,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -287,6 +348,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default <T extends Throwable> T handleNoneFails(final HateosResourceHandler<I, V, C, X> handler,
                                                     final Optional<V> resource,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final UrlPath path,
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
@@ -294,6 +356,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                     handler.handleNone(
                             resource,
                             parameters,
+                            path,
                             context
                     );
                 }
@@ -302,12 +365,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
 
     default void handleNoneAndCheck(final Optional<V> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context,
                                     final Optional<V> expected) {
         this.handleNoneAndCheck(
                 this.createHandler(),
                 resource,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -316,6 +381,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default void handleNoneAndCheck(final HateosResourceHandler<I, V, C, X> handler,
                                     final Optional<V> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context,
                                     final Optional<V> expected) {
         this.checkEquals(
@@ -323,6 +389,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 handler.handleNone(
                         resource,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -336,6 +403,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 null,
                 this.resource(),
                 this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class);
     }
@@ -346,6 +414,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.id(),
                 null,
                 this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class);
     }
@@ -355,6 +424,19 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
         this.handleOneFails(
                 this.id(),
                 this.resource(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleOneNullPathFails() {
+        this.handleOneFails(
+                this.id(),
+                this.resource(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -367,6 +449,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.id(),
                 this.resource(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -375,6 +458,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default <T extends Throwable> T handleOneFails(final I id,
                                                    final Optional<V> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final UrlPath path,
                                                    final X context,
                                                    final Class<T> thrown) {
         return this.handleOneFails(
@@ -382,6 +466,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 id,
                 resource,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -391,6 +476,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                    final I id,
                                                    final Optional<V> resource,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final UrlPath path,
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
@@ -400,6 +486,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                             id,
                             resource,
                             parameters,
+                            path,
                             context
                     );
                 });
@@ -408,6 +495,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default void handleOneAndCheck(final I id,
                                    final Optional<V> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context,
                                    final Optional<V> expected) {
         this.handleOneAndCheck(
@@ -415,6 +503,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 id,
                 resource,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -424,6 +513,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                    final I id,
                                    final Optional<V> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context,
                                    final Optional<V> expected) {
         this.checkEquals(
@@ -432,6 +522,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                         id,
                         resource,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -445,6 +536,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 null,
                 this.collectionResource(),
                 this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -456,6 +548,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.range(),
                 null,
                 this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -466,6 +559,19 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
         this.handleRangeFails(
                 this.range(),
                 this.collectionResource(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleRangeNullPathFails() {
+        this.handleRangeFails(
+                this.range(),
+                this.collectionResource(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -478,6 +584,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.range(),
                 this.collectionResource(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -486,6 +593,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default <T extends Throwable> T handleRangeFails(final Range<I> range,
                                                      final Optional<C> resource,
                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final UrlPath path,
                                                      final X context,
                                                      final Class<T> thrown) {
         return this.handleRangeFails(
@@ -493,6 +601,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 range,
                 resource,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -502,6 +611,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                      final Range<I> range,
                                                      final Optional<C> resource,
                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final UrlPath path,
                                                      final X context,
                                                      final Class<T> thrown) {
         return assertThrows(
@@ -510,7 +620,9 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                             range,
                             resource,
                             parameters,
-                            context);
+                            path,
+                            context
+                    );
                 }
         );
     }
@@ -518,6 +630,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     default void handleRangeAndCheck(final Range<I> range,
                                      final Optional<C> resource,
                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                     final UrlPath path,
                                      final X context,
                                      final Optional<C> expected) {
         this.handleRangeAndCheck(
@@ -525,6 +638,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 range,
                 resource,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -534,6 +648,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                      final Range<I> range,
                                      final Optional<C> resource,
                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                     final UrlPath path,
                                      final X context,
                                      final Optional<C> expected) {
         this.checkEquals(
@@ -542,6 +657,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                         range,
                         resource,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -562,6 +678,8 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     Optional<C> collectionResource();
 
     Map<HttpRequestAttribute<?>, Object> parameters();
+
+    UrlPath path();
 
     X context();
 

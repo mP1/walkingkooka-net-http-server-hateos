@@ -17,6 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
@@ -28,10 +29,12 @@ public interface UnsupportedHateosHttpEntityHandlerHandleOne<I extends Comparabl
     default HttpEntity handleOne(final I id,
                                  final HttpEntity entity,
                                  final Map<HttpRequestAttribute<?>, Object> parameters,
+                                 final UrlPath path,
                                  final X context) {
         HateosHttpEntityHandler.checkId(id);
         HateosHttpEntityHandler.checkHttpEntity(entity);
         HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkPath(path);
         HateosHttpEntityHandler.checkContext(context);
 
         throw new UnsupportedOperationException();

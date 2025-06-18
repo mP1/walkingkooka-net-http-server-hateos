@@ -418,7 +418,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                             public Optional<TestResource> handleOne(final BigInteger id,
                                                                     final Optional<TestResource> resource,
                                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                                    final UrlPath path,
                                                                     final TestHateosResourceHandlerContext context) {
+                                HateosResourceHandler.checkPathEmpty(path);
+
                                 return Optional.empty();
                             }
                         }),
@@ -450,7 +453,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                             public Optional<TestResource> handleOne(final BigInteger id,
                                                                     final Optional<TestResource> resource,
                                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                                    final UrlPath path,
                                                                     final TestHateosResourceHandlerContext context) {
+                                HateosResourceHandler.checkPathEmpty(path);
+
                                 return Optional.empty();
                             }
                         }),
@@ -518,7 +524,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         throw new UnsupportedOperationException(customMessage);
                     }
                 },
@@ -539,7 +548,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     @Override
                     public Optional<TestResource> handleAll(final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         throw new UnsupportedOperationException(customMessage);
                     }
                 },
@@ -560,7 +572,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleRange(final Range<BigInteger> ids,
                                                               final Optional<TestResource> resource,
                                                               final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                              final UrlPath path,
                                                               final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         throw new UnsupportedOperationException(customMessage);
                     }
                 },
@@ -581,7 +596,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         throw new UnsupportedOperationException(message);
                     }
                 },
@@ -604,7 +622,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         throw new RuntimeException(INTERNAL_SERVER_ERROR_MESSAGE);
                     }
                 },
@@ -622,7 +643,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     @Override
                     public Optional<TestResource> handleAll(final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         throw new RuntimeException(INTERNAL_SERVER_ERROR_MESSAGE);
                     }
                 },
@@ -640,8 +664,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     @Override
                     public Optional<TestResource> handleRange(final Range<BigInteger> ids,
                                                               final Optional<TestResource> resource,
-                                                              final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                              final Map<HttpRequestAttribute<?>, Object> parameters, final UrlPath path,
                                                               final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         throw new RuntimeException(INTERNAL_SERVER_ERROR_MESSAGE);
                     }
                 },
@@ -662,7 +688,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         throw new RuntimeException(message);
                     }
                 },
@@ -725,9 +754,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
                         checkId(id);
                         checkResource(resource, Optional.empty());
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -750,9 +781,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
                         checkId(id);
                         checkResource(resource, Optional.empty());
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -775,9 +808,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
                         checkId(id);
                         checkResource(resource, Optional.of(RESOURCE_IN));
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -800,9 +835,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
                         checkId(id);
                         checkResource(resource, Optional.of(RESOURCE_IN));
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -837,8 +874,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     @Override
                     public Optional<TestResource> handleAll(final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
                         checkResource(resource, Optional.empty());
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -860,8 +899,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     @Override
                     public Optional<TestResource> handleAll(final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
                         checkResource(resource, Optional.empty());
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -883,8 +924,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     @Override
                     public Optional<TestResource> handleAll(final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
                         checkResource(resource, Optional.of(COLLECTION_RESOURCE_IN));
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -910,9 +953,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleRange(final Range<BigInteger> id,
                                                               final Optional<TestResource> resource,
                                                               final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                              final UrlPath path,
                                                               final TestHateosResourceHandlerContext context) {
                         checkRange(id);
                         checkResource(resource, Optional.empty());
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -935,9 +980,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleRange(final Range<BigInteger> id,
                                                               final Optional<TestResource> resource,
                                                               final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                              final UrlPath path,
                                                               final TestHateosResourceHandlerContext context) {
                         checkRange(id);
                         checkResource(resource, Optional.empty());
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -960,9 +1007,11 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleRange(final Range<BigInteger> id,
                                                               final Optional<TestResource> resource,
                                                               final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                              final UrlPath path,
                                                               final TestHateosResourceHandlerContext context) {
                         checkRange(id);
                         checkResource(resource, Optional.of(COLLECTION_RESOURCE_IN));
+                        HateosResourceHandler.checkPathEmpty(path);
 
                         return Optional.empty();
                     }
@@ -999,7 +1048,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     @Override
                     public Optional<TestResource> handleNone(final Optional<TestResource> resource,
                                                              final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                             final UrlPath path,
                                                              final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         return Optional.empty();
                     }
                 },
@@ -1020,7 +1072,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     @Override
                     public Optional<TestResource> handleNone(final Optional<TestResource> resource,
                                                              final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                             final UrlPath path,
                                                              final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         return Optional.of(RESOURCE_OUT);
                     }
                 },
@@ -1042,7 +1097,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         return Optional.empty();
                     }
                 },
@@ -1064,7 +1122,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         return Optional.of(RESOURCE_OUT);
                     }
                 },
@@ -1086,7 +1147,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleRange(final Range<BigInteger> id,
                                                               final Optional<TestResource> resource,
                                                               final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                              final UrlPath path,
                                                               final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         return Optional.empty();
                     }
                 },
@@ -1108,7 +1172,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleRange(final Range<BigInteger> id,
                                                               final Optional<TestResource> resource,
                                                               final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                              final UrlPath path,
                                                               final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         return Optional.of(COLLECTION_RESOURCE_OUT);
                     }
                 },
@@ -1147,7 +1214,10 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public Optional<TestResource> handleOne(final BigInteger id,
                                                             final Optional<TestResource> resource,
                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                            final UrlPath path,
                                                             final TestHateosResourceHandlerContext context) {
+                        HateosResourceHandler.checkPathEmpty(path);
+
                         return Optional.of(
                                 TestResource.with(
                                         TestHateosResource.with(
@@ -1242,6 +1312,402 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
     @Test
     public void testSetHateosHttpEntityHandlerAndRoute() {
+        this.setHateosHttpEntityHandlerAndRouteWithPathAndCheck(
+                "/api/resource-with-body/0x123/contents",
+                ""
+        );
+//        final MediaType mediaType = MediaType.TEXT_PLAIN;
+//
+//        final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
+//                HateosResourceName.with("resource-with-body"),
+//                (s, x) -> {
+//                    return HateosResourceSelection.one(
+//                            BigInteger.valueOf(
+//                                    Integer.parseInt(
+//                                            s.substring(2),
+//                                            16
+//                                    )
+//                            )
+//                    ); // assumes hex digit in url
+//                },
+//                TestResource.class,
+//                TestResource.class,
+//                TestHateosResource.class,
+//                TestHateosResourceHandlerContext.class
+//        ).setHateosHttpEntityHandler(
+//                LinkRelation.CONTENTS,
+//                HttpMethod.POST,
+//                new FakeHateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext>() {
+//                    @Override
+//                    public HttpEntity handleOne(final BigInteger id,
+//                                                final HttpEntity entity,
+//                                                final Map<HttpRequestAttribute<?>, Object> parameters,
+//                                                final UrlPath path,
+//                                                final TestHateosResourceHandlerContext context) {
+//                        checkEquals(
+//                                mediaType,
+//                                HttpHeaderName.CONTENT_TYPE.headerOrFail(entity)
+//                        );
+//                        HateosResourceHandler.checkPathEmpty(path);
+//
+//                        return HttpEntity.EMPTY.setBodyText(
+//                                id +
+//                                        "\n" +
+//                                        entity.bodyText()
+//                        );
+//                    }
+//                }
+//        );
+//
+//        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
+//                UrlPath.parse("/api"),
+//                Sets.of(mapping),
+//                INDENTATION,
+//                LINE_ENDING,
+//                CONTEXT
+//        );
+//
+//        final HttpRequest request = new FakeHttpRequest() {
+//
+//            @Override
+//            public HttpTransport transport() {
+//                return HttpTransport.UNSECURED;
+//            }
+//
+//            @Override
+//            public HttpProtocolVersion protocolVersion() {
+//                return HttpProtocolVersion.VERSION_1_0;
+//            }
+//
+//            @Override
+//            public HttpMethod method() {
+//                return HttpMethod.POST;
+//            }
+//
+//            @Override
+//            public RelativeUrl url() {
+//                return Url.parseRelative("/api/resource-with-body/0x123/contents");
+//            }
+//
+//            @Override
+//            public Map<HttpHeaderName<?>, List<?>> headers() {
+//                return Maps.of(
+//                        HttpHeaderName.CONTENT_TYPE, Lists.of(mediaType),
+//                        HttpHeaderName.ACCEPT, Lists.of(mediaType.accept()),
+//                        HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
+//                );
+//            }
+//
+//            @Override
+//            public byte[] body() {
+//                return this.bodyText()
+//                        .getBytes(StandardCharsets.UTF_8);
+//            }
+//
+//            @Override
+//            public String bodyText() {
+//                return "RequestBodyText123";
+//            }
+//
+//            @Override
+//            public Map<HttpRequestParameterName, List<String>> parameters() {
+//                return Maps.empty();
+//            }
+//
+//            @Override
+//            public List<String> parameterValues(final HttpRequestParameterName parameterName) {
+//                throw new UnsupportedOperationException();
+//            }
+//
+//            @Override
+//            public String toString() {
+//                return this.method() + " " + this.url() + " " + parameters();
+//            }
+//        };
+//        final HttpHandler httpHandler = router.route(
+//                request.routerParameters()
+//        ).orElseThrow(
+//                () -> new Error("Unable to route")
+//        );
+//
+//        final HttpResponse response = HttpResponses.recording();
+//        httpHandler.handle(request, response);
+//        this.checkEquals(
+//                "291\n" + // 0x123
+//                        "RequestBodyText123",
+//                response.entity()
+//                        .bodyText()
+//        );
+    }
+
+    @Test
+    public void testSetHateosHttpEntityHandlerAndRouteWithPath() {
+        this.setHateosHttpEntityHandlerAndRouteWithPathAndCheck(
+                "/api/resource-with-body/0x123/contents/",
+                "/"
+        );
+//        final MediaType mediaType = MediaType.TEXT_PLAIN;
+//
+//        final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
+//                HateosResourceName.with("resource-with-body"),
+//                (s, x) -> {
+//                    return HateosResourceSelection.one(
+//                            BigInteger.valueOf(
+//                                    Integer.parseInt(
+//                                            s.substring(2),
+//                                            16
+//                                    )
+//                            )
+//                    ); // assumes hex digit in url
+//                },
+//                TestResource.class,
+//                TestResource.class,
+//                TestHateosResource.class,
+//                TestHateosResourceHandlerContext.class
+//        ).setHateosHttpEntityHandler(
+//                LinkRelation.CONTENTS,
+//                HttpMethod.POST,
+//                new FakeHateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext>() {
+//                    @Override
+//                    public HttpEntity handleOne(final BigInteger id,
+//                                                final HttpEntity entity,
+//                                                final Map<HttpRequestAttribute<?>, Object> parameters,
+//                                                final UrlPath path,
+//                                                final TestHateosResourceHandlerContext context) {
+//                        checkEquals(
+//                                mediaType,
+//                                HttpHeaderName.CONTENT_TYPE.headerOrFail(entity)
+//                        );
+//                        checkEquals(
+//                                UrlPath.parse("/"),
+//                                path
+//                        );
+//
+//                        return HttpEntity.EMPTY.setBodyText(
+//                                id +
+//                                        "\n" +
+//                                        entity.bodyText()
+//                        );
+//                    }
+//                }
+//        );
+//
+//        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
+//                UrlPath.parse("/api"),
+//                Sets.of(mapping),
+//                INDENTATION,
+//                LINE_ENDING,
+//                CONTEXT
+//        );
+//
+//        final HttpRequest request = new FakeHttpRequest() {
+//
+//            @Override
+//            public HttpTransport transport() {
+//                return HttpTransport.UNSECURED;
+//            }
+//
+//            @Override
+//            public HttpProtocolVersion protocolVersion() {
+//                return HttpProtocolVersion.VERSION_1_0;
+//            }
+//
+//            @Override
+//            public HttpMethod method() {
+//                return HttpMethod.POST;
+//            }
+//
+//            @Override
+//            public RelativeUrl url() {
+//                return Url.parseRelative("/api/resource-with-body/0x123/contents/");
+//            }
+//
+//            @Override
+//            public Map<HttpHeaderName<?>, List<?>> headers() {
+//                return Maps.of(
+//                        HttpHeaderName.CONTENT_TYPE, Lists.of(mediaType),
+//                        HttpHeaderName.ACCEPT, Lists.of(mediaType.accept()),
+//                        HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
+//                );
+//            }
+//
+//            @Override
+//            public byte[] body() {
+//                return this.bodyText()
+//                        .getBytes(StandardCharsets.UTF_8);
+//            }
+//
+//            @Override
+//            public String bodyText() {
+//                return "RequestBodyText123";
+//            }
+//
+//            @Override
+//            public Map<HttpRequestParameterName, List<String>> parameters() {
+//                return Maps.empty();
+//            }
+//
+//            @Override
+//            public List<String> parameterValues(final HttpRequestParameterName parameterName) {
+//                throw new UnsupportedOperationException();
+//            }
+//
+//            @Override
+//            public String toString() {
+//                return this.method() + " " + this.url() + " " + parameters();
+//            }
+//        };
+//        final HttpHandler httpHandler = router.route(
+//                request.routerParameters()
+//        ).orElseThrow(
+//                () -> new Error("Unable to route")
+//        );
+//
+//        final HttpResponse response = HttpResponses.recording();
+//        httpHandler.handle(request, response);
+//        this.checkEquals(
+//                "291\n" + // 0x123
+//                        "RequestBodyText123",
+//                response.entity()
+//                        .bodyText()
+//        );
+    }
+
+    @Test
+    public void testSetHateosHttpEntityHandlerAndRouteWithPath2() {
+        this.setHateosHttpEntityHandlerAndRouteWithPathAndCheck(
+                "/api/resource-with-body/0x123/contents/path1/path2",
+                "/path1/path2"
+        );
+//        final MediaType mediaType = MediaType.TEXT_PLAIN;
+//
+//        final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
+//                HateosResourceName.with("resource-with-body"),
+//                (s, x) -> {
+//                    return HateosResourceSelection.one(
+//                            BigInteger.valueOf(
+//                                    Integer.parseInt(
+//                                            s.substring(2),
+//                                            16
+//                                    )
+//                            )
+//                    ); // assumes hex digit in url
+//                },
+//                TestResource.class,
+//                TestResource.class,
+//                TestHateosResource.class,
+//                TestHateosResourceHandlerContext.class
+//        ).setHateosHttpEntityHandler(
+//                LinkRelation.CONTENTS,
+//                HttpMethod.POST,
+//                new FakeHateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext>() {
+//                    @Override
+//                    public HttpEntity handleOne(final BigInteger id,
+//                                                final HttpEntity entity,
+//                                                final Map<HttpRequestAttribute<?>, Object> parameters,
+//                                                final UrlPath path,
+//                                                final TestHateosResourceHandlerContext context) {
+//                        checkEquals(
+//                                mediaType,
+//                                HttpHeaderName.CONTENT_TYPE.headerOrFail(entity)
+//                        );
+//                        checkEquals(
+//                                UrlPath.parse("/path1/path2"),
+//                                path
+//                        );
+//
+//                        return HttpEntity.EMPTY.setBodyText(
+//                                id +
+//                                        "\n" +
+//                                        entity.bodyText()
+//                        );
+//                    }
+//                }
+//        );
+//
+//        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
+//                UrlPath.parse("/api"),
+//                Sets.of(mapping),
+//                INDENTATION,
+//                LINE_ENDING,
+//                CONTEXT
+//        );
+//
+//        final HttpRequest request = new FakeHttpRequest() {
+//
+//            @Override
+//            public HttpTransport transport() {
+//                return HttpTransport.UNSECURED;
+//            }
+//
+//            @Override
+//            public HttpProtocolVersion protocolVersion() {
+//                return HttpProtocolVersion.VERSION_1_0;
+//            }
+//
+//            @Override
+//            public HttpMethod method() {
+//                return HttpMethod.POST;
+//            }
+//
+//            @Override
+//            public RelativeUrl url() {
+//                return Url.parseRelative("/api/resource-with-body/0x123/contents/path1/path2");
+//            }
+//
+//            @Override
+//            public Map<HttpHeaderName<?>, List<?>> headers() {
+//                return Maps.of(
+//                        HttpHeaderName.CONTENT_TYPE, Lists.of(mediaType),
+//                        HttpHeaderName.ACCEPT, Lists.of(mediaType.accept()),
+//                        HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
+//                );
+//            }
+//
+//            @Override
+//            public byte[] body() {
+//                return this.bodyText()
+//                        .getBytes(StandardCharsets.UTF_8);
+//            }
+//
+//            @Override
+//            public String bodyText() {
+//                return "RequestBodyText123";
+//            }
+//
+//            @Override
+//            public Map<HttpRequestParameterName, List<String>> parameters() {
+//                return Maps.empty();
+//            }
+//
+//            @Override
+//            public List<String> parameterValues(final HttpRequestParameterName parameterName) {
+//                throw new UnsupportedOperationException();
+//            }
+//
+//            @Override
+//            public String toString() {
+//                return this.method() + " " + this.url() + " " + parameters();
+//            }
+//        };
+//        final HttpHandler httpHandler = router.route(
+//                request.routerParameters()
+//        ).orElseThrow(
+//                () -> new Error("Unable to route")
+//        );
+//
+//        final HttpResponse response = HttpResponses.recording();
+//        httpHandler.handle(request, response);
+//        this.checkEquals(
+//                "291\n" + // 0x123
+//                        "RequestBodyText123",
+//                response.entity()
+//                        .bodyText()
+//        );
+    }
+
+    private void setHateosHttpEntityHandlerAndRouteWithPathAndCheck(final String requestUrl,
+                                                                    final String handlerPath) {
         final MediaType mediaType = MediaType.TEXT_PLAIN;
 
         final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
@@ -1268,11 +1734,17 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     public HttpEntity handleOne(final BigInteger id,
                                                 final HttpEntity entity,
                                                 final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                final UrlPath path,
                                                 final TestHateosResourceHandlerContext context) {
                         checkEquals(
                                 mediaType,
                                 HttpHeaderName.CONTENT_TYPE.headerOrFail(entity)
                         );
+                        checkEquals(
+                                UrlPath.parse(handlerPath),
+                                path
+                        );
+
                         return HttpEntity.EMPTY.setBodyText(
                                 id +
                                         "\n" +
@@ -1283,7 +1755,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         );
 
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
-                UrlPath.parse("api"),
+                UrlPath.parse("/api"),
                 Sets.of(mapping),
                 INDENTATION,
                 LINE_ENDING,
@@ -1309,7 +1781,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
             @Override
             public RelativeUrl url() {
-                return Url.parseRelative("/api/resource-with-body/0x123/contents");
+                return Url.parseRelative(requestUrl);
             }
 
             @Override

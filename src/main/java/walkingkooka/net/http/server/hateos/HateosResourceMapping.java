@@ -233,8 +233,8 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosResourceHandler#handleNone(Optional, Map, HateosResourceHandlerContext)},</li>
-     * <li>{@link HateosResourceHandler#handleOne(Comparable, Optional, Map, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleNone(Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleOne(Comparable, Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
      * </ol>
      */
     final Class<V> valueType;
@@ -242,9 +242,9 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosResourceHandler#handleMany(Set, Optional, Map, HateosResourceHandlerContext)},</li>
-     * <li>{@link HateosResourceHandler#handleRange(Range, Optional, Map, HateosResourceHandlerContext)},</li>
-     * <li>{@link HateosResourceHandler#handleAll(Optional, Map, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleMany(Set, Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleRange(Range, Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleAll(Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
      * </ol>
      */
     final Class<C> collectionType;
