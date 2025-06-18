@@ -311,7 +311,6 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     // HateosHttpEntityHandler..........................................................................................
 
     void handleHateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler,
-                                       final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                        final HateosResourceSelection<?> selection,
                                        final HateosResourceHandlerContext context) {
         final HttpEntity responseHttpEntity = selection.handleHateosHttpEntityHandler(

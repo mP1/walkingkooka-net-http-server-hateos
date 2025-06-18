@@ -38,7 +38,6 @@ final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosRe
                 final HateosResourceHandlerContext context) {
         request.handleHateosHttpEntityHandler(
                 this.handler,
-                mapping,
                 selection,
                 context
         );
