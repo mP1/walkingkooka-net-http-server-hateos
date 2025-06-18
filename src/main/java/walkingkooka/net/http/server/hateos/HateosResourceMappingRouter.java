@@ -100,7 +100,7 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
         // base path must be matched..................................................................................
         int pathIndex = 0;
         for (UrlPathName name : this.base.path()) {
-            if (!name.equals(parameters.get(HttpRequestAttributes.pathComponent(pathIndex)))) {
+            if (false == name.equals(parameters.get(HttpRequestAttributes.pathComponent(pathIndex)))) {
                 pathIndex = -1;
                 break;
             }
@@ -121,7 +121,14 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
         );
     }
 
+    /**
+     * The {@link Indentation} that will be used when marshing objects to JSON.
+     */
     private final Indentation indentation;
+
+    /**
+     * The {@link LineEnding} that will be used when transforming JSON to text.
+     */
     private final LineEnding lineEnding;
 
     private final HateosResourceHandlerContext context;
