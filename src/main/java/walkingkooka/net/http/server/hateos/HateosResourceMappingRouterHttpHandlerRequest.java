@@ -114,6 +114,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             try {
                 resourceName = HateosResourceName.with(resourceNameString);
             } catch (final RuntimeException invalid) {
+                // Invalid resource name "InvalidResourceHere"
                 this.badRequest("Invalid resource name " + CharSequences.quoteAndEscape(resourceNameString), invalid);
             }
             if (null != resourceName) {
@@ -176,7 +177,11 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                                                                                final int pathIndex) {
         final LinkRelation<?> relation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex);
         if (null != relation) {
-            this.methodSupportedChallengeAndDispatch(mapping, selection, relation);
+            this.methodSupportedChallengeAndDispatch(
+                    mapping,
+                    selection,
+                    relation
+            );
         }
     }
 
@@ -196,7 +201,13 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                     relation = LinkRelation.with(relationString);
                 } catch (final RuntimeException invalid) {
                     relation = null;
-                    this.badRequest("Invalid link relation " + CharSequences.quoteAndEscape(relationString), invalid);
+
+                    // Invalid link relation \"UnknownLinkRelation"
+                    this.badRequest(
+                            "Invalid link relation " +
+                                    CharSequences.quoteAndEscape(relationString),
+                            invalid
+                    );
                 }
             }
         }
@@ -229,7 +240,11 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                         method
                 );
             } else {
-                this.methodNotAllowed(mapping.resourceName, relation, supportedMethods);
+                this.methodNotAllowed(
+                        mapping.resourceName,
+                        relation,
+                        supportedMethods
+                );
             }
         }
     }
@@ -250,7 +265,12 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                                   final List<HttpMethod> allowed) {
         this.setStatus(
                 HttpStatusCode.METHOD_NOT_ALLOWED,
-                this.request.method() + " " + message(resourceName, relation)
+                this.request.method() +
+                        " " +
+                        message(
+                                resourceName,
+                                relation
+                        )
         );
         this.response.setEntity(
                 HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, allowed)
@@ -295,7 +315,10 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                 )
         );
         if (null == handler) {
-            this.notFound(mapping.resourceName, relation);
+            this.notFound(
+                    mapping.resourceName,
+                    relation
+            );
         }
         return handler;
     }
@@ -304,7 +327,10 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                           final LinkRelation<?> linkRelation) {
         this.setStatus(
                 HttpStatusCode.NOT_FOUND,
-                message(resourceName, linkRelation)
+                message(
+                        resourceName,
+                        linkRelation
+                )
         );
     }
 
@@ -381,14 +407,18 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
         final String bodyText = this.resourceTextOrBadRequest();
         if (null != bodyText) {
-            resource = this.resourceOrBadRequest(bodyText, mapping, selection);
+            resource = this.resourceOrBadRequest(
+                    bodyText,
+                    mapping,
+                    selection
+            );
         }
 
         return resource;
     }
 
     /**
-     * Reads and returns the body as text, with null signifying an error occured and a bad request response.
+     * Reads and returns the body as text, with null signifying an error occurred and a bad request response.
      */
     private String resourceTextOrBadRequest() {
         final HttpRequest request = this.request;
@@ -397,7 +427,11 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         try {
             bodyText = request.bodyText();
         } catch (final RuntimeException cause) {
-            this.badRequest("Invalid content: " + cause.getMessage(), cause);
+            this.badRequest(
+                    "Invalid content: " +
+                            cause.getMessage(),
+                    cause
+            );
             bodyText = null;
         }
 
@@ -405,7 +439,13 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             final Long contentLength = HttpHeaderName.CONTENT_LENGTH.header(request).orElse(null);
             if (bodyText.isEmpty()) {
                 if (null != contentLength && contentLength.longValue() != request.bodyLength()) {
-                    this.badRequest("Body absent with " + HttpHeaderName.CONTENT_LENGTH + ": " + contentLength);
+                    // Body absent with ContentLength: 123
+                    this.badRequest(
+                            "Body absent with " +
+                                    HttpHeaderName.CONTENT_LENGTH +
+                                    ": " +
+                                    contentLength
+                    );
                     bodyText = null;
                 } else {
                     bodyText = "";
@@ -419,7 +459,15 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                     final long bodyLength = request.bodyLength();
                     final long contentLengthLong = contentLength.longValue();
                     if (bodyLength != contentLengthLong) {
-                        this.badRequest(HttpHeaderName.CONTENT_LENGTH + ": " + contentLengthLong + " != body length=" + bodyLength + " mismatch");
+                        // ContentLength: 123 != body length 456 mismatch
+                        this.badRequest(
+                                HttpHeaderName.CONTENT_LENGTH +
+                                        ": " +
+                                        contentLengthLong +
+                                        " != body length=" +
+                                        bodyLength +
+                                        " mismatch"
+                        );
                         bodyText = null;
                     }
                 }
@@ -450,7 +498,14 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                         )
                 );
             } catch (final Exception cause) {
-                this.badRequest("Invalid " + context.contentType() + ": " + cause.getMessage(), cause);
+                // Invalid bad/type: Message here...
+                this.badRequest(
+                        "Invalid " +
+                                context.contentType() +
+                                ": " +
+                                cause.getMessage(),
+                        cause
+                );
                 resource = null;
             }
         }
@@ -466,7 +521,8 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             this.badRequest("Missing " + HttpHeaderName.ACCEPT);
         } else {
             final MediaType contentType = this.context.contentType();
-            if (!accept.test(contentType)) {
+            if (false == accept.test(contentType)) {
+                // Header Accept: expected text/plain got wrong/type
                 this.badRequest("Header " + header + " expected " + contentType + " got " + accept);
                 accept = null;
             }
@@ -478,9 +534,11 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Fetches the path component at the path index or returns null.
      */
-    private String pathComponent(final int pathIndex, final String missing) {
-        return HttpRequestAttributes.pathComponent(pathIndex).parameterValue(this.parameters)
-                .map(v -> v.value())
+    private String pathComponent(final int pathIndex,
+                                 final String missing) {
+        return HttpRequestAttributes.pathComponent(pathIndex)
+                .parameterValue(this.parameters)
+                .map(UrlPathName::value)
                 .orElse(missing);
     }
 
@@ -509,7 +567,10 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     // error reporting..................................................................................................
 
     void badRequest(final String message) {
-        this.setStatus(HttpStatusCode.BAD_REQUEST, message);
+        this.setStatus(
+                HttpStatusCode.BAD_REQUEST,
+                message
+        );
     }
 
     private static String message(final HateosResourceName resourceName) {
@@ -518,7 +579,11 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
     private static String message(final HateosResourceName resourceName,
                                   final LinkRelation<?> linkRelation) {
-        return message(resourceName) + ", link relation: " + linkRelation;
+        // ResourceName, link relation: SAVE
+        return message(
+                resourceName) +
+                ", link relation: " +
+                linkRelation;
     }
 
     /**
@@ -527,7 +592,9 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     void badRequest(final String message,
                     final Throwable cause) {
         this.badRequest(message);
-        this.response.setEntity(HttpEntity.dumpStackTrace(cause));
+        this.response.setEntity(
+                HttpEntity.dumpStackTrace(cause)
+        );
     }
 
     /**
@@ -573,6 +640,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                 .orElse(AcceptCharset.UTF_8);
         final Optional<Charset> charset = acceptCharset.charset();
         if (!charset.isPresent()) {
+            // AcceptCharset Hello contains unsupported charset
             throw new NotAcceptableHeaderException("AcceptCharset " + acceptCharset + " contain unsupported charset");
         }
         return CharsetName.with(charset.get().name());
