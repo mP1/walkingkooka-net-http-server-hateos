@@ -151,11 +151,11 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     public HateosResourceMapping<I, V, C, H, X> setHateosHttpEntityHandler(final LinkRelation<?> relation,
                                                                            final HttpMethod method,
                                                                            final HateosHttpEntityHandler<I, ?> handler) {
-        final HateosResourceMappingLinkRelationHttpMethod relationAndMethod = HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
-        Objects.requireNonNull(handler, "handler");
-
         return this.setHandler(
-                relationAndMethod,
+                HateosResourceMappingLinkRelationHttpMethod.with(
+                        relation,
+                        method
+                ),
                 HateosResourceMappingHandler.hateosHttpEntityHandler(handler)
         );
     }
@@ -166,11 +166,11 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     public HateosResourceMapping<I, V, C, H, X> setHateosResourceHandler(final LinkRelation<?> relation,
                                                                          final HttpMethod method,
                                                                          final HateosResourceHandler<I, V, C, X> handler) {
-        final HateosResourceMappingLinkRelationHttpMethod relationAndMethod = HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
-        Objects.requireNonNull(handler, "handler");
-
         return this.setHandler(
-                relationAndMethod,
+                HateosResourceMappingLinkRelationHttpMethod.with(
+                        relation,
+                        method
+                ),
                 HateosResourceMappingHandler.hateosResourceHandler(handler)
         );
     }
