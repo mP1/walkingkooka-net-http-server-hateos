@@ -522,8 +522,9 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         } else {
             final MediaType contentType = this.context.contentType();
             if (false == accept.test(contentType)) {
-                // Header Accept: expected text/plain got wrong/type
-                this.badRequest("Header " + header + " expected " + contentType + " got " + accept);
+                this.badRequest(
+                        accept.requireIncompatibleMessage(contentType)
+                );
                 accept = null;
             }
         }
