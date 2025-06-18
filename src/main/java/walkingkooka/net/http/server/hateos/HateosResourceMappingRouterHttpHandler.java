@@ -22,7 +22,6 @@ import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
-import walkingkooka.tree.Node;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -35,10 +34,10 @@ final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
     /**
      * Factory called by {@link HateosResourceMappingRouter#route}
      */
-    static <N extends Node<N, ?, ?, ?>> HateosResourceMappingRouterHttpHandler with(final HateosResourceMappingRouter router,
-                                                                                    final Indentation indentation,
-                                                                                    final LineEnding lineEnding,
-                                                                                    final HateosResourceHandlerContext context) {
+    static HateosResourceMappingRouterHttpHandler with(final HateosResourceMappingRouter router,
+                                                       final Indentation indentation,
+                                                       final LineEnding lineEnding,
+                                                       final HateosResourceHandlerContext context) {
         return new HateosResourceMappingRouterHttpHandler(
                 router,
                 indentation,
