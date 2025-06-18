@@ -5,9 +5,9 @@ import com.google.gwt.junit.client.GWTTestCase;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
-import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
@@ -114,7 +114,7 @@ public class TestGwtTest extends GWTTestCase {
         );
 
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
-                AbsoluteUrl.parseAbsolute("http://www.example.com/api"),
+                UrlPath.ROOT,
                 Sets.of(mapping),
                 Indentation.SPACES2,
                 LineEnding.NL,

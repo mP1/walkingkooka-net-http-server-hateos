@@ -674,6 +674,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     @Override
     public String toString() {
         return ToStringBuilder.empty()
+                .enable(ToStringBuilderOption.SKIP_IF_DEFAULT_VALUE)
                 .value(this.router)
                 .value(this.request)
                 .value(this.response)

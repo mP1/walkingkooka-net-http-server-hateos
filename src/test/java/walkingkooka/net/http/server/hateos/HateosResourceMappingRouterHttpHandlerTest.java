@@ -19,7 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
-import walkingkooka.net.Url;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpHandlerTesting;
 import walkingkooka.text.Indentation;
@@ -31,7 +31,7 @@ public final class HateosResourceMappingRouterHttpHandlerTest extends HateosReso
     public HateosResourceMappingRouterHttpHandler createHttpHandler() {
         return HateosResourceMappingRouterHttpHandler.with(
                 HateosResourceMappingRouter.with(
-                        Url.parseAbsolute("https://example.com"),
+                        UrlPath.ROOT,
                         Sets.empty(),
                         Indentation.SPACES2,
                         LineEnding.NL,
@@ -52,7 +52,7 @@ public final class HateosResourceMappingRouterHttpHandlerTest extends HateosReso
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
         final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(
-                Url.parseAbsolute("https://example.com"),
+                UrlPath.ROOT,
                 Sets.empty(),
                 indentation,
                 lineEnding,
