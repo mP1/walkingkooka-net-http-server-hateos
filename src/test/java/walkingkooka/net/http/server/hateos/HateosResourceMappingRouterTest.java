@@ -119,74 +119,74 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         }
     }
 
+    private final static AbsoluteUrl BASE_URL = Url.parseAbsolute("https://www.example.com/api");
+
     @Test
     public void testWithNullBaseFails() {
-        this.withFails(
-                null,
-                MAPPINGS,
-                INDENTATION,
-                LINE_ENDING,
-                CONTEXT
+        assertThrows(
+                NullPointerException.class,
+                () -> HateosResourceMappingRouter.with(
+                        null,
+                        MAPPINGS,
+                        INDENTATION,
+                        LINE_ENDING,
+                        CONTEXT
+                )
         );
     }
 
     @Test
     public void testWithNullMappingsFails() {
-        this.withFails(
-                this.baseUrl(),
-                null,
-                INDENTATION,
-                LINE_ENDING,
-                CONTEXT
+        assertThrows(
+                NullPointerException.class,
+                () -> HateosResourceMappingRouter.with(
+                        BASE_URL,
+                        null,
+                        INDENTATION,
+                        LINE_ENDING,
+                        CONTEXT
+                )
         );
     }
 
     @Test
     public void testWithNullIndentationFails() {
-        this.withFails(
-                this.baseUrl(),
-                MAPPINGS,
-                null,
-                LINE_ENDING,
-                CONTEXT
+        assertThrows(
+                NullPointerException.class,
+                () -> HateosResourceMappingRouter.with(
+                        BASE_URL,
+                        MAPPINGS,
+                        null,
+                        LINE_ENDING,
+                        CONTEXT
+                )
         );
     }
 
     @Test
     public void testWithNullLineEndingFails() {
-        this.withFails(
-                this.baseUrl(),
-                MAPPINGS,
-                INDENTATION,
-                null,
-                CONTEXT
+        assertThrows(
+                NullPointerException.class,
+                () -> HateosResourceMappingRouter.with(
+                        BASE_URL,
+                        MAPPINGS,
+                        INDENTATION,
+                        null,
+                        CONTEXT
+                )
         );
     }
 
     @Test
     public void testWithNullContextFails() {
-        this.withFails(
-                this.baseUrl(),
-                MAPPINGS,
-                INDENTATION,
-                LINE_ENDING,
-                null
-        );
-    }
-
-    private void withFails(final AbsoluteUrl base,
-                           final Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings,
-                           final Indentation indentation,
-                           final LineEnding lineEnding,
-                           final TestHateosResourceHandlerContext context) {
         assertThrows(
                 NullPointerException.class,
                 () -> HateosResourceMappingRouter.with(
-                        base,
-                        mappings,
-                        indentation,
-                        lineEnding,
-                        context
+                        BASE_URL,
+                        MAPPINGS,
+                        INDENTATION,
+                        LINE_ENDING,
+                        null
                 )
         );
     }
@@ -296,7 +296,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 this.contentType(),
                 NO_BODY,
                 HttpStatusCode.METHOD_NOT_ALLOWED.setMessage(method + " resource: resource-with-body, link relation: contents"),
-                HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, list(HttpMethod.DELETE, HttpMethod.POST, HttpMethod.PUT))
+                HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, Lists.of(HttpMethod.DELETE, HttpMethod.POST, HttpMethod.PUT))
         );
     }
 
@@ -424,7 +424,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         }),
                 HttpMethod.GET,
                 "/api/get-resource/0x1f",
-                map(HttpHeaderName.ACCEPT, Accept.with(Lists.of(this.contentType()))),
+                map(
+                        HttpHeaderName.ACCEPT,
+                        Accept.with(
+                                Lists.of(
+                                        this.contentType()
+                                )
+                        )
+                ),
                 "",
                 HttpStatusCode.NO_CONTENT.status(),
                 HttpEntity.EMPTY.addHeader(
@@ -449,7 +456,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         }),
                 HttpMethod.GET,
                 "/api/get-resource/./0x1f",
-                map(HttpHeaderName.ACCEPT, Accept.with(Lists.of(this.contentType()))),
+                map(
+                        HttpHeaderName.ACCEPT,
+                        Accept.with(
+                                Lists.of(
+                                        this.contentType()
+                                )
+                        )
+                ),
                 "",
                 HttpStatusCode.NO_CONTENT.status(),
                 HttpEntity.EMPTY.addHeader(
@@ -478,7 +492,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 this.createRouter(),
                 HttpMethod.POST,
                 "/api/resource-with-body/0x1f/contents",
-                map(HttpHeaderName.ACCEPT, MediaType.TEXT_PLAIN, HttpHeaderName.CONTENT_LENGTH, 2L, HttpHeaderName.CONTENT_TYPE, this.contentType()),
+                map(
+                        HttpHeaderName.ACCEPT,
+                        MediaType.TEXT_PLAIN,
+                        HttpHeaderName.CONTENT_LENGTH,
+                        2L,
+                        HttpHeaderName.CONTENT_TYPE,
+                        this.contentType()
+                ),
                 "{}",
                 HttpStatusCode.BAD_REQUEST.setMessage("Expected"),
                 HttpEntity.EMPTY
@@ -662,14 +683,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
         final MediaType contentType = this.contentType();
         final Map<HttpHeaderName<?>, List<?>> headers = Maps.sorted();
         headers.put(HttpHeaderName.ACCEPT, Lists.of(contentType.accept()));
-        headers.put(HttpHeaderName.ACCEPT_CHARSET, list(AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText())));
-        headers.put(HttpHeaderName.CONTENT_TYPE, list(contentType));
+        headers.put(HttpHeaderName.ACCEPT_CHARSET, Lists.of(new AcceptCharset[]{AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText())}));
+        headers.put(HttpHeaderName.CONTENT_TYPE, Lists.of(new MediaType[]{contentType}));
 
         final byte[] bodyBytes = bytes(body, contentType);
         if (null != bodyBytes && bodyBytes.length > 0) {
             headers.put(
                     HttpHeaderName.CONTENT_LENGTH,
-                    list(Long.valueOf(bodyBytes.length))
+                    Lists.of(new Long[]{Long.valueOf(bodyBytes.length)})
             );
         }
 
@@ -1362,7 +1383,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 .setHateosResourceHandler(LinkRelation.with("z1"), HttpMethod.POST, handler);
         return Cast.to(
                 HateosResourceMapping.router(
-                        this.baseUrl(),
+                        BASE_URL,
                         Sets.of(
                                 getMapping,
                                 mappingWithBody
@@ -1372,10 +1393,6 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         CONTEXT
                 )
         );
-    }
-
-    private AbsoluteUrl baseUrl() {
-        return Url.parseAbsolute("https://www.example.com/api");
     }
 
     // assumes a GET get-resource id
@@ -1405,7 +1422,19 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                     final int range = s.indexOf("-");
                     if (-1 != range) {
                         try {
-                            return HateosResourceSelection.range(Range.greaterThanEquals(parse(s.substring(0, range))).and(Range.lessThanEquals(parse(s.substring(range + 1)))));
+                            return HateosResourceSelection.range(
+                                    Range.greaterThanEquals(
+                                            parse(
+                                                    s.substring(0, range)
+                                            )
+                                    ).and(
+                                            Range.lessThanEquals(
+                                                    parse(
+                                                            s.substring(range + 1)
+                                                    )
+                                            )
+                                    )
+                            );
                         } catch (final RuntimeException cause) {
                             throw new IllegalArgumentException("Invalid range " + CharSequences.quoteAndEscape(s));
                         }
@@ -1423,7 +1452,9 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         }
                     }
 
-                    return HateosResourceSelection.one(parse(s));
+                    return HateosResourceSelection.one(
+                            parse(s)
+                    );
                 },
                 TestResource.class,
                 TestResource.class,
@@ -1445,22 +1476,28 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     private MediaType contentTypeUtf16() {
-        return this.contentType().setCharset(CharsetName.UTF_16);
+        return this.contentType()
+                .setCharset(CharsetName.UTF_16);
     }
 
     private String toJson(final Object resource) {
-        return this.marshallContext().marshall(resource).toString();
+        return this.marshallContext()
+                .marshall(resource).toString();
     }
 
     private HttpEntity httpEntity(final Object resource) {
-        return this.httpEntity(resource, this.contentType());
+        return this.httpEntity(
+                resource,
+                this.contentType()
+        );
     }
 
     private HttpEntity httpEntity(final Object resource,
                                   final MediaType contentType) {
         return this.httpEntity(
                 this.toJson(resource),
-                resource.getClass().getSimpleName(),
+                resource.getClass()
+                        .getSimpleName(),
                 contentType
         );
     }
@@ -1538,13 +1575,41 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                                final HttpStatus status,
                                final HttpEntity entity) {
         final Map<HttpHeaderName<?>, List<?>> headers = Maps.sorted();
-        headers.put(HttpHeaderName.ACCEPT, Lists.of(CONTENT_TYPE.accept()));
-        headers.put(HttpHeaderName.ACCEPT_CHARSET, list(AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText())));
-        headers.put(HttpHeaderName.CONTENT_TYPE, list(contentType));
+        headers.put(
+                HttpHeaderName.ACCEPT,
+                Lists.of(
+                        CONTENT_TYPE.accept()
+                )
+        );
+        headers.put(
+                HttpHeaderName.ACCEPT_CHARSET,
+                Lists.of(
+                        new AcceptCharset[]{
+                                AcceptCharset.parse(
+                                        MediaTypeParameterName.CHARSET.parameterValue(contentType)
+                                                .orElse(DEFAULT_CHARSET)
+                                                .toHeaderText()
+                                )
+                        }
+                )
+        );
+        headers.put(
+                HttpHeaderName.CONTENT_TYPE,
+                Lists.of(
+                        new MediaType[]{contentType}
+                )
+        );
 
         final byte[] bodyBytes = bytes(body, contentType);
         if (null != bodyBytes && bodyBytes.length > 0) {
-            headers.put(HttpHeaderName.CONTENT_LENGTH, list(Long.valueOf(bodyBytes.length)));
+            headers.put(
+                    HttpHeaderName.CONTENT_LENGTH,
+                    Lists.of(
+                            new Long[]{
+                                    Long.valueOf(bodyBytes.length)
+                            }
+                    )
+            );
         }
 
         this.routeAndCheck(
@@ -1611,23 +1676,42 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 body);
     }
 
-    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header, final Object value) {
-        return Maps.of(header, list(value));
+    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header,
+                                                final Object value) {
+        return Maps.of(
+                header,
+                Lists.of(
+                        new Object[]{value}
+                )
+        );
     }
 
-    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header1, final Object value1,
-                                                final HttpHeaderName<?> header2, final Object value2) {
-        return Maps.of(header1, list(value1), header2, list(value2));
+    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header1,
+                                                final Object value1,
+                                                final HttpHeaderName<?> header2,
+                                                final Object value2) {
+        return Maps.of(
+                header1,
+                Lists.of(new Object[]{value1}),
+                header2,
+                Lists.of(new Object[]{value2})
+        );
     }
 
-    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header1, final Object value1,
-                                                final HttpHeaderName<?> header2, final Object value2,
-                                                final HttpHeaderName<?> header3, final Object value3) {
-        return Maps.of(header1, list(value1), header2, list(value2), header3, list(value3));
-    }
-
-    private <T> List<T> list(final T... values) {
-        return Lists.of(values);
+    private Map<HttpHeaderName<?>, List<?>> map(final HttpHeaderName<?> header1,
+                                                final Object value1,
+                                                final HttpHeaderName<?> header2,
+                                                final Object value2,
+                                                final HttpHeaderName<?> header3,
+                                                final Object value3) {
+        return Maps.of(
+                header1,
+                Lists.of(new Object[]{value1}),
+                header2,
+                Lists.of(new Object[]{value2}),
+                header3,
+                Lists.of(new Object[]{value3})
+        );
     }
 
     private HttpRequest request(final HttpMethod method,
@@ -1687,7 +1771,14 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                         .query()
                         .parameters()
                         .entrySet()
-                        .forEach(e -> parameters.put(HttpRequestParameterName.with(e.getKey().value()), e.getValue()));
+                        .forEach(e -> parameters.put(
+                                        HttpRequestParameterName.with(
+                                                e.getKey()
+                                                        .value()
+                                        ),
+                                        e.getValue()
+                                )
+                        );
 
                 return parameters;
             }
