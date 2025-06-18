@@ -31,13 +31,13 @@ import java.util.Optional;
 /**
  * The id type is {@link BigInteger} just to be different from {@link String}.
  */
-public final class TestHateosResource extends FakeHateosResource<BigInteger> {
+public final class TestHateosResource4 extends FakeHateosResource<BigInteger> {
 
-    static TestHateosResource with(final BigInteger id) {
-        return new TestHateosResource(id);
+    static TestHateosResource4 with(final BigInteger id) {
+        return new TestHateosResource4(id);
     }
 
-    private TestHateosResource(final BigInteger id) {
+    private TestHateosResource4(final BigInteger id) {
         super();
         this.id = id;
     }
@@ -56,8 +56,8 @@ public final class TestHateosResource extends FakeHateosResource<BigInteger> {
 
     // JsonNodeContext...................................................................................................
 
-    static TestHateosResource unmarshall(final JsonNode node,
-                                         final JsonNodeUnmarshallContext context) {
+    static TestHateosResource4 unmarshall(final JsonNode node,
+                                          final JsonNodeUnmarshallContext context) {
         return with(context.unmarshall(node.objectOrFail().getOrFail(ID), BigInteger.class));
     }
 
@@ -69,10 +69,10 @@ public final class TestHateosResource extends FakeHateosResource<BigInteger> {
     private final static JsonPropertyName ID = JsonPropertyName.with("id");
 
     static {
-        JsonNodeContext.register("test-HateosResource",
-                TestHateosResource::unmarshall,
-                TestHateosResource::marshall,
-                TestHateosResource.class);
+        JsonNodeContext.register("test-HateosResource4",
+                TestHateosResource4::unmarshall,
+                TestHateosResource4::marshall,
+                TestHateosResource4.class);
     }
 
     // Object...........................................................................................................
@@ -84,10 +84,10 @@ public final class TestHateosResource extends FakeHateosResource<BigInteger> {
 
     @Override
     public boolean equals(final Object other) {
-        return this == other || other instanceof TestHateosResource && equals0(Cast.to(other));
+        return this == other || other instanceof TestHateosResource4 && equals0(Cast.to(other));
     }
 
-    private boolean equals0(final TestHateosResource other) {
+    private boolean equals0(final TestHateosResource4 other) {
         return this.id().equals(other.id());
     }
 

@@ -18,6 +18,7 @@
 package test;
 
 import walkingkooka.Cast;
+import walkingkooka.net.http.server.hateos.HateosResource;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
@@ -26,13 +27,13 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 /**
  * A simple container for the actual {@link HateosResource}.
  */
-public final class TestResource2 {
+public final class TestResource4 {
 
-    static TestResource2 with(final Object value) {
-        return new TestResource2(value);
+    static TestResource4 with(final Object value) {
+        return new TestResource4(value);
     }
 
-    private TestResource2(final Object value) {
+    private TestResource4(final Object value) {
         super();
         this.value = value;
     }
@@ -41,7 +42,7 @@ public final class TestResource2 {
 
     // JsonNodeContext...................................................................................................
 
-    static TestResource2 unmarshall(final JsonNode node,
+    static TestResource4 unmarshall(final JsonNode node,
                                     final JsonNodeUnmarshallContext context) {
         return with(context.unmarshallWithType(node));
     }
@@ -51,10 +52,10 @@ public final class TestResource2 {
     }
 
     static {
-        JsonNodeContext.register("testResource2",
-                TestResource2::unmarshall,
-                TestResource2::marshall,
-                TestResource2.class);
+        JsonNodeContext.register("testResource4",
+                TestResource4::unmarshall,
+                TestResource4::marshall,
+                TestResource4.class);
     }
 
     // Object...........................................................................................................
@@ -66,10 +67,10 @@ public final class TestResource2 {
 
     @Override
     public boolean equals(final Object other) {
-        return this == other || other instanceof TestResource2 && equals0(Cast.to(other));
+        return this == other || other instanceof TestResource4 && equals0(Cast.to(other));
     }
 
-    private boolean equals0(final TestResource2 other) {
+    private boolean equals0(final TestResource4 other) {
         return this.value.equals(other.value);
     }
 

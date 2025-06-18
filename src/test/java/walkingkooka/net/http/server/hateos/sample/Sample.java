@@ -17,6 +17,7 @@
 
 package walkingkooka.net.http.server.hateos.sample;
 
+import org.junit.jupiter.api.Test;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
@@ -69,6 +70,7 @@ public class Sample {
         sample.testHateosResourceMapping();
     }
 
+    @Test
     public void testAssertEquals() {
         checkEquals(
                 1,
@@ -76,6 +78,7 @@ public class Sample {
         );
     }
 
+    @Test
     public void testHateosResourceName() {
         final String name = "name123";
 
@@ -86,18 +89,22 @@ public class Sample {
         );
     }
 
+    @Test
     public void testNewHateosHandler() {
         new FakeHateosResourceHandler<String, String, Collection<String>, TestHateosResourceHandlerContext>() {
         };
     }
 
+    @Test
     public void testNewHateosResource() {
         new FakeHateosResource<String>() {
         };
     }
 
+    @Test
     public void testHateosResourceMapping() {
-        final HateosResourceMapping<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(HateosResourceName.with("resource1"),
+        final HateosResourceMapping<BigInteger, TestResource3, TestResource3, TestHateosResource3, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
+                HateosResourceName.with("resource1"),
                 (s, x) -> {
                     return HateosResourceSelection.one(
                             BigInteger.valueOf(
@@ -108,22 +115,22 @@ public class Sample {
                             )
                     ); // assumes hex digit in url
                 },
-                TestResource.class,
-                TestResource.class,
-                TestHateosResource.class,
+                TestResource3.class,
+                TestResource3.class,
+                TestHateosResource3.class,
                 TestHateosResourceHandlerContext.class
         ).setHateosResourceHandler(
                 LinkRelation.CONTENTS,
                 HttpMethod.POST,
                 new FakeHateosResourceHandler<>() {
                     @Override
-                    public Optional<TestResource> handleOne(final BigInteger id,
-                                                            final Optional<TestResource> resource,
-                                                            final Map<HttpRequestAttribute<?>, Object> parameters,
-                                                            final TestHateosResourceHandlerContext context) {
+                    public Optional<TestResource3> handleOne(final BigInteger id,
+                                                             final Optional<TestResource3> resource,
+                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                             final TestHateosResourceHandlerContext context) {
                         return Optional.of(
-                                TestResource.with(
-                                        TestHateosResource.with(
+                                TestResource3.with(
+                                        TestHateosResource3.with(
                                                 BigInteger.valueOf(31)
                                         )
                                 )
@@ -198,7 +205,7 @@ public class Sample {
         httpHandler.handle(request, response);
         checkEquals(
                 "{\n" +
-                        "  \"type\": \"test-HateosResource\",\n" +
+                        "  \"type\": \"test-HateosResource3\",\n" +
                         "  \"value\": {\n" +
                         "    \"id\": \"31\"\n" +
                         "  }\n" +
@@ -216,16 +223,16 @@ public class Sample {
         return BigInteger::new;
     }
 
-    private Class<TestResource> valueType() {
-        return TestResource.class;
+    private Class<TestResource3> valueType() {
+        return TestResource3.class;
     }
 
-    private Class<TestResource2> collectionType() {
-        return TestResource2.class;
+    private Class<TestResource4> collectionType() {
+        return TestResource4.class;
     }
 
-    private Class<TestHateosResource> resourceType() {
-        return TestHateosResource.class;
+    private Class<TestHateosResource3> resourceType() {
+        return TestHateosResource3.class;
     }
 
     static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
