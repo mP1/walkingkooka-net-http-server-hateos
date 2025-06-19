@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
@@ -44,6 +45,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
      */
     HttpEntity handleAll(final HttpEntity entity,
                          final Map<HttpRequestAttribute<?>, Object> parameters,
+                         final UrlPath path,
                          final X context);
 
     /**
@@ -55,6 +57,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     HttpEntity handleMany(final Set<I> ids,
                           final HttpEntity entity,
                           final Map<HttpRequestAttribute<?>, Object> parameters,
+                          final UrlPath path,
                           final X context);
 
     /**
@@ -66,6 +69,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     HttpEntity handleOne(final I id,
                          final HttpEntity entity,
                          final Map<HttpRequestAttribute<?>, Object> parameters,
+                         final UrlPath path,
                          final X context);
 
     /**
@@ -76,6 +80,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
      */
     HttpEntity handleNone(final HttpEntity entity,
                           final Map<HttpRequestAttribute<?>, Object> parameters,
+                          final UrlPath path,
                           final X context);
 
     /**
@@ -87,6 +92,7 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     HttpEntity handleRange(final Range<I> range,
                            final HttpEntity entity,
                            final Map<HttpRequestAttribute<?>, Object> parameters,
+                           final UrlPath path,
                            final X context);
 
     // parameter checkers...............................................................................................
@@ -124,6 +130,25 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
      */
     static Map<HttpRequestAttribute<?>, Object> checkParameters(final Map<HttpRequestAttribute<?>, Object> parameters) {
         return Objects.requireNonNull(parameters, "parameters");
+    }
+
+    /**
+     * Checks that the {@link UrlPath} is present and not null.
+     */
+    static UrlPath checkPath(final UrlPath path) {
+        return Objects.requireNonNull(path, "path");
+    }
+
+    /**
+     * Checks that the {@link UrlPath} is present and not empty.
+     */
+    static UrlPath checkPathEmpty(final UrlPath path) {
+        checkPath(path);
+
+        if (false == path.equals(UrlPath.EMPTY)) {
+            throw new IllegalArgumentException("Path must not be empty");
+        }
+        return path;
     }
 
     /**

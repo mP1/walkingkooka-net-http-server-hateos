@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.Range;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.reflect.ClassTesting2;
@@ -40,13 +41,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
         TreePrintableTesting,
         TypeNameTesting<H> {
 
-// handleAll.......................................................................................................
+    // handleAll........................................................................................................
 
     @Test
     default void testHandleAllWithNullEntityFails() {
         this.handleAllFails(
                 null,
                 HateosHttpEntityHandler.NO_PARAMETERS,
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -56,6 +58,18 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default void testHandleAllWithNullParametersFails() {
         this.handleAllFails(
                 this.entity(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleAllWithNullPathFails() {
+        this.handleAllFails(
+                this.entity(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -67,6 +81,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
         this.handleAllFails(
                 this.entity(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -74,12 +89,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
 
     default <T extends Throwable> T handleAllFails(final HttpEntity entity,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final UrlPath path,
                                                    final X context,
                                                    final Class<T> thrown) {
         return this.handleAllFails(
                 this.createHandler(),
                 entity,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -88,6 +105,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default <T extends Throwable> T handleAllFails(final HateosHttpEntityHandler<I, X> handler,
                                                    final HttpEntity entity,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final UrlPath path,
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
@@ -95,6 +113,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 () -> handler.handleAll(
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -102,12 +121,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
 
     default void handleAllAndCheck(final HttpEntity entity,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context,
                                    final HttpEntity expected) {
         this.handleAllAndCheck(
                 this.createHandler(),
                 entity,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -116,6 +137,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default void handleAllAndCheck(final HateosHttpEntityHandler<I, X> handler,
                                    final HttpEntity entity,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context,
                                    final HttpEntity expected) {
         this.checkEquals(
@@ -123,6 +145,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 handler.handleAll(
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -136,6 +159,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 this.manyIds(),
                 null,
                 HateosHttpEntityHandler.NO_PARAMETERS,
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -146,6 +170,19 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
         this.handleManyFails(
                 this.manyIds(),
                 this.entity(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleManyWithNullPathFails() {
+        this.handleManyFails(
+                this.manyIds(),
+                this.entity(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -158,6 +195,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 this.manyIds(),
                 this.entity(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -166,6 +204,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default <T extends Throwable> T handleManyFails(final Set<I> ids,
                                                     final HttpEntity entity,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final UrlPath path,
                                                     final X context,
                                                     final Class<T> thrown) {
         return this.handleManyFails(
@@ -173,6 +212,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 ids,
                 entity,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -182,6 +222,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                     final Set<I> ids,
                                                     final HttpEntity entity,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final UrlPath path,
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
@@ -190,6 +231,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                         ids,
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -198,6 +240,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default void handleManyAndCheck(final Set<I> ids,
                                     final HttpEntity entity,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context,
                                     final HttpEntity expected) {
         this.handleManyAndCheck(
@@ -205,6 +248,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 ids,
                 entity,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -214,6 +258,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                     final Set<I> ids,
                                     final HttpEntity entity,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context,
                                     final HttpEntity expected) {
         this.checkEquals(
@@ -222,18 +267,20 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                         ids,
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
     }
 
-// handleNone.......................................................................................................
+    // handleNone.......................................................................................................
 
     @Test
     default void testHandleNoneWithNullEntityFails() {
         this.handleNoneFails(
                 null,
-                HateosHttpEntityHandler.NO_PARAMETERS,
+                this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -243,6 +290,18 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default void testHandleNoneWithNullParametersFails() {
         this.handleNoneFails(
                 this.entity(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleNoneWithNullPathFails() {
+        this.handleNoneFails(
+                this.entity(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -254,6 +313,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
         this.handleNoneFails(
                 this.entity(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -261,12 +321,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
 
     default <T extends Throwable> T handleNoneFails(final HttpEntity entity,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final UrlPath path,
                                                     final X context,
                                                     final Class<T> thrown) {
         return this.handleNoneFails(
                 this.createHandler(),
                 entity,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -275,6 +337,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default <T extends Throwable> T handleNoneFails(final HateosHttpEntityHandler<I, X> handler,
                                                     final HttpEntity entity,
                                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                    final UrlPath path,
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
@@ -282,6 +345,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 () -> handler.handleNone(
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -289,12 +353,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
 
     default void handleNoneAndCheck(final HttpEntity entity,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context,
                                     final HttpEntity expected) {
         this.handleNoneAndCheck(
                 this.createHandler(),
                 entity,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -303,6 +369,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default void handleNoneAndCheck(final HateosHttpEntityHandler<I, X> handler,
                                     final HttpEntity entity,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context,
                                     final HttpEntity expected) {
         this.checkEquals(
@@ -310,19 +377,21 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 handler.handleNone(
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
     }
 
-// handleOne........................................................................................................
+    // handleOne........................................................................................................
 
     @Test
     default void testHandleOneWithNullEntityFails() {
         this.handleOneFails(
                 this.id(),
                 null,
-                HateosHttpEntityHandler.NO_PARAMETERS,
+                this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -333,6 +402,19 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
         this.handleOneFails(
                 this.id(),
                 this.entity(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleOneWithNullPathFails() {
+        this.handleOneFails(
+                this.id(),
+                this.entity(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -345,6 +427,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 this.id(),
                 this.entity(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -353,6 +436,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default <T extends Throwable> T handleOneFails(final I id,
                                                    final HttpEntity entity,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final UrlPath path,
                                                    final X context,
                                                    final Class<T> thrown) {
         return this.handleOneFails(
@@ -360,6 +444,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 id,
                 entity,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -369,6 +454,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                    final I id,
                                                    final HttpEntity entity,
                                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                   final UrlPath path,
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
@@ -377,6 +463,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                         id,
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -385,6 +472,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default void handleOneAndCheck(final I id,
                                    final HttpEntity entity,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context,
                                    final HttpEntity expected) {
         this.handleOneAndCheck(
@@ -392,6 +480,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 id,
                 entity,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -401,6 +490,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                    final I id,
                                    final HttpEntity entity,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context,
                                    final HttpEntity expected) {
         this.checkEquals(
@@ -409,19 +499,21 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                         id,
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
     }
 
-// handleRange......................................................................................................
+    // handleRange......................................................................................................
 
     @Test
     default void testHandleRangeWithNullIdsFails() {
         this.handleRangeFails(
                 null,
                 this.entity(),
-                HateosHttpEntityHandler.NO_PARAMETERS,
+                this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -432,7 +524,8 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
         this.handleRangeFails(
                 this.range(),
                 null,
-                HateosHttpEntityHandler.NO_PARAMETERS,
+                this.parameters(),
+                this.path(),
                 this.context(),
                 NullPointerException.class
         );
@@ -443,6 +536,19 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
         this.handleRangeFails(
                 this.range(),
                 this.entity(),
+                null,
+                this.path(),
+                this.context(),
+                NullPointerException.class
+        );
+    }
+
+    @Test
+    default void testHandleRangeWithNullPathFails() {
+        this.handleRangeFails(
+                this.range(),
+                this.entity(),
+                this.parameters(),
                 null,
                 this.context(),
                 NullPointerException.class
@@ -455,6 +561,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 this.range(),
                 this.entity(),
                 this.parameters(),
+                this.path(),
                 null,
                 NullPointerException.class
         );
@@ -463,6 +570,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default <T extends Throwable> T handleRangeFails(final Range<I> ids,
                                                      final HttpEntity entity,
                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final UrlPath path,
                                                      final X context,
                                                      final Class<T> thrown) {
         return this.handleRangeFails(
@@ -470,6 +578,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 ids,
                 entity,
                 parameters,
+                path,
                 context,
                 thrown
         );
@@ -479,6 +588,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                      final Range<I> ids,
                                                      final HttpEntity entity,
                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                     final UrlPath path,
                                                      final X context,
                                                      final Class<T> thrown) {
         return assertThrows(
@@ -487,6 +597,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                         ids,
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -495,6 +606,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     default void handleRangeAndCheck(final Range<I> ids,
                                      final HttpEntity entity,
                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                     final UrlPath path,
                                      final X context,
                                      final HttpEntity expected) {
         this.handleRangeAndCheck(
@@ -502,6 +614,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                 ids,
                 entity,
                 parameters,
+                path,
                 context,
                 expected
         );
@@ -511,6 +624,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                      final Range<I> ids,
                                      final HttpEntity entity,
                                      final Map<HttpRequestAttribute<?>, Object> parameters,
+                                     final UrlPath path,
                                      final X context,
                                      final HttpEntity expected) {
         this.checkEquals(
@@ -519,6 +633,7 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                         ids,
                         entity,
                         parameters,
+                        path,
                         context
                 )
         );
@@ -537,6 +652,8 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     HttpEntity entity();
 
     Map<HttpRequestAttribute<?>, Object> parameters();
+
+    UrlPath path();
 
     X context();
 }

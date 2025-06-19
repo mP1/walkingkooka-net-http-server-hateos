@@ -17,6 +17,8 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.net.UrlPath;
+
 import java.util.Objects;
 
 final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosResourceMappingHandler {
@@ -35,10 +37,12 @@ final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosRe
     void handle(final HateosResourceMappingRouterHttpHandlerRequest request,
                 final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                 final HateosResourceSelection<?> selection,
+                final UrlPath path,
                 final HateosResourceHandlerContext context) {
         request.handleHateosHttpEntityHandler(
                 this.handler,
                 selection,
+                path,
                 context
         );
     }

@@ -17,6 +17,8 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.net.UrlPath;
+
 /**
  * A simple wrapper to hold either a {@link HateosHttpEntityHandler} or {@link HateosResourceHandler}
  */
@@ -44,5 +46,6 @@ abstract class HateosResourceMappingHandler {
     abstract void handle(final HateosResourceMappingRouterHttpHandlerRequest request,
                          final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                          final HateosResourceSelection<?> selection,
+                         final UrlPath path,
                          final HateosResourceHandlerContext context);
 }

@@ -118,6 +118,7 @@ public class JunitTest {
                     public Optional<TestResource3> handleOne(final BigInteger id,
                                                              final Optional<TestResource3> resource,
                                                              final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                             final UrlPath path,
                                                              final TestHateosResourceHandlerContext context) {
                         return Optional.of(
                                 TestResource3.with(

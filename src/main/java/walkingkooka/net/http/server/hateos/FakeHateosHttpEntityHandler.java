@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
@@ -28,9 +29,11 @@ public class FakeHateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     @Override
     public HttpEntity handleAll(final HttpEntity entity,
                                 final Map<HttpRequestAttribute<?>, Object> parameters,
+                                final UrlPath path,
                                 final X context) {
         HateosHttpEntityHandler.checkHttpEntity(entity);
         HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkPath(path);
         HateosHttpEntityHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
@@ -40,10 +43,12 @@ public class FakeHateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     public HttpEntity handleMany(final Set<I> ids,
                                  final HttpEntity entity,
                                  final Map<HttpRequestAttribute<?>, Object> parameters,
+                                 final UrlPath path,
                                  final X context) {
         HateosHttpEntityHandler.checkManyIds(ids);
         HateosHttpEntityHandler.checkHttpEntity(entity);
         HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkPath(path);
         HateosHttpEntityHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
@@ -53,10 +58,12 @@ public class FakeHateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     public HttpEntity handleOne(final I id,
                                 final HttpEntity entity,
                                 final Map<HttpRequestAttribute<?>, Object> parameters,
+                                final UrlPath path,
                                 final X context) {
         HateosHttpEntityHandler.checkId(id);
         HateosHttpEntityHandler.checkHttpEntity(entity);
         HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkPath(path);
         HateosHttpEntityHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
@@ -65,9 +72,11 @@ public class FakeHateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     @Override
     public HttpEntity handleNone(final HttpEntity entity,
                                  final Map<HttpRequestAttribute<?>, Object> parameters,
+                                 final UrlPath path,
                                  final X context) {
         HateosHttpEntityHandler.checkHttpEntity(entity);
         HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkPath(path);
         HateosHttpEntityHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
@@ -77,10 +86,12 @@ public class FakeHateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     public HttpEntity handleRange(final Range<I> range,
                                   final HttpEntity entity,
                                   final Map<HttpRequestAttribute<?>, Object> parameters,
+                                  final UrlPath path,
                                   final X context) {
         HateosHttpEntityHandler.checkIdRange(range);
         HateosHttpEntityHandler.checkHttpEntity(entity);
         HateosHttpEntityHandler.checkParameters(parameters);
+        HateosHttpEntityHandler.checkPath(path);
         HateosHttpEntityHandler.checkContext(context);
 
         throw new UnsupportedOperationException();

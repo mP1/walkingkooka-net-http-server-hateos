@@ -18,13 +18,14 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * A {@link HateosResourceHandler#handleRange(Range, Optional, Map, HateosResourceHandlerContext)} that throws {@link UnsupportedOperationException}.
+ * A {@link HateosResourceHandler#handleRange(Range, Optional, Map, UrlPath, HateosResourceHandlerContext)} that throws {@link UnsupportedOperationException}.
  */
 public interface UnsupportedHateosResourceHandlerHandleRange<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> extends HateosResourceHandler<I, V, C, X> {
 
@@ -32,10 +33,12 @@ public interface UnsupportedHateosResourceHandlerHandleRange<I extends Comparabl
     default Optional<C> handleRange(final Range<I> range,
                                     final Optional<C> resource,
                                     final Map<HttpRequestAttribute<?>, Object> parameters,
+                                    final UrlPath path,
                                     final X context) {
         HateosResourceHandler.checkIdRange(range);
         HateosResourceHandler.checkResource(resource);
         HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkPathEmpty(path);
         HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();

@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.Map;
@@ -47,6 +48,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
      */
     Optional<C> handleAll(final Optional<C> resource,
                           final Map<HttpRequestAttribute<?>, Object> parameters,
+                          final UrlPath path,
                           final X context);
 
     /**
@@ -58,6 +60,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
     Optional<C> handleMany(final Set<I> ids,
                            final Optional<C> resource,
                            final Map<HttpRequestAttribute<?>, Object> parameters,
+                           final UrlPath path,
                            final X context);
 
     /**
@@ -69,6 +72,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
     Optional<V> handleOne(final I id,
                           final Optional<V> resource,
                           final Map<HttpRequestAttribute<?>, Object> parameters,
+                          final UrlPath path,
                           final X context);
 
     /**
@@ -79,6 +83,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
      */
     Optional<V> handleNone(final Optional<V> resource,
                            final Map<HttpRequestAttribute<?>, Object> parameters,
+                           final UrlPath path,
                            final X context);
 
     /**
@@ -90,6 +95,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
     Optional<C> handleRange(final Range<I> range,
                             final Optional<C> resource,
                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                            final UrlPath path,
                             final X context);
 
     // parameter checkers...............................................................................................
@@ -146,6 +152,25 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
      */
     static Map<HttpRequestAttribute<?>, Object> checkParameters(final Map<HttpRequestAttribute<?>, Object> parameters) {
         return Objects.requireNonNull(parameters, "parameters");
+    }
+
+    /**
+     * Checks that the {@link UrlPath} is present and not null.
+     */
+    static UrlPath checkPath(final UrlPath path) {
+        return Objects.requireNonNull(path, "path");
+    }
+
+    /**
+     * Checks that the {@link UrlPath} is present and not empty.
+     */
+    static UrlPath checkPathEmpty(final UrlPath path) {
+        checkPath(path);
+
+        if (false == path.equals(UrlPath.EMPTY)) {
+            throw new IllegalArgumentException("Path must not be empty");
+        }
+        return path;
     }
 
     /**

@@ -21,6 +21,7 @@ import walkingkooka.Binary;
 import walkingkooka.Cast;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.ToStringBuilderOption;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.AcceptCharset;
@@ -180,7 +181,8 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             this.methodSupportedChallengeAndDispatch(
                     mapping,
                     selection,
-                    relation
+                    relation,
+                    pathIndex
             );
         }
     }
@@ -220,7 +222,8 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
      */
     private void methodSupportedChallengeAndDispatch(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                                      final HateosResourceSelection<?> selection,
-                                                     final LinkRelation<?> relation) {
+                                                     final LinkRelation<?> relation,
+                                                     final int pathIndex) {
         final HttpMethod method = this.request.method();
 
         final List<HttpMethod> supportedMethods = mapping.relationToMethods.get(relation);
@@ -237,7 +240,8 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                         mapping,
                         selection,
                         relation,
-                        method
+                        method,
+                        pathIndex
                 );
             } else {
                 this.methodNotAllowed(
@@ -284,17 +288,35 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     private void locateHandlerAndHandle(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                         final HateosResourceSelection<?> selection,
                                         final LinkRelation<?> relation,
-                                        final HttpMethod method) {
+                                        final HttpMethod method,
+                                        final int pathIndex) {
         final HateosResourceMappingHandler handler = this.handlerOrNotFound(
                 mapping,
                 relation,
                 method
         );
         if (null != handler) {
+            UrlPath extraPath = null;
+
+            int i = 0;
+            for (final UrlPathName path : this.request.url().path()) {
+                if (i > pathIndex) {
+                    extraPath = (
+                            null == extraPath ?
+                                    UrlPath.ROOT :
+                                    extraPath
+                    ).append(path);
+                }
+                i++;
+            }
+
             handler.handle(
                     this,
                     mapping,
                     selection,
+                    null != extraPath ?
+                            extraPath.normalize() :
+                            UrlPath.EMPTY,
                     this.context
             );
         }
@@ -338,11 +360,13 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
     void handleHateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler,
                                        final HateosResourceSelection<?> selection,
+                                       final UrlPath path,
                                        final HateosResourceHandlerContext context) {
         final HttpEntity responseHttpEntity = selection.handleHateosHttpEntityHandler(
                 Cast.to(handler),
                 this.httpEntity(),
                 this.parameters,
+                path,
                 context
         );
 
@@ -371,6 +395,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     void handleHateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler,
                                      final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                      final HateosResourceSelection<?> selection,
+                                     final UrlPath path,
                                      final HateosResourceHandlerContext context) {
         final Optional<?> resource = this.parseBodyOrBadRequest(mapping, selection);
         if (null != resource) {
@@ -380,6 +405,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
                         Cast.to(handler),
                         resource,
                         this.parameters,
+                        path,
                         context
                 );
                 String responseText = null;

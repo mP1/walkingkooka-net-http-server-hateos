@@ -17,22 +17,25 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * A {@link HateosResourceHandler#handleNone(Optional, Map, HateosResourceHandlerContext)} that throws {@link UnsupportedOperationException}.
+ * A {@link HateosResourceHandler#handleNone(Optional, Map, UrlPath, HateosResourceHandlerContext)} that throws {@link UnsupportedOperationException}.
  */
 public interface UnsupportedHateosResourceHandlerHandleNone<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> extends HateosResourceHandler<I, V, C, X> {
 
     @Override
     default Optional<V> handleNone(final Optional<V> resource,
                                    final Map<HttpRequestAttribute<?>, Object> parameters,
+                                   final UrlPath path,
                                    final X context) {
         HateosResourceHandler.checkResource(resource);
         HateosResourceHandler.checkParameters(parameters);
+        HateosResourceHandler.checkPath(path);
         HateosResourceHandler.checkContext(context);
 
         throw new UnsupportedOperationException();

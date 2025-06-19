@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Cast;
+import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
@@ -40,10 +41,12 @@ final class HateosResourceSelectionNone<I extends Comparable<I>> extends HateosR
     HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I, ?> handler,
                                              final HttpEntity entity,
                                              final Map<HttpRequestAttribute<?>, Object> parameters,
+                                             final UrlPath path,
                                              final HateosResourceHandlerContext context) {
         return handler.handleNone(
                 entity,
                 parameters,
+                path,
                 Cast.to(context)
         );
     }
@@ -52,10 +55,12 @@ final class HateosResourceSelectionNone<I extends Comparable<I>> extends HateosR
     Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?, ?> handler,
                                             final Optional<?> resource,
                                             final Map<HttpRequestAttribute<?>, Object> parameters,
+                                            final UrlPath path,
                                             final HateosResourceHandlerContext context) {
         return handler.handleNone(
                 Cast.to(resource),
                 parameters,
+                path,
                 Cast.to(context)
         );
     }
