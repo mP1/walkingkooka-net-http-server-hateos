@@ -1311,8 +1311,18 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     }
 
     @Test
-    public void testSetHateosHttpEntityHandlerAndRoute() {
+    public void testSetHateosHttpEntityHandler() {
         this.setHateosHttpEntityHandlerAndRouteWithPathAndCheck(
+                LinkRelation.SELF,
+                "/api/resource-with-body/0x123",
+                ""
+        );
+    }
+
+    @Test
+    public void testSetHateosHttpEntityHandlerWithLinkRelation() {
+        this.setHateosHttpEntityHandlerAndRouteWithPathAndCheck(
+                LinkRelation.CONTENTS,
                 "/api/resource-with-body/0x123/contents",
                 ""
         );
@@ -1321,20 +1331,32 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
     @Test
     public void testSetHateosHttpEntityHandlerAndRouteWithPath() {
         this.setHateosHttpEntityHandlerAndRouteWithPathAndCheck(
+                LinkRelation.SELF,
+                "/api/resource-with-body/0x123/",
+                "/"
+        );
+    }
+
+    @Test
+    public void testSetHateosHttpEntityHandlerAndRouteWithLinkRelationAndPath() {
+        this.setHateosHttpEntityHandlerAndRouteWithPathAndCheck(
+                LinkRelation.CONTENTS,
                 "/api/resource-with-body/0x123/contents/",
                 "/"
         );
     }
 
     @Test
-    public void testSetHateosHttpEntityHandlerAndRouteWithPath2() {
+    public void testSetHateosHttpEntityHandlerAndRouteWithLinkRelationAndPath2() {
         this.setHateosHttpEntityHandlerAndRouteWithPathAndCheck(
+                LinkRelation.CONTENTS,
                 "/api/resource-with-body/0x123/contents/path1/path2",
                 "/path1/path2"
         );
     }
 
-    private void setHateosHttpEntityHandlerAndRouteWithPathAndCheck(final String requestUrl,
+    private void setHateosHttpEntityHandlerAndRouteWithPathAndCheck(final LinkRelation linkRelation,
+                                                                    final String requestUrl,
                                                                     final String handlerPath) {
         final MediaType mediaType = MediaType.TEXT_PLAIN;
 
@@ -1355,7 +1377,7 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
                 TestHateosResource.class,
                 TestHateosResourceHandlerContext.class
         ).setHateosHttpEntityHandler(
-                LinkRelation.CONTENTS,
+                linkRelation,
                 HttpMethod.POST,
                 new FakeHateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext>() {
                     @Override
@@ -1455,6 +1477,12 @@ public final class HateosResourceMappingRouterTest extends HateosResourceMapping
 
         final HttpResponse response = HttpResponses.recording();
         httpHandler.handle(request, response);
+
+        this.checkEquals(
+                Optional.of(HttpStatusCode.OK.status()),
+                response.status()
+        );
+
         this.checkEquals(
                 "291\n" + // 0x123
                         "RequestBodyText123",

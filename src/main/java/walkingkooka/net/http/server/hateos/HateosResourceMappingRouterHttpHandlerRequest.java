@@ -176,22 +176,8 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     private void linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
                                                                                final HateosResourceSelection<?> selection,
                                                                                final int pathIndex) {
-        final LinkRelation<?> relation = this.linkRelationOrDefaultOrResponseBadRequest(pathIndex);
-        if (null != relation) {
-            this.methodSupportedChallengeAndDispatch(
-                    mapping,
-                    selection,
-                    relation,
-                    pathIndex
-            );
-        }
-    }
-
-    /**
-     * If not empty parse the relation otherwise return a default of {@link LinkRelation#SELF}, a null indicates an invalid relation.
-     */
-    private LinkRelation<?> linkRelationOrDefaultOrResponseBadRequest(final int pathIndex) {
         LinkRelation<?> relation = LinkRelation.SELF;
+        boolean defaultLinkRelation = true;
 
         final Optional<UrlPathName> relationPath = HttpRequestAttributes.pathComponent(pathIndex)
                 .parameterValue(this.parameters);
@@ -201,6 +187,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             if (!CharSequences.isNullOrEmpty(relationString)) {
                 try {
                     relation = LinkRelation.with(relationString);
+                    defaultLinkRelation = false;
                 } catch (final RuntimeException invalid) {
                     relation = null;
 
@@ -214,7 +201,16 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             }
         }
 
-        return relation;
+        if (null != relation) {
+            this.methodSupportedChallengeAndDispatch(
+                    mapping,
+                    selection,
+                    relation,
+                    defaultLinkRelation ?
+                            pathIndex - 1 :
+                            pathIndex
+            );
+        }
     }
 
     /**
@@ -299,7 +295,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
             UrlPath extraPath = null;
 
             int i = 0;
-            for (final UrlPathName path : this.request.url().path()) {
+            for (final UrlPathName path : this.request.url().path().normalize()) {
                 if (i > pathIndex) {
                     extraPath = (
                             null == extraPath ?
