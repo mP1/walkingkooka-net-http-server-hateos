@@ -41,7 +41,7 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithNullMessage() {
-        this.dispatchSelectionExtratorThrowsAndCheck(
+        this.dispatchSelectionExtractorThrowsAndCheck(
                 null,
                 "Bad request"
         );
@@ -49,7 +49,7 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithEmptyMessage() {
-        this.dispatchSelectionExtratorThrowsAndCheck(
+        this.dispatchSelectionExtractorThrowsAndCheck(
                 "",
                 "Bad request"
         );
@@ -57,7 +57,7 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithNonEmptyMessage() {
-        this.dispatchSelectionExtratorThrowsAndCheck(
+        this.dispatchSelectionExtractorThrowsAndCheck(
                 "Message123",
                 "Message123"
         );
@@ -65,13 +65,13 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithMultilineMessage() {
-        this.dispatchSelectionExtratorThrowsAndCheck(
+        this.dispatchSelectionExtractorThrowsAndCheck(
                 "Line1\nLine2\nLine3",
                 "Line1"
         );
     }
 
-    private void dispatchSelectionExtratorThrowsAndCheck(final String throwMessage,
+    private void dispatchSelectionExtractorThrowsAndCheck(final String throwMessage,
                                                          final String expected) {
         final HttpResponse response = HttpResponses.recording();
 
