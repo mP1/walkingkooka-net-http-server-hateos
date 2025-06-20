@@ -41,7 +41,7 @@ import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.net.http.server.hateos.FakeHateosResourceHandler;
 import walkingkooka.net.http.server.hateos.FakeHateosResourceHandlerContext;
-import walkingkooka.net.http.server.hateos.HateosResourceMapping;
+import walkingkooka.net.http.server.hateos.HateosResourceMappings;
 import walkingkooka.net.http.server.hateos.HateosResourceName;
 import walkingkooka.net.http.server.hateos.HateosResourceSelection;
 import walkingkooka.route.Router;
@@ -103,7 +103,7 @@ public class Sample {
 
     @Test
     public void testHateosResourceMapping() {
-        final HateosResourceMapping<BigInteger, TestResource3, TestResource3, TestHateosResource3, TestHateosResourceHandlerContext> mapping = HateosResourceMapping.with(
+        final HateosResourceMappings<BigInteger, TestResource3, TestResource3, TestHateosResource3, TestHateosResourceHandlerContext> mapping = HateosResourceMappings.with(
                 HateosResourceName.with("resource1"),
                 (s, x) -> {
                     return HateosResourceSelection.one(
@@ -140,7 +140,7 @@ public class Sample {
                 }
         );
 
-        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMapping.router(
+        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
                 Indentation.SPACES2,

@@ -29,16 +29,16 @@ import java.util.function.BiConsumer;
 /**
  * A {@link BiConsumer} which examines the request and then dispatches to the selected {@link HateosResourceHandler}.
  */
-final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
+final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
 
     /**
-     * Factory called by {@link HateosResourceMappingRouter#route}
+     * Factory called by {@link HateosResourceMappingsRouter#route}
      */
-    static HateosResourceMappingRouterHttpHandler with(final HateosResourceMappingRouter router,
-                                                       final Indentation indentation,
-                                                       final LineEnding lineEnding,
-                                                       final HateosResourceHandlerContext context) {
-        return new HateosResourceMappingRouterHttpHandler(
+    static HateosResourceMappingsRouterHttpHandler with(final HateosResourceMappingsRouter router,
+                                                        final Indentation indentation,
+                                                        final LineEnding lineEnding,
+                                                        final HateosResourceHandlerContext context) {
+        return new HateosResourceMappingsRouterHttpHandler(
                 router,
                 indentation,
                 lineEnding,
@@ -49,10 +49,10 @@ final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
     /**
      * Private ctor use factory.
      */
-    private HateosResourceMappingRouterHttpHandler(final HateosResourceMappingRouter router,
-                                                   final Indentation indentation,
-                                                   final LineEnding lineEnding,
-                                                   final HateosResourceHandlerContext context) {
+    private HateosResourceMappingsRouterHttpHandler(final HateosResourceMappingsRouter router,
+                                                    final Indentation indentation,
+                                                    final LineEnding lineEnding,
+                                                    final HateosResourceHandlerContext context) {
         super();
         this.router = router;
         this.indentation = indentation;
@@ -66,7 +66,7 @@ final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
         Objects.requireNonNull(request, "request");
         Objects.requireNonNull(response, "response");
 
-        HateosResourceMappingRouterHttpHandlerRequest.with(
+        HateosResourceMappingsRouterHttpHandlerRequest.with(
                 request,
                 response,
                 this.router,
@@ -76,7 +76,7 @@ final class HateosResourceMappingRouterHttpHandler implements HttpHandler {
         ).dispatch();
     }
 
-    private final HateosResourceMappingRouter router;
+    private final HateosResourceMappingsRouter router;
     private final Indentation indentation;
     private final LineEnding lineEnding;
 

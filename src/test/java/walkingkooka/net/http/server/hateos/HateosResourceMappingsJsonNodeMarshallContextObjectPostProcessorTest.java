@@ -34,8 +34,8 @@ import java.math.BigInteger;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorTest extends HateosResourceMappingTestCase2<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor>
-        implements JsonNodeMarshallContextObjectPostProcessorTesting<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor> {
+public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor>
+        implements JsonNodeMarshallContextObjectPostProcessorTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor> {
 
     // apply............................................................................................................
 
@@ -89,8 +89,8 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
     // BiFunction.......................................................................................................
 
     @Override
-    public HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor createBiFunction() {
-        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor.with(
+    public HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor createBiFunction() {
+        return HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor.with(
                 this.baseUrl(),
                 this.mappings(),
                 new TestHateosResourceHandlerContext()
@@ -109,11 +109,11 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
         return HateosResourceName.with("resource-2");
     }
 
-    private Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings() {
+    private Set<HateosResourceMappings<?, ?, ?, ?, ?>> mappings() {
         final HateosResourceName resourceName1 = this.resourceName1();
         final HateosResourceName resourceName2 = this.resourceName2();
 
-        final HateosResourceMapping<?, ?, ?, ?, ?> mapping1 = HateosResourceMapping.with(
+        final HateosResourceMappings<?, ?, ?, ?, ?> mapping1 = HateosResourceMappings.with(
                         resourceName1,
                         this.selectionParser(),
                         TestResource.class,
@@ -124,7 +124,7 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
                 .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosResourceHandler<>())
                 .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
 
-        final HateosResourceMapping<?, ?, ?, ?, ?> mapping2 = HateosResourceMapping.with(
+        final HateosResourceMappings<?, ?, ?, ?, ?> mapping2 = HateosResourceMappings.with(
                         resourceName2,
                         this.selectionParser(),
                         TestResource.class,
@@ -160,14 +160,14 @@ public final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcess
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor> type() {
-        return HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor.class;
+    public Class<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor> type() {
+        return HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosResourceMapping.class.getSimpleName();
+        return HateosResourceMappings.class.getSimpleName();
     }
 }

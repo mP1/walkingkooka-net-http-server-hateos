@@ -22,10 +22,10 @@ import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
-public abstract class HateosResourceMappingTestCase2<T> extends HateosResourceMappingTestCase<T>
+public abstract class HateosResourceMappingsTestCase2<T> extends HateosResourceMappingsTestCase<T>
         implements ToStringTesting<T> {
 
-    HateosResourceMappingTestCase2() {
+    HateosResourceMappingsTestCase2() {
         super();
     }
 

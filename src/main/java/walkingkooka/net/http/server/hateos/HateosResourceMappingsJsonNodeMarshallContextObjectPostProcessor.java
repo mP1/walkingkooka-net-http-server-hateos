@@ -33,18 +33,18 @@ import java.util.Set;
 /**
  * A {@link JsonNodeMarshallContextObjectPostProcessor} that adds links for types, and can be used by {@link JsonNodeMarshallContexts#basic}
  */
-final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor implements JsonNodeMarshallContextObjectPostProcessor {
+final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor implements JsonNodeMarshallContextObjectPostProcessor {
 
-    static HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor with(final AbsoluteUrl base,
-                                                                                final Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings,
-                                                                                final HateosResourceHandlerContext context) {
-        final Map<String, HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings = Maps.ordered();
+    static HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor with(final AbsoluteUrl base,
+                                                                                 final Set<HateosResourceMappings<?, ?, ?, ?, ?>> mappings,
+                                                                                 final HateosResourceHandlerContext context) {
+        final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings = Maps.ordered();
 
-        for (HateosResourceMapping<?, ?, ?, ?, ?> mapping : mappings) {
+        for (HateosResourceMappings<?, ?, ?, ?, ?> mapping : mappings) {
             final HateosResourceName resourceName = mapping.resourceName;
             final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods = Maps.ordered();
 
-            for (HateosResourceMappingLinkRelationHttpMethod relationAndMethod : mapping.relationAndMethodToHandlers.keySet()) {
+            for (HateosResourceMappingsLinkRelationHttpMethod relationAndMethod : mapping.relationAndMethodToHandlers.keySet()) {
                 final LinkRelation<?> relation = relationAndMethod.relation;
                 Set<HttpMethod> methods = relationToMethods.get(relation);
                 if (null == methods) {
@@ -55,17 +55,17 @@ final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor impl
             }
 
             typeToMappings.put(mapping.resourceType.getName(),
-                    HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping.with(resourceName, relationToMethods));
+                    HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(resourceName, relationToMethods));
         }
 
-        return new HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor(base,
+        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor(base,
                 typeToMappings,
                 context);
     }
 
-    private HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor(final AbsoluteUrl base,
-                                                                            final Map<String, HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings,
-                                                                            final HateosResourceHandlerContext context) {
+    private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor(final AbsoluteUrl base,
+                                                                             final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings,
+                                                                             final HateosResourceHandlerContext context) {
         super();
         this.base = base;
         this.typeToMappings = typeToMappings;
@@ -76,7 +76,7 @@ final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor impl
     public JsonObject apply(final Object value,
                             final JsonObject object) {
         Class<?> type = value.getClass();
-        HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping mapping;
+        HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping mapping;
 
         do {
             mapping = this.typeToMappings.get(type.getName());
@@ -91,7 +91,7 @@ final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessor impl
                 object;
     }
 
-    private final Map<String, HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings;
+    private final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings;
     private final AbsoluteUrl base;
     private final HateosResourceHandlerContext context;
 

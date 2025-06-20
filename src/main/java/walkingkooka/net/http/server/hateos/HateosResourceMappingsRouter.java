@@ -36,23 +36,23 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A {@link Router} that dispatches to the given {@link HateosResourceMapping mappings}.
+ * A {@link Router} that dispatches to the given {@link HateosResourceMappings mappings}.
  * Note that any exceptions that are thrown, will have their stack trace in the response body with content-type=text/plain
  */
-final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?>, HttpHandler> {
+final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<?>, HttpHandler> {
 
-    static HateosResourceMappingRouter with(final UrlPath base,
-                                            final Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings,
-                                            final Indentation indentation,
-                                            final LineEnding lineEnding,
-                                            final HateosResourceHandlerContext context) {
+    static HateosResourceMappingsRouter with(final UrlPath base,
+                                             final Set<HateosResourceMappings<?, ?, ?, ?, ?>> mappings,
+                                             final Indentation indentation,
+                                             final LineEnding lineEnding,
+                                             final HateosResourceHandlerContext context) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(mappings, "mappings");
         Objects.requireNonNull(indentation, "indentation");
         Objects.requireNonNull(lineEnding, "lineEnding");
         Objects.requireNonNull(context, "context");
 
-        return new HateosResourceMappingRouter(
+        return new HateosResourceMappingsRouter(
                 base,
                 mappings,
                 indentation,
@@ -61,16 +61,16 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
         );
     }
 
-    private HateosResourceMappingRouter(final UrlPath base,
-                                        final Set<HateosResourceMapping<?, ?, ?, ?, ?>> mappings,
-                                        final Indentation indentation,
-                                        final LineEnding lineEnding,
-                                        final HateosResourceHandlerContext context) {
+    private HateosResourceMappingsRouter(final UrlPath base,
+                                         final Set<HateosResourceMappings<?, ?, ?, ?, ?>> mappings,
+                                         final Indentation indentation,
+                                         final LineEnding lineEnding,
+                                         final HateosResourceHandlerContext context) {
         super();
         this.base = base.normalize();
         this.resourceNameToMapping = Maps.sorted();
 
-        for (final HateosResourceMapping<?, ?, ?, ?, ?> mapping : mappings) {
+        for (final HateosResourceMappings<?, ?, ?, ?, ?> mapping : mappings) {
             this.resourceNameToMapping.put(mapping.resourceName, mapping);
         }
 
@@ -111,10 +111,10 @@ final class HateosResourceMappingRouter implements Router<HttpRequestAttribute<?
     }
 
     final UrlPath base;
-    final Map<HateosResourceName, HateosResourceMapping<?, ?, ?, ?, ?>> resourceNameToMapping;
+    final Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, ?>> resourceNameToMapping;
 
     private HttpHandler httpHandler() {
-        return HateosResourceMappingRouterHttpHandler.with(
+        return HateosResourceMappingsRouterHttpHandler.with(
                 this,
                 this.indentation,
                 this.lineEnding,
