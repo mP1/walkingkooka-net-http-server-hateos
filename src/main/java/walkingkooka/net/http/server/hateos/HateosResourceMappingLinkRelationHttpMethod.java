@@ -30,6 +30,9 @@ final class HateosResourceMappingLinkRelationHttpMethod implements Comparable<Ha
     static HateosResourceMappingLinkRelationHttpMethod with(final LinkRelation<?> relation,
                                                             final HttpMethod method) {
         Objects.requireNonNull(relation, "relation");
+        if (relation.isUrl()) {
+            throw new IllegalArgumentException("Invalid relation, urls are not supported");
+        }
         Objects.requireNonNull(method, "method");
 
         return new HateosResourceMappingLinkRelationHttpMethod(relation, method);
