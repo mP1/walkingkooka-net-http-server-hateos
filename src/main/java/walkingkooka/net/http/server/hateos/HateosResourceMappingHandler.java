@@ -22,7 +22,7 @@ import walkingkooka.net.UrlPath;
 /**
  * A simple wrapper to hold either a {@link HateosHttpEntityHandler} or {@link HateosResourceHandler}
  */
-abstract class HateosResourceMappingHandler {
+abstract class HateosResourceMappingHandler<T> {
 
     /**
      * {@see HateosResourceMappingHandlerHateosHttpEntityHandler}
@@ -39,8 +39,9 @@ abstract class HateosResourceMappingHandler {
         return HateosResourceMappingHandlerHateosResourceHandler.with(handler);
     }
 
-    HateosResourceMappingHandler() {
+    HateosResourceMappingHandler(final T handler) {
         super();
+        this.handler = handler;
     }
 
     abstract void handle(final HateosResourceMappingRouterHttpHandlerRequest request,
@@ -48,4 +49,27 @@ abstract class HateosResourceMappingHandler {
                          final HateosResourceSelection<?> selection,
                          final UrlPath path,
                          final HateosResourceHandlerContext context);
+
+    final T handler;
+
+    @Override
+    public final int hashCode() {
+        return this.handler.hashCode();
+    }
+
+    @Override
+    public final boolean equals(final Object other) {
+        return this == other ||
+                null != other && this.getClass() == other.getClass()
+                        && this.equals0((HateosResourceMappingHandler) other);
+    }
+
+    private boolean equals0(final HateosResourceMappingHandler<?> other) {
+        return this.handler.equals(other.handler);
+    }
+
+    @Override
+    public final String toString() {
+        return this.handler.toString();
+    }
 }

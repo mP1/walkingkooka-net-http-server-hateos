@@ -21,7 +21,7 @@ import walkingkooka.net.UrlPath;
 
 import java.util.Objects;
 
-final class HateosResourceMappingHandlerHateosResourceHandler extends HateosResourceMappingHandler {
+final class HateosResourceMappingHandlerHateosResourceHandler extends HateosResourceMappingHandler<HateosResourceHandler<?, ?, ?, ?>> {
 
     static HateosResourceMappingHandlerHateosResourceHandler with(final HateosResourceHandler<?, ?, ?, ?> handler) {
         return new HateosResourceMappingHandlerHateosResourceHandler(
@@ -30,7 +30,7 @@ final class HateosResourceMappingHandlerHateosResourceHandler extends HateosReso
     }
 
     private HateosResourceMappingHandlerHateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
-        this.handler = handler;
+        super(handler);
     }
 
     @Override
@@ -46,27 +46,5 @@ final class HateosResourceMappingHandlerHateosResourceHandler extends HateosReso
                 path,
                 context
         );
-    }
-
-    private final HateosResourceHandler<?, ?, ?, ?> handler;
-
-    @Override
-    public int hashCode() {
-        return this.handler.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        return this == other ||
-                other instanceof HateosResourceMappingHandlerHateosResourceHandler && this.equals0((HateosResourceMappingHandlerHateosResourceHandler) other);
-    }
-
-    private boolean equals0(final HateosResourceMappingHandlerHateosResourceHandler other) {
-        return this.handler.equals(other.handler);
-    }
-
-    @Override
-    public String toString() {
-        return this.handler.toString();
     }
 }
