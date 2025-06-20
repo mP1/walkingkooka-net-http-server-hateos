@@ -45,7 +45,7 @@ abstract class HateosResourceMappingsHandler<T> {
     }
 
     abstract void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
-                         final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
+                         final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
                          final HateosResourceSelection<?> selection,
                          final UrlPath path,
                          final HateosResourceHandlerContext context);

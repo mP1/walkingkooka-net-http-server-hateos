@@ -35,13 +35,13 @@ final class HateosResourceMappingsHandlerHateosResourceHandler extends HateosRes
 
     @Override
     void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
-                final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
+                final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {
         request.handleHateosResourceHandler(
                 this.handler,
-                mapping,
+                mappings,
                 selection,
                 path,
                 context
