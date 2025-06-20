@@ -21,7 +21,7 @@ import walkingkooka.net.UrlPath;
 
 import java.util.Objects;
 
-final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosResourceMappingHandler {
+final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosResourceMappingHandler<HateosHttpEntityHandler<?, ?>> {
 
     static HateosResourceMappingHandlerHateosHttpEntityHandler with(final HateosHttpEntityHandler<?, ?> handler) {
         return new HateosResourceMappingHandlerHateosHttpEntityHandler(
@@ -30,7 +30,7 @@ final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosRe
     }
 
     private HateosResourceMappingHandlerHateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
-        this.handler = handler;
+        super(handler);
     }
 
     @Override
@@ -45,27 +45,5 @@ final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosRe
                 path,
                 context
         );
-    }
-
-    private final HateosHttpEntityHandler<?, ?> handler;
-
-    @Override
-    public int hashCode() {
-        return this.handler.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        return this == other ||
-                other instanceof HateosResourceMappingHandlerHateosHttpEntityHandler && this.equals0((HateosResourceMappingHandlerHateosHttpEntityHandler) other);
-    }
-
-    private boolean equals0(final HateosResourceMappingHandlerHateosHttpEntityHandler other) {
-        return this.handler.equals(other.handler);
-    }
-
-    @Override
-    public String toString() {
-        return this.handler.toString();
     }
 }
