@@ -115,7 +115,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
                                   final Class<V> valueType,
                                   final Class<C> collectionType,
                                   final Class<H> resourceType,
-                                  final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceMappingHandler> relationAndMethodToHandlers) {
+                                  final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceMappingHandler<?>> relationAndMethodToHandlers) {
         super();
         this.resourceName = resourceName;
         this.selection = selection;
@@ -179,8 +179,8 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
      * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosResourceHandler}.
      */
     private HateosResourceMapping<I, V, C, H, X> setHandler(final HateosResourceMappingLinkRelationHttpMethod relationAndMethod,
-                                                            final HateosResourceMappingHandler handler) {
-        final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceMappingHandler> copy = Maps.sorted();
+                                                            final HateosResourceMappingHandler<?> handler) {
+        final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceMappingHandler<?>> copy = Maps.sorted();
         copy.putAll(this.relationAndMethodToHandlers);
         final Object replaced = copy.put(
                 relationAndMethod,
@@ -202,7 +202,7 @@ public final class HateosResourceMapping<I extends Comparable<I>, V, C, H extend
     /**
      * Mapping of all {@link LinkRelation} and {@link HttpMethod} to {@link HateosResourceMappingHandler}.
      */
-    final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceMappingHandler> relationAndMethodToHandlers;
+    final Map<HateosResourceMappingLinkRelationHttpMethod, HateosResourceMappingHandler<?>> relationAndMethodToHandlers;
 
     // HateosResourceMappingRouter...............................................................................
 
