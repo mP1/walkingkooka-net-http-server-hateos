@@ -21,21 +21,21 @@ import walkingkooka.net.UrlPath;
 
 import java.util.Objects;
 
-final class HateosResourceMappingHandlerHateosHttpEntityHandler extends HateosResourceMappingHandler<HateosHttpEntityHandler<?, ?>> {
+final class HateosResourceMappingsHandlerHateosHttpEntityHandler extends HateosResourceMappingsHandler<HateosHttpEntityHandler<?, ?>> {
 
-    static HateosResourceMappingHandlerHateosHttpEntityHandler with(final HateosHttpEntityHandler<?, ?> handler) {
-        return new HateosResourceMappingHandlerHateosHttpEntityHandler(
+    static HateosResourceMappingsHandlerHateosHttpEntityHandler with(final HateosHttpEntityHandler<?, ?> handler) {
+        return new HateosResourceMappingsHandlerHateosHttpEntityHandler(
                 Objects.requireNonNull(handler, "handler")
         );
     }
 
-    private HateosResourceMappingHandlerHateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
+    private HateosResourceMappingsHandlerHateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
         super(handler);
     }
 
     @Override
-    void handle(final HateosResourceMappingRouterHttpHandlerRequest request,
-                final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+    void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
+                final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {

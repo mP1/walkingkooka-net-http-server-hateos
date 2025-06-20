@@ -25,12 +25,12 @@ import walkingkooka.net.http.server.HttpHandlerTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-public final class HateosResourceMappingRouterHttpHandlerTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterHttpHandler>
-        implements HttpHandlerTesting<HateosResourceMappingRouterHttpHandler> {
+public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsRouterHttpHandler>
+        implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler> {
     @Override
-    public HateosResourceMappingRouterHttpHandler createHttpHandler() {
-        return HateosResourceMappingRouterHttpHandler.with(
-                HateosResourceMappingRouter.with(
+    public HateosResourceMappingsRouterHttpHandler createHttpHandler() {
+        return HateosResourceMappingsRouterHttpHandler.with(
+                HateosResourceMappingsRouter.with(
                         UrlPath.ROOT,
                         Sets.empty(),
                         Indentation.SPACES2,
@@ -51,7 +51,7 @@ public final class HateosResourceMappingRouterHttpHandlerTest extends HateosReso
         final LineEnding lineEnding = LineEnding.NL;
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
-        final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(
+        final HateosResourceMappingsRouter router = HateosResourceMappingsRouter.with(
                 UrlPath.ROOT,
                 Sets.empty(),
                 indentation,
@@ -60,7 +60,7 @@ public final class HateosResourceMappingRouterHttpHandlerTest extends HateosReso
         );
 
         this.toStringAndCheck(
-                HateosResourceMappingRouterHttpHandler.with(
+                HateosResourceMappingsRouterHttpHandler.with(
                         router,
                         indentation,
                         lineEnding,
@@ -73,15 +73,15 @@ public final class HateosResourceMappingRouterHttpHandlerTest extends HateosReso
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingRouterHttpHandler> type() {
-        return HateosResourceMappingRouterHttpHandler.class;
+    public Class<HateosResourceMappingsRouterHttpHandler> type() {
+        return HateosResourceMappingsRouterHttpHandler.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosResourceMapping.class.getSimpleName();
+        return HateosResourceMappings.class.getSimpleName();
     }
 
     @Override

@@ -53,15 +53,15 @@ import java.util.Optional;
 /**
  * Handles dispatching a request, after extracting ids and parsing request bodies.
  */
-final class HateosResourceMappingRouterHttpHandlerRequest {
+final class HateosResourceMappingsRouterHttpHandlerRequest {
 
-    static HateosResourceMappingRouterHttpHandlerRequest with(final HttpRequest request,
-                                                              final HttpResponse response,
-                                                              final HateosResourceMappingRouter router,
-                                                              final Indentation indentation,
-                                                              final LineEnding lineEnding,
-                                                              final HateosResourceHandlerContext context) {
-        return new HateosResourceMappingRouterHttpHandlerRequest(
+    static HateosResourceMappingsRouterHttpHandlerRequest with(final HttpRequest request,
+                                                               final HttpResponse response,
+                                                               final HateosResourceMappingsRouter router,
+                                                               final Indentation indentation,
+                                                               final LineEnding lineEnding,
+                                                               final HateosResourceHandlerContext context) {
+        return new HateosResourceMappingsRouterHttpHandlerRequest(
                 request,
                 response,
                 router,
@@ -71,12 +71,12 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         );
     }
 
-    private HateosResourceMappingRouterHttpHandlerRequest(final HttpRequest request,
-                                                          final HttpResponse response,
-                                                          final HateosResourceMappingRouter router,
-                                                          final Indentation indentation,
-                                                          final LineEnding lineEnding,
-                                                          final HateosResourceHandlerContext context) {
+    private HateosResourceMappingsRouterHttpHandlerRequest(final HttpRequest request,
+                                                           final HttpResponse response,
+                                                           final HateosResourceMappingsRouter router,
+                                                           final Indentation indentation,
+                                                           final LineEnding lineEnding,
+                                                           final HateosResourceHandlerContext context) {
         super();
         this.request = request;
         this.response = response;
@@ -126,7 +126,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
     private void handleResourceNameOrNotFound(final HateosResourceName resourceName,
                                               final int pathIndex) {
-        final HateosResourceMapping<?, ?, ?, ?, ?> mapping = this.router.resourceNameToMapping.get(resourceName);
+        final HateosResourceMappings<?, ?, ?, ?, ?> mapping = this.router.resourceNameToMapping.get(resourceName);
         if (null == mapping) {
             this.notFound(resourceName);
         } else {
@@ -144,7 +144,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Attempts to parse the selection which may be missing, id, range, list or all.
      */
-    private void parseSelectionOrBadRequest(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+    private void parseSelectionOrBadRequest(final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                                             final int pathIndex) {
         final String selectionString = this.pathComponent(pathIndex, "");
 
@@ -173,7 +173,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Extracts the link relation or defaults to {@link LinkRelation#SELF}.
      */
-    private void linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+    private void linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                                                                                final HateosResourceSelection<?> selection,
                                                                                final int pathIndex) {
         LinkRelation<?> relation = LinkRelation.SELF;
@@ -214,9 +214,9 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     }
 
     /**
-     * Validates that the request method and {@link LinkRelation} is supported for the given {@link HateosResourceMapping}
+     * Validates that the request method and {@link LinkRelation} is supported for the given {@link HateosResourceMappings}
      */
-    private void methodSupportedChallengeAndDispatch(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+    private void methodSupportedChallengeAndDispatch(final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                                                      final HateosResourceSelection<?> selection,
                                                      final LinkRelation<?> relation,
                                                      final int pathIndex) {
@@ -281,12 +281,12 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
      * Using the mapping and relation attempts to locate a matching {@link HateosResourceHandler}, followed by parsing the
      * request body into a {@link HateosResource} and then writes the response and sets the status code.
      */
-    private void locateHandlerAndHandle(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+    private void locateHandlerAndHandle(final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                                         final HateosResourceSelection<?> selection,
                                         final LinkRelation<?> relation,
                                         final HttpMethod method,
                                         final int pathIndex) {
-        final HateosResourceMappingHandler handler = this.handlerOrNotFound(
+        final HateosResourceMappingsHandler handler = this.handlerOrNotFound(
                 mapping,
                 relation,
                 method
@@ -321,13 +321,13 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     private final HateosResourceHandlerContext context;
 
     /**
-     * Attempts to locate the {@link HateosResourceMappingHandler} for the given criteria or sets the response with not found.
+     * Attempts to locate the {@link HateosResourceMappingsHandler} for the given criteria or sets the response with not found.
      */
-    private HateosResourceMappingHandler handlerOrNotFound(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
-                                                           final LinkRelation<?> relation,
-                                                           final HttpMethod method) {
-        final HateosResourceMappingHandler handler = mapping.relationAndMethodToHandlers.get(
-                HateosResourceMappingLinkRelationHttpMethod.with(
+    private HateosResourceMappingsHandler handlerOrNotFound(final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
+                                                            final LinkRelation<?> relation,
+                                                            final HttpMethod method) {
+        final HateosResourceMappingsHandler handler = mapping.relationAndMethodToHandlers.get(
+                HateosResourceMappingsLinkRelationHttpMethod.with(
                         relation,
                         method
                 )
@@ -389,7 +389,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     // HateosResourceHandler............................................................................................
 
     void handleHateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler,
-                                     final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+                                     final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                                      final HateosResourceSelection<?> selection,
                                      final UrlPath path,
                                      final HateosResourceHandlerContext context) {
@@ -423,7 +423,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
     /**
      * Parses the request body and its JSON into a resource and then dispatches the locateHandlerAndHandle.
      */
-    private Optional<?> parseBodyOrBadRequest(final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+    private Optional<?> parseBodyOrBadRequest(final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                                               final HateosResourceSelection<?> selection) {
         Optional<?> resource = null;
 
@@ -503,7 +503,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
      * Using the given request resource text (request body) read that into an {@link Optional optional} {@link HateosResource resource}.
      */
     private Optional<?> resourceOrBadRequest(final String requestText,
-                                             final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+                                             final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                                              final HateosResourceSelection<?> selection) {
         Optional<?> resource;
 
@@ -652,7 +652,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
         // Even NO_CONTENT responses require this header so the web app will be aware of successful DELETEs(which reply with NO_CONTENT).
         this.response.setEntity(
                 entity.addHeader(
-                        HateosResourceMapping.X_CONTENT_TYPE_NAME,
+                        HateosResourceMappings.X_CONTENT_TYPE_NAME,
                         contentValueType.getSimpleName()
                 )
         );
@@ -686,7 +686,7 @@ final class HateosResourceMappingRouterHttpHandlerRequest {
 
     final HttpRequest request;
     final HttpResponse response;
-    final HateosResourceMappingRouter router;
+    final HateosResourceMappingsRouter router;
 
     /**
      * Only setHateosResourceHandler when a valid request is dispatched.

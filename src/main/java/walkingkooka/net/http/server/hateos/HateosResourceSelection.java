@@ -131,7 +131,7 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
     /**
      * Returns the {@link Class type} for this resource.
      */
-    final Class<?> resourceType(final HateosResourceMapping<?, ?, ?, ?, ?> mapping) {
+    final Class<?> resourceType(final HateosResourceMappings<?, ?, ?, ?, ?> mapping) {
         return this.isNone() || this.isOne() ?
                 mapping.valueType :
                 mapping.collectionType;

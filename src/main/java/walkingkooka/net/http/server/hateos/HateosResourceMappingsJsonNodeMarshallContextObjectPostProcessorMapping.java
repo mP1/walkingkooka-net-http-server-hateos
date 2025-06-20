@@ -39,15 +39,15 @@ import java.util.Set;
 /**
  * A value class that holds numerous components to build links for a {@link HateosResourceName}.
  */
-final class HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping {
+final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping {
 
-    static HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping with(final HateosResourceName name,
-                                                                                       final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
-        return new HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping(name, relationToMethods);
+    static HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping with(final HateosResourceName name,
+                                                                                        final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
+        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(name, relationToMethods);
     }
 
-    private HateosResourceMappingJsonNodeMarshallContextObjectPostProcessorMapping(final HateosResourceName name,
-                                                                                   final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
+    private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(final HateosResourceName name,
+                                                                                    final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
         super();
         this.name = UrlPathName.with(name.value());
         this.relationToMethods = relationToMethods;

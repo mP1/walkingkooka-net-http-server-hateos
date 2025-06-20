@@ -20,9 +20,9 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.TypeNameTesting;
 
-public abstract class HateosResourceMappingTestCase<T> implements ClassTesting2<T>, TypeNameTesting<T> {
+public abstract class HateosResourceMappingsTestCase<T> implements ClassTesting2<T>, TypeNameTesting<T> {
 
-    HateosResourceMappingTestCase() {
+    HateosResourceMappingsTestCase() {
         super();
     }
 }

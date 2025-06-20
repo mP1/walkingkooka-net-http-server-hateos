@@ -37,7 +37,7 @@ import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-public final class HateosResourceMappingRouterHttpHandlerRequestTest extends HateosResourceMappingTestCase2<HateosResourceMappingRouterHttpHandlerRequest> {
+public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsRouterHttpHandlerRequest> {
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithNullMessage() {
@@ -82,7 +82,7 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
             }
         };
 
-        HateosResourceMappingRouterHttpHandlerRequest.with(
+        HateosResourceMappingsRouterHttpHandlerRequest.with(
                 HttpRequests.get(
                         HttpTransport.SECURED,
                         Url.parseRelative("/TestResource123"),
@@ -90,10 +90,10 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
                         HttpEntity.EMPTY.addHeader(HttpHeaderName.ACCEPT, Accept.parse("" + MediaType.APPLICATION_JSON))
                 ), // request,
                 response,
-                HateosResourceMappingRouter.with(
+                HateosResourceMappingsRouter.with(
                         UrlPath.ROOT,
                         Sets.of(
-                                HateosResourceMapping.with(
+                                HateosResourceMappings.with(
                                         HateosResourceName.with("TestResource123"),
                                         (final String s, final HateosResourceHandlerContext x) -> {
                                             throw new IllegalArgumentException(throwMessage);
@@ -133,7 +133,7 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
         final LineEnding lineEnding = LineEnding.NL;
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
-        final HateosResourceMappingRouter router = HateosResourceMappingRouter.with(
+        final HateosResourceMappingsRouter router = HateosResourceMappingsRouter.with(
                 UrlPath.ROOT,
                 Sets.empty(),
                 indentation,
@@ -144,7 +144,7 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
         final HttpResponse response = HttpResponses.fake();
 
         this.toStringAndCheck(
-                HateosResourceMappingRouterHttpHandlerRequest.with(
+                HateosResourceMappingsRouterHttpHandlerRequest.with(
                         request,
                         response,
                         router,
@@ -159,15 +159,15 @@ public final class HateosResourceMappingRouterHttpHandlerRequestTest extends Hat
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingRouterHttpHandlerRequest> type() {
-        return HateosResourceMappingRouterHttpHandlerRequest.class;
+    public Class<HateosResourceMappingsRouterHttpHandlerRequest> type() {
+        return HateosResourceMappingsRouterHttpHandlerRequest.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosResourceMappingRouterHttpHandler.class.getSimpleName();
+        return HateosResourceMappingsRouterHttpHandler.class.getSimpleName();
     }
 
     @Override

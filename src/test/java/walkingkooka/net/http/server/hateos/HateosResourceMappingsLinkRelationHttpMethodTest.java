@@ -24,8 +24,8 @@ import walkingkooka.net.http.HttpMethod;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosResourceMappingLinkRelationHttpMethodTest extends HateosResourceMappingTestCase2<HateosResourceMappingLinkRelationHttpMethod>
-        implements ComparableTesting2<HateosResourceMappingLinkRelationHttpMethod> {
+public final class HateosResourceMappingsLinkRelationHttpMethodTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsLinkRelationHttpMethod>
+        implements ComparableTesting2<HateosResourceMappingsLinkRelationHttpMethod> {
 
     private final static LinkRelation<?> RELATION = LinkRelation.SELF;
 
@@ -35,7 +35,7 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
     public void testWithNullRelationFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> HateosResourceMappingLinkRelationHttpMethod.with(
+                () -> HateosResourceMappingsLinkRelationHttpMethod.with(
                         null,
                         METHOD
                 )
@@ -46,7 +46,7 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
     public void testWithUrlRelationFails() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> HateosResourceMappingLinkRelationHttpMethod.with(
+                () -> HateosResourceMappingsLinkRelationHttpMethod.with(
                         LinkRelation.parse("https://example.com")
                                 .get(0),
                         HttpMethod.GET
@@ -58,7 +58,7 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
     public void testWithNullMethodFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> HateosResourceMappingLinkRelationHttpMethod.with(
+                () -> HateosResourceMappingsLinkRelationHttpMethod.with(
                         RELATION,
                         null
                 )
@@ -70,7 +70,7 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
     @Test
     public void testEqualsDifferentLinkRelation() {
         this.checkNotEquals(
-                HateosResourceMappingLinkRelationHttpMethod.with(
+                HateosResourceMappingsLinkRelationHttpMethod.with(
                         LinkRelation.with("different"),
                         METHOD
                 )
@@ -80,7 +80,7 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
     @Test
     public void testEqualsDifferentMethod() {
         this.checkNotEquals(
-                HateosResourceMappingLinkRelationHttpMethod.with(
+                HateosResourceMappingsLinkRelationHttpMethod.with(
                         RELATION,
                         HttpMethod.with("different")
                 )
@@ -88,8 +88,8 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
     }
 
     @Override
-    public HateosResourceMappingLinkRelationHttpMethod createComparable() {
-        return HateosResourceMappingLinkRelationHttpMethod.with(
+    public HateosResourceMappingsLinkRelationHttpMethod createComparable() {
+        return HateosResourceMappingsLinkRelationHttpMethod.with(
                 RELATION,
                 METHOD
         );
@@ -98,15 +98,15 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
     // Class............................................................................................................
 
     @Override
-    public Class<HateosResourceMappingLinkRelationHttpMethod> type() {
-        return HateosResourceMappingLinkRelationHttpMethod.class;
+    public Class<HateosResourceMappingsLinkRelationHttpMethod> type() {
+        return HateosResourceMappingsLinkRelationHttpMethod.class;
     }
 
     // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
-        return HateosResourceMapping.class.getSimpleName();
+        return HateosResourceMappings.class.getSimpleName();
     }
 
     @Override

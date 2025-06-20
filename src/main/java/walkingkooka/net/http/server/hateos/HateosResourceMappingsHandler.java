@@ -22,30 +22,30 @@ import walkingkooka.net.UrlPath;
 /**
  * A simple wrapper to hold either a {@link HateosHttpEntityHandler} or {@link HateosResourceHandler}
  */
-abstract class HateosResourceMappingHandler<T> {
+abstract class HateosResourceMappingsHandler<T> {
 
     /**
-     * {@see HateosResourceMappingHandlerHateosHttpEntityHandler}
+     * {@see HateosResourceMappingsHandlerHateosHttpEntityHandler}
      */
-    static HateosResourceMappingHandlerHateosHttpEntityHandler hateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
-        return HateosResourceMappingHandlerHateosHttpEntityHandler.with(handler);
+    static HateosResourceMappingsHandlerHateosHttpEntityHandler hateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
+        return HateosResourceMappingsHandlerHateosHttpEntityHandler.with(handler);
     }
 
 
     /**
-     * {see HateosResourceMappingHandlerHateosResourceHandler}
+     * {see HateosResourceMappingsHandlerHateosResourceHandler}
      */
-    static HateosResourceMappingHandlerHateosResourceHandler hateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
-        return HateosResourceMappingHandlerHateosResourceHandler.with(handler);
+    static HateosResourceMappingsHandlerHateosResourceHandler hateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
+        return HateosResourceMappingsHandlerHateosResourceHandler.with(handler);
     }
 
-    HateosResourceMappingHandler(final T handler) {
+    HateosResourceMappingsHandler(final T handler) {
         super();
         this.handler = handler;
     }
 
-    abstract void handle(final HateosResourceMappingRouterHttpHandlerRequest request,
-                         final HateosResourceMapping<?, ?, ?, ?, ?> mapping,
+    abstract void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
+                         final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
                          final HateosResourceSelection<?> selection,
                          final UrlPath path,
                          final HateosResourceHandlerContext context);
@@ -61,10 +61,10 @@ abstract class HateosResourceMappingHandler<T> {
     public final boolean equals(final Object other) {
         return this == other ||
                 null != other && this.getClass() == other.getClass()
-                        && this.equals0((HateosResourceMappingHandler) other);
+                        && this.equals0((HateosResourceMappingsHandler) other);
     }
 
-    private boolean equals0(final HateosResourceMappingHandler<?> other) {
+    private boolean equals0(final HateosResourceMappingsHandler<?> other) {
         return this.handler.equals(other.handler);
     }
 

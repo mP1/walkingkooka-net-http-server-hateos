@@ -25,21 +25,21 @@ import java.util.Objects;
 /**
  * Used as a key to locate mappings using a {@link LinkRelation} and a {@link HttpMethod}.
  */
-final class HateosResourceMappingLinkRelationHttpMethod implements Comparable<HateosResourceMappingLinkRelationHttpMethod> {
+final class HateosResourceMappingsLinkRelationHttpMethod implements Comparable<HateosResourceMappingsLinkRelationHttpMethod> {
 
-    static HateosResourceMappingLinkRelationHttpMethod with(final LinkRelation<?> relation,
-                                                            final HttpMethod method) {
+    static HateosResourceMappingsLinkRelationHttpMethod with(final LinkRelation<?> relation,
+                                                             final HttpMethod method) {
         Objects.requireNonNull(relation, "relation");
         if (relation.isUrl()) {
             throw new IllegalArgumentException("Invalid relation, urls are not supported");
         }
         Objects.requireNonNull(method, "method");
 
-        return new HateosResourceMappingLinkRelationHttpMethod(relation, method);
+        return new HateosResourceMappingsLinkRelationHttpMethod(relation, method);
     }
 
-    private HateosResourceMappingLinkRelationHttpMethod(final LinkRelation<?> relation,
-                                                        final HttpMethod method) {
+    private HateosResourceMappingsLinkRelationHttpMethod(final LinkRelation<?> relation,
+                                                         final HttpMethod method) {
         super();
         this.relation = relation;
         this.method = method;
@@ -58,10 +58,10 @@ final class HateosResourceMappingLinkRelationHttpMethod implements Comparable<Ha
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-                other instanceof HateosResourceMappingLinkRelationHttpMethod && this.equals0((HateosResourceMappingLinkRelationHttpMethod) other);
+                other instanceof HateosResourceMappingsLinkRelationHttpMethod && this.equals0((HateosResourceMappingsLinkRelationHttpMethod) other);
     }
 
-    private boolean equals0(final HateosResourceMappingLinkRelationHttpMethod other) {
+    private boolean equals0(final HateosResourceMappingsLinkRelationHttpMethod other) {
         return this.compareTo(other) == 0;
     }
 
@@ -79,7 +79,7 @@ final class HateosResourceMappingLinkRelationHttpMethod implements Comparable<Ha
      * Sort {@link LinkRelation} then {@link HttpMethod}.
      */
     @Override
-    public int compareTo(final HateosResourceMappingLinkRelationHttpMethod other) {
+    public int compareTo(final HateosResourceMappingsLinkRelationHttpMethod other) {
         int result = this.relation.compareTo(other.relation);
         if (0 == result) {
             result = this.method.compareTo(other.method);
