@@ -43,6 +43,18 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
     }
 
     @Test
+    public void testWithUrlRelationFails() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> HateosResourceMappingLinkRelationHttpMethod.with(
+                        LinkRelation.parse("https://example.com")
+                                .get(0),
+                        HttpMethod.GET
+                )
+        );
+    }
+
+    @Test
     public void testWithNullMethodFails() {
         assertThrows(
                 NullPointerException.class,
