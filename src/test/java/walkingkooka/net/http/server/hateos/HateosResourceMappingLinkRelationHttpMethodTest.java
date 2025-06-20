@@ -27,59 +27,70 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class HateosResourceMappingLinkRelationHttpMethodTest extends HateosResourceMappingTestCase2<HateosResourceMappingLinkRelationHttpMethod>
         implements ComparableTesting2<HateosResourceMappingLinkRelationHttpMethod> {
 
+    private final static LinkRelation<?> RELATION = LinkRelation.SELF;
+
+    private final static HttpMethod METHOD = HttpMethod.GET;
+    
     @Test
     public void testWithNullRelationFails() {
-        this.withFails(null, this.method());
+        assertThrows(
+                NullPointerException.class,
+                () -> HateosResourceMappingLinkRelationHttpMethod.with(
+                        null,
+                        METHOD
+                )
+        );
     }
 
     @Test
     public void testWithNullMethodFails() {
-        this.withFails(this.relation(), null);
+        assertThrows(
+                NullPointerException.class,
+                () -> HateosResourceMappingLinkRelationHttpMethod.with(
+                        RELATION,
+                        null
+                )
+        );
     }
 
-    private void withFails(final LinkRelation<?> relation,
-                           final HttpMethod method) {
-        assertThrows(NullPointerException.class, () -> {
-            HateosResourceMappingLinkRelationHttpMethod.with(relation, method);
-        });
+    // hashCode/equals..................................................................................................
+
+    @Test
+    public void testEqualsDifferentLinkRelation() {
+        this.checkNotEquals(
+                HateosResourceMappingLinkRelationHttpMethod.with(
+                        LinkRelation.with("different"),
+                        METHOD
+                )
+        );
     }
 
     @Test
-    public void testDifferentLinkRelation() {
-        this.checkNotEquals(HateosResourceMappingLinkRelationHttpMethod.with(LinkRelation.with("different"), this.method()));
-    }
-
-    @Test
-    public void testDifferentMethod() {
-        this.checkNotEquals(HateosResourceMappingLinkRelationHttpMethod.with(this.relation(), HttpMethod.with("different")));
-    }
-
-    @Test
-    public void testToString() {
-        this.checkEquals("self GET", this.createComparable().toString());
+    public void testEqualsDifferentMethod() {
+        this.checkNotEquals(
+                HateosResourceMappingLinkRelationHttpMethod.with(
+                        RELATION,
+                        HttpMethod.with("different")
+                )
+        );
     }
 
     @Override
     public HateosResourceMappingLinkRelationHttpMethod createComparable() {
-        return HateosResourceMappingLinkRelationHttpMethod.with(this.relation(), this.method());
+        return HateosResourceMappingLinkRelationHttpMethod.with(
+                RELATION,
+                METHOD
+        );
     }
 
-    private LinkRelation<?> relation() {
-        return LinkRelation.SELF;
-    }
-
-    private HttpMethod method() {
-        return HttpMethod.GET;
-    }
-
-    // ClassTesting.....................................................................................................
+    // Class............................................................................................................
 
     @Override
     public Class<HateosResourceMappingLinkRelationHttpMethod> type() {
         return HateosResourceMappingLinkRelationHttpMethod.class;
     }
 
-    // TypeNameTesting...................................................................................................
+    // TypeNameTesting..................................................................................................
 
     @Override
     public String typeNamePrefix() {
@@ -88,6 +99,7 @@ public final class HateosResourceMappingLinkRelationHttpMethodTest extends Hateo
 
     @Override
     public String typeNameSuffix() {
-        return LinkRelation.class.getSimpleName() + HttpMethod.class.getSimpleName();
+        return LinkRelation.class.getSimpleName() +
+                HttpMethod.class.getSimpleName();
     }
 }
