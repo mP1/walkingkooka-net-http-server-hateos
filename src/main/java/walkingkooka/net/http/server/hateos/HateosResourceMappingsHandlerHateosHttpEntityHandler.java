@@ -35,7 +35,7 @@ final class HateosResourceMappingsHandlerHateosHttpEntityHandler extends HateosR
 
     @Override
     void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
-                final HateosResourceMappings<?, ?, ?, ?, ?> mapping,
+                final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {
