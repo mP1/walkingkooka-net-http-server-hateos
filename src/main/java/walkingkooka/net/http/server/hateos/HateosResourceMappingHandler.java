@@ -27,7 +27,7 @@ abstract class HateosResourceMappingHandler {
     /**
      * {@see HateosResourceMappingHandlerHateosHttpEntityHandler}
      */
-    static HateosResourceMappingHandlerHateosHttpEntityHandler hateosHttpEntityHandler(final HateosHttpEntityHandler handler) {
+    static HateosResourceMappingHandlerHateosHttpEntityHandler hateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
         return HateosResourceMappingHandlerHateosHttpEntityHandler.with(handler);
     }
 
