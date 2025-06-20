@@ -24,7 +24,7 @@ import walkingkooka.net.http.HttpMethod;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosResourceMappingsLinkRelationHttpMethodTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsLinkRelationHttpMethod>
+public final class HateosResourceMappingsLinkRelationHttpMethodTest extends HateosResourceMappingsTestCase<HateosResourceMappingsLinkRelationHttpMethod>
         implements ComparableTesting2<HateosResourceMappingsLinkRelationHttpMethod> {
 
     private final static LinkRelation<?> RELATION = LinkRelation.SELF;

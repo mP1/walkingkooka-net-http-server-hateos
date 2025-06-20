@@ -26,6 +26,7 @@ import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsTest.TestHateosResourceHandlerContext;
+import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
@@ -39,8 +40,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosResourceMappingsTest extends HateosResourceMappingsTestCase<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>>
-        implements ToStringTesting<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>> {
+public final class HateosResourceMappingsTest implements ClassTesting2<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>>,
+        ToStringTesting<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>> {
 
     static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
     }
@@ -777,7 +778,7 @@ public final class HateosResourceMappingsTest extends HateosResourceMappingsTest
                 "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" self GET=Handler111,self POST=Handler222");
     }
 
-    // ClassVisibility..................................................................................................
+    // class............................................................................................................
 
     @Override
     public Class<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>> type() {
@@ -787,17 +788,5 @@ public final class HateosResourceMappingsTest extends HateosResourceMappingsTest
     @Override
     public JavaVisibility typeVisibility() {
         return JavaVisibility.PUBLIC;
-    }
-
-    // TypeNameTesting..................................................................................................
-
-    @Override
-    public String typeNamePrefix() {
-        return HateosResourceMappings.class.getSimpleName();
-    }
-
-    @Override
-    public String typeNameSuffix() {
-        return "";
     }
 }

@@ -37,7 +37,7 @@ import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsRouterHttpHandlerRequest> {
+public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandlerRequest> {
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithNullMessage() {
