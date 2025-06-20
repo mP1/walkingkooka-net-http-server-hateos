@@ -71,7 +71,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsRouter>
+public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter>
         implements RouterTesting2<HateosResourceMappingsRouter, HttpRequestAttribute<?>, HttpHandler> {
 
     private final static String NO_BODY = null;

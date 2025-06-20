@@ -32,7 +32,7 @@ import java.math.BigInteger;
 import java.util.Map;
 import java.util.Set;
 
-public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMappingTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping>
+public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMappingTest extends HateosResourceMappingsTestCase<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping>
         implements ToStringTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> {
 
     @Test

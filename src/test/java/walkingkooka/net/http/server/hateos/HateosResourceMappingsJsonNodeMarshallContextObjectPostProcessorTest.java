@@ -34,7 +34,7 @@ import java.math.BigInteger;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor>
+public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest extends HateosResourceMappingsTestCase<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor>
         implements JsonNodeMarshallContextObjectPostProcessorTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor> {
 
     // apply............................................................................................................

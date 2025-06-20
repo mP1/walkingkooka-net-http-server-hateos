@@ -25,7 +25,7 @@ import walkingkooka.net.http.server.HttpHandlerTesting;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase2<HateosResourceMappingsRouterHttpHandler>
+public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandler>
         implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler> {
     @Override
     public HateosResourceMappingsRouterHttpHandler createHttpHandler() {

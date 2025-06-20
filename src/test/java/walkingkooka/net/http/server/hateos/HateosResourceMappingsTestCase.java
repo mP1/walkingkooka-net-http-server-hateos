@@ -17,12 +17,29 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.ToStringTesting;
 import walkingkooka.reflect.ClassTesting2;
+import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.TypeNameTesting;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
-public abstract class HateosResourceMappingsTestCase<T> implements ClassTesting2<T>, TypeNameTesting<T> {
+public abstract class HateosResourceMappingsTestCase<T> implements ClassTesting2<T>,
+        TypeNameTesting<T>,
+        ToStringTesting<T> {
 
     HateosResourceMappingsTestCase() {
         super();
+    }
+
+    final JsonNodeMarshallContext marshallContext() {
+        return JsonNodeMarshallContexts.basic();
+    }
+
+    // ClassVisibility..................................................................................................
+
+    @Override
+    public final JavaVisibility typeVisibility() {
+        return JavaVisibility.PACKAGE_PRIVATE;
     }
 }
