@@ -19,7 +19,6 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Cast;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.collect.set.Sets;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
@@ -41,27 +40,31 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor imp
                                                                                  final HateosResourceHandlerContext context) {
         final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings = Maps.ordered();
 
-        for (HateosResourceMappings<?, ?, ?, ?, ?> mapping : mappings) {
+        for (final HateosResourceMappings<?, ?, ?, ?, ?> mapping : mappings) {
             final HateosResourceName resourceName = mapping.resourceName;
-            final Map<LinkRelation<?>, Collection<HttpMethod>> relationToMethods = Maps.ordered();
+            final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods = Maps.ordered();
 
-            for (HateosResourceMappingsLinkRelationHttpMethod relationAndMethod : mapping.relationAndMethodToHandlers.keySet()) {
-                final LinkRelation<?> relation = relationAndMethod.relation;
-                Collection<HttpMethod> methods = relationToMethods.get(relation);
-                if (null == methods) {
-                    methods = Sets.ordered();
-                    relationToMethods.put(relation, methods);
-                }
-                methods.add(relationAndMethod.method);
+            for (final HateosResourceMappingsMapping<?, ?, ?, ?, ?> m : mapping.pathNameToMappings.values()) {
+                linkRelationToMethods.put(
+                        m.linkRelation,
+                        m.allowedMethods()
+                );
             }
 
-            typeToMappings.put(mapping.resourceType.getName(),
-                    HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(resourceName, relationToMethods));
+            typeToMappings.put(
+                    mapping.resourceType.getName(),
+                    HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(
+                            resourceName,
+                            linkRelationToMethods
+                    )
+            );
         }
 
-        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor(base,
+        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor(
+                base,
                 typeToMappings,
-                context);
+                context
+        );
     }
 
     private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor(final AbsoluteUrl base,

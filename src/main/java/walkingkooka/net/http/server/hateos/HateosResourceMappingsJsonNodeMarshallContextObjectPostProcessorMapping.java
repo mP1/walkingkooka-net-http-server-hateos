@@ -66,7 +66,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
         for (Entry<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods : this.linkRelationToMethods.entrySet()) {
             final LinkRelation<?> relation = linkRelationToMethods.getKey();
 
-            for (HttpMethod method : linkRelationToMethods.getValue()) {
+            for (final HttpMethod method : linkRelationToMethods.getValue()) {
                 // TODO add support for title/title* and hreflang
                 final Map<LinkParameterName<?>, Object> parameters = Maps.of(
                         LinkParameterName.METHOD, method,

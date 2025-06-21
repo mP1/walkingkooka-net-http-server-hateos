@@ -22,24 +22,24 @@ import walkingkooka.net.UrlPath;
 /**
  * A simple wrapper to hold either a {@link HateosHttpEntityHandler} or {@link HateosResourceHandler}
  */
-abstract class HateosResourceMappingsHandler<T> {
+abstract class HateosResourceMappingsMappingHandler<T> {
 
     /**
-     * {@see HateosResourceMappingsHandlerHateosHttpEntityHandler}
+     * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
      */
-    static HateosResourceMappingsHandlerHateosHttpEntityHandler hateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
-        return HateosResourceMappingsHandlerHateosHttpEntityHandler.with(handler);
+    static HateosResourceMappingsMappingHandlerHateosHttpEntityHandler hateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
+        return HateosResourceMappingsMappingHandlerHateosHttpEntityHandler.with(handler);
     }
 
 
     /**
-     * {see HateosResourceMappingsHandlerHateosResourceHandler}
+     * {see HateosResourceMappingsMappingHandlerHateosResourceHandler}
      */
-    static HateosResourceMappingsHandlerHateosResourceHandler hateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
-        return HateosResourceMappingsHandlerHateosResourceHandler.with(handler);
+    static HateosResourceMappingsMappingHandlerHateosResourceHandler hateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
+        return HateosResourceMappingsMappingHandlerHateosResourceHandler.with(handler);
     }
 
-    HateosResourceMappingsHandler(final T handler) {
+    HateosResourceMappingsMappingHandler(final T handler) {
         super();
         this.handler = handler;
     }
@@ -52,6 +52,8 @@ abstract class HateosResourceMappingsHandler<T> {
 
     final T handler;
 
+    // Object...........................................................................................................
+
     @Override
     public final int hashCode() {
         return this.handler.hashCode();
@@ -61,10 +63,10 @@ abstract class HateosResourceMappingsHandler<T> {
     public final boolean equals(final Object other) {
         return this == other ||
                 null != other && this.getClass() == other.getClass()
-                        && this.equals0((HateosResourceMappingsHandler) other);
+                        && this.equals0((HateosResourceMappingsMappingHandler<?>) other);
     }
 
-    private boolean equals0(final HateosResourceMappingsHandler<?> other) {
+    private boolean equals0(final HateosResourceMappingsMappingHandler<?> other) {
         return this.handler.equals(other.handler);
     }
 

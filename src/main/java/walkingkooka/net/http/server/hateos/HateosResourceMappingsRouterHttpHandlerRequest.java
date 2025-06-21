@@ -126,12 +126,12 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
 
     private void handleResourceNameOrNotFound(final HateosResourceName resourceName,
                                               final int pathIndex) {
-        final HateosResourceMappings<?, ?, ?, ?, ?> mapping = this.router.resourceNameToMapping.get(resourceName);
-        if (null == mapping) {
+        final HateosResourceMappings<?, ?, ?, ?, ?> mappings = this.router.resourceNameToMapping.get(resourceName);
+        if (null == mappings) {
             this.notFound(resourceName);
         } else {
             this.parseSelectionOrBadRequest(
-                    mapping,
+                    mappings,
                     pathIndex
             );
         }
@@ -162,7 +162,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
         }
 
         if (null != selection) {
-            this.linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(
+            this.dispatchHandlerOrBadRequest(
                     mappings,
                     selection,
                     pathIndex + 1
@@ -173,81 +173,66 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
     /**
      * Extracts the link relation or defaults to {@link LinkRelation#SELF}.
      */
-    private void linkRelationOrDefaultOrResponseBadRequestOrMethodNotSupported(final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
-                                                                               final HateosResourceSelection<?> selection,
-                                                                               final int pathIndex) {
-        LinkRelation<?> relation = LinkRelation.SELF;
-        boolean defaultLinkRelation = true;
+    private void dispatchHandlerOrBadRequest(final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
+                                             final HateosResourceSelection<?> selection,
+                                             final int pathIndex) {
+        final UrlPathName pathNameOrLinkRelation = HttpRequestAttributes.pathComponent(pathIndex)
+                .parameterValue(this.parameters)
+                .orElse(null);
 
-        final Optional<UrlPathName> relationPath = HttpRequestAttributes.pathComponent(pathIndex)
-                .parameterValue(this.parameters);
+        final UrlPathName pathNameOrLinkRelationNotNull = null == pathNameOrLinkRelation ?
+                SELF :
+                pathNameOrLinkRelation;
 
-        if (relationPath.isPresent()) {
-            final String relationString = relationPath.get().value();
-            if (!CharSequences.isNullOrEmpty(relationString)) {
-                try {
-                    relation = LinkRelation.with(relationString);
-                    defaultLinkRelation = false;
-                } catch (final RuntimeException invalid) {
-                    relation = null;
+        final HateosResourceMappingsMapping<?, ?, ?, ?, ?> mapping = mappings.pathNameToMappings.get(pathNameOrLinkRelationNotNull);
+        if (null == mapping) {
+            final String linkRelation = pathNameOrLinkRelationNotNull.value();
 
-                    // Invalid link relation \"UnknownLinkRelation"
-                    this.badRequest(
-                            "Invalid link relation " +
-                                    CharSequences.quoteAndEscape(relationString),
-                            invalid
-                    );
-                }
+            String invalidOrUnknown;
+            try {
+                LinkRelation.with(linkRelation);
+                invalidOrUnknown = "Unknown";
+            } catch (final RuntimeException invalid) {
+                invalidOrUnknown = "Invalid";
             }
-        }
-
-        if (null != relation) {
-            this.methodSupportedChallengeAndDispatch(
-                    mappings,
-                    selection,
-                    relation,
-                    defaultLinkRelation ?
-                            pathIndex - 1 :
-                            pathIndex
-            );
-        }
-    }
-
-    /**
-     * Validates that the request method and {@link LinkRelation} is supported for the given {@link HateosResourceMappings}
-     */
-    private void methodSupportedChallengeAndDispatch(final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
-                                                     final HateosResourceSelection<?> selection,
-                                                     final LinkRelation<?> relation,
-                                                     final int pathIndex) {
-        final HttpMethod method = this.request.method();
-
-        final List<HttpMethod> supportedMethods = mappings.relationToMethods.get(relation);
-        if (null == supportedMethods) {
             this.badRequest(
-                    "Unknown link relation " +
-                            CharSequences.quoteAndEscape(
-                                    relation.toHeaderText()
-                            )
+                    invalidOrUnknown +
+                            " link relation " +
+                            CharSequences.quoteAndEscape(linkRelation)
             );
         } else {
-            if (supportedMethods.contains(method)) {
-                this.locateHandlerAndHandle(
-                        mappings,
-                        selection,
-                        relation,
-                        method,
-                        pathIndex
-                );
-            } else {
-                this.methodNotAllowed(
-                        mappings.resourceName,
-                        relation,
-                        supportedMethods
-                );
+            int stop = null != pathNameOrLinkRelation && pathNameOrLinkRelation.value().isEmpty() ?
+                    pathIndex - 1 :
+                    pathIndex;
+
+            UrlPath extraPath = null;
+
+            int i = 0;
+            for (final UrlPathName pathName : this.request.url().path().normalize()) {
+                if (i > stop) {
+                    extraPath = (
+                            null == extraPath ?
+                                    UrlPath.ROOT :
+                                    extraPath
+                    ).append(pathName);
+                }
+                i++;
             }
+
+            mapping.handle(
+                    this,
+                    mappings,
+                    selection,
+                    null != extraPath ?
+                            extraPath.normalize() :
+                            UrlPath.EMPTY,
+                    this.context
+            );
         }
     }
+
+    private final static UrlPathName SELF = LinkRelation.SELF.toUrlPathName()
+            .get();
 
     /**
      * <a href="https://restfulapi.net/http-status-codes/"></a>
@@ -260,9 +245,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
      * Allow: GET, POST
      * </pre>>
      */
-    private void methodNotAllowed(final HateosResourceName resourceName,
-                                  final LinkRelation<?> relation,
-                                  final List<HttpMethod> allowed) {
+    void methodNotAllowed(final HateosResourceName resourceName,
+                          final LinkRelation<?> relation,
+                          final List<HttpMethod> allowed) {
         this.setStatus(
                 HttpStatusCode.METHOD_NOT_ALLOWED,
                 this.request.method() +
@@ -277,80 +262,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
         );
     }
 
-    /**
-     * Using the mapping and relation attempts to locate a matching {@link HateosResourceHandler}, followed by parsing the
-     * request body into a {@link HateosResource} and then writes the response and sets the status code.
-     */
-    private void locateHandlerAndHandle(final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
-                                        final HateosResourceSelection<?> selection,
-                                        final LinkRelation<?> relation,
-                                        final HttpMethod method,
-                                        final int pathIndex) {
-        final HateosResourceMappingsHandler handler = this.handlerOrNotFound(
-                mappings,
-                relation,
-                method
-        );
-        if (null != handler) {
-            UrlPath extraPath = null;
-
-            int i = 0;
-            for (final UrlPathName path : this.request.url().path().normalize()) {
-                if (i > pathIndex) {
-                    extraPath = (
-                            null == extraPath ?
-                                    UrlPath.ROOT :
-                                    extraPath
-                    ).append(path);
-                }
-                i++;
-            }
-
-            handler.handle(
-                    this,
-                    mappings,
-                    selection,
-                    null != extraPath ?
-                            extraPath.normalize() :
-                            UrlPath.EMPTY,
-                    this.context
-            );
-        }
-    }
-
     private final HateosResourceHandlerContext context;
-
-    /**
-     * Attempts to locate the {@link HateosResourceMappingsHandler} for the given criteria or sets the response with not found.
-     */
-    private HateosResourceMappingsHandler handlerOrNotFound(final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
-                                                            final LinkRelation<?> relation,
-                                                            final HttpMethod method) {
-        final HateosResourceMappingsHandler handler = mappings.relationAndMethodToHandlers.get(
-                HateosResourceMappingsLinkRelationHttpMethod.with(
-                        relation,
-                        method
-                )
-        );
-        if (null == handler) {
-            this.notFound(
-                    mappings.resourceName,
-                    relation
-            );
-        }
-        return handler;
-    }
-
-    private void notFound(final HateosResourceName resourceName,
-                          final LinkRelation<?> linkRelation) {
-        this.setStatus(
-                HttpStatusCode.NOT_FOUND,
-                message(
-                        resourceName,
-                        linkRelation
-                )
-        );
-    }
 
     // HateosHttpEntityHandler..........................................................................................
 

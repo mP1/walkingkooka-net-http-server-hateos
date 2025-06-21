@@ -20,9 +20,9 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.ToStringBuilder;
 import walkingkooka.ToStringBuilderOption;
 import walkingkooka.collect.Range;
-import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.UrlPath;
+import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
@@ -33,8 +33,6 @@ import walkingkooka.route.Router;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -115,34 +113,16 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
                                    final Class<V> valueType,
                                    final Class<C> collectionType,
                                    final Class<H> resourceType,
-                                   final Map<HateosResourceMappingsLinkRelationHttpMethod, HateosResourceMappingsHandler<?>> relationAndMethodToHandlers) {
+                                   //final Map<HateosResourceMappingsLinkRelationHttpMethod, HateosResourceMappingsMappingHandler<?>> relationAndMethodToHandlers) {
+                                   final Map<UrlPathName, HateosResourceMappingsMapping<I, V, C, H, X>> pathNameToMappings) {
         super();
         this.resourceName = resourceName;
         this.selection = selection;
         this.valueType = valueType;
         this.collectionType = collectionType;
         this.resourceType = resourceType;
-        this.relationAndMethodToHandlers = relationAndMethodToHandlers;
 
-        // Builds a map of {@link LinkRelation to all {@link List} of {@link HttpMethod}.
-        // Used by {@link #handlerOrMethodNotAllowed(LinkRelation, HateosResourceMappingRouterBiConsumerRequest) for the {@link HttpHeaderName#ALLOW}.
-        final Map<LinkRelation<?>, List<HttpMethod>> relationToMethods = Maps.ordered();
-        relationAndMethodToHandlers.keySet()
-                .forEach(relationAndMethod -> {
-                    final LinkRelation<?> r = relationAndMethod.relation;
-                    List<HttpMethod> m = relationToMethods.get(r);
-                    if (null == m) {
-                        m = Lists.array();
-                        relationToMethods.put(r, m);
-                    }
-                    m.add(relationAndMethod.method);
-                });
-        relationToMethods.values()
-                .forEach(methods -> {
-                    methods.sort(Comparator.naturalOrder());
-                });
-
-        this.relationToMethods = relationToMethods;
+        this.pathNameToMappings = pathNameToMappings;
     }
 
     /**
@@ -150,14 +130,39 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
      */
     public HateosResourceMappings<I, V, C, H, X> setHateosHttpEntityHandler(final LinkRelation<?> relation,
                                                                             final HttpMethod method,
-                                                                            final HateosHttpEntityHandler<I, ?> handler) {
-        return this.setHandler(
-                HateosResourceMappingsLinkRelationHttpMethod.with(
-                        relation,
-                        method
-                ),
-                HateosResourceMappingsHandler.hateosHttpEntityHandler(handler)
+                                                                            final HateosHttpEntityHandler<I, X> handler) {
+        checkLinkRelation(relation);
+        Objects.requireNonNull(method, "method");
+        Objects.requireNonNull(handler, "handler");
+
+        final Map<UrlPathName, HateosResourceMappingsMapping<I, V, C, H, X>> pathNameToMappings = Maps.sorted();
+        pathNameToMappings.putAll(this.pathNameToMappings);
+
+        final UrlPathName pathName = relation.toUrlPathName()
+                .get();
+
+        HateosResourceMappingsMapping<I, V, C, H, X> mappingHandler = pathNameToMappings.get(pathName);
+        if (null == mappingHandler) {
+            mappingHandler = HateosResourceMappingsMapping.empty(relation);
+        }
+        pathNameToMappings.put(
+                pathName,
+                mappingHandler.setHateosHttpEntityHandler(
+                        method,
+                        handler
+                )
         );
+
+        return this.pathNameToMappings.equals(pathNameToMappings) ?
+                this :
+                new HateosResourceMappings<>(
+                        this.resourceName,
+                        this.selection,
+                        this.valueType,
+                        this.collectionType,
+                        this.resourceType,
+                        pathNameToMappings
+                );
     }
 
     /**
@@ -166,28 +171,29 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
     public HateosResourceMappings<I, V, C, H, X> setHateosResourceHandler(final LinkRelation<?> relation,
                                                                           final HttpMethod method,
                                                                           final HateosResourceHandler<I, V, C, X> handler) {
-        return this.setHandler(
-                HateosResourceMappingsLinkRelationHttpMethod.with(
-                        relation,
-                        method
-                ),
-                HateosResourceMappingsHandler.hateosResourceHandler(handler)
-        );
-    }
+        checkLinkRelation(relation);
+        Objects.requireNonNull(method, "method");
+        Objects.requireNonNull(handler, "handler");
 
-    /**
-     * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosResourceHandler}.
-     */
-    private HateosResourceMappings<I, V, C, H, X> setHandler(final HateosResourceMappingsLinkRelationHttpMethod relationAndMethod,
-                                                             final HateosResourceMappingsHandler<?> handler) {
-        final Map<HateosResourceMappingsLinkRelationHttpMethod, HateosResourceMappingsHandler<?>> copy = Maps.sorted();
-        copy.putAll(this.relationAndMethodToHandlers);
-        final Object replaced = copy.put(
-                relationAndMethod,
-                handler
+        final Map<UrlPathName, HateosResourceMappingsMapping<I, V, C, H, X>> pathNameToMappings = Maps.sorted();
+        pathNameToMappings.putAll(this.pathNameToMappings);
+
+        final UrlPathName pathName = relation.toUrlPathName()
+                .get();
+
+        HateosResourceMappingsMapping<I, V, C, H, X> mappingHandler = pathNameToMappings.get(pathName);
+        if (null == mappingHandler) {
+            mappingHandler = HateosResourceMappingsMapping.empty(relation);
+        }
+        pathNameToMappings.put(
+                pathName,
+                mappingHandler.setHateosResourceHandler(
+                        method,
+                        handler
+                )
         );
 
-        return handler.equals(replaced) ?
+        return this.pathNameToMappings.equals(pathNameToMappings) ?
                 this :
                 new HateosResourceMappings<>(
                         this.resourceName,
@@ -195,16 +201,19 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
                         this.valueType,
                         this.collectionType,
                         this.resourceType,
-                        copy
+                        pathNameToMappings
                 );
     }
 
-    /**
-     * Mapping of all {@link LinkRelation} and {@link HttpMethod} to {@link HateosResourceMappingsHandler}.
-     */
-    final Map<HateosResourceMappingsLinkRelationHttpMethod, HateosResourceMappingsHandler<?>> relationAndMethodToHandlers;
+    private static LinkRelation<?> checkLinkRelation(final LinkRelation<?> relation) {
+        Objects.requireNonNull(relation, "relation");
+        if (relation.isUrl()) {
+            throw new IllegalArgumentException("Invalid relation, urls are not supported");
+        }
+        return relation;
+    }
 
-    // HateosResourceMappingsRouter...............................................................................
+    // HateosResourceMappingsRouter.....................................................................................
 
     /**
      * Creates a {@link Router} from the provided {@link HateosResourceMappings mappings}.
@@ -255,10 +264,9 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
     final Class<H> resourceType;
 
     /**
-     * A lazy {@link Map} that maps a {@link LinkRelation} to all supported {@link HttpMethod}.
-     * This is populated and used to fill the {@link HttpHeaderName#ALLOW} when an invalid request method is used.
+     * Contains all individual mappings.
      */
-    final Map<LinkRelation<?>, List<HttpMethod>> relationToMethods;
+    final Map<UrlPathName, HateosResourceMappingsMapping<I, V, C, H, X>> pathNameToMappings;
 
     // toString.........................................................................................................
 
@@ -272,7 +280,7 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
         b.value(this.resourceType.getName());
 
         b.valueSeparator(",");
-        b.value(this.relationAndMethodToHandlers);
+        b.value(this.pathNameToMappings);
 
         return b.build();
     }

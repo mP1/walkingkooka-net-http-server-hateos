@@ -48,7 +48,8 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
     @Test
     public void testHateosResourceWithLinks() {
         final TestHateosResource resource = TestHateosResource.with(BigInteger.valueOf(123));
-        this.marshallAndCheck(resource,
+        this.marshallAndCheck(
+                resource,
                 JsonNode.parse("{\n" +
                         "  \"id\": \"123\",\n" +
                         "  \"_links\": [{\n" +
@@ -67,7 +68,9 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                         "    \"rel\": \"contents\",\n" +
                         "    \"type\": \"application/test-json-123\"\n" +
                         "  }]\n" +
-                        "}"));
+                        "}"
+                )
+        );
     }
 
     private void marshallAndCheck(final Object resource,
@@ -82,8 +85,10 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
 
     @Test
     public void testToString() {
-        this.toStringAndCheck(this.createBiFunction(),
-                "{walkingkooka.net.http.server.hateos.TestHateosResource=resource-1, self=POST, contents=GET, POST, walkingkooka.net.http.server.hateos.TestHateosResource2=resource-2, about=PUT}");
+        this.toStringAndCheck(
+                this.createBiFunction(),
+                "{walkingkooka.net.http.server.hateos.TestHateosResource=resource-1, self=POST, contents=GET, POST, walkingkooka.net.http.server.hateos.TestHateosResource2=resource-2, about=PUT}"
+        );
     }
 
     // BiFunction.......................................................................................................
@@ -113,7 +118,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
         final HateosResourceName resourceName1 = this.resourceName1();
         final HateosResourceName resourceName2 = this.resourceName2();
 
-        final HateosResourceMappings<?, ?, ?, ?, ?> mapping1 = HateosResourceMappings.with(
+        final HateosResourceMappings<?, ?, ?, ?, ?> mappings1 = HateosResourceMappings.with(
                         resourceName1,
                         this.selectionParser(),
                         TestResource.class,
@@ -124,17 +129,20 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosResourceHandler<>())
                 .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
 
-        final HateosResourceMappings<?, ?, ?, ?, ?> mapping2 = HateosResourceMappings.with(
-                        resourceName2,
-                        this.selectionParser(),
-                        TestResource.class,
-                        TestResource2.class,
-                        TestHateosResource2.class,
-                        TestHateosResourceHandlerContext.class
-                )
-                .setHateosResourceHandler(LinkRelation.ABOUT, HttpMethod.PUT, new FakeHateosResourceHandler<>());
+        final HateosResourceMappings<?, ?, ?, ?, ?> mappings2 = HateosResourceMappings.with(
+                resourceName2,
+                this.selectionParser(),
+                TestResource.class,
+                TestResource2.class,
+                TestHateosResource2.class,
+                TestHateosResourceHandlerContext.class
+        ).setHateosResourceHandler(
+                LinkRelation.ABOUT,
+                HttpMethod.PUT,
+                new FakeHateosResourceHandler<>()
+        );
 
-        return Sets.of(mapping1, mapping2);
+        return Sets.of(mappings1, mappings2);
     }
 
     private BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selectionParser() {
