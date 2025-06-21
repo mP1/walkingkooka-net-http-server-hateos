@@ -26,6 +26,8 @@ import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
+import walkingkooka.net.http.server.FakeHttpHandler;
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsTest.TestHateosResourceHandlerContext;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
@@ -308,7 +310,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosResourceHandler(
                                         METHOD,
                                         HATEOS_RESOURCE_HANDLER
@@ -320,14 +322,14 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosResourceHandler(
                                         METHOD,
                                         HATEOS_RESOURCE_HANDLER
                                 ),
                         DIFFERENT_LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(DIFFERENT_LINK_RELATION)
+                        mapping(DIFFERENT_LINK_RELATION)
                                 .setHateosResourceHandler(
                                         METHOD,
                                         HATEOS_RESOURCE_HANDLER
@@ -361,7 +363,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosResourceHandler(
                                         METHOD,
                                         HATEOS_RESOURCE_HANDLER
@@ -373,7 +375,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosResourceHandler(
                                         METHOD,
                                         HATEOS_RESOURCE_HANDLER
@@ -410,7 +412,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosResourceHandler(
                                         METHOD,
                                         HATEOS_RESOURCE_HANDLER
@@ -422,7 +424,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosResourceHandler(
                                         METHOD,
                                         differentHandler
@@ -471,21 +473,21 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         linkRelation1.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(linkRelation1)
+                        mapping(linkRelation1)
                                 .setHateosResourceHandler(
                                         method1,
                                         handler1
                                 ),
                         linkRelation2.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(linkRelation2)
+                        mapping(linkRelation2)
                                 .setHateosResourceHandler(
                                         method2,
                                         handler2
                                 ),
                         linkRelation3.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(linkRelation3)
+                        mapping(linkRelation3)
                                 .setHateosResourceHandler(
                                         method3,
                                         handler3
@@ -579,7 +581,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosHttpEntityHandler(
                                         METHOD,
                                         HATEOS_HTTP_ENTITY_HANDLER
@@ -591,14 +593,14 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosHttpEntityHandler(
                                         METHOD,
                                         HATEOS_HTTP_ENTITY_HANDLER
                                 ),
                         DIFFERENT_LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(DIFFERENT_LINK_RELATION)
+                        mapping(DIFFERENT_LINK_RELATION)
                                 .setHateosHttpEntityHandler(
                                         METHOD,
                                         HATEOS_HTTP_ENTITY_HANDLER
@@ -631,7 +633,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosHttpEntityHandler(
                                         METHOD,
                                         HATEOS_HTTP_ENTITY_HANDLER
@@ -643,7 +645,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosHttpEntityHandler(
                                         METHOD,
                                         HATEOS_HTTP_ENTITY_HANDLER
@@ -677,7 +679,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosHttpEntityHandler(
                                         METHOD,
                                         HATEOS_HTTP_ENTITY_HANDLER
@@ -689,7 +691,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         LINK_RELATION.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(LINK_RELATION)
+                        mapping(LINK_RELATION)
                                 .setHateosHttpEntityHandler(
                                         METHOD,
                                         differentHandler
@@ -736,26 +738,33 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 Maps.of(
                         linkRelation1.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(linkRelation1)
+                        mapping(linkRelation1)
                                 .setHateosHttpEntityHandler(
                                         method1,
                                         handler1
                                 ),
                         linkRelation2.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(linkRelation1)
+                        mapping(linkRelation1)
                                 .setHateosHttpEntityHandler(
                                         method2,
                                         handler2
                                 ),
                         linkRelation3.toUrlPathName()
                                 .get(),
-                        HateosResourceMappingsMapping.<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>empty(linkRelation1)
+                        mapping(linkRelation1)
                                 .setHateosHttpEntityHandler(
                                         method3,
                                         handler3
                                 )
                 )
+        );
+    }
+
+    private HateosResourceMappingsMapping<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mapping(final LinkRelation<?> linkRelation) {
+        return HateosResourceMappingsMapping.empty(
+                linkRelation,
+                null // HttpHandler
         );
     }
 
@@ -765,6 +774,76 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 pathNameToMappings,
                 mappings.pathNameToMappings,
                 "pathNameToMappings"
+        );
+    }
+
+    // setHttpHandler...................................................................................................
+
+    private final static HttpHandler HTTP_HANDLER = new FakeHttpHandler();
+
+    @Test
+    public void testSetHttpHandlerWithNullUrlPathNameFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> this.createMappings()
+                        .setHttpHandler(
+                                null,
+                                HTTP_HANDLER
+                        )
+        );
+    }
+
+    @Test
+    public void testSetHttpHandlerWithNullHttpHandlerFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> this.createMappings()
+                        .setHttpHandler(
+                                UrlPathName.with("Hello"),
+                                null
+                        )
+        );
+    }
+
+    @Test
+    public void testSetHttpHandlerAfterSetHateosHttpEntityHandlerFails() {
+        final IllegalStateException thrown = assertThrows(
+                IllegalStateException.class,
+                () -> this.createMappings()
+                        .setHateosHttpEntityHandler(
+                                LINK_RELATION,
+                                METHOD,
+                                HATEOS_HTTP_ENTITY_HANDLER
+                        ).setHttpHandler(
+                                LINK_RELATION.toUrlPathName()
+                                        .get(),
+                                HTTP_HANDLER
+                        )
+        );
+        this.checkEquals(
+                "Clash with existing HateosHttpEntityHandler / HateosResourceHandler",
+                thrown.getMessage()
+        );
+    }
+
+    @Test
+    public void testSetHttpHandlerAfterSetHateosResourceHandlerFails() {
+        final IllegalStateException thrown = assertThrows(
+                IllegalStateException.class,
+                () -> this.createMappings()
+                        .setHateosResourceHandler(
+                                LINK_RELATION,
+                                METHOD,
+                                HATEOS_RESOURCE_HANDLER
+                        ).setHttpHandler(
+                                LINK_RELATION.toUrlPathName()
+                                        .get(),
+                                HTTP_HANDLER
+                        )
+        );
+        this.checkEquals(
+                "Clash with existing HateosHttpEntityHandler / HateosResourceHandler",
+                thrown.getMessage()
         );
     }
 
@@ -836,7 +915,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                                     }
                                 }
                         ),
-                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" LinkRelation111={POST=Handler123}"
+                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" LinkRelation111=POST=Handler123"
         );
     }
 
@@ -865,7 +944,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                                     }
                                 }
                         ),
-                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" {GET=Handler111, POST=Handler222}"
+                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" GET=Handler111, POST=Handler222"
         );
     }
 
@@ -893,6 +972,14 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                         LinkRelation.ABOUT,
                         HttpMethod.GET,
                         HATEOS_RESOURCE_HANDLER
+                ).setHttpHandler(
+                        UrlPathName.with("Hello"),
+                        new FakeHttpHandler() {
+                            @Override
+                            public String toString() {
+                                return "HelloHttpHandler";
+                            }
+                        }
                 ),
                 "abc123\n" +
                         "  ResourceType:\n" +
@@ -903,6 +990,8 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                         "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
                         "        POST\n" +
                         "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
+                        "      \"Hello\"\n" +
+                        "        HelloHttpHandler (walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$5)\n" +
                         "      \"about\"\n" +
                         "        GET\n" +
                         "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +

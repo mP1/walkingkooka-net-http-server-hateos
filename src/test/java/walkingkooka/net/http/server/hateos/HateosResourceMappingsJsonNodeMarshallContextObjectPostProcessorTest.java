@@ -23,9 +23,11 @@ import walkingkooka.naming.Names;
 import walkingkooka.naming.StringName;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.Url;
+import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
+import walkingkooka.net.http.server.FakeHttpHandler;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessorTesting;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
@@ -140,6 +142,9 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 LinkRelation.ABOUT,
                 HttpMethod.PUT,
                 new FakeHateosResourceHandler<>()
+        ).setHttpHandler(
+                UrlPathName.with("HelloHttpHandler"),
+                new FakeHttpHandler()
         );
 
         return Sets.of(mappings1, mappings2);

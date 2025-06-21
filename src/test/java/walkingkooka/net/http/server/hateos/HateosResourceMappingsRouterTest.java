@@ -28,6 +28,7 @@ import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.UrlPath;
+import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.CharsetName;
@@ -41,6 +42,7 @@ import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpStatus;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.HttpTransport;
+import walkingkooka.net.http.server.FakeHttpHandler;
 import walkingkooka.net.http.server.FakeHttpRequest;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
@@ -1486,6 +1488,151 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         this.checkEquals(
                 "291\n" + // 0x123
                         "RequestBodyText123",
+                response.entity()
+                        .bodyText()
+        );
+    }
+
+    // setHttpHandler...................................................................................................
+
+    @Test
+    public void testSetHttpHandlerAndRouteWithEmptyUrlPathName() {
+        this.setHttpHandlerAndRouteAndCheck(
+                UrlPathName.with(""),
+                "/api/resource-with-body/0x123/",
+                "POST /api/resource-with-body/0x123/\n" +
+                        "RequestBodyText123"
+        );
+    }
+
+    @Test
+    public void testSetHttpHandlerAndRoute() {
+        this.setHttpHandlerAndRouteAndCheck(
+                UrlPathName.with("hello"),
+                "/api/resource-with-body/0x123/hello/",
+                "POST /api/resource-with-body/0x123/hello/\n" +
+                        "RequestBodyText123"
+        );
+    }
+
+    private void setHttpHandlerAndRouteAndCheck(final UrlPathName pathName,
+                                                final String requestUrl,
+                                                final String expectedBodyText) {
+        final MediaType mediaType = MediaType.TEXT_PLAIN;
+        final HttpStatus status = HttpStatusCode.OK.setMessage("OK123");
+
+        final HateosResourceMappings<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mapping = HateosResourceMappings.with(
+                HateosResourceName.with("resource-with-body"),
+                (s, x) -> {
+                    return HateosResourceSelection.one(
+                            BigInteger.valueOf(
+                                    Integer.parseInt(
+                                            s.substring(2),
+                                            16
+                                    )
+                            )
+                    ); // assumes hex digit in url
+                },
+                TestResource.class,
+                TestResource.class,
+                TestHateosResource.class,
+                TestHateosResourceHandlerContext.class
+        ).setHttpHandler(
+                pathName,
+                new FakeHttpHandler() {
+                    @Override
+                    public void handle(final HttpRequest request,
+                                       final HttpResponse response) {
+                        response.setStatus(status);
+                        response.setEntity(
+                                HttpEntity.EMPTY.setBodyText(
+                                        request.method() + " " + request.url() + "\n" +
+                                                request.bodyText()
+                                )
+                        );
+                    }
+                }
+        );
+
+        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
+                UrlPath.parse("/api"),
+                Sets.of(mapping),
+                INDENTATION,
+                LINE_ENDING,
+                CONTEXT
+        );
+
+        final HttpRequest request = new FakeHttpRequest() {
+
+            @Override
+            public HttpTransport transport() {
+                return HttpTransport.UNSECURED;
+            }
+
+            @Override
+            public HttpProtocolVersion protocolVersion() {
+                return HttpProtocolVersion.VERSION_1_0;
+            }
+
+            @Override
+            public HttpMethod method() {
+                return HttpMethod.POST;
+            }
+
+            @Override
+            public RelativeUrl url() {
+                return Url.parseRelative(requestUrl);
+            }
+
+            @Override
+            public Map<HttpHeaderName<?>, List<?>> headers() {
+                return Maps.of(
+                        HttpHeaderName.CONTENT_TYPE, Lists.of(mediaType)
+                );
+            }
+
+            @Override
+            public byte[] body() {
+                return this.bodyText()
+                        .getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String bodyText() {
+                return "RequestBodyText123";
+            }
+
+            @Override
+            public Map<HttpRequestParameterName, List<String>> parameters() {
+                return Maps.empty();
+            }
+
+            @Override
+            public List<String> parameterValues(final HttpRequestParameterName parameterName) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public String toString() {
+                return this.method() + " " + this.url() + " " + parameters();
+            }
+        };
+        final HttpHandler httpHandler = router.route(
+                request.routerParameters()
+        ).orElseThrow(
+                () -> new Error("Unable to route")
+        );
+
+        final HttpResponse response = HttpResponses.recording();
+        httpHandler.handle(request, response);
+
+        this.checkEquals(
+                Optional.of(status),
+                response.status()
+        );
+
+        this.checkEquals(
+                expectedBodyText,
                 response.entity()
                         .bodyText()
         );

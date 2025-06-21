@@ -45,10 +45,13 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor imp
             final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods = Maps.ordered();
 
             for (final HateosResourceMappingsMapping<?, ?, ?, ?, ?> m : mapping.pathNameToMappings.values()) {
-                linkRelationToMethods.put(
-                        m.linkRelation,
-                        m.allowedMethods()
-                );
+                final LinkRelation<?> linkRelation = m.linkRelation;
+                if (null != linkRelation) {
+                    linkRelationToMethods.put(
+                            linkRelation,
+                            m.allowedMethods()
+                    );
+                }
             }
 
             typeToMappings.put(
