@@ -27,6 +27,7 @@ import walkingkooka.tree.json.JsonObject;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,11 +43,11 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor imp
 
         for (HateosResourceMappings<?, ?, ?, ?, ?> mapping : mappings) {
             final HateosResourceName resourceName = mapping.resourceName;
-            final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods = Maps.ordered();
+            final Map<LinkRelation<?>, Collection<HttpMethod>> relationToMethods = Maps.ordered();
 
             for (HateosResourceMappingsLinkRelationHttpMethod relationAndMethod : mapping.relationAndMethodToHandlers.keySet()) {
                 final LinkRelation<?> relation = relationAndMethod.relation;
-                Set<HttpMethod> methods = relationToMethods.get(relation);
+                Collection<HttpMethod> methods = relationToMethods.get(relation);
                 if (null == methods) {
                     methods = Sets.ordered();
                     relationToMethods.put(relation, methods);
