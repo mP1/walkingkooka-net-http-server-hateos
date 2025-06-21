@@ -47,8 +47,15 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 "    \"type\": \"application/test-json\"\n" +
                 "  }]\n" +
                 "}";
-        this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET))),
-                withLinks);
+        this.addLinksAndCheck(
+                this.createMapping(
+                        Maps.of(
+                                LinkRelation.SELF,
+                                Sets.of(HttpMethod.GET)
+                        )
+                ),
+                withLinks
+        );
     }
 
     @Test
@@ -68,8 +75,18 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 "    \"type\": \"application/test-json\"\n" +
                 "  }]\n" +
                 "}";
-        this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET, HttpMethod.POST))),
-                withLinks);
+        this.addLinksAndCheck(
+                this.createMapping(
+                        Maps.of(
+                                LinkRelation.SELF,
+                                Sets.of(
+                                        HttpMethod.GET,
+                                        HttpMethod.POST
+                                )
+                        )
+                ),
+                withLinks
+        );
     }
 
     @Test
@@ -84,7 +101,17 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 "    \"type\": \"application/test-json\"\n" +
                 "  }]\n" +
                 "}";
-        this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.CONTENTS, Sets.of(HttpMethod.GET))), withLinks);
+        this.addLinksAndCheck(
+                this.createMapping(
+                        Maps.of(
+                                LinkRelation.CONTENTS,
+                                Sets.of(
+                                        HttpMethod.GET
+                                )
+                        )
+                ),
+                withLinks
+        );
     }
 
     @Test
@@ -109,17 +136,34 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 "    \"type\": \"application/test-json\"\n" +
                 "  }]\n" +
                 "}";
-        this.addLinksAndCheck(this.createMapping(Maps.of(LinkRelation.SELF, Sets.of(HttpMethod.GET, HttpMethod.POST),
-                        LinkRelation.ABOUT, Sets.of(HttpMethod.DELETE))),
-                withLinks);
+        this.addLinksAndCheck(
+                this.createMapping(
+                        Maps.of(
+                                LinkRelation.SELF,
+                                Sets.of(HttpMethod.GET,
+                                        HttpMethod.POST
+                                ),
+                                LinkRelation.ABOUT,
+                                Sets.of(
+                                        HttpMethod.DELETE
+                                )
+                        )
+                ),
+                withLinks
+        );
     }
 
     private void addLinksAndCheck(final HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping mapping,
                                   final String withLinks) {
         final String before = "{\"a\": 1, \"b\": 2}";
-        this.checkEquals(JsonNode.parse(withLinks),
-                mapping.addLinks(TestHateosResource.with(BigInteger.valueOf(123)),
-                        JsonNode.parse(before).objectOrFail(),
+        this.checkEquals(
+                JsonNode.parse(withLinks),
+                mapping.addLinks(
+                        TestHateosResource.with(
+                                BigInteger.valueOf(123)
+                        ),
+                        JsonNode.parse(before)
+                                .objectOrFail(),
                         Url.parseAbsolute("https://example.com/api"),
                         new FakeHateosResourceHandlerContext() {
 
@@ -135,7 +179,8 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                             }
                         }
                 ),
-                mapping::toString);
+                mapping::toString
+        );
     }
 
     @Test
@@ -144,11 +189,26 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
     }
 
     private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping createMapping() {
-        return this.createMapping(Maps.of(LinkRelation.ABOUT, Sets.of(HttpMethod.GET), LinkRelation.CONTENTS, Sets.of(HttpMethod.GET, HttpMethod.POST)));
+        return this.createMapping(
+                Maps.of(
+                        LinkRelation.ABOUT,
+                        Sets.of(
+                                HttpMethod.GET
+                        ),
+                        LinkRelation.CONTENTS,
+                        Sets.of(
+                                HttpMethod.GET,
+                                HttpMethod.POST
+                        )
+                )
+        );
     }
 
-    private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping createMapping(final Map<LinkRelation<?>, Collection<HttpMethod>> relationToMethods) {
-        return HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(HateosResourceName.with("resource1"), relationToMethods);
+    private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping createMapping(final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods) {
+        return HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(
+                HateosResourceName.with("resource1"),
+                linkRelationToMethods
+        );
     }
 
     // TypeTesting......................................................................................................
