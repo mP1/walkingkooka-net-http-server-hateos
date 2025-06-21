@@ -29,8 +29,8 @@ import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMappingTest extends HateosResourceMappingsTestCase<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping>
         implements ToStringTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> {
@@ -147,7 +147,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
         return this.createMapping(Maps.of(LinkRelation.ABOUT, Sets.of(HttpMethod.GET), LinkRelation.CONTENTS, Sets.of(HttpMethod.GET, HttpMethod.POST)));
     }
 
-    private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping createMapping(final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
+    private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping createMapping(final Map<LinkRelation<?>, Collection<HttpMethod>> relationToMethods) {
         return HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(HateosResourceName.with("resource1"), relationToMethods);
     }
 

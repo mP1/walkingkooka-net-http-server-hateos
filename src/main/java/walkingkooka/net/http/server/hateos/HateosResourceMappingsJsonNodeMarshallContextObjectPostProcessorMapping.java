@@ -31,10 +31,10 @@ import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.JsonObject;
 import walkingkooka.tree.json.JsonPropertyName;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * A value class that holds numerous components to build links for a {@link HateosResourceName}.
@@ -42,15 +42,15 @@ import java.util.Set;
 final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping {
 
     static HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping with(final HateosResourceName name,
-                                                                                        final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
-        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(name, relationToMethods);
+                                                                                        final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods) {
+        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(name, linkRelationToMethods);
     }
 
     private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(final HateosResourceName name,
-                                                                                    final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods) {
+                                                                                    final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods) {
         super();
         this.name = UrlPathName.with(name.value());
-        this.relationToMethods = relationToMethods;
+        this.linkRelationToMethods = linkRelationToMethods;
     }
 
     JsonObject addLinks(final HateosResource<?> resource,
@@ -63,24 +63,40 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                 .append(UrlPathName.with(resource.hateosLinkId()));
         final List<JsonNode> links = Lists.array();
 
-        for (Entry<LinkRelation<?>, Set<HttpMethod>> relationToMethods : this.relationToMethods.entrySet()) {
-            final LinkRelation<?> relation = relationToMethods.getKey();
+        for (Entry<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods : this.linkRelationToMethods.entrySet()) {
+            final LinkRelation<?> relation = linkRelationToMethods.getKey();
 
-            for (HttpMethod method : relationToMethods.getValue()) {
+            for (HttpMethod method : linkRelationToMethods.getValue()) {
                 // TODO add support for title/title* and hreflang
-                final Map<LinkParameterName<?>, Object> parameters = Maps.of(LinkParameterName.METHOD, method,
+                final Map<LinkParameterName<?>, Object> parameters = Maps.of(
+                        LinkParameterName.METHOD, method,
                         LinkParameterName.REL, Lists.of(relation),
-                        LinkParameterName.TYPE, context.contentType());
+                        LinkParameterName.TYPE, context.contentType()
+                );
 
-                links.add(context.marshall(Link.with(base.setPath(LinkRelation.SELF == relation ?
-                                pathAndResourceNameAndId :
-                                pathAndResourceNameAndId.append(UrlPathName.with(relation.value().toString()))))
-                        .setParameters(parameters)));
+                links.add(
+                        context.marshall(Link.with(base.setPath(LinkRelation.SELF == relation ?
+                                                        pathAndResourceNameAndId :
+                                                        pathAndResourceNameAndId.append(
+                                                                UrlPathName.with(
+                                                                        relation.value()
+                                                                                .toString()
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                        .setParameters(parameters)
+                        )
+                );
             }
 
         }
 
-        return object.set(LINKS, JsonNode.array().setChildren(links));
+        return object.set(
+                LINKS,
+                JsonNode.array()
+                        .setChildren(links)
+        );
     }
 
     /**
@@ -89,7 +105,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
     private final static JsonPropertyName LINKS = JsonPropertyName.with("_links");
 
     private final UrlPathName name;
-    private final Map<LinkRelation<?>, Set<HttpMethod>> relationToMethods;
+    private final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods;
 
     @Override
     public String toString() {
@@ -97,7 +113,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                 .valueSeparator(", ")
                 .separator(", ")
                 .value(this.name)
-                .value(this.relationToMethods)
+                .value(this.linkRelationToMethods)
                 .build();
     }
 }
