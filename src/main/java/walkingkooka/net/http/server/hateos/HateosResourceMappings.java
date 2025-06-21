@@ -30,10 +30,14 @@ import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.route.Router;
+import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -56,7 +60,8 @@ import java.util.function.BiFunction;
  * <li>{@link HttpStatusCode#NOT_IMPLEMENTED} - The handler throws an {@link UnsupportedOperationException}</li>
  * </ul>
  */
-public final class HateosResourceMappings<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> {
+public final class HateosResourceMappings<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext>
+        implements TreePrintable {
 
     /**
      * This header will appear in any successful JSON response and contains the simple java type name (Class#getSimpleName())
@@ -283,5 +288,54 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
         b.value(this.pathNameToMappings);
 
         return b.build();
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        TreePrintable.printTreeOrToString(
+                this.resourceName,
+                printer
+        );
+
+        printer.indent();
+        {
+            printer.println("ResourceType:");
+            printer.indent();
+            {
+                printer.println(this.resourceType.getSimpleName());
+            }
+            printer.outdent();
+        }
+        printer.outdent();
+
+        printer.indent();
+        {
+            printer.println("mappings:");
+            printer.indent();
+            {
+                for (final Entry<UrlPathName, HateosResourceMappingsMapping<I, V, C, H, X>> pathNameAndMapping : this.pathNameToMappings.entrySet()) {
+                    printer.indent();
+                    {
+                        printer.println(
+                                CharSequences.quoteAndEscape(
+                                        pathNameAndMapping.getKey()
+                                                .value()
+                                )
+                        );
+                        printer.indent();
+                        {
+                            pathNameAndMapping.getValue()
+                                    .printTree(printer);
+                        }
+                        printer.outdent();
+                    }
+                    printer.outdent();
+                }
+            }
+            printer.println();
+        }
+        printer.outdent();
     }
 }
