@@ -148,7 +148,10 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
 
         HateosResourceMappingsMapping<I, V, C, H, X> mappingHandler = pathNameToMappings.get(pathName);
         if (null == mappingHandler) {
-            mappingHandler = HateosResourceMappingsMapping.empty(relation);
+            mappingHandler = HateosResourceMappingsMapping.empty(
+                    relation,
+                    null
+            );
         }
         pathNameToMappings.put(
                 pathName,
@@ -188,7 +191,10 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
 
         HateosResourceMappingsMapping<I, V, C, H, X> mappingHandler = pathNameToMappings.get(pathName);
         if (null == mappingHandler) {
-            mappingHandler = HateosResourceMappingsMapping.empty(relation);
+            mappingHandler = HateosResourceMappingsMapping.empty(
+                    relation,
+                    null
+            );
         }
         pathNameToMappings.put(
                 pathName,
@@ -216,6 +222,41 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
             throw new IllegalArgumentException("Invalid relation, urls are not supported");
         }
         return relation;
+    }
+
+    /**
+     * Sets a {@link HttpHandler} to handle requests at the given relative {@link UrlPathName}.
+     */
+    public HateosResourceMappings<I, V, C, H, X> setHttpHandler(final UrlPathName pathName,
+                                                                final HttpHandler handler) {
+        Objects.requireNonNull(pathName, "pathName");
+        Objects.requireNonNull(handler, "handler");
+
+        final Map<UrlPathName, HateosResourceMappingsMapping<I, V, C, H, X>> pathNameToMappings = Maps.sorted();
+        pathNameToMappings.putAll(this.pathNameToMappings);
+
+        HateosResourceMappingsMapping<I, V, C, H, X> mappingHandler = pathNameToMappings.get(pathName);
+        if (null == mappingHandler) {
+            mappingHandler = HateosResourceMappingsMapping.empty(
+                    null,
+                    handler
+            );
+        }
+        pathNameToMappings.put(
+                pathName,
+                mappingHandler.setHttpHandler(handler)
+        );
+
+        return this.pathNameToMappings.equals(pathNameToMappings) ?
+                this :
+                new HateosResourceMappings<>(
+                        this.resourceName,
+                        this.selection,
+                        this.valueType,
+                        this.collectionType,
+                        this.resourceType,
+                        pathNameToMappings
+                );
     }
 
     // HateosResourceMappingsRouter.....................................................................................

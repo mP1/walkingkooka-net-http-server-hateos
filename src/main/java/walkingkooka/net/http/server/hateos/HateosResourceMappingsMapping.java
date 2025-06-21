@@ -17,12 +17,14 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.ToStringBuilder;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
@@ -40,18 +42,22 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     /**
      * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
      */
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMapping<I, V, C, H, X> empty(final LinkRelation<?> linkRelation) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMapping<I, V, C, H, X> empty(final LinkRelation<?> linkRelation,
+                                                                                                                                                                   final HttpHandler httpHandler) {
         return new HateosResourceMappingsMapping<>(
                 linkRelation,
-                null
+                null, // Map<HttpMethod, HateosResourceMappingsMappingHandler<?>>
+                httpHandler
         );
     }
 
     private HateosResourceMappingsMapping(final LinkRelation<?> linkRelation,
-                                          final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers) {
+                                          final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers,
+                                          final HttpHandler httpHandler) {
         super();
         this.linkRelation = linkRelation;
         this.methodToHandlers = methodToHandlers;
+        this.httpHandler = httpHandler;
     }
 
     final LinkRelation<?> linkRelation;
@@ -60,6 +66,8 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                                                                             final HateosHttpEntityHandler<I, X> handler) {
         Objects.requireNonNull(method, "method");
         Objects.requireNonNull(handler, "handler");
+
+        this.httpHandlerCheck();
 
         final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers = Maps.sorted();
 
@@ -76,7 +84,8 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                 this :
                 new HateosResourceMappingsMapping<>(
                         this.linkRelation,
-                        methodToHandlers
+                        methodToHandlers,
+                        null // HttpHandler
                 );
     }
 
@@ -87,6 +96,8 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                                                                                  final HateosResourceHandler<I, V, C, X> handler) {
         Objects.requireNonNull(method, "method");
         Objects.requireNonNull(handler, "handler");
+
+        this.httpHandlerCheck();
 
         final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers = Maps.sorted();
 
@@ -103,8 +114,32 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                 this :
                 new HateosResourceMappingsMapping<>(
                         this.linkRelation,
-                        methodToHandlers
+                        methodToHandlers,
+                        null // HttpHandler
                 );
+    }
+
+    /**
+     * Sets a {@link walkingkooka.net.http.server.HttpHandler}
+     */
+    public HateosResourceMappingsMapping<I, V, C, H, X> setHttpHandler(final HttpHandler handler) {
+        Objects.requireNonNull(handler, "handler");
+
+        if (null != this.methodToHandlers) {
+            throw new IllegalStateException("Clash with existing " + HateosHttpEntityHandler.class.getSimpleName() + " / " + HateosResourceHandler.class.getSimpleName());
+        }
+
+        return new HateosResourceMappingsMapping<>(
+                this.linkRelation,
+                this.methodToHandlers,
+                handler
+        );
+    }
+
+    private void httpHandlerCheck() {
+        if (null != this.httpHandler) {
+            throw new IllegalStateException("Clash with existing " + HttpHandler.class.getSimpleName());
+        }
     }
 
     void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
@@ -112,26 +147,37 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {
-        final HttpMethod method = request.request.method();
-        final HateosResourceMappingsMappingHandler<?> handler = this.methodToHandlers.get(method);
-        if (null != handler) {
-            handler.handle(
-                    request,
-                    mappings,
-                    selection,
-                    path,
-                    context
+        final HttpHandler httpHandler = this.httpHandler;
+        if (null != httpHandler) {
+            httpHandler.handle(
+                    request.request,
+                    request.response
             );
         } else {
-            request.methodNotAllowed(
-                    mappings.resourceName,
-                    this.linkRelation,
-                    this.allowedMethods() // allowed HttpMethods
-            );
+
+            final HttpMethod method = request.request.method();
+            final HateosResourceMappingsMappingHandler<?> handler = this.methodToHandlers.get(method);
+            if (null != handler) {
+                handler.handle(
+                        request,
+                        mappings,
+                        selection,
+                        path,
+                        context
+                );
+            } else {
+                request.methodNotAllowed(
+                        mappings.resourceName,
+                        this.linkRelation,
+                        this.allowedMethods() // allowed HttpMethods
+                );
+            }
         }
     }
 
     private final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers;
+
+    private final HttpHandler httpHandler;
 
     List<HttpMethod> allowedMethods() {
         if (null == this.allowedMethods) {
@@ -162,29 +208,51 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
         return Objects.equals(
                 this.methodToHandlers,
                 other.methodToHandlers
+        ) && Objects.equals(
+                this.httpHandler,
+                other.httpHandler
         );
     }
 
     @Override
     public String toString() {
-        return String.valueOf(this.methodToHandlers);
+        return ToStringBuilder.empty()
+                .value(this.methodToHandlers)
+                .value(this.httpHandler)
+                .build();
     }
 
     // TreePrintable....................................................................................................
 
     @Override
     public void printTree(final IndentingPrinter printer) {
-        for (final Entry<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodAndHandler : this.methodToHandlers.entrySet()) {
-            printer.println(methodAndHandler.getKey().value());
 
-            printer.indent();
+        {
+            final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers = this.methodToHandlers;
+            if (null != methodToHandlers) {
+                for (final Entry<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodAndHandler : this.methodToHandlers.entrySet()) {
+                    printer.println(methodAndHandler.getKey().value());
 
-            TreePrintable.printTreeOrToString(
-                    methodAndHandler.getValue(),
-                    printer
-            );
+                    printer.indent();
 
-            printer.outdent();
+                    TreePrintable.printTreeOrToString(
+                            methodAndHandler.getValue(),
+                            printer
+                    );
+
+                    printer.outdent();
+                }
+            }
+        }
+
+        {
+            final HttpHandler httpHandler = this.httpHandler;
+            if (null != httpHandler) {
+                TreePrintable.printTreeOrToString(
+                        httpHandler,
+                        printer
+                );
+            }
         }
     }
 }
