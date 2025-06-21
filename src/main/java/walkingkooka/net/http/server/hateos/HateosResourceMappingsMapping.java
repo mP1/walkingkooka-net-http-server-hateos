@@ -23,15 +23,19 @@ import walkingkooka.net.UrlPath;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
+import walkingkooka.text.printer.IndentingPrinter;
+import walkingkooka.text.printer.TreePrintable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 
 /**
  * A mapping for a single {@link UrlPathName}
  */
-final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> {
+final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext>
+        implements TreePrintable {
 
     /**
      * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
@@ -164,5 +168,23 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     @Override
     public String toString() {
         return String.valueOf(this.methodToHandlers);
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Override
+    public void printTree(final IndentingPrinter printer) {
+        for (final Entry<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodAndHandler : this.methodToHandlers.entrySet()) {
+            printer.println(methodAndHandler.getKey().value());
+
+            printer.indent();
+
+            TreePrintable.printTreeOrToString(
+                    methodAndHandler.getValue(),
+                    printer
+            );
+
+            printer.outdent();
+        }
     }
 }

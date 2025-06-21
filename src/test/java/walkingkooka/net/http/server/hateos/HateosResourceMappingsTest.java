@@ -29,6 +29,7 @@ import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsTest.TestHateosResourceHandlerContext;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -42,7 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsTest implements ClassTesting2<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>>,
-        ToStringTesting<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>> {
+        ToStringTesting<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>>,
+        TreePrintableTesting {
 
     private final static HateosResourceName RESOURCE_NAME = HateosResourceName.with("abc123");
 
@@ -52,7 +54,12 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
 
     private final static Class<TestHateosResource> RESOURCE_TYPE = TestHateosResource.class;
 
-    private final static HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> HATEOS_RESOURCE_HANDLER = new FakeHateosResourceHandler<>();
+    private final static HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> HATEOS_RESOURCE_HANDLER = new FakeHateosResourceHandler<>() {
+        @Override
+        public String toString() {
+            return "HateosResourceHandler123";
+        }
+    };
 
     private static final LinkRelation<?> LINK_RELATION = LinkRelation.with("LinkRelation111");
 
@@ -63,6 +70,11 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     private static final HttpMethod DIFFERENT_METHOD = HttpMethod.with("DIFFERENT");
 
     static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
+
+        @Override
+        public String toString() {
+            return this.getClass().getSimpleName();
+        }
     }
 
     @Test
@@ -854,6 +866,47 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                                 }
                         ),
                 "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" {GET=Handler111, POST=Handler222}"
+        );
+    }
+
+    // TreePrintable....................................................................................................
+
+    @Test
+    public void testTreePrint() {
+        this.treePrintAndCheck(
+                HateosResourceMappings.with(
+                        RESOURCE_NAME,
+                        this.selection(),
+                        VALUE_TYPE,
+                        COLLECTION_TYPE,
+                        RESOURCE_TYPE,
+                        TestHateosResourceHandlerContext.class
+                ).setHateosResourceHandler(
+                        LinkRelation.SELF,
+                        HttpMethod.GET,
+                        HATEOS_RESOURCE_HANDLER
+                ).setHateosResourceHandler(
+                        LinkRelation.SELF,
+                        HttpMethod.POST,
+                        HATEOS_RESOURCE_HANDLER
+                ).setHateosResourceHandler(
+                        LinkRelation.ABOUT,
+                        HttpMethod.GET,
+                        HATEOS_RESOURCE_HANDLER
+                ),
+                "abc123\n" +
+                        "  ResourceType:\n" +
+                        "    TestHateosResource\n" +
+                        "  mappings:\n" +
+                        "      \"\"\n" +
+                        "        GET\n" +
+                        "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
+                        "        POST\n" +
+                        "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
+                        "      \"about\"\n" +
+                        "        GET\n" +
+                        "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
+                        "    \n"
         );
     }
 
