@@ -25,7 +25,6 @@ import walkingkooka.net.UrlPathName;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
-import walkingkooka.route.RouteException;
 import walkingkooka.route.Router;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -68,11 +67,16 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
                                          final HateosResourceHandlerContext context) {
         super();
         this.base = base.normalize();
-        this.resourceNameToMapping = Maps.sorted();
+        Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, ?>> resourceNameToMapping = Maps.sorted();
 
-        for (final HateosResourceMappings<?, ?, ?, ?, ?> mapping : mappings) {
-            this.resourceNameToMapping.put(mapping.resourceName, mapping);
+        for (final HateosResourceMappings<?, ?, ?, ?, ?> mappingsMappings : mappings) {
+            resourceNameToMapping.put(
+                    mappingsMappings.resourceName,
+                    mappingsMappings
+            );
         }
+
+        this.resourceNameToMapping = resourceNameToMapping;
 
         this.indentation = indentation;
         this.lineEnding = lineEnding;
@@ -80,13 +84,15 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
         this.context = context;
     }
 
+    final Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, ?>> resourceNameToMapping;
+
     // Router...........................................................................................................
 
     @Override
-    public Optional<HttpHandler> route(final Map<HttpRequestAttribute<?>, Object> parameters) throws RouteException {
+    public Optional<HttpHandler> route(final Map<HttpRequestAttribute<?>, Object> parameters) {
         Objects.requireNonNull(parameters, "parameters");
 
-        // a handler will be returned if the request path matche the path
+        // a handler will be returned if the request path matches the #base path
         return Optional.ofNullable(
                 -1 != this.consumeBasePath(parameters) ?
                         this.httpHandler() :
@@ -98,7 +104,6 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
      * Attempts to consume the {@link #base} completely returning the index to the {@link HateosResourceName} component within the path or -1.
      */
     int consumeBasePath(final Map<HttpRequestAttribute<?>, Object> parameters) {
-        // base path must be matched..................................................................................
         int pathIndex = 0;
         for (final UrlPathName name : this.base) {
             if (false == name.equals(parameters.get(HttpRequestAttributes.pathComponent(pathIndex)))) {
@@ -110,8 +115,7 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
         return pathIndex;
     }
 
-    final UrlPath base;
-    final Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, ?>> resourceNameToMapping;
+    private final UrlPath base;
 
     private HttpHandler httpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
