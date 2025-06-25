@@ -92,8 +92,8 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     /**
      * Sets or replaces a {@link LinkRelation} and {@link HttpMethod} with a {@link HateosResourceHandler}.
      */
-    public HateosResourceMappingsMapping<I, V, C, H, X> setHateosResourceHandler(final HttpMethod method,
-                                                                                 final HateosResourceHandler<I, V, C, X> handler) {
+    HateosResourceMappingsMapping<I, V, C, H, X> setHateosResourceHandler(final HttpMethod method,
+                                                                          final HateosResourceHandler<I, V, C, X> handler) {
         Objects.requireNonNull(method, "method");
         Objects.requireNonNull(handler, "handler");
 
@@ -122,7 +122,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     /**
      * Sets a {@link walkingkooka.net.http.server.HttpHandler}
      */
-    public HateosResourceMappingsMapping<I, V, C, H, X> setHttpHandler(final HttpHandler handler) {
+    HateosResourceMappingsMapping<I, V, C, H, X> setHttpHandler(final HttpHandler handler) {
         Objects.requireNonNull(handler, "handler");
 
         if (null != this.methodToHandlers) {
