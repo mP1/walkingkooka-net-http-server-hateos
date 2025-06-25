@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 /**
  * A value class that holds numerous components to build links for a {@link HateosResourceName}.
@@ -43,13 +44,16 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
 
     static HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping with(final HateosResourceName name,
                                                                                         final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods) {
-        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(name, linkRelationToMethods);
+        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(
+                name,
+                linkRelationToMethods
+        );
     }
 
     private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(final HateosResourceName name,
                                                                                     final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods) {
         super();
-        this.name = UrlPathName.with(name.value());
+        this.name = name;
         this.linkRelationToMethods = linkRelationToMethods;
     }
 
@@ -59,11 +63,11 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                         final HateosResourceHandlerContext context) {
         // base + resource name.
         final UrlPath pathAndResourceNameAndId = base.path()
-                .append(this.name)
+                .append(this.name.toUrlPathName())
                 .append(UrlPathName.with(resource.hateosLinkId()));
         final List<JsonNode> links = Lists.array();
 
-        for (Entry<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods : this.linkRelationToMethods.entrySet()) {
+        for (final Entry<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods : this.linkRelationToMethods.entrySet()) {
             final LinkRelation<?> relation = linkRelationToMethods.getKey();
 
             for (final HttpMethod method : linkRelationToMethods.getValue()) {
@@ -74,22 +78,22 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                         LinkParameterName.TYPE, context.contentType()
                 );
 
+                final Optional<UrlPathName> linkRelationPathName = relation.toUrlPathName();
+
                 links.add(
-                        context.marshall(Link.with(base.setPath(LinkRelation.SELF == relation ?
-                                                        pathAndResourceNameAndId :
-                                                        pathAndResourceNameAndId.append(
-                                                                UrlPathName.with(
-                                                                        relation.value()
-                                                                                .toString()
-                                                                )
+                        context.marshall(
+                                Link.with(
+                                        base.setPath(
+                                                pathAndResourceNameAndId.append(
+                                                        linkRelationPathName.orElse(
+                                                                UrlPathName.with("")
                                                         )
-                                                )
+                                                ).normalize()
                                         )
-                                        .setParameters(parameters)
+                                ).setParameters(parameters)
                         )
                 );
             }
-
         }
 
         return object.set(
@@ -104,7 +108,11 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
      */
     private final static JsonPropertyName LINKS = JsonPropertyName.with("_links");
 
-    private final UrlPathName name;
+    /**
+     * The HateosResourceName as a path name component.
+     */
+    private final HateosResourceName name;
+
     private final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods;
 
     @Override
