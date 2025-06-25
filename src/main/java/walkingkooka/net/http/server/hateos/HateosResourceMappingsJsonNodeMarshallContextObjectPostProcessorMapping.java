@@ -85,9 +85,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                                 Link.with(
                                         base.setPath(
                                                 pathAndResourceNameAndId.append(
-                                                        linkRelationPathName.orElse(
-                                                                UrlPathName.with("")
-                                                        )
+                                                        linkRelationPathName.orElse(UrlPathName.EMPTY)
                                                 ).normalize()
                                         )
                                 ).setParameters(parameters)
