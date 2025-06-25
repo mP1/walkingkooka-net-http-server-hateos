@@ -118,7 +118,6 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
                                    final Class<V> valueType,
                                    final Class<C> collectionType,
                                    final Class<H> resourceType,
-                                   //final Map<HateosResourceMappingsLinkRelationHttpMethod, HateosResourceMappingsMappingHandler<?>> relationAndMethodToHandlers) {
                                    final Map<UrlPathName, HateosResourceMappingsMapping<I, V, C, H, X>> pathNameToMappings) {
         super();
         this.resourceName = resourceName;
