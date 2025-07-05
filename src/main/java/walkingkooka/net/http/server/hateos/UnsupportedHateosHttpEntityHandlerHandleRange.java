@@ -35,7 +35,7 @@ public interface UnsupportedHateosHttpEntityHandlerHandleRange<I extends Compara
         HateosHttpEntityHandler.checkIdRange(ids);
         HateosHttpEntityHandler.checkHttpEntity(entity);
         HateosHttpEntityHandler.checkParameters(parameters);
-        HateosHttpEntityHandler.checkPathEmpty(path);
+        HateosHttpEntityHandler.checkPath(path);
         HateosHttpEntityHandler.checkContext(context);
 
         throw new UnsupportedOperationException();
