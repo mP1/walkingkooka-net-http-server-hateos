@@ -52,7 +52,8 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.parameters(),
                 this.path(),
                 this.context(),
-                NullPointerException.class);
+                NullPointerException.class
+        );
     }
 
     @Test
@@ -62,7 +63,8 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 null,
                 this.path(),
                 this.context(),
-                NullPointerException.class);
+                NullPointerException.class
+        );
     }
 
     @Test
@@ -72,7 +74,8 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.parameters(),
                 null,
                 this.context(),
-                NullPointerException.class);
+                NullPointerException.class
+        );
     }
 
     @Test
@@ -82,7 +85,8 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.parameters(),
                 this.path(),
                 null,
-                NullPointerException.class);
+                NullPointerException.class
+        );
     }
 
     default <T extends Throwable> T handleAllFails(final Optional<C> resource,
@@ -405,7 +409,8 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.parameters(),
                 this.path(),
                 this.context(),
-                NullPointerException.class);
+                NullPointerException.class
+        );
     }
 
     @Test
@@ -416,7 +421,8 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                 this.parameters(),
                 this.path(),
                 this.context(),
-                NullPointerException.class);
+                NullPointerException.class
+        );
     }
 
     @Test
