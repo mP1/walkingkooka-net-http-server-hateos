@@ -17,6 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.Cast;
 import walkingkooka.compare.Comparators;
 
 import java.util.Comparator;
@@ -30,13 +31,13 @@ final class HateosResourceIdComparator<H extends HateosResource<I>, I extends Co
      * Singleton getter
      */
     static <H extends HateosResource<I>, I extends Comparable<I>> HateosResourceIdComparator<H, I> instance() {
-        return INSTANCE;
+        return Cast.to(INSTANCE);
     }
 
     /**
      * Singleton
      */
-    private final static HateosResourceIdComparator INSTANCE = new HateosResourceIdComparator();
+    private final static HateosResourceIdComparator<?, ?> INSTANCE = new HateosResourceIdComparator<>();
 
     /**
      * Private ctor use instance getter.
