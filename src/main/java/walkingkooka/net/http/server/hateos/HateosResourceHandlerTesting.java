@@ -111,14 +111,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
-                thrown, () -> {
-                    handler.handleAll(
-                            resource,
-                            parameters,
-                            path,
-                            context
-                    );
-                });
+                thrown,
+                () -> handler.handleAll(
+                        resource,
+                        parameters,
+                        path,
+                        context
+                )
+        );
     }
 
     default void handleAllAndCheck(final Optional<C> resource,
@@ -241,15 +241,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                     final Class<T> thrown) {
         return assertThrows(
                 thrown,
-                () -> {
-                    handler.handleMany(
-                            ids,
-                            resource,
-                            parameters,
-                            path,
-                            context
-                    );
-                });
+                () -> handler.handleMany(
+                        ids,
+                        resource,
+                        parameters,
+                        path,
+                        context
+                )
+        );
     }
 
     default void handleManyAndCheck(final Set<I> ids,
@@ -356,14 +355,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
-                thrown, () -> {
-                    handler.handleNone(
-                            resource,
-                            parameters,
-                            path,
-                            context
-                    );
-                }
+                thrown,
+                () -> handler.handleNone(
+                        resource,
+                        parameters,
+                        path,
+                        context
+                )
         );
     }
 
@@ -487,15 +485,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                    final Class<T> thrown) {
         return assertThrows(
                 thrown,
-                () -> {
-                    handler.handleOne(
-                            id,
-                            resource,
-                            parameters,
-                            path,
-                            context
-                    );
-                });
+                () -> handler.handleOne(
+                        id,
+                        resource,
+                        parameters,
+                        path,
+                        context
+                )
+        );
     }
 
     default void handleOneAndCheck(final I id,
@@ -621,15 +618,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                      final X context,
                                                      final Class<T> thrown) {
         return assertThrows(
-                thrown, () -> {
-                    handler.handleRange(
-                            range,
-                            resource,
-                            parameters,
-                            path,
-                            context
-                    );
-                }
+                thrown,
+                () -> handler.handleRange(
+                        range,
+                        resource,
+                        parameters,
+                        path,
+                        context
+                )
         );
     }
 
