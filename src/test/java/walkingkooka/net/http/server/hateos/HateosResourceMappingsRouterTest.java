@@ -1357,7 +1357,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
     }
 
-    private void setHateosHttpEntityHandlerAndRouteWithPathAndCheck(final LinkRelation linkRelation,
+    private void setHateosHttpEntityHandlerAndRouteWithPathAndCheck(final LinkRelation<?> linkRelation,
                                                                     final String requestUrl,
                                                                     final String handlerPath) {
         final MediaType mediaType = MediaType.TEXT_PLAIN;
