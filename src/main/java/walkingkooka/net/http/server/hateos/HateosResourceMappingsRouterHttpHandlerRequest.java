@@ -205,16 +205,14 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                     pathIndex - 1 :
                     pathIndex;
 
-            UrlPath extraPath = null;
+            UrlPath extraPath = UrlPath.EMPTY;
 
             int i = 0;
-            for (final UrlPathName pathName : this.request.url().path().normalize()) {
-                if (i > stop) {
-                    extraPath = (
-                            null == extraPath ?
-                                    UrlPath.ROOT :
-                                    extraPath
-                    ).append(pathName);
+            final UrlPath path = this.request.url().path().normalize();
+            for (final UrlPathName pathName : path) {
+                if (i >= stop) {
+                    extraPath = path.pathAfter(i);
+                    break;
                 }
                 i++;
             }
@@ -223,9 +221,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                     this,
                     mappings,
                     selection,
-                    null != extraPath ?
-                            extraPath.normalize() :
-                            UrlPath.EMPTY,
+                    extraPath,
                     this.context
             );
         }
