@@ -50,6 +50,7 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
+import walkingkooka.net.http.server.hateos.HateosResourceMappingsRouterTest.TestHateosResourceHandlerContext;
 import walkingkooka.route.Router;
 import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
@@ -73,8 +74,8 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter>
-        implements RouterTesting2<HateosResourceMappingsRouter, HttpRequestAttribute<?>, HttpHandler> {
+public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>>
+    implements RouterTesting2<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>, HttpRequestAttribute<?>, HttpHandler> {
 
     private final static String NO_BODY = null;
 
@@ -92,7 +93,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
 
     private final static CharsetName DEFAULT_CHARSET = CharsetName.UTF_8;
 
-    private final static Set<HateosResourceMappings<?, ?, ?, ?, ?>> MAPPINGS = Sets.empty();
+    private final static Set<HateosResourceMappings<?, ?, ?, ?, TestHateosResourceHandlerContext>> MAPPINGS = Sets.empty();
     private final static Indentation INDENTATION = Indentation.SPACES2;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
@@ -744,7 +745,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                                      final String body,
                                      final Class<? extends Throwable> thrownType,
                                      final String thrownMessage) {
-        final HateosResourceMappingsRouter router = this.createRouter(handler);
+        final HateosResourceMappingsRouter<TestHateosResourceHandlerContext> router = this.createRouter(handler);
 
         final MediaType contentType = this.contentType();
         final Map<HttpHeaderName<?>, List<?>> headers = Maps.sorted();
@@ -1676,11 +1677,13 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     // HELPERS .........................................................................................................
 
     @Override
-    public HateosResourceMappingsRouter createRouter() {
-        return this.createRouter(new FakeHateosResourceHandler<>());
+    public HateosResourceMappingsRouter<TestHateosResourceHandlerContext> createRouter() {
+        return this.createRouter(
+            new FakeHateosResourceHandler<>()
+        );
     }
 
-    private HateosResourceMappingsRouter createRouter(final HateosResourceHandler<BigInteger, TestResource, TestResource, TestHateosResourceHandlerContext> handler) {
+    private HateosResourceMappingsRouter<TestHateosResourceHandlerContext> createRouter(final HateosResourceHandler<BigInteger, TestResource, TestResource, TestHateosResourceHandlerContext> handler) {
         final HateosResourceMappings<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> getMapping = this.getMapping()
                 .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.GET, handler);
 
@@ -1858,7 +1861,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
     }
 
-    private void routeAndCheck(final HateosResourceMappingsRouter router,
+    private void routeAndCheck(final HateosResourceMappingsRouter<TestHateosResourceHandlerContext> router,
                                final String url,
                                final String body,
                                final HttpStatus status,
@@ -1877,7 +1880,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     /**
      * Also computes and adds a content-length header.
      */
-    private void routeAndCheck(final HateosResourceMappingsRouter router,
+    private void routeAndCheck(final HateosResourceMappingsRouter<TestHateosResourceHandlerContext> router,
                                final HttpMethod method,
                                final String url,
                                final MediaType contentType,
@@ -1933,7 +1936,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
     }
 
-    private void routeAndCheck(final HateosResourceMappingsRouter router,
+    private void routeAndCheck(final HateosResourceMappingsRouter<TestHateosResourceHandlerContext> router,
                                final HttpMethod method,
                                final String url,
                                final Map<HttpHeaderName<?>, List<?>> headers,
@@ -2131,7 +2134,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     // ClassTesting.....................................................................................................
 
     @Override
-    public Class<HateosResourceMappingsRouter> type() {
+    public Class<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>> type() {
         return Cast.to(HateosResourceMappingsRouter.class);
     }
 }

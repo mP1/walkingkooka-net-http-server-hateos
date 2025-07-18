@@ -33,18 +33,18 @@ import java.util.Set;
 /**
  * A {@link JsonNodeMarshallContextObjectPostProcessor} that adds links for types, and can be used by {@link JsonNodeMarshallContexts#basic}
  */
-final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor implements JsonNodeMarshallContextObjectPostProcessor {
+final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<X extends HateosResourceHandlerContext> implements JsonNodeMarshallContextObjectPostProcessor {
 
-    static HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor with(final AbsoluteUrl base,
-                                                                                 final Set<HateosResourceMappings<?, ?, ?, ?, ?>> mappings,
-                                                                                 final HateosResourceHandlerContext context) {
+    static <X extends HateosResourceHandlerContext> HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<X> with(final AbsoluteUrl base,
+                                                                                                                             final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
+                                                                                                                             final HateosResourceHandlerContext context) {
         final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings = Maps.ordered();
 
-        for (final HateosResourceMappings<?, ?, ?, ?, ?> mapping : mappings) {
+        for (final HateosResourceMappings<?, ?, ?, ?, X> mapping : mappings) {
             final HateosResourceName resourceName = mapping.resourceName;
             final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods = Maps.ordered();
 
-            for (final HateosResourceMappingsMapping<?, ?, ?, ?, ?> m : mapping.pathNameToMappings.values()) {
+            for (final HateosResourceMappingsMapping<?, ?, ?, ?, X> m : mapping.pathNameToMappings.values()) {
                 final LinkRelation<?> linkRelation = m.linkRelation;
                 if (null != linkRelation) {
                     linkRelationToMethods.put(
@@ -63,7 +63,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor imp
             );
         }
 
-        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor(
+        return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<>(
             base,
             typeToMappings,
             context

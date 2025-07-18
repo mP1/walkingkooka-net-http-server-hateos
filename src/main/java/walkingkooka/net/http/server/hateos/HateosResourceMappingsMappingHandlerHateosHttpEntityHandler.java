@@ -21,21 +21,22 @@ import walkingkooka.net.UrlPath;
 
 import java.util.Objects;
 
-final class HateosResourceMappingsMappingHandlerHateosHttpEntityHandler extends HateosResourceMappingsMappingHandler<HateosHttpEntityHandler<?, ?>> {
+final class HateosResourceMappingsMappingHandlerHateosHttpEntityHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> extends HateosResourceMappingsMappingHandler<I, V, C, H, X> {
 
-    static HateosResourceMappingsMappingHandlerHateosHttpEntityHandler with(final HateosHttpEntityHandler<?, ?> handler) {
-        return new HateosResourceMappingsMappingHandlerHateosHttpEntityHandler(
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHateosHttpEntityHandler<I, V, C, H, X> with(final HateosHttpEntityHandler<I, X> handler) {
+        return new HateosResourceMappingsMappingHandlerHateosHttpEntityHandler<>(
             Objects.requireNonNull(handler, "handler")
         );
     }
 
-    private HateosResourceMappingsMappingHandlerHateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
-        super(handler);
+    private HateosResourceMappingsMappingHandlerHateosHttpEntityHandler(final HateosHttpEntityHandler<I, X> handler) {
+        super();
+        this.handler = handler;
     }
 
     @Override
-    void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
-                final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
+    void handle(final HateosResourceMappingsRouterHttpHandlerRequest<X> request,
+                final HateosResourceMappings<I, V, C, H, X> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {
@@ -46,4 +47,11 @@ final class HateosResourceMappingsMappingHandlerHateosHttpEntityHandler extends 
             context
         );
     }
+
+    @Override
+    HateosHttpEntityHandler<I, X> handler() {
+        return this.handler;
+    }
+
+    private final HateosHttpEntityHandler<I, X> handler;
 }

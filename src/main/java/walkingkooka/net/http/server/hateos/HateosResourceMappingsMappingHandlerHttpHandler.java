@@ -22,21 +22,22 @@ import walkingkooka.net.http.server.HttpHandler;
 
 import java.util.Objects;
 
-final class HateosResourceMappingsMappingHandlerHttpHandler extends HateosResourceMappingsMappingHandler<HttpHandler> {
+final class HateosResourceMappingsMappingHandlerHttpHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> extends HateosResourceMappingsMappingHandler<I, V, C, H, X> {
 
-    static HateosResourceMappingsMappingHandlerHttpHandler with(final HttpHandler handler) {
-        return new HateosResourceMappingsMappingHandlerHttpHandler(
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> with(final HttpHandler handler) {
+        return new HateosResourceMappingsMappingHandlerHttpHandler<>(
             Objects.requireNonNull(handler, "handler")
         );
     }
 
     private HateosResourceMappingsMappingHandlerHttpHandler(final HttpHandler handler) {
-        super(handler);
+        super();
+        this.handler = handler;
     }
 
     @Override
-    void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
-                final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
+    void handle(final HateosResourceMappingsRouterHttpHandlerRequest<X> request,
+                final HateosResourceMappings<I, V, C, H, X> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {
@@ -45,4 +46,11 @@ final class HateosResourceMappingsMappingHandlerHttpHandler extends HateosResour
             request.response
         );
     }
+
+    @Override
+    HttpHandler handler() {
+        return this.handler;
+    }
+
+    private final HttpHandler handler;
 }

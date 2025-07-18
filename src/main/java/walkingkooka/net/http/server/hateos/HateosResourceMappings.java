@@ -263,11 +263,11 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
     /**
      * Creates a {@link Router} from the provided {@link HateosResourceMappings mappings}.
      */
-    public static Router<HttpRequestAttribute<?>, HttpHandler> router(final UrlPath base,
-                                                                      final Set<HateosResourceMappings<?, ?, ?, ?, ?>> mappings,
-                                                                      final Indentation indentation,
-                                                                      final LineEnding lineEnding,
-                                                                      final HateosResourceHandlerContext context) {
+    public static <X extends HateosResourceHandlerContext> Router<HttpRequestAttribute<?>, HttpHandler> router(final UrlPath base,
+                                                                                                               final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
+                                                                                                               final Indentation indentation,
+                                                                                                               final LineEnding lineEnding,
+                                                                                                               final X context) {
         return HateosResourceMappingsRouter.with(
             base,
             mappings,
