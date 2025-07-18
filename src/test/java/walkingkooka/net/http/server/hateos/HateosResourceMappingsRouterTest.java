@@ -59,7 +59,6 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.BigInteger;
@@ -2122,13 +2121,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         return null != body ?
                 body.getBytes(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(CharsetName.UTF_8).charset().get()) :
                 null;
-    }
-
-    private JsonNodeUnmarshallContext unmarshallContext() {
-        return JsonNodeUnmarshallContexts.basic(
-                ExpressionNumberKind.DEFAULT,
-                MathContext.DECIMAL32
-        );
     }
 
     // ClassTesting.....................................................................................................
