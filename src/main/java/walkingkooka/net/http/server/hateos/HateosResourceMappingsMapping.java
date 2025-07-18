@@ -43,7 +43,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
      * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
      */
     static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMapping<I, V, C, H, X> empty(final LinkRelation<?> linkRelation,
-                                                                                                                                                                   final HttpHandler httpHandler) {
+                                                                                                                                                                   final HateosHttpHandler<X> httpHandler) {
         return new HateosResourceMappingsMapping<>(
             linkRelation,
             null, // Map<HttpMethod, HateosResourceMappingsMappingHandler<?>>
@@ -53,7 +53,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
 
     private HateosResourceMappingsMapping(final LinkRelation<?> linkRelation,
                                           final Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> methodToHandlers,
-                                          final HttpHandler httpHandler) {
+                                          final HateosHttpHandler<X> httpHandler) {
         super();
         this.linkRelation = linkRelation;
         this.methodToHandlers = methodToHandlers;
@@ -120,9 +120,9 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     }
 
     /**
-     * Sets a {@link HttpHandler}
+     * Sets a {@link HateosHttpHandler}
      */
-    HateosResourceMappingsMapping<I, V, C, H, X> setHttpHandler(final HttpHandler handler) {
+    HateosResourceMappingsMapping<I, V, C, H, X> setHateosHttpHandler(final HateosHttpHandler<X> handler) {
         Objects.requireNonNull(handler, "handler");
 
         if (null != this.methodToHandlers) {
@@ -146,12 +146,13 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                 final HateosResourceMappings<I, V, C, H, X> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
-                final HateosResourceHandlerContext context) {
-        final HttpHandler httpHandler = this.httpHandler;
+                final X context) {
+        final HateosHttpHandler<X> httpHandler = this.httpHandler;
         if (null != httpHandler) {
             httpHandler.handle(
                 request.request,
-                request.response
+                request.response,
+                context
             );
         } else {
 
@@ -177,7 +178,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
 
     private final Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> methodToHandlers;
 
-    private final HttpHandler httpHandler;
+    private final HateosHttpHandler<X> httpHandler;
 
     List<HttpMethod> allowedMethods() {
         if (null == this.allowedMethods) {
@@ -201,10 +202,10 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     public boolean equals(final Object other) {
         return this == other ||
             null != other && this.getClass() == other.getClass()
-                && this.equals0((HateosResourceMappingsMapping<I, V, C, H, X>) other);
+                && this.equals0((HateosResourceMappingsMapping<?, ?, ?, ?, ?>) other);
     }
 
-    private boolean equals0(final HateosResourceMappingsMapping<I, V, C, H, X> other) {
+    private boolean equals0(final HateosResourceMappingsMapping<?, ?, ?, ?, ?> other) {
         return Objects.equals(
             this.methodToHandlers,
             other.methodToHandlers
@@ -246,7 +247,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
         }
 
         {
-            final HttpHandler httpHandler = this.httpHandler;
+            final HateosHttpHandler<X> httpHandler = this.httpHandler;
             if (null != httpHandler) {
                 TreePrintable.printTreeOrToString(
                     httpHandler,

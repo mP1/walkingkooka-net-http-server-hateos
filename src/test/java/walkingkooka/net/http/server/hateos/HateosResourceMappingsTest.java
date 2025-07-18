@@ -26,8 +26,6 @@ import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
-import walkingkooka.net.http.server.FakeHttpHandler;
-import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsTest.TestHateosResourceHandlerContext;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
@@ -777,16 +775,16 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
         );
     }
 
-    // setHttpHandler...................................................................................................
+    // setHateosHttpHandler.............................................................................................
 
-    private final static HttpHandler HTTP_HANDLER = new FakeHttpHandler();
+    private final static HateosHttpHandler<TestHateosResourceHandlerContext> HTTP_HANDLER = new FakeHateosHttpHandler<>();
 
     @Test
-    public void testSetHttpHandlerWithNullUrlPathNameFails() {
+    public void testSetHateosHttpHandlerWithNullUrlPathNameFails() {
         assertThrows(
                 NullPointerException.class,
                 () -> this.createMappings()
-                        .setHttpHandler(
+                    .setHateosHttpHandler(
                                 null,
                                 HTTP_HANDLER
                         )
@@ -794,11 +792,11 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     }
 
     @Test
-    public void testSetHttpHandlerWithNullHttpHandlerFails() {
+    public void testSetHateosHttpHandlerWithNullHttpHandlerFails() {
         assertThrows(
                 NullPointerException.class,
                 () -> this.createMappings()
-                        .setHttpHandler(
+                    .setHateosHttpHandler(
                                 UrlPathName.with("Hello"),
                                 null
                         )
@@ -806,7 +804,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     }
 
     @Test
-    public void testSetHttpHandlerAfterSetHateosHttpEntityHandlerFails() {
+    public void testSetHateosHttpHandlerAfterSetHateosHttpEntityHandlerFails() {
         final IllegalStateException thrown = assertThrows(
                 IllegalStateException.class,
                 () -> this.createMappings()
@@ -814,7 +812,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                                 LINK_RELATION,
                                 METHOD,
                                 HATEOS_HTTP_ENTITY_HANDLER
-                        ).setHttpHandler(
+                        ).setHateosHttpHandler(
                                 LINK_RELATION.toUrlPathName()
                                         .get(),
                                 HTTP_HANDLER
@@ -827,7 +825,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     }
 
     @Test
-    public void testSetHttpHandlerAfterSetHateosResourceHandlerFails() {
+    public void testSetHateosHttpHandlerAfterSetHateosResourceHandlerFails() {
         final IllegalStateException thrown = assertThrows(
                 IllegalStateException.class,
                 () -> this.createMappings()
@@ -835,7 +833,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                                 LINK_RELATION,
                                 METHOD,
                                 HATEOS_RESOURCE_HANDLER
-                        ).setHttpHandler(
+                        ).setHateosHttpHandler(
                                 LINK_RELATION.toUrlPathName()
                                         .get(),
                                 HTTP_HANDLER
@@ -972,14 +970,14 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                         LinkRelation.ABOUT,
                         HttpMethod.GET,
                         HATEOS_RESOURCE_HANDLER
-                ).setHttpHandler(
-                        UrlPathName.with("Hello"),
-                        new FakeHttpHandler() {
-                            @Override
-                            public String toString() {
-                                return "HelloHttpHandler";
-                            }
+                ).setHateosHttpHandler(
+                    UrlPathName.with("Hello"),
+                    new FakeHateosHttpHandler<>() {
+                        @Override
+                        public String toString() {
+                            return "HelloHttpHandler";
                         }
+                    }
                 ),
                 "abc123\n" +
                         "  ResourceType:\n" +

@@ -28,7 +28,6 @@ import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
-import walkingkooka.net.http.server.FakeHttpHandler;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest.TestHateosResourceHandlerContext;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessorTesting;
@@ -134,19 +133,19 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
 
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource2, TestHateosResourceHandlerContext> mappings2 = HateosResourceMappings.with(
-                resourceName2,
-                this.selectionParser(),
-                TestResource.class,
-                TestResource2.class,
-                TestHateosResource2.class,
-                TestHateosResourceHandlerContext.class
+            resourceName2,
+            this.selectionParser(),
+            TestResource.class,
+            TestResource2.class,
+            TestHateosResource2.class,
+            TestHateosResourceHandlerContext.class
         ).setHateosResourceHandler(
-                LinkRelation.ABOUT,
-                HttpMethod.PUT,
-                new FakeHateosResourceHandler<>()
-        ).setHttpHandler(
-                UrlPathName.with("HelloHttpHandler"),
-                new FakeHttpHandler()
+            LinkRelation.ABOUT,
+            HttpMethod.PUT,
+            new FakeHateosResourceHandler<>()
+        ).setHateosHttpHandler(
+            UrlPathName.with("HelloHttpHandler"),
+            new FakeHateosHttpHandler<>()
         );
 
         return Sets.of(
