@@ -33,12 +33,12 @@ public final class HateosResourceName implements Name, Comparable<HateosResource
      */
     public static HateosResourceName with(final String name) {
         return new HateosResourceName(
-                CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(
-                        name,
-                        "name",
-                        INITIAL,
-                        PART
-                )
+            CharPredicates.failIfNullOrEmptyOrInitialAndPartFalse(
+                name,
+                "name",
+                INITIAL,
+                PART
+            )
         );
     }
 
@@ -82,7 +82,7 @@ public final class HateosResourceName implements Name, Comparable<HateosResource
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-                other instanceof HateosResourceName && this.equals0((HateosResourceName) other);
+            other instanceof HateosResourceName && this.equals0((HateosResourceName) other);
     }
 
     private boolean equals0(final HateosResourceName other) {

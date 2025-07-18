@@ -70,8 +70,8 @@ abstract class HateosResourceMappingsMappingHandler<T> {
     @Override
     public final boolean equals(final Object other) {
         return this == other ||
-                null != other && this.getClass() == other.getClass()
-                        && this.equals0((HateosResourceMappingsMappingHandler<?>) other);
+            null != other && this.getClass() == other.getClass()
+                && this.equals0((HateosResourceMappingsMappingHandler<?>) other);
     }
 
     private boolean equals0(final HateosResourceMappingsMappingHandler<?> other) {

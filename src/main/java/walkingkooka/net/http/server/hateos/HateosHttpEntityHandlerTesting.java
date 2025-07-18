@@ -35,55 +35,55 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Mixin interface for testing {@link HateosHttpEntityHandler}
  */
 public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandler<I, X>,
-        I extends Comparable<I>,
-        X extends HateosResourceHandlerContext>
-        extends ClassTesting2<H>,
-        TreePrintableTesting,
-        TypeNameTesting<H> {
+    I extends Comparable<I>,
+    X extends HateosResourceHandlerContext>
+    extends ClassTesting2<H>,
+    TreePrintableTesting,
+    TypeNameTesting<H> {
 
     // handleAll........................................................................................................
 
     @Test
     default void testHandleAllWithNullEntityFails() {
         this.handleAllFails(
-                null,
-                HateosHttpEntityHandler.NO_PARAMETERS,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            null,
+            HateosHttpEntityHandler.NO_PARAMETERS,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleAllWithNullParametersFails() {
         this.handleAllFails(
-                this.entity(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.entity(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleAllWithNullPathFails() {
         this.handleAllFails(
-                this.entity(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.entity(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleAllWithNullContextFails() {
         this.handleAllFails(
-                this.entity(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.entity(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -93,12 +93,12 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                    final X context,
                                                    final Class<T> thrown) {
         return this.handleAllFails(
-                this.createHandler(),
-                entity,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            entity,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -109,13 +109,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleAll(
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleAll(
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -125,12 +125,12 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                    final X context,
                                    final HttpEntity expected) {
         this.handleAllAndCheck(
-                this.createHandler(),
-                entity,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            entity,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -141,13 +141,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                    final X context,
                                    final HttpEntity expected) {
         this.checkEquals(
-                expected,
-                handler.handleAll(
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleAll(
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -156,48 +156,48 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     @Test
     default void testHandleManyWithNullEntityFails() {
         this.handleManyFails(
-                this.manyIds(),
-                null,
-                HateosHttpEntityHandler.NO_PARAMETERS,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.manyIds(),
+            null,
+            HateosHttpEntityHandler.NO_PARAMETERS,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleManyWithNullParametersFails() {
         this.handleManyFails(
-                this.manyIds(),
-                this.entity(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.manyIds(),
+            this.entity(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleManyWithNullPathFails() {
         this.handleManyFails(
-                this.manyIds(),
-                this.entity(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.manyIds(),
+            this.entity(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleManyWithNullContextFails() {
         this.handleManyFails(
-                this.manyIds(),
-                this.entity(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.manyIds(),
+            this.entity(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -208,13 +208,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                     final X context,
                                                     final Class<T> thrown) {
         return this.handleManyFails(
-                this.createHandler(),
-                ids,
-                entity,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            ids,
+            entity,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -226,14 +226,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleMany(
-                        ids,
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleMany(
+                ids,
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -244,13 +244,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                     final X context,
                                     final HttpEntity expected) {
         this.handleManyAndCheck(
-                this.createHandler(),
-                ids,
-                entity,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            ids,
+            entity,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -262,14 +262,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                     final X context,
                                     final HttpEntity expected) {
         this.checkEquals(
-                expected,
-                handler.handleMany(
-                        ids,
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleMany(
+                ids,
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -278,44 +278,44 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     @Test
     default void testHandleNoneWithNullEntityFails() {
         this.handleNoneFails(
-                null,
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            null,
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleNoneWithNullParametersFails() {
         this.handleNoneFails(
-                this.entity(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.entity(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleNoneWithNullPathFails() {
         this.handleNoneFails(
-                this.entity(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.entity(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleNoneWithNullContextFails() {
         this.handleNoneFails(
-                this.entity(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.entity(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -325,12 +325,12 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                     final X context,
                                                     final Class<T> thrown) {
         return this.handleNoneFails(
-                this.createHandler(),
-                entity,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            entity,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -341,13 +341,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleNone(
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleNone(
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -357,12 +357,12 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                     final X context,
                                     final HttpEntity expected) {
         this.handleNoneAndCheck(
-                this.createHandler(),
-                entity,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            entity,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -373,13 +373,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                     final X context,
                                     final HttpEntity expected) {
         this.checkEquals(
-                expected,
-                handler.handleNone(
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleNone(
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -388,48 +388,48 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     @Test
     default void testHandleOneWithNullEntityFails() {
         this.handleOneFails(
-                this.id(),
-                null,
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.id(),
+            null,
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleOneWithNullParametersFails() {
         this.handleOneFails(
-                this.id(),
-                this.entity(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.id(),
+            this.entity(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleOneWithNullPathFails() {
         this.handleOneFails(
-                this.id(),
-                this.entity(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.id(),
+            this.entity(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleOneWithNullContextFails() {
         this.handleOneFails(
-                this.id(),
-                this.entity(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.id(),
+            this.entity(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -440,13 +440,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                    final X context,
                                                    final Class<T> thrown) {
         return this.handleOneFails(
-                this.createHandler(),
-                id,
-                entity,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            id,
+            entity,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -458,14 +458,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleOne(
-                        id,
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleOne(
+                id,
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -476,13 +476,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                    final X context,
                                    final HttpEntity expected) {
         this.handleOneAndCheck(
-                this.createHandler(),
-                id,
-                entity,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            id,
+            entity,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -494,14 +494,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                    final X context,
                                    final HttpEntity expected) {
         this.checkEquals(
-                expected,
-                handler.handleOne(
-                        id,
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleOne(
+                id,
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -510,60 +510,60 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
     @Test
     default void testHandleRangeWithNullIdsFails() {
         this.handleRangeFails(
-                null,
-                this.entity(),
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            null,
+            this.entity(),
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleRangeWithNullEntityFails() {
         this.handleRangeFails(
-                this.range(),
-                null,
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.range(),
+            null,
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleRangeWithNullParametersFails() {
         this.handleRangeFails(
-                this.range(),
-                this.entity(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.range(),
+            this.entity(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleRangeWithNullPathFails() {
         this.handleRangeFails(
-                this.range(),
-                this.entity(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.range(),
+            this.entity(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleRangeWithNullContextFails() {
         this.handleRangeFails(
-                this.range(),
-                this.entity(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.range(),
+            this.entity(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -574,13 +574,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                      final X context,
                                                      final Class<T> thrown) {
         return this.handleRangeFails(
-                this.createHandler(),
-                ids,
-                entity,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            ids,
+            entity,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -592,14 +592,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                                      final X context,
                                                      final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleRange(
-                        ids,
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleRange(
+                ids,
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -610,13 +610,13 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                      final X context,
                                      final HttpEntity expected) {
         this.handleRangeAndCheck(
-                this.createHandler(),
-                ids,
-                entity,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            ids,
+            entity,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -628,14 +628,14 @@ public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandle
                                      final X context,
                                      final HttpEntity expected) {
         this.checkEquals(
-                expected,
-                handler.handleRange(
-                        ids,
-                        entity,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleRange(
+                ids,
+                entity,
+                parameters,
+                path,
+                context
+            )
         );
     }
 

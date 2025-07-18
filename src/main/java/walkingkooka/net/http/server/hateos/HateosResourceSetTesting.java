@@ -26,7 +26,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface HateosResourceSetTesting<S extends Set<H>, H extends HateosResource<I>, I> extends SetTesting2<S, H>,
-        JsonNodeMarshallingTesting<S> {
+    JsonNodeMarshallingTesting<S> {
 
     @Test
     default void testReadOnly() {
@@ -34,8 +34,8 @@ public interface HateosResourceSetTesting<S extends Set<H>, H extends HateosReso
         this.isEmptyAndCheck(set, false);
 
         assertThrows(
-                UnsupportedOperationException.class,
-                set::clear
+            UnsupportedOperationException.class,
+            set::clear
         );
     }
 }

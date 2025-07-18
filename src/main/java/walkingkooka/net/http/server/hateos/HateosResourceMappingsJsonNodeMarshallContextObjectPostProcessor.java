@@ -48,25 +48,25 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor imp
                 final LinkRelation<?> linkRelation = m.linkRelation;
                 if (null != linkRelation) {
                     linkRelationToMethods.put(
-                            linkRelation,
-                            m.allowedMethods()
+                        linkRelation,
+                        m.allowedMethods()
                     );
                 }
             }
 
             typeToMappings.put(
-                    mapping.resourceType.getName(),
-                    HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(
-                            resourceName,
-                            linkRelationToMethods
-                    )
+                mapping.resourceType.getName(),
+                HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(
+                    resourceName,
+                    linkRelationToMethods
+                )
             );
         }
 
         return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor(
-                base,
-                typeToMappings,
-                context
+            base,
+            typeToMappings,
+            context
         );
     }
 
@@ -94,8 +94,8 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor imp
         } while (null != type && Object.class != type);
 
         return null != mapping ?
-                mapping.addLinks(Cast.to(value), object, this.base, this.context) :
-                object;
+            mapping.addLinks(Cast.to(value), object, this.base, this.context) :
+            object;
     }
 
     private final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings;

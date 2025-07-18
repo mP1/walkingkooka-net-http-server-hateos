@@ -37,7 +37,7 @@ import java.util.Objects;
  * A mapping for a single {@link UrlPathName}
  */
 final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext>
-        implements TreePrintable {
+    implements TreePrintable {
 
     /**
      * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
@@ -45,9 +45,9 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMapping<I, V, C, H, X> empty(final LinkRelation<?> linkRelation,
                                                                                                                                                                    final HttpHandler httpHandler) {
         return new HateosResourceMappingsMapping<>(
-                linkRelation,
-                null, // Map<HttpMethod, HateosResourceMappingsMappingHandler<?>>
-                httpHandler
+            linkRelation,
+            null, // Map<HttpMethod, HateosResourceMappingsMappingHandler<?>>
+            httpHandler
         );
     }
 
@@ -76,17 +76,17 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
             methodToHandlers.putAll(previous);
         }
         methodToHandlers.put(
-                method,
-                HateosResourceMappingsMappingHandler.hateosHttpEntityHandler(handler)
+            method,
+            HateosResourceMappingsMappingHandler.hateosHttpEntityHandler(handler)
         );
 
         return methodToHandlers.equals(previous) ?
-                this :
-                new HateosResourceMappingsMapping<>(
-                        this.linkRelation,
-                        methodToHandlers,
-                        null // HttpHandler
-                );
+            this :
+            new HateosResourceMappingsMapping<>(
+                this.linkRelation,
+                methodToHandlers,
+                null // HttpHandler
+            );
     }
 
     /**
@@ -106,17 +106,17 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
             methodToHandlers.putAll(previous);
         }
         methodToHandlers.put(
-                method,
-                HateosResourceMappingsMappingHandler.hateosResourceHandler(handler)
+            method,
+            HateosResourceMappingsMappingHandler.hateosResourceHandler(handler)
         );
 
         return methodToHandlers.equals(previous) ?
-                this :
-                new HateosResourceMappingsMapping<>(
-                        this.linkRelation,
-                        methodToHandlers,
-                        null // HttpHandler
-                );
+            this :
+            new HateosResourceMappingsMapping<>(
+                this.linkRelation,
+                methodToHandlers,
+                null // HttpHandler
+            );
     }
 
     /**
@@ -130,9 +130,9 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
         }
 
         return new HateosResourceMappingsMapping<>(
-                this.linkRelation,
-                this.methodToHandlers,
-                handler
+            this.linkRelation,
+            this.methodToHandlers,
+            handler
         );
     }
 
@@ -150,8 +150,8 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
         final HttpHandler httpHandler = this.httpHandler;
         if (null != httpHandler) {
             httpHandler.handle(
-                    request.request,
-                    request.response
+                request.request,
+                request.response
             );
         } else {
 
@@ -159,17 +159,17 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
             final HateosResourceMappingsMappingHandler<?> handler = this.methodToHandlers.get(method);
             if (null != handler) {
                 handler.handle(
-                        request,
-                        mappings,
-                        selection,
-                        path,
-                        context
+                    request,
+                    mappings,
+                    selection,
+                    path,
+                    context
                 );
             } else {
                 request.methodNotAllowed(
-                        mappings.resourceName,
-                        this.linkRelation,
-                        this.allowedMethods() // allowed HttpMethods
+                    mappings.resourceName,
+                    this.linkRelation,
+                    this.allowedMethods() // allowed HttpMethods
                 );
             }
         }
@@ -200,26 +200,26 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-                null != other && this.getClass() == other.getClass()
-                        && this.equals0((HateosResourceMappingsMapping<?, ?, ?, ?, ?>) other);
+            null != other && this.getClass() == other.getClass()
+                && this.equals0((HateosResourceMappingsMapping<?, ?, ?, ?, ?>) other);
     }
 
     private boolean equals0(final HateosResourceMappingsMapping<?, ?, ?, ?, ?> other) {
         return Objects.equals(
-                this.methodToHandlers,
-                other.methodToHandlers
+            this.methodToHandlers,
+            other.methodToHandlers
         ) && Objects.equals(
-                this.httpHandler,
-                other.httpHandler
+            this.httpHandler,
+            other.httpHandler
         );
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.empty()
-                .value(this.methodToHandlers)
-                .value(this.httpHandler)
-                .build();
+            .value(this.methodToHandlers)
+            .value(this.httpHandler)
+            .build();
     }
 
     // TreePrintable....................................................................................................
@@ -236,8 +236,8 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                     printer.indent();
 
                     TreePrintable.printTreeOrToString(
-                            methodAndHandler.getValue(),
-                            printer
+                        methodAndHandler.getValue(),
+                        printer
                     );
 
                     printer.outdent();
@@ -249,8 +249,8 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
             final HttpHandler httpHandler = this.httpHandler;
             if (null != httpHandler) {
                 TreePrintable.printTreeOrToString(
-                        httpHandler,
-                        printer
+                    httpHandler,
+                    printer
                 );
             }
         }

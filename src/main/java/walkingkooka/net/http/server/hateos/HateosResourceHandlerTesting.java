@@ -35,57 +35,57 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Mixin interface for testing {@link HateosResourceHandler}
  */
 public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I, V, C, X>,
-        I extends Comparable<I>,
-        V,
-        C,
-        X extends HateosResourceHandlerContext>
-        extends ClassTesting2<H>,
-        TreePrintableTesting,
-        TypeNameTesting<H> {
+    I extends Comparable<I>,
+    V,
+    C,
+    X extends HateosResourceHandlerContext>
+    extends ClassTesting2<H>,
+    TreePrintableTesting,
+    TypeNameTesting<H> {
 
     // handleAll........................................................................................................
 
     @Test
     default void testHandleAllNullResourceFails() {
         this.handleAllFails(
-                null,
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            null,
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleAllNullParametersFails() {
         this.handleAllFails(
-                this.collectionResource(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.collectionResource(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleAllNullPathFails() {
         this.handleAllFails(
-                this.collectionResource(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.collectionResource(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleAllNullContextFails() {
         this.handleAllFails(
-                this.collectionResource(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.collectionResource(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -95,12 +95,12 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                    final X context,
                                                    final Class<T> thrown) {
         return this.handleAllFails(
-                this.createHandler(),
-                resource,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            resource,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -111,13 +111,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleAll(
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleAll(
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -127,12 +127,12 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                    final X context,
                                    final Optional<C> expected) {
         this.handleAllAndCheck(
-                this.createHandler(),
-                resource,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            resource,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -143,13 +143,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                    final X context,
                                    final Optional<C> expected) {
         this.checkEquals(
-                expected,
-                handler.handleAll(
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleAll(
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -158,60 +158,60 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     @Test
     default void testHandleManyNullIdsFails() {
         this.handleManyFails(
-                null,
-                this.collectionResource(),
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            null,
+            this.collectionResource(),
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleManyNullResourceFails() {
         this.handleManyFails(
-                this.manyIds(),
-                null,
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.manyIds(),
+            null,
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleManyNullParametersFails() {
         this.handleManyFails(
-                this.manyIds(),
-                this.collectionResource(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.manyIds(),
+            this.collectionResource(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleManyNullPathFails() {
         this.handleManyFails(
-                this.manyIds(),
-                this.collectionResource(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.manyIds(),
+            this.collectionResource(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleManyNullContextFails() {
         this.handleManyFails(
-                this.manyIds(),
-                this.collectionResource(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.manyIds(),
+            this.collectionResource(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -222,13 +222,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                     final X context,
                                                     final Class<T> thrown) {
         return this.handleManyFails(
-                this.createHandler(),
-                ids,
-                resource,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            ids,
+            resource,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -240,14 +240,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleMany(
-                        ids,
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleMany(
+                ids,
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -258,13 +258,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                     final X context,
                                     final Optional<C> expected) {
         this.handleManyAndCheck(
-                this.createHandler(),
-                ids,
-                resource,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            ids,
+            resource,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -276,14 +276,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                     final X context,
                                     final Optional<C> expected) {
         this.checkEquals(
-                expected,
-                handler.handleMany(
-                        ids,
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleMany(
+                ids,
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -292,44 +292,44 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     @Test
     default void testHandleNoneNullResourceFails() {
         this.handleNoneFails(
-                null,
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            null,
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleNoneNullParametersFails() {
         this.handleNoneFails(
-                this.resource(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.resource(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleNoneNullPathFails() {
         this.handleNoneFails(
-                this.resource(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.resource(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleNoneNullContextFails() {
         this.handleNoneFails(
-                this.resource(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.resource(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -339,12 +339,12 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                     final X context,
                                                     final Class<T> thrown) {
         return this.handleNoneFails(
-                this.createHandler(),
-                resource,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            resource,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -355,13 +355,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                     final X context,
                                                     final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleNone(
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleNone(
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -371,12 +371,12 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                     final X context,
                                     final Optional<V> expected) {
         this.handleNoneAndCheck(
-                this.createHandler(),
-                resource,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            resource,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -387,13 +387,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                     final X context,
                                     final Optional<V> expected) {
         this.checkEquals(
-                expected,
-                handler.handleNone(
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleNone(
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -402,60 +402,60 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     @Test
     default void testHandleOneNullIdFails() {
         this.handleOneFails(
-                null,
-                this.resource(),
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            null,
+            this.resource(),
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleOneNullResourceFails() {
         this.handleOneFails(
-                this.id(),
-                null,
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.id(),
+            null,
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleOneNullParametersFails() {
         this.handleOneFails(
-                this.id(),
-                this.resource(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.id(),
+            this.resource(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleOneNullPathFails() {
         this.handleOneFails(
-                this.id(),
-                this.resource(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.id(),
+            this.resource(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleOneNullContextFails() {
         this.handleOneFails(
-                this.id(),
-                this.resource(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.id(),
+            this.resource(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -466,13 +466,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                    final X context,
                                                    final Class<T> thrown) {
         return this.handleOneFails(
-                this.createHandler(),
-                id,
-                resource,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            id,
+            resource,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -484,14 +484,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                    final X context,
                                                    final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleOne(
-                        id,
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleOne(
+                id,
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -502,13 +502,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                    final X context,
                                    final Optional<V> expected) {
         this.handleOneAndCheck(
-                this.createHandler(),
-                id,
-                resource,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            id,
+            resource,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -520,14 +520,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                    final X context,
                                    final Optional<V> expected) {
         this.checkEquals(
-                expected,
-                handler.handleOne(
-                        id,
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleOne(
+                id,
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -536,60 +536,60 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     @Test
     default void testHandleRangeNullRangeFails() {
         this.handleRangeFails(
-                null,
-                this.collectionResource(),
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            null,
+            this.collectionResource(),
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleRangeNullResourceFails() {
         this.handleRangeFails(
-                this.range(),
-                null,
-                this.parameters(),
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.range(),
+            null,
+            this.parameters(),
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleRangeNullParametersFails() {
         this.handleRangeFails(
-                this.range(),
-                this.collectionResource(),
-                null,
-                this.path(),
-                this.context(),
-                NullPointerException.class
+            this.range(),
+            this.collectionResource(),
+            null,
+            this.path(),
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleRangeNullPathFails() {
         this.handleRangeFails(
-                this.range(),
-                this.collectionResource(),
-                this.parameters(),
-                null,
-                this.context(),
-                NullPointerException.class
+            this.range(),
+            this.collectionResource(),
+            this.parameters(),
+            null,
+            this.context(),
+            NullPointerException.class
         );
     }
 
     @Test
     default void testHandleRangeNullContextFails() {
         this.handleRangeFails(
-                this.range(),
-                this.collectionResource(),
-                this.parameters(),
-                this.path(),
-                null,
-                NullPointerException.class
+            this.range(),
+            this.collectionResource(),
+            this.parameters(),
+            this.path(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -600,13 +600,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                      final X context,
                                                      final Class<T> thrown) {
         return this.handleRangeFails(
-                this.createHandler(),
-                range,
-                resource,
-                parameters,
-                path,
-                context,
-                thrown
+            this.createHandler(),
+            range,
+            resource,
+            parameters,
+            path,
+            context,
+            thrown
         );
     }
 
@@ -618,14 +618,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                                      final X context,
                                                      final Class<T> thrown) {
         return assertThrows(
-                thrown,
-                () -> handler.handleRange(
-                        range,
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            thrown,
+            () -> handler.handleRange(
+                range,
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 
@@ -636,13 +636,13 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                      final X context,
                                      final Optional<C> expected) {
         this.handleRangeAndCheck(
-                this.createHandler(),
-                range,
-                resource,
-                parameters,
-                path,
-                context,
-                expected
+            this.createHandler(),
+            range,
+            resource,
+            parameters,
+            path,
+            context,
+            expected
         );
     }
 
@@ -654,14 +654,14 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
                                      final X context,
                                      final Optional<C> expected) {
         this.checkEquals(
-                expected,
-                handler.handleRange(
-                        range,
-                        resource,
-                        parameters,
-                        path,
-                        context
-                )
+            expected,
+            handler.handleRange(
+                range,
+                resource,
+                parameters,
+                path,
+                context
+            )
         );
     }
 

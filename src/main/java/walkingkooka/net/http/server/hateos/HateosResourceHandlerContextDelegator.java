@@ -22,12 +22,12 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
 
 public interface HateosResourceHandlerContextDelegator extends HateosResourceHandlerContext,
-        JsonNodeMarshallUnmarshallContextDelegator {
+    JsonNodeMarshallUnmarshallContextDelegator {
 
     @Override
     default MediaType contentType() {
         return this.hateosResourceHandlerContext()
-                .contentType();
+            .contentType();
     }
 
     HateosResourceHandlerContext hateosResourceHandlerContext();

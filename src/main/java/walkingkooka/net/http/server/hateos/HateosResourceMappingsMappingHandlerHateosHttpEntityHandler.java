@@ -25,7 +25,7 @@ final class HateosResourceMappingsMappingHandlerHateosHttpEntityHandler extends 
 
     static HateosResourceMappingsMappingHandlerHateosHttpEntityHandler with(final HateosHttpEntityHandler<?, ?> handler) {
         return new HateosResourceMappingsMappingHandlerHateosHttpEntityHandler(
-                Objects.requireNonNull(handler, "handler")
+            Objects.requireNonNull(handler, "handler")
         );
     }
 
@@ -40,10 +40,10 @@ final class HateosResourceMappingsMappingHandlerHateosHttpEntityHandler extends 
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {
         request.handleHateosHttpEntityHandler(
-                this.handler,
-                selection,
-                path,
-                context
+            this.handler,
+            selection,
+            path,
+            context
         );
     }
 }

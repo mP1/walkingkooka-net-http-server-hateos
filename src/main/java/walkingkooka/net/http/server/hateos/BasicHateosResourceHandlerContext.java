@@ -25,11 +25,11 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 import java.util.Objects;
 
 final class BasicHateosResourceHandlerContext implements HateosResourceHandlerContext,
-        JsonNodeMarshallUnmarshallContextDelegator {
+    JsonNodeMarshallUnmarshallContextDelegator {
 
     static BasicHateosResourceHandlerContext with(final JsonNodeMarshallUnmarshallContext context) {
         return new BasicHateosResourceHandlerContext(
-                Objects.requireNonNull(context, "context")
+            Objects.requireNonNull(context, "context")
         );
     }
 
@@ -50,8 +50,8 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
         final JsonNodeMarshallUnmarshallContext after = before.setPreProcessor(processor);
 
         return before.equals(after) ?
-                this :
-                new BasicHateosResourceHandlerContext(after);
+            this :
+            new BasicHateosResourceHandlerContext(after);
     }
 
     @Override
