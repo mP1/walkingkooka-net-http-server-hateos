@@ -38,20 +38,20 @@ import java.util.Set;
  * A {@link Router} that dispatches to the given {@link HateosResourceMappings mappings}.
  * Note that any exceptions that are thrown, will have their stack trace in the response body with content-type=text/plain
  */
-final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<?>, HttpHandler> {
+final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext> implements Router<HttpRequestAttribute<?>, HttpHandler> {
 
-    static HateosResourceMappingsRouter with(final UrlPath base,
-                                             final Set<HateosResourceMappings<?, ?, ?, ?, ?>> mappings,
-                                             final Indentation indentation,
-                                             final LineEnding lineEnding,
-                                             final HateosResourceHandlerContext context) {
+    static <X extends HateosResourceHandlerContext> HateosResourceMappingsRouter<X> with(final UrlPath base,
+                                                                                         final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
+                                                                                         final Indentation indentation,
+                                                                                         final LineEnding lineEnding,
+                                                                                         final X context) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(mappings, "mappings");
         Objects.requireNonNull(indentation, "indentation");
         Objects.requireNonNull(lineEnding, "lineEnding");
         Objects.requireNonNull(context, "context");
 
-        return new HateosResourceMappingsRouter(
+        return new HateosResourceMappingsRouter<>(
             base,
             mappings,
             indentation,
@@ -61,15 +61,15 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
     }
 
     private HateosResourceMappingsRouter(final UrlPath base,
-                                         final Set<HateosResourceMappings<?, ?, ?, ?, ?>> mappings,
+                                         final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
                                          final Indentation indentation,
                                          final LineEnding lineEnding,
-                                         final HateosResourceHandlerContext context) {
+                                         final X context) {
         super();
         this.base = base.normalize();
-        Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, ?>> resourceNameToMapping = Maps.sorted();
+        Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, X>> resourceNameToMapping = Maps.sorted();
 
-        for (final HateosResourceMappings<?, ?, ?, ?, ?> mappingsMappings : mappings) {
+        for (final HateosResourceMappings<?, ?, ?, ?, X> mappingsMappings : mappings) {
             resourceNameToMapping.put(
                 mappingsMappings.resourceName,
                 mappingsMappings
@@ -84,7 +84,7 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
         this.context = context;
     }
 
-    final Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, ?>> resourceNameToMapping;
+    final Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, X>> resourceNameToMapping;
 
     // Router...........................................................................................................
 
@@ -136,7 +136,10 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
      */
     private final LineEnding lineEnding;
 
-    private final HateosResourceHandlerContext context;
+    /**
+     * The shared or common context passed to all handlers when they are invoked.
+     */
+    private final X context;
 
     // toString.........................................................................................................
 

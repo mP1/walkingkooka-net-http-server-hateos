@@ -21,21 +21,22 @@ import walkingkooka.net.UrlPath;
 
 import java.util.Objects;
 
-final class HateosResourceMappingsMappingHandlerHateosResourceHandler extends HateosResourceMappingsMappingHandler<HateosResourceHandler<?, ?, ?, ?>> {
+final class HateosResourceMappingsMappingHandlerHateosResourceHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> extends HateosResourceMappingsMappingHandler<I, V, C, H, X> {
 
-    static HateosResourceMappingsMappingHandlerHateosResourceHandler with(final HateosResourceHandler<?, ?, ?, ?> handler) {
-        return new HateosResourceMappingsMappingHandlerHateosResourceHandler(
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHateosResourceHandler<I, V, C, H, X> with(final HateosResourceHandler<I, V, C, X> handler) {
+        return new HateosResourceMappingsMappingHandlerHateosResourceHandler<>(
             Objects.requireNonNull(handler, "handler")
         );
     }
 
-    private HateosResourceMappingsMappingHandlerHateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
-        super(handler);
+    private HateosResourceMappingsMappingHandlerHateosResourceHandler(final HateosResourceHandler<I, V, C, X> handler) {
+        super();
+        this.handler = handler;
     }
 
     @Override
-    void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
-                final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
+    void handle(final HateosResourceMappingsRouterHttpHandlerRequest<X> request,
+                final HateosResourceMappings<I, V, C, H, X> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {
@@ -47,4 +48,11 @@ final class HateosResourceMappingsMappingHandlerHateosResourceHandler extends Ha
             context
         );
     }
+
+    @Override
+    HateosResourceHandler<I, V, C, X> handler() {
+        return this.handler;
+    }
+
+    private final HateosResourceHandler<I, V, C, X> handler;
 }

@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Handles a HATEOS request for a one or more {@link HateosResource} as a single {@link walkingkooka.net.http.HttpEntity}.
+ * Handles a HATEOS request for a one or more {@link HateosResource} as a single {@link HttpEntity}.
  */
 public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends HateosResourceHandlerContext> {
 

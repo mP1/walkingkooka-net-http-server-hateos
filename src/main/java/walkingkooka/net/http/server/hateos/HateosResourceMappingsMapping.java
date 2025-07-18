@@ -52,7 +52,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     }
 
     private HateosResourceMappingsMapping(final LinkRelation<?> linkRelation,
-                                          final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers,
+                                          final Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> methodToHandlers,
                                           final HttpHandler httpHandler) {
         super();
         this.linkRelation = linkRelation;
@@ -69,9 +69,9 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
 
         this.httpHandlerCheck();
 
-        final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers = Maps.sorted();
+        final Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> methodToHandlers = Maps.sorted();
 
-        Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> previous = this.methodToHandlers;
+        Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> previous = this.methodToHandlers;
         if (null != previous) {
             methodToHandlers.putAll(previous);
         }
@@ -99,9 +99,9 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
 
         this.httpHandlerCheck();
 
-        final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers = Maps.sorted();
+        final Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> methodToHandlers = Maps.sorted();
 
-        Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> previous = this.methodToHandlers;
+        Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> previous = this.methodToHandlers;
         if (null != previous) {
             methodToHandlers.putAll(previous);
         }
@@ -120,7 +120,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     }
 
     /**
-     * Sets a {@link walkingkooka.net.http.server.HttpHandler}
+     * Sets a {@link HttpHandler}
      */
     HateosResourceMappingsMapping<I, V, C, H, X> setHttpHandler(final HttpHandler handler) {
         Objects.requireNonNull(handler, "handler");
@@ -142,8 +142,8 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
         }
     }
 
-    void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
-                final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
+    void handle(final HateosResourceMappingsRouterHttpHandlerRequest<X> request,
+                final HateosResourceMappings<I, V, C, H, X> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final HateosResourceHandlerContext context) {
@@ -156,7 +156,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
         } else {
 
             final HttpMethod method = request.request.method();
-            final HateosResourceMappingsMappingHandler<?> handler = this.methodToHandlers.get(method);
+            final HateosResourceMappingsMappingHandler<I, V, C, H, X> handler = this.methodToHandlers.get(method);
             if (null != handler) {
                 handler.handle(
                     request,
@@ -175,7 +175,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
         }
     }
 
-    private final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers;
+    private final Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> methodToHandlers;
 
     private final HttpHandler httpHandler;
 
@@ -201,10 +201,10 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     public boolean equals(final Object other) {
         return this == other ||
             null != other && this.getClass() == other.getClass()
-                && this.equals0((HateosResourceMappingsMapping<?, ?, ?, ?, ?>) other);
+                && this.equals0((HateosResourceMappingsMapping<I, V, C, H, X>) other);
     }
 
-    private boolean equals0(final HateosResourceMappingsMapping<?, ?, ?, ?, ?> other) {
+    private boolean equals0(final HateosResourceMappingsMapping<I, V, C, H, X> other) {
         return Objects.equals(
             this.methodToHandlers,
             other.methodToHandlers
@@ -228,9 +228,9 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     public void printTree(final IndentingPrinter printer) {
 
         {
-            final Map<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodToHandlers = this.methodToHandlers;
+            final Map<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> methodToHandlers = this.methodToHandlers;
             if (null != methodToHandlers) {
-                for (final Entry<HttpMethod, HateosResourceMappingsMappingHandler<?>> methodAndHandler : this.methodToHandlers.entrySet()) {
+                for (final Entry<HttpMethod, HateosResourceMappingsMappingHandler<I, V, C, H, X>> methodAndHandler : this.methodToHandlers.entrySet()) {
                     printer.println(methodAndHandler.getKey().value());
 
                     printer.indent();

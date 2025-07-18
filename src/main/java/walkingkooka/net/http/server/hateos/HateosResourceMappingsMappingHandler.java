@@ -23,12 +23,12 @@ import walkingkooka.net.http.server.HttpHandler;
 /**
  * A simple wrapper to hold either a {@link HateosHttpEntityHandler} or {@link HateosResourceHandler}
  */
-abstract class HateosResourceMappingsMappingHandler<T> {
+abstract class HateosResourceMappingsMappingHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> {
 
     /**
      * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
      */
-    static HateosResourceMappingsMappingHandlerHateosHttpEntityHandler hateosHttpEntityHandler(final HateosHttpEntityHandler<?, ?> handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHateosHttpEntityHandler<I, V, C, H, X> hateosHttpEntityHandler(final HateosHttpEntityHandler<I, X> handler) {
         return HateosResourceMappingsMappingHandlerHateosHttpEntityHandler.with(handler);
     }
 
@@ -36,50 +36,55 @@ abstract class HateosResourceMappingsMappingHandler<T> {
     /**
      * {see HateosResourceMappingsMappingHandlerHateosResourceHandler}
      */
-    static HateosResourceMappingsMappingHandlerHateosResourceHandler hateosResourceHandler(final HateosResourceHandler<?, ?, ?, ?> handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHateosResourceHandler<I, V, C, H, X> hateosResourceHandler(final HateosResourceHandler<I, V, C, X> handler) {
         return HateosResourceMappingsMappingHandlerHateosResourceHandler.with(handler);
     }
 
     /**
      * {@see HateosResourceMappingsMappingHandlerHttpHandler}
      */
-    static HateosResourceMappingsMappingHandlerHttpHandler httpHandler(final HttpHandler handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> httpHandler(final HttpHandler handler) {
         return HateosResourceMappingsMappingHandlerHttpHandler.with(handler);
     }
 
-    HateosResourceMappingsMappingHandler(final T handler) {
+    HateosResourceMappingsMappingHandler() {
         super();
-        this.handler = handler;
     }
 
-    abstract void handle(final HateosResourceMappingsRouterHttpHandlerRequest request,
-                         final HateosResourceMappings<?, ?, ?, ?, ?> mappings,
+    abstract void handle(final HateosResourceMappingsRouterHttpHandlerRequest<X> request,
+                         final HateosResourceMappings<I, V, C, H, X> mappings,
                          final HateosResourceSelection<?> selection,
                          final UrlPath path,
                          final HateosResourceHandlerContext context);
-
-    final T handler;
 
     // Object...........................................................................................................
 
     @Override
     public final int hashCode() {
-        return this.handler.hashCode();
+        return this.handler()
+            .hashCode();
     }
 
     @Override
     public final boolean equals(final Object other) {
         return this == other ||
             null != other && this.getClass() == other.getClass()
-                && this.equals0((HateosResourceMappingsMappingHandler<?>) other);
+                && this.equals0((HateosResourceMappingsMappingHandler<?, ?, ?, ?, ?>) other);
     }
 
-    private boolean equals0(final HateosResourceMappingsMappingHandler<?> other) {
-        return this.handler.equals(other.handler);
+    private boolean equals0(final HateosResourceMappingsMappingHandler<?, ?, ?, ?, ?> other) {
+        return this.handler()
+            .equals(other.handler());
     }
 
     @Override
     public final String toString() {
-        return this.handler.toString();
+        return this.handler()
+            .toString();
     }
+
+    /**
+     * Provides the handler (type is not important) which is used in {@link #hashCode()} and {@link #equals(Object)}.
+     */
+    abstract Object handler();
 }
