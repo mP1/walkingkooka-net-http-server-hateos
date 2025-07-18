@@ -45,8 +45,8 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
     static HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping with(final HateosResourceName name,
                                                                                         final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods) {
         return new HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping(
-                name,
-                linkRelationToMethods
+            name,
+            linkRelationToMethods
         );
     }
 
@@ -63,8 +63,8 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                         final HateosResourceHandlerContext context) {
         // base + resource name.
         final UrlPath pathAndResourceNameAndId = base.path()
-                .append(this.name.toUrlPathName())
-                .append(UrlPathName.with(resource.hateosLinkId()));
+            .append(this.name.toUrlPathName())
+            .append(UrlPathName.with(resource.hateosLinkId()));
         final List<JsonNode> links = Lists.array();
 
         for (final Entry<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods : this.linkRelationToMethods.entrySet()) {
@@ -73,31 +73,31 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
             for (final HttpMethod method : linkRelationToMethods.getValue()) {
                 // TODO add support for title/title* and hreflang
                 final Map<LinkParameterName<?>, Object> parameters = Maps.of(
-                        LinkParameterName.METHOD, method,
-                        LinkParameterName.REL, Lists.of(relation),
-                        LinkParameterName.TYPE, context.contentType()
+                    LinkParameterName.METHOD, method,
+                    LinkParameterName.REL, Lists.of(relation),
+                    LinkParameterName.TYPE, context.contentType()
                 );
 
                 final Optional<UrlPathName> linkRelationPathName = relation.toUrlPathName();
 
                 links.add(
-                        context.marshall(
-                                Link.with(
-                                        base.setPath(
-                                                pathAndResourceNameAndId.append(
-                                                        linkRelationPathName.orElse(UrlPathName.EMPTY)
-                                                ).normalize()
-                                        )
-                                ).setParameters(parameters)
-                        )
+                    context.marshall(
+                        Link.with(
+                            base.setPath(
+                                pathAndResourceNameAndId.append(
+                                    linkRelationPathName.orElse(UrlPathName.EMPTY)
+                                ).normalize()
+                            )
+                        ).setParameters(parameters)
+                    )
                 );
             }
         }
 
         return object.set(
-                LINKS,
-                JsonNode.array()
-                        .setChildren(links)
+            LINKS,
+            JsonNode.array()
+                .setChildren(links)
         );
     }
 
@@ -116,10 +116,10 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
     @Override
     public String toString() {
         return ToStringBuilder.empty()
-                .valueSeparator(", ")
-                .separator(", ")
-                .value(this.name)
-                .value(this.linkRelationToMethods)
-                .build();
+            .valueSeparator(", ")
+            .separator(", ")
+            .value(this.name)
+            .value(this.linkRelationToMethods)
+            .build();
     }
 }

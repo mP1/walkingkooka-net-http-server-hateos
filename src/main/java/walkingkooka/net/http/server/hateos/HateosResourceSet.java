@@ -34,10 +34,10 @@ public interface HateosResourceSet<H extends HateosResource<I>, I> extends Set<H
      */
     default Set<I> ids() {
         return Sets.readOnly(
-                this.stream()
-                        .map(h -> h.id().orElse(null)) // flatMap gives errors in INTELLIJ
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.toCollection(SortedSets::tree))
+            this.stream()
+                .map(h -> h.id().orElse(null)) // flatMap gives errors in INTELLIJ
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(SortedSets::tree))
         );
     }
 }

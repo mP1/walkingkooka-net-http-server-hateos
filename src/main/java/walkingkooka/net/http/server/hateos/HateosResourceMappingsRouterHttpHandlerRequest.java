@@ -62,12 +62,12 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                                                                final LineEnding lineEnding,
                                                                final HateosResourceHandlerContext context) {
         return new HateosResourceMappingsRouterHttpHandlerRequest(
-                request,
-                response,
-                router,
-                indentation,
-                lineEnding,
-                context
+            request,
+            response,
+            router,
+            indentation,
+            lineEnding,
+            context
         );
     }
 
@@ -131,8 +131,8 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
             this.notFound(resourceName);
         } else {
             this.parseSelectionOrBadRequest(
-                    mappings,
-                    pathIndex
+                mappings,
+                pathIndex
             );
         }
     }
@@ -151,10 +151,10 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
         HateosResourceSelection<?> selection;
         try {
             selection = mappings.selection.apply(
-                    null == selectionString ?
-                            "" :
-                            selectionString,
-                    Cast.to(this.context)
+                null == selectionString ?
+                    "" :
+                    selectionString,
+                Cast.to(this.context)
             );
         } catch (final RuntimeException invalid) {
             selection = null;
@@ -163,9 +163,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
 
         if (null != selection) {
             this.dispatchHandlerOrBadRequest(
-                    mappings,
-                    selection,
-                    pathIndex + 1
+                mappings,
+                selection,
+                pathIndex + 1
             );
         }
     }
@@ -177,12 +177,12 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                                              final HateosResourceSelection<?> selection,
                                              final int pathIndex) {
         final UrlPathName pathNameOrLinkRelation = HttpRequestAttributes.pathComponent(pathIndex)
-                .parameterValue(this.parameters)
-                .orElse(null);
+            .parameterValue(this.parameters)
+            .orElse(null);
 
         final UrlPathName pathNameOrLinkRelationNotNull = null == pathNameOrLinkRelation ?
-                SELF :
-                pathNameOrLinkRelation;
+            SELF :
+            pathNameOrLinkRelation;
 
         final HateosResourceMappingsMapping<?, ?, ?, ?, ?> mapping = mappings.pathNameToMappings.get(pathNameOrLinkRelationNotNull);
         if (null == mapping) {
@@ -196,14 +196,14 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                 invalidOrUnknown = "Invalid";
             }
             this.badRequest(
-                    invalidOrUnknown +
-                            " link relation " +
-                            CharSequences.quoteAndEscape(linkRelation)
+                invalidOrUnknown +
+                    " link relation " +
+                    CharSequences.quoteAndEscape(linkRelation)
             );
         } else {
             int stop = null != pathNameOrLinkRelation && pathNameOrLinkRelation.value().isEmpty() ?
-                    pathIndex - 1 :
-                    pathIndex;
+                pathIndex - 1 :
+                pathIndex;
 
             UrlPath extraPath = UrlPath.EMPTY;
 
@@ -218,17 +218,17 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
             }
 
             mapping.handle(
-                    this,
-                    mappings,
-                    selection,
-                    extraPath,
-                    this.context
+                this,
+                mappings,
+                selection,
+                extraPath,
+                this.context
             );
         }
     }
 
     private final static UrlPathName SELF = LinkRelation.SELF.toUrlPathName()
-            .get();
+        .get();
 
     /**
      * <a href="https://restfulapi.net/http-status-codes/"></a>
@@ -245,16 +245,16 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                           final LinkRelation<?> relation,
                           final List<HttpMethod> allowed) {
         this.setStatus(
-                HttpStatusCode.METHOD_NOT_ALLOWED,
-                this.request.method() +
-                        " " +
-                        message(
-                                resourceName,
-                                relation
-                        )
+            HttpStatusCode.METHOD_NOT_ALLOWED,
+            this.request.method() +
+                " " +
+                message(
+                    resourceName,
+                    relation
+                )
         );
         this.response.setEntity(
-                HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, allowed)
+            HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, allowed)
         );
     }
 
@@ -267,19 +267,19 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                                        final UrlPath path,
                                        final HateosResourceHandlerContext context) {
         final HttpEntity responseHttpEntity = selection.handleHateosHttpEntityHandler(
-                Cast.to(handler),
-                this.httpEntity(),
-                this.parameters,
-                path,
-                context
+            Cast.to(handler),
+            this.httpEntity(),
+            this.parameters,
+            path,
+            context
         );
 
         final HttpResponse response = this.response;
 
         response.setStatus(
-                responseHttpEntity.isEmpty() ?
-                        HttpStatusCode.NO_CONTENT.status() :
-                        HttpStatusCode.OK.status()
+            responseHttpEntity.isEmpty() ?
+                HttpStatusCode.NO_CONTENT.status() :
+                HttpStatusCode.OK.status()
         );
         response.setEntity(responseHttpEntity);
     }
@@ -288,9 +288,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
         final HttpRequest request = this.request;
 
         return HttpEntity.EMPTY.setHeaders(
-                request.headers()
+            request.headers()
         ).setBody(
-                Binary.with(request.body())
+            Binary.with(request.body())
         );
     }
 
@@ -306,11 +306,11 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
             final Accept accept = this.acceptCompatibleOrBadRequest();
             if (null != accept) {
                 final Optional<?> maybeResponseResource = selection.handleHateosResourceHandler(
-                        Cast.to(handler),
-                        resource,
-                        this.parameters,
-                        path,
-                        context
+                    Cast.to(handler),
+                    resource,
+                    this.parameters,
+                    path,
+                    context
                 );
                 String responseText = null;
 
@@ -320,9 +320,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                 }
 
                 this.setStatusAndBody(
-                        selection,
-                        responseText,
-                        selection.resourceType(mappings)
+                    selection,
+                    responseText,
+                    selection.resourceType(mappings)
                 );
             }
         }
@@ -338,9 +338,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
         final String bodyText = this.resourceTextOrBadRequest();
         if (null != bodyText) {
             resource = this.resourceOrBadRequest(
-                    bodyText,
-                    mappings,
-                    selection
+                bodyText,
+                mappings,
+                selection
             );
         }
 
@@ -358,9 +358,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
             bodyText = request.bodyText();
         } catch (final RuntimeException cause) {
             this.badRequest(
-                    "Invalid content: " +
-                            cause.getMessage(),
-                    cause
+                "Invalid content: " +
+                    cause.getMessage(),
+                cause
             );
             bodyText = null;
         }
@@ -371,10 +371,10 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                 if (null != contentLength && contentLength.longValue() != request.bodyLength()) {
                     // Body absent with ContentLength: 123
                     this.badRequest(
-                            "Body absent with " +
-                                    HttpHeaderName.CONTENT_LENGTH +
-                                    ": " +
-                                    contentLength
+                        "Body absent with " +
+                            HttpHeaderName.CONTENT_LENGTH +
+                            ": " +
+                            contentLength
                     );
                     bodyText = null;
                 } else {
@@ -391,12 +391,12 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                     if (bodyLength != contentLengthLong) {
                         // ContentLength: 123 != body length 456 mismatch
                         this.badRequest(
-                                HttpHeaderName.CONTENT_LENGTH +
-                                        ": " +
-                                        contentLengthLong +
-                                        " != body length=" +
-                                        bodyLength +
-                                        " mismatch"
+                            HttpHeaderName.CONTENT_LENGTH +
+                                ": " +
+                                contentLengthLong +
+                                " != body length=" +
+                                bodyLength +
+                                " mismatch"
                         );
                         bodyText = null;
                     }
@@ -422,19 +422,19 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
             final HateosResourceHandlerContext context = this.context;
             try {
                 resource = Optional.of(
-                        context.unmarshall(
-                                JsonNode.parse(requestText),
-                                type
-                        )
+                    context.unmarshall(
+                        JsonNode.parse(requestText),
+                        type
+                    )
                 );
             } catch (final Exception cause) {
                 // Invalid bad/type: Message here...
                 this.badRequest(
-                        "Invalid " +
-                                context.contentType() +
-                                ": " +
-                                cause.getMessage(),
-                        cause
+                    "Invalid " +
+                        context.contentType() +
+                        ": " +
+                        cause.getMessage(),
+                    cause
                 );
                 resource = null;
             }
@@ -446,14 +446,14 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
         final HttpHeaderName<Accept> header = HttpHeaderName.ACCEPT;
 
         Accept accept = header.header(this.request)
-                .orElse(null);
+            .orElse(null);
         if (null == accept) {
             this.badRequest("Missing " + HttpHeaderName.ACCEPT);
         } else {
             final MediaType contentType = this.context.contentType();
             if (false == accept.test(contentType)) {
                 this.badRequest(
-                        accept.requireIncompatibleMessage(contentType)
+                    accept.requireIncompatibleMessage(contentType)
                 );
                 accept = null;
             }
@@ -468,9 +468,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
     private String pathComponent(final int pathIndex,
                                  final String missing) {
         return HttpRequestAttributes.pathComponent(pathIndex)
-                .parameterValue(this.parameters)
-                .map(UrlPathName::value)
-                .orElse(missing);
+            .parameterValue(this.parameters)
+            .map(UrlPathName::value)
+            .orElse(missing);
     }
 
     /**
@@ -480,11 +480,11 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
         final StringBuilder b = new StringBuilder();
 
         try (final IndentingPrinter printer = Printers.stringBuilder(
-                b,
-                this.lineEnding
+            b,
+            this.lineEnding
         ).indenting(this.indentation)) {
             this.context.marshall(body)
-                    .printJson(printer);
+                .printJson(printer);
             printer.flush();
         }
         return b.toString();
@@ -499,8 +499,8 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
 
     void badRequest(final String message) {
         this.setStatus(
-                HttpStatusCode.BAD_REQUEST,
-                message
+            HttpStatusCode.BAD_REQUEST,
+            message
         );
     }
 
@@ -512,9 +512,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                                   final LinkRelation<?> linkRelation) {
         // ResourceName, link relation: SAVE
         return message(
-                resourceName) +
-                ", link relation: " +
-                linkRelation;
+            resourceName) +
+            ", link relation: " +
+            linkRelation;
     }
 
     /**
@@ -524,7 +524,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
                     final Throwable cause) {
         this.badRequest(message);
         this.response.setEntity(
-                HttpEntity.dumpStackTrace(cause)
+            HttpEntity.dumpStackTrace(cause)
         );
     }
 
@@ -546,9 +546,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
             final MediaType contentType = this.context.contentType();
 
             entity = HttpEntity.EMPTY
-                    .setContentType(contentType.setCharset(charsetName))
-                    .setBodyText(content)
-                    .setContentLength();
+                .setContentType(contentType.setCharset(charsetName))
+                .setBodyText(content)
+                .setContentLength();
         } else {
             statusCode = HttpStatusCode.NO_CONTENT;
             entity = HttpEntity.EMPTY;
@@ -559,16 +559,16 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
         // This header is used to dispatch FetcherWatcher#onXXX.
         // Even NO_CONTENT responses require this header so the web app will be aware of successful DELETEs(which reply with NO_CONTENT).
         this.response.setEntity(
-                entity.addHeader(
-                        HateosResourceMappings.X_CONTENT_TYPE_NAME,
-                        contentValueType.getSimpleName()
-                )
+            entity.addHeader(
+                HateosResourceMappings.X_CONTENT_TYPE_NAME,
+                contentValueType.getSimpleName()
+            )
         );
     }
 
     private CharsetName selectCharsetName() {
         final AcceptCharset acceptCharset = HttpHeaderName.ACCEPT_CHARSET.header(this.request)
-                .orElse(AcceptCharset.UTF_8);
+            .orElse(AcceptCharset.UTF_8);
         final Optional<Charset> charset = acceptCharset.charset();
         if (!charset.isPresent()) {
             // AcceptCharset Hello contains unsupported charset
@@ -580,11 +580,11 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
     private void setStatus(final HttpStatusCode statusCode,
                            final String message) {
         this.setStatus(
-                statusCode.setMessageOrDefault(
-                        CharSequences.isNullOrEmpty(message) ?
-                                null :
-                                HttpStatus.firstLineOfText(message)
-                )
+            statusCode.setMessageOrDefault(
+                CharSequences.isNullOrEmpty(message) ?
+                    null :
+                    HttpStatus.firstLineOfText(message)
+            )
         ); // message could be null if Exception#getMessage
     }
 
@@ -604,13 +604,13 @@ final class HateosResourceMappingsRouterHttpHandlerRequest {
     @Override
     public String toString() {
         return ToStringBuilder.empty()
-                .enable(ToStringBuilderOption.SKIP_IF_DEFAULT_VALUE)
-                .value(this.router)
-                .value(this.request)
-                .value(this.response)
-                .enable(ToStringBuilderOption.ESCAPE)
-                .label("indentation").value(this.indentation)
-                .label("lineEndings").value(this.lineEnding)
-                .build();
+            .enable(ToStringBuilderOption.SKIP_IF_DEFAULT_VALUE)
+            .value(this.router)
+            .value(this.request)
+            .value(this.response)
+            .enable(ToStringBuilderOption.ESCAPE)
+            .label("indentation").value(this.indentation)
+            .label("lineEndings").value(this.lineEnding)
+            .build();
     }
 }

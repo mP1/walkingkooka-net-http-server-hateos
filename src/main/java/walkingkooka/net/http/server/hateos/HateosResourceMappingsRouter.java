@@ -52,11 +52,11 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
         Objects.requireNonNull(context, "context");
 
         return new HateosResourceMappingsRouter(
-                base,
-                mappings,
-                indentation,
-                lineEnding,
-                context
+            base,
+            mappings,
+            indentation,
+            lineEnding,
+            context
         );
     }
 
@@ -71,8 +71,8 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
 
         for (final HateosResourceMappings<?, ?, ?, ?, ?> mappingsMappings : mappings) {
             resourceNameToMapping.put(
-                    mappingsMappings.resourceName,
-                    mappingsMappings
+                mappingsMappings.resourceName,
+                mappingsMappings
             );
         }
 
@@ -94,9 +94,9 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
 
         // a handler will be returned if the request path matches the #base path
         return Optional.ofNullable(
-                -1 != this.consumeBasePath(parameters) ?
-                        this.httpHandler() :
-                        null
+            -1 != this.consumeBasePath(parameters) ?
+                this.httpHandler() :
+                null
         );
     }
 
@@ -119,10 +119,10 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
 
     private HttpHandler httpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
-                this,
-                this.indentation,
-                this.lineEnding,
-                this.context
+            this,
+            this.indentation,
+            this.lineEnding,
+            this.context
         );
     }
 
@@ -143,9 +143,9 @@ final class HateosResourceMappingsRouter implements Router<HttpRequestAttribute<
     @Override
     public String toString() {
         return ToStringBuilder.empty()
-                .enable(ToStringBuilderOption.SKIP_IF_DEFAULT_VALUE)
-                .value(this.base)
-                .value(this.resourceNameToMapping.values())
-                .build();
+            .enable(ToStringBuilderOption.SKIP_IF_DEFAULT_VALUE)
+            .value(this.base)
+            .value(this.resourceNameToMapping.values())
+            .build();
     }
 }

@@ -35,23 +35,23 @@ public interface HateosResourceTesting<H extends HateosResource<I>, I> extends C
 
     default void hateosLinkIdAndCheck(final HateosResource<?> resource, final String expected) {
         this.checkEquals(expected,
-                resource.hateosLinkId(),
-                () -> resource + " hateosLinkId");
+            resource.hateosLinkId(),
+            () -> resource + " hateosLinkId");
     }
 
     default void idAndCheck(final Optional<I> expected) {
         this.idAndCheck(
-                this.createHateosResource(),
-                expected
+            this.createHateosResource(),
+            expected
         );
     }
 
     default void idAndCheck(final HateosResource<?> resource,
                             final Optional<I> expected) {
         this.checkEquals(
-                expected,
-                resource.id(),
-                () -> resource + " id"
+            expected,
+            resource.id(),
+            () -> resource + " id"
         );
     }
 }

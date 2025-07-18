@@ -74,8 +74,8 @@ final class HateosResourceIdRangeVisitor<I extends Comparable<I>> extends RangeV
         final String valueText = this.hateosLinkId.apply(value);
 
         this.linkText = this.linkText.isEmpty() ?
-                HateosResource.HATEOS_LINK_RANGE_SEPARATOR + valueText :
-                this.linkText + valueText;
+            HateosResource.HATEOS_LINK_RANGE_SEPARATOR + valueText :
+            this.linkText + valueText;
     }
 
     private final Function<I, String> hateosLinkId;
@@ -85,7 +85,7 @@ final class HateosResourceIdRangeVisitor<I extends Comparable<I>> extends RangeV
     @Override
     public String toString() {
         return ToStringBuilder.empty()
-                .value(this.linkText)
-                .build();
+            .value(this.linkText)
+            .build();
     }
 }

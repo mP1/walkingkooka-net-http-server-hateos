@@ -39,10 +39,10 @@ final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
                                                         final LineEnding lineEnding,
                                                         final HateosResourceHandlerContext context) {
         return new HateosResourceMappingsRouterHttpHandler(
-                router,
-                indentation,
-                lineEnding,
-                context
+            router,
+            indentation,
+            lineEnding,
+            context
         );
     }
 
@@ -67,12 +67,12 @@ final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
         Objects.requireNonNull(response, "response");
 
         HateosResourceMappingsRouterHttpHandlerRequest.with(
-                request,
-                response,
-                this.router,
-                this.indentation,
-                this.lineEnding,
-                this.context
+            request,
+            response,
+            this.router,
+            this.indentation,
+            this.lineEnding,
+            this.context
         ).dispatch();
     }
 

@@ -44,10 +44,10 @@ final class HateosResourceSelectionNone<I extends Comparable<I>> extends HateosR
                                              final UrlPath path,
                                              final HateosResourceHandlerContext context) {
         return handler.handleNone(
-                entity,
-                parameters,
-                path,
-                Cast.to(context)
+            entity,
+            parameters,
+            path,
+            Cast.to(context)
         );
     }
 
@@ -58,10 +58,10 @@ final class HateosResourceSelectionNone<I extends Comparable<I>> extends HateosR
                                             final UrlPath path,
                                             final HateosResourceHandlerContext context) {
         return handler.handleNone(
-                Cast.to(resource),
-                parameters,
-                path,
-                Cast.to(context)
+            Cast.to(resource),
+            parameters,
+            path,
+            Cast.to(context)
         );
     }
 

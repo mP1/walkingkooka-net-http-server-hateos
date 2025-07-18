@@ -45,11 +45,11 @@ final class HateosResourceSelectionMany<I extends Comparable<I>> extends HateosR
                                              final UrlPath path,
                                              final HateosResourceHandlerContext context) {
         return handler.handleMany(
-                this.value(),
-                entity,
-                parameters,
-                path,
-                Cast.to(context)
+            this.value(),
+            entity,
+            parameters,
+            path,
+            Cast.to(context)
         );
     }
 
@@ -60,11 +60,11 @@ final class HateosResourceSelectionMany<I extends Comparable<I>> extends HateosR
                                             final UrlPath path,
                                             final HateosResourceHandlerContext context) {
         return handler.handleMany(
-                this.value(),
-                Cast.to(resource),
-                parameters,
-                path,
-                Cast.to(context)
+            this.value(),
+            Cast.to(resource),
+            parameters,
+            path,
+            Cast.to(context)
         );
     }
 }

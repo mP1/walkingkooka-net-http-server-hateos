@@ -50,17 +50,17 @@ final class HateosResourceIdComparator<H extends HateosResource<I>, I extends Co
     public int compare(final H left,
                        final H right) {
         final I leftId = left.id()
-                .orElse(null);
+            .orElse(null);
         final I rightId = right.id()
-                .orElse(null);
+            .orElse(null);
 
         return null == leftId && null == rightId ?
-                Comparators.EQUAL :
-                null == leftId ?
-                        Comparators.LESS :
-                        null == rightId ?
-                                Comparators.MORE :
-                                leftId.compareTo(rightId);
+            Comparators.EQUAL :
+            null == leftId ?
+                Comparators.LESS :
+                null == rightId ?
+                    Comparators.MORE :
+                    leftId.compareTo(rightId);
     }
 
     @Override

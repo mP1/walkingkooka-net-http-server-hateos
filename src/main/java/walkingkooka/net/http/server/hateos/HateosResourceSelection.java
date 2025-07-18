@@ -89,8 +89,8 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
      */
     HttpStatusCode successStatusCode() {
         return this.isNone() ?
-                HttpStatusCode.CREATED :
-                HttpStatusCode.OK;
+            HttpStatusCode.CREATED :
+            HttpStatusCode.OK;
     }
 
     /**
@@ -133,8 +133,8 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
      */
     final Class<?> resourceType(final HateosResourceMappings<?, ?, ?, ?, ?> mapping) {
         return this.isNone() || this.isOne() ?
-                mapping.valueType :
-                mapping.collectionType;
+            mapping.valueType :
+            mapping.collectionType;
     }
 
     abstract HttpEntity handleHateosHttpEntityHandler(final HateosHttpEntityHandler<I, ?> handler,

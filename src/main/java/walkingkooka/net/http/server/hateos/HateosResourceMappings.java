@@ -61,7 +61,7 @@ import java.util.function.BiFunction;
  * </ul>
  */
 public final class HateosResourceMappings<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext>
-        implements TreePrintable {
+    implements TreePrintable {
 
     /**
      * This header will appear in any successful JSON response and contains the simple java type name (Class#getSimpleName())
@@ -73,12 +73,12 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
      * Creates a new {@link HateosResourceMappings}
      */
     public static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappings<I, V, C, H, X> with(
-            final HateosResourceName resourceName,
-            final BiFunction<String, X, HateosResourceSelection<I>> selection,
-            final Class<V> valueType,
-            final Class<C> collectionType,
-            final Class<H> resourceType,
-            final Class<X> contextType) {
+        final HateosResourceName resourceName,
+        final BiFunction<String, X, HateosResourceSelection<I>> selection,
+        final Class<V> valueType,
+        final Class<C> collectionType,
+        final Class<H> resourceType,
+        final Class<X> contextType) {
         Objects.requireNonNull(resourceName, "resourceName");
         Objects.requireNonNull(selection, "selection");
         Objects.requireNonNull(valueType, "valueType");
@@ -101,12 +101,12 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
         }
 
         return new HateosResourceMappings<>(
-                resourceName,
-                selection,
-                valueType,
-                collectionType,
-                resourceType,
-                Maps.empty()
+            resourceName,
+            selection,
+            valueType,
+            collectionType,
+            resourceType,
+            Maps.empty()
         );
     }
 
@@ -143,33 +143,33 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
         pathNameToMappings.putAll(this.pathNameToMappings);
 
         final UrlPathName pathName = relation.toUrlPathName()
-                .get();
+            .get();
 
         HateosResourceMappingsMapping<I, V, C, H, X> mappingHandler = pathNameToMappings.get(pathName);
         if (null == mappingHandler) {
             mappingHandler = HateosResourceMappingsMapping.empty(
-                    relation,
-                    null
+                relation,
+                null
             );
         }
         pathNameToMappings.put(
-                pathName,
-                mappingHandler.setHateosHttpEntityHandler(
-                        method,
-                        handler
-                )
+            pathName,
+            mappingHandler.setHateosHttpEntityHandler(
+                method,
+                handler
+            )
         );
 
         return this.pathNameToMappings.equals(pathNameToMappings) ?
-                this :
-                new HateosResourceMappings<>(
-                        this.resourceName,
-                        this.selection,
-                        this.valueType,
-                        this.collectionType,
-                        this.resourceType,
-                        pathNameToMappings
-                );
+            this :
+            new HateosResourceMappings<>(
+                this.resourceName,
+                this.selection,
+                this.valueType,
+                this.collectionType,
+                this.resourceType,
+                pathNameToMappings
+            );
     }
 
     /**
@@ -186,33 +186,33 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
         pathNameToMappings.putAll(this.pathNameToMappings);
 
         final UrlPathName pathName = relation.toUrlPathName()
-                .get();
+            .get();
 
         HateosResourceMappingsMapping<I, V, C, H, X> mappingHandler = pathNameToMappings.get(pathName);
         if (null == mappingHandler) {
             mappingHandler = HateosResourceMappingsMapping.empty(
-                    relation,
-                    null
+                relation,
+                null
             );
         }
         pathNameToMappings.put(
-                pathName,
-                mappingHandler.setHateosResourceHandler(
-                        method,
-                        handler
-                )
+            pathName,
+            mappingHandler.setHateosResourceHandler(
+                method,
+                handler
+            )
         );
 
         return this.pathNameToMappings.equals(pathNameToMappings) ?
-                this :
-                new HateosResourceMappings<>(
-                        this.resourceName,
-                        this.selection,
-                        this.valueType,
-                        this.collectionType,
-                        this.resourceType,
-                        pathNameToMappings
-                );
+            this :
+            new HateosResourceMappings<>(
+                this.resourceName,
+                this.selection,
+                this.valueType,
+                this.collectionType,
+                this.resourceType,
+                pathNameToMappings
+            );
     }
 
     private static LinkRelation<?> checkLinkRelation(final LinkRelation<?> relation) {
@@ -237,25 +237,25 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
         HateosResourceMappingsMapping<I, V, C, H, X> mappingHandler = pathNameToMappings.get(pathName);
         if (null == mappingHandler) {
             mappingHandler = HateosResourceMappingsMapping.empty(
-                    null,
-                    handler
+                null,
+                handler
             );
         }
         pathNameToMappings.put(
-                pathName,
-                mappingHandler.setHttpHandler(handler)
+            pathName,
+            mappingHandler.setHttpHandler(handler)
         );
 
         return this.pathNameToMappings.equals(pathNameToMappings) ?
-                this :
-                new HateosResourceMappings<>(
-                        this.resourceName,
-                        this.selection,
-                        this.valueType,
-                        this.collectionType,
-                        this.resourceType,
-                        pathNameToMappings
-                );
+            this :
+            new HateosResourceMappings<>(
+                this.resourceName,
+                this.selection,
+                this.valueType,
+                this.collectionType,
+                this.resourceType,
+                pathNameToMappings
+            );
     }
 
     // HateosResourceMappingsRouter.....................................................................................
@@ -269,11 +269,11 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
                                                                       final LineEnding lineEnding,
                                                                       final HateosResourceHandlerContext context) {
         return HateosResourceMappingsRouter.with(
-                base,
-                mappings,
-                indentation,
-                lineEnding,
-                context
+            base,
+            mappings,
+            indentation,
+            lineEnding,
+            context
         );
     }
 
@@ -335,8 +335,8 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
     @Override
     public void printTree(final IndentingPrinter printer) {
         TreePrintable.printTreeOrToString(
-                this.resourceName,
-                printer
+            this.resourceName,
+            printer
         );
 
         printer.indent();
@@ -359,15 +359,15 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
                     printer.indent();
                     {
                         printer.println(
-                                CharSequences.quoteAndEscape(
-                                        pathNameAndMapping.getKey()
-                                                .value()
-                                )
+                            CharSequences.quoteAndEscape(
+                                pathNameAndMapping.getKey()
+                                    .value()
+                            )
                         );
                         printer.indent();
                         {
                             pathNameAndMapping.getValue()
-                                    .printTree(printer);
+                                .printTree(printer);
                         }
                         printer.outdent();
                     }
