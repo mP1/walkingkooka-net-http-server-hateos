@@ -43,7 +43,7 @@ public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
     default void testHandleWithNullRequestFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> this.createHandler()
+            () -> this.createHateosHttpHandler()
                         .handle(
                                 null,
                                 HttpResponses.fake(),
@@ -56,7 +56,7 @@ public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
     default void testHandleWithNullResponseFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> this.createHandler()
+            () -> this.createHateosHttpHandler()
                         .handle(
                                 HttpRequests.fake(),
                                 null,
@@ -69,7 +69,7 @@ public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
     default void testHandleWithNullContextFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> this.createHandler()
+            () -> this.createHateosHttpHandler()
                         .handle(
                                 HttpRequests.fake(),
                                 HttpResponses.fake(),
@@ -82,7 +82,7 @@ public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
                                 final C context,
                                 final HttpResponse expected) {
         this.handleAndCheck(
-            this.createHandler(),
+            this.createHateosHttpHandler(),
             request,
             context,
             expected
@@ -110,7 +110,7 @@ public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
 
     // helpers..........................................................................................................
 
-    H createHandler();
+    H createHateosHttpHandler();
 
     C context();
 
