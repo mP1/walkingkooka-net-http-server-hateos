@@ -78,6 +78,17 @@ public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
         );
     }
 
+    default void handleAndCheck(final HttpRequest request,
+                                final C context,
+                                final HttpResponse expected) {
+        this.handleAndCheck(
+            this.createHandler(),
+            request,
+            context,
+            expected
+        );
+    }
+
     default void handleAndCheck(final H handler,
                                 final HttpRequest request,
                                 final C context,
