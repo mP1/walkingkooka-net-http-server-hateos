@@ -45,7 +45,7 @@ public final class HateosHttpHandlerTestingTest implements HateosHttpHandlerTest
         );
 
         this.handleAndCheck(
-            this.createHandler(),
+            this.createHateosHttpHandler(),
             HttpRequests.get(
                 HttpTransport.UNSECURED,
                 Url.parseRelative("/path1/file2.txt"),
@@ -73,7 +73,7 @@ public final class HateosHttpHandlerTestingTest implements HateosHttpHandlerTest
     }
 
     @Override
-    public TestHateosHttpHandler createHandler() {
+    public TestHateosHttpHandler createHateosHttpHandler() {
         return new TestHateosHttpHandler();
     }
 
