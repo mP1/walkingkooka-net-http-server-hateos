@@ -42,7 +42,6 @@ import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpStatus;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.HttpTransport;
-import walkingkooka.net.http.server.FakeHttpHandler;
 import walkingkooka.net.http.server.FakeHttpRequest;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
@@ -1528,11 +1527,11 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
     }
 
-    // setHttpHandler...................................................................................................
+    // setHateosHttpHandler.............................................................................................
 
     @Test
-    public void testSetHttpHandlerAndRouteWithEmptyUrlPathName() {
-        this.setHttpHandlerAndRouteAndCheck(
+    public void testSetHateosHttpHandlerAndRouteWithEmptyUrlPathName() {
+        this.setHateosHttpHandlerAndRouteAndCheck(
                 UrlPathName.with(""),
                 "/api/resource-with-body/0x123/",
                 "POST /api/resource-with-body/0x123/\n" +
@@ -1541,8 +1540,8 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     }
 
     @Test
-    public void testSetHttpHandlerAndRoute() {
-        this.setHttpHandlerAndRouteAndCheck(
+    public void testSetHateosHttpHandlerAndRoute() {
+        this.setHateosHttpHandlerAndRouteAndCheck(
                 UrlPathName.with("hello"),
                 "/api/resource-with-body/0x123/hello/",
                 "POST /api/resource-with-body/0x123/hello/\n" +
@@ -1550,7 +1549,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
     }
 
-    private void setHttpHandlerAndRouteAndCheck(final UrlPathName pathName,
+    private void setHateosHttpHandlerAndRouteAndCheck(final UrlPathName pathName,
                                                 final String requestUrl,
                                                 final String expectedBodyText) {
         final MediaType mediaType = MediaType.TEXT_PLAIN;
@@ -1572,21 +1571,22 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 TestResource.class,
                 TestHateosResource.class,
                 TestHateosResourceHandlerContext.class
-        ).setHttpHandler(
-                pathName,
-                new FakeHttpHandler() {
-                    @Override
-                    public void handle(final HttpRequest request,
-                                       final HttpResponse response) {
-                        response.setStatus(status);
-                        response.setEntity(
-                                HttpEntity.EMPTY.setBodyText(
-                                        request.method() + " " + request.url() + "\n" +
-                                                request.bodyText()
-                                )
-                        );
-                    }
+        ).setHateosHttpHandler(
+            pathName,
+            new FakeHateosHttpHandler<>() {
+                @Override
+                public void handle(final HttpRequest request,
+                                   final HttpResponse response,
+                                   final TestHateosResourceHandlerContext context) {
+                    response.setStatus(status);
+                    response.setEntity(
+                        HttpEntity.EMPTY.setBodyText(
+                            request.method() + " " + request.url() + "\n" +
+                                request.bodyText()
+                        )
+                    );
                 }
+            }
         );
 
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
