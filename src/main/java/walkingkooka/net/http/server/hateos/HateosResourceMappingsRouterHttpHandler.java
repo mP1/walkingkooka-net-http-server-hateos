@@ -27,14 +27,14 @@ import java.util.function.BiConsumer;
 /**
  * A {@link BiConsumer} which examines the request and then dispatches to the selected {@link HateosResourceHandler}.
  */
-final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
+final class HateosResourceMappingsRouterHttpHandler<C extends HateosResourceHandlerContext> implements HttpHandler {
 
     /**
      * Factory called by {@link HateosResourceMappingsRouter#route}
      */
-    static HateosResourceMappingsRouterHttpHandler with(final HateosResourceMappingsRouter router,
-                                                        final HateosResourceHandlerContext context) {
-        return new HateosResourceMappingsRouterHttpHandler(
+    static <C extends HateosResourceHandlerContext> HateosResourceMappingsRouterHttpHandler<C> with(final HateosResourceMappingsRouter<C> router,
+                                                                                                    final C context) {
+        return new HateosResourceMappingsRouterHttpHandler<>(
             router,
             context
         );
@@ -43,8 +43,8 @@ final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
     /**
      * Private ctor use factory.
      */
-    private HateosResourceMappingsRouterHttpHandler(final HateosResourceMappingsRouter router,
-                                                    final HateosResourceHandlerContext context) {
+    private HateosResourceMappingsRouterHttpHandler(final HateosResourceMappingsRouter<C> router,
+                                                    final C context) {
         super();
         this.router = router;
         this.context = context;
@@ -64,9 +64,9 @@ final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
         ).dispatch();
     }
 
-    private final HateosResourceMappingsRouter router;
+    private final HateosResourceMappingsRouter<C> router;
 
-    private final HateosResourceHandlerContext context;
+    private final C context;
 
     @Override
     public String toString() {
