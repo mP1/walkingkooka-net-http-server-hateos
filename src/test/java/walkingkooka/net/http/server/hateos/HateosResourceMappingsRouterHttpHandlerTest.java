@@ -18,15 +18,16 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.Cast;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpHandlerTesting;
 
-public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandler>
-        implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler> {
+public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>>
+    implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>> {
     @Override
-    public HateosResourceMappingsRouterHttpHandler createHttpHandler() {
+    public HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext> createHttpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
                 HateosResourceMappingsRouter.with(
                         UrlPath.ROOT,
@@ -43,7 +44,7 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
     public void testToString() {
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
-        final HateosResourceMappingsRouter router = HateosResourceMappingsRouter.with(
+        final HateosResourceMappingsRouter<HateosResourceHandlerContext> router = HateosResourceMappingsRouter.with(
                 UrlPath.ROOT,
                 Sets.empty(),
                 context
@@ -61,8 +62,8 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingsRouterHttpHandler> type() {
-        return HateosResourceMappingsRouterHttpHandler.class;
+    public Class<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>> type() {
+        return Cast.to(HateosResourceMappingsRouterHttpHandler.class);
     }
 
     // TypeNameTesting..................................................................................................
