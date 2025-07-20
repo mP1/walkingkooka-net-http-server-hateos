@@ -80,6 +80,16 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
             public MediaType contentType() {
                 return MediaType.APPLICATION_JSON;
             }
+
+            @Override
+            public Indentation indentation() {
+                return Indentation.SPACES2;
+            }
+
+            @Override
+            public LineEnding lineEnding() {
+                return LineEnding.NL;
+            }
         };
 
         HateosResourceMappingsRouterHttpHandlerRequest.with(
@@ -108,12 +118,8 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
                                         HateosResourceHandlers.fake()
                                 )
                         ),
-                        Indentation.SPACES2,
-                        LineEnding.NL,
                         context
                 ),
-                Indentation.SPACES2,
-                LineEnding.NL,
                 context
         ).dispatch();
 
@@ -129,15 +135,11 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
 
     @Test
     public void testToString() {
-        final Indentation indentation = Indentation.with("   ");
-        final LineEnding lineEnding = LineEnding.NL;
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
         final HateosResourceMappingsRouter router = HateosResourceMappingsRouter.with(
                 UrlPath.ROOT,
                 Sets.empty(),
-                indentation,
-                lineEnding,
                 context
         );
         final HttpRequest request = HttpRequests.fake();
@@ -148,11 +150,9 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
                         request,
                         response,
                         router,
-                        indentation,
-                        lineEnding,
                         context
                 ),
-                request + " " + response + " indentation=\"   \" lineEndings=\"\\n\""
+            request + " " + response
         );
     }
 

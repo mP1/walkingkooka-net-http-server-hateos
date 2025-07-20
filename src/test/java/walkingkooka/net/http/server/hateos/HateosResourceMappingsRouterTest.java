@@ -92,8 +92,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     private final static CharsetName DEFAULT_CHARSET = CharsetName.UTF_8;
 
     private final static Set<HateosResourceMappings<?, ?, ?, ?, TestHateosResourceHandlerContext>> MAPPINGS = Sets.empty();
-    private final static Indentation INDENTATION = Indentation.SPACES2;
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     private final static TestHateosResourceHandlerContext CONTEXT = new TestHateosResourceHandlerContext();
 
@@ -102,6 +100,16 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         @Override
         public MediaType contentType() {
             return CONTENT_TYPE;
+        }
+
+        @Override
+        public Indentation indentation() {
+            return Indentation.SPACES2;
+        }
+
+        @Override
+        public LineEnding lineEnding() {
+            return LineEnding.NL;
         }
 
         @Override
@@ -129,8 +137,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 () -> HateosResourceMappingsRouter.with(
                         null,
                         MAPPINGS,
-                        INDENTATION,
-                        LINE_ENDING,
                         CONTEXT
                 )
         );
@@ -142,36 +148,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 NullPointerException.class,
                 () -> HateosResourceMappingsRouter.with(
                         BASE_PATH,
-                        null,
-                        INDENTATION,
-                        LINE_ENDING,
-                        CONTEXT
-                )
-        );
-    }
-
-    @Test
-    public void testWithNullIndentationFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> HateosResourceMappingsRouter.with(
-                        BASE_PATH,
-                        MAPPINGS,
-                        null,
-                        LINE_ENDING,
-                        CONTEXT
-                )
-        );
-    }
-
-    @Test
-    public void testWithNullLineEndingFails() {
-        assertThrows(
-                NullPointerException.class,
-                () -> HateosResourceMappingsRouter.with(
-                        BASE_PATH,
-                        MAPPINGS,
-                        INDENTATION,
                         null,
                         CONTEXT
                 )
@@ -185,8 +161,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 () -> HateosResourceMappingsRouter.with(
                         BASE_PATH,
                         MAPPINGS,
-                        INDENTATION,
-                        LINE_ENDING,
                         null
                 )
         );
@@ -1268,8 +1242,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
-                INDENTATION,
-                LINE_ENDING,
                 CONTEXT
         );
 
@@ -1443,8 +1415,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
-                INDENTATION,
-                LINE_ENDING,
                 CONTEXT
         );
 
@@ -1592,8 +1562,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
-                INDENTATION,
-                LINE_ENDING,
                 CONTEXT
         );
 
@@ -1700,8 +1668,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                                 getMapping,
                                 mappingWithBody
                         ),
-                        INDENTATION,
-                        LINE_ENDING,
                         CONTEXT
                 )
         );

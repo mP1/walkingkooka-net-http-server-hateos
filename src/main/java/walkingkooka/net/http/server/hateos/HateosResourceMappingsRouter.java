@@ -26,8 +26,6 @@ import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
 import walkingkooka.route.Router;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
 
 import java.util.Map;
 import java.util.Objects;
@@ -42,28 +40,20 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
 
     static <X extends HateosResourceHandlerContext> HateosResourceMappingsRouter<X> with(final UrlPath base,
                                                                                          final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
-                                                                                         final Indentation indentation,
-                                                                                         final LineEnding lineEnding,
                                                                                          final X context) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(mappings, "mappings");
-        Objects.requireNonNull(indentation, "indentation");
-        Objects.requireNonNull(lineEnding, "lineEnding");
         Objects.requireNonNull(context, "context");
 
         return new HateosResourceMappingsRouter<>(
             base,
             mappings,
-            indentation,
-            lineEnding,
             context
         );
     }
 
     private HateosResourceMappingsRouter(final UrlPath base,
                                          final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
-                                         final Indentation indentation,
-                                         final LineEnding lineEnding,
                                          final X context) {
         super();
         this.base = base.normalize();
@@ -77,9 +67,6 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
         }
 
         this.resourceNameToMapping = resourceNameToMapping;
-
-        this.indentation = indentation;
-        this.lineEnding = lineEnding;
 
         this.context = context;
     }
@@ -120,21 +107,9 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
     private HttpHandler httpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
             this,
-            this.indentation,
-            this.lineEnding,
             this.context
         );
     }
-
-    /**
-     * The {@link Indentation} that will be used when marshing objects to JSON.
-     */
-    private final Indentation indentation;
-
-    /**
-     * The {@link LineEnding} that will be used when transforming JSON to text.
-     */
-    private final LineEnding lineEnding;
 
     /**
      * The shared or common context passed to all handlers when they are invoked.

@@ -19,6 +19,8 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
@@ -32,6 +34,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class BasicHateosResourceHandlerContextTest implements HateosResourceHandlerContextTesting<BasicHateosResourceHandlerContext>,
         ToStringTesting<BasicHateosResourceHandlerContext> {
 
+    private final static Indentation INDENTATION = Indentation.SPACES2;
+
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
+
     private final static JsonNodeMarshallUnmarshallContext CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
             JsonNodeMarshallContexts.basic(),
             JsonNodeUnmarshallContexts.basic(
@@ -41,19 +47,47 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     );
 
     @Test
-    public void testWithNullContextFails() {
+    public void testWithNullIndentationFails() {
         assertThrows(
                 NullPointerException.class,
                 () -> BasicHateosResourceHandlerContext.with(
-                        null
+                    null,
+                    LINE_ENDING,
+                    CONTEXT
                 )
+        );
+    }
+
+    @Test
+    public void testWithNullLineEndingFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> BasicHateosResourceHandlerContext.with(
+                INDENTATION,
+                null,
+                CONTEXT
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullContextFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> BasicHateosResourceHandlerContext.with(
+                INDENTATION,
+                LINE_ENDING,
+                null
+            )
         );
     }
 
     @Override
     public BasicHateosResourceHandlerContext createContext() {
         return BasicHateosResourceHandlerContext.with(
-                CONTEXT
+            INDENTATION,
+            LINE_ENDING,
+            CONTEXT
         );
     }
 

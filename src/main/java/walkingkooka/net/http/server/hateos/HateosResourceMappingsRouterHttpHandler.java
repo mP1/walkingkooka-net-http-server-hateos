@@ -20,8 +20,6 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpResponse;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -35,13 +33,9 @@ final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
      * Factory called by {@link HateosResourceMappingsRouter#route}
      */
     static HateosResourceMappingsRouterHttpHandler with(final HateosResourceMappingsRouter router,
-                                                        final Indentation indentation,
-                                                        final LineEnding lineEnding,
                                                         final HateosResourceHandlerContext context) {
         return new HateosResourceMappingsRouterHttpHandler(
             router,
-            indentation,
-            lineEnding,
             context
         );
     }
@@ -50,13 +44,9 @@ final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
      * Private ctor use factory.
      */
     private HateosResourceMappingsRouterHttpHandler(final HateosResourceMappingsRouter router,
-                                                    final Indentation indentation,
-                                                    final LineEnding lineEnding,
                                                     final HateosResourceHandlerContext context) {
         super();
         this.router = router;
-        this.indentation = indentation;
-        this.lineEnding = lineEnding;
         this.context = context;
     }
 
@@ -70,15 +60,11 @@ final class HateosResourceMappingsRouterHttpHandler implements HttpHandler {
             request,
             response,
             this.router,
-            this.indentation,
-            this.lineEnding,
             this.context
         ).dispatch();
     }
 
     private final HateosResourceMappingsRouter router;
-    private final Indentation indentation;
-    private final LineEnding lineEnding;
 
     private final HateosResourceHandlerContext context;
 

@@ -39,8 +39,6 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.CharSequences;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.Printers;
 import walkingkooka.tree.json.JsonNode;
@@ -58,15 +56,11 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
     static <X extends HateosResourceHandlerContext> HateosResourceMappingsRouterHttpHandlerRequest<X> with(final HttpRequest request,
                                                                                                            final HttpResponse response,
                                                                                                            final HateosResourceMappingsRouter<X> router,
-                                                                                                           final Indentation indentation,
-                                                                                                           final LineEnding lineEnding,
                                                                                                            final X context) {
         return new HateosResourceMappingsRouterHttpHandlerRequest<>(
             request,
             response,
             router,
-            indentation,
-            lineEnding,
             context
         );
     }
@@ -74,15 +68,11 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
     private HateosResourceMappingsRouterHttpHandlerRequest(final HttpRequest request,
                                                            final HttpResponse response,
                                                            final HateosResourceMappingsRouter<X> router,
-                                                           final Indentation indentation,
-                                                           final LineEnding lineEnding,
                                                            final X context) {
         super();
         this.request = request;
         this.response = response;
         this.router = router;
-        this.indentation = indentation;
-        this.lineEnding = lineEnding;
         this.context = context;
 
         this.parameters = this.request.routerParameters();
@@ -316,7 +306,10 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
 
                 if (maybeResponseResource.isPresent()) {
                     final Object responseResource = maybeResponseResource.get();
-                    responseText = this.toText(responseResource);
+                    responseText = this.toText(
+                        responseResource,
+                        context
+                    );
                 }
 
                 this.setStatusAndBody(
@@ -476,24 +469,20 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
     /**
      * Marshals the given response to a String which will become the response body text.
      */
-    private String toText(final Object body) {
+    private String toText(final Object body,
+                          final HateosResourceHandlerContext context) {
         final StringBuilder b = new StringBuilder();
 
         try (final IndentingPrinter printer = Printers.stringBuilder(
             b,
-            this.lineEnding
-        ).indenting(this.indentation)) {
+            context.lineEnding()
+        ).indenting(context.indentation())) {
             this.context.marshall(body)
                 .printJson(printer);
             printer.flush();
         }
         return b.toString();
     }
-
-    // these two properties will be removed when a Converter is convert request text -> values and values -> response text.
-
-    private final Indentation indentation;
-    private final LineEnding lineEnding;
 
     // error reporting..................................................................................................
 
@@ -608,9 +597,6 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
             .value(this.router)
             .value(this.request)
             .value(this.response)
-            .enable(ToStringBuilderOption.ESCAPE)
-            .label("indentation").value(this.indentation)
-            .label("lineEndings").value(this.lineEnding)
             .build();
     }
 }

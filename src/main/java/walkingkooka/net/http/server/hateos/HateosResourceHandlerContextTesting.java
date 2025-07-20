@@ -17,10 +17,28 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting;
 
 public interface HateosResourceHandlerContextTesting<C extends HateosResourceHandlerContext> extends JsonNodeMarshallUnmarshallContextTesting<C> {
 
+    default void indentationAndCheck(final C context,
+                                     final Indentation expected) {
+        this.checkEquals(
+            expected,
+            context.indentation()
+        );
+    }
+
+    default void lineEndingAndCheck(final C context,
+                                    final LineEnding expected) {
+        this.checkEquals(
+            expected,
+            context.lineEnding()
+        );
+    }
+    
     @Override
     default String typeNameSuffix() {
         return HateosResourceHandlerContext.class.getSimpleName();

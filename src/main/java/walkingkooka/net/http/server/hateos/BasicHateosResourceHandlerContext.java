@@ -18,6 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
@@ -27,13 +29,21 @@ import java.util.Objects;
 final class BasicHateosResourceHandlerContext implements HateosResourceHandlerContext,
     JsonNodeMarshallUnmarshallContextDelegator {
 
-    static BasicHateosResourceHandlerContext with(final JsonNodeMarshallUnmarshallContext context) {
+    static BasicHateosResourceHandlerContext with(final Indentation indentation,
+                                                  final LineEnding lineEnding,
+                                                  final JsonNodeMarshallUnmarshallContext context) {
         return new BasicHateosResourceHandlerContext(
+            Objects.requireNonNull(indentation, "indentation"),
+            Objects.requireNonNull(lineEnding, "lineEnding"),
             Objects.requireNonNull(context, "context")
         );
     }
 
-    private BasicHateosResourceHandlerContext(final JsonNodeMarshallUnmarshallContext context) {
+    private BasicHateosResourceHandlerContext(final Indentation indentation,
+                                              final LineEnding lineEnding,
+                                              final JsonNodeMarshallUnmarshallContext context) {
+        this.indentation = indentation;
+        this.lineEnding = lineEnding;
         this.context = context;
     }
 
@@ -41,6 +51,20 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
     public MediaType contentType() {
         return HATEOS_DEFAULT_CONTENT_TYPE;
     }
+
+    @Override
+    public Indentation indentation() {
+        return this.indentation;
+    }
+
+    private final Indentation indentation;
+
+    @Override
+    public LineEnding lineEnding() {
+        return this.lineEnding;
+    }
+
+    private final LineEnding lineEnding;
 
     // JsonNodeMarshallUnmarshallContext................................................................................
 
@@ -51,7 +75,11 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
 
         return before.equals(after) ?
             this :
-            new BasicHateosResourceHandlerContext(after);
+            new BasicHateosResourceHandlerContext(
+                this.indentation,
+                this.lineEnding,
+                after
+            );
     }
 
     @Override

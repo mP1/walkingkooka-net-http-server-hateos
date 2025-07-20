@@ -18,6 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 
 /**
@@ -28,8 +30,14 @@ public final class HateosResourceHandlerContexts implements PublicStaticHelper {
     /**
      * {@see BasicHateosResourceHandlerContext}
      */
-    public static HateosResourceHandlerContext basic(final JsonNodeMarshallUnmarshallContext context) {
-        return BasicHateosResourceHandlerContext.with(context);
+    public static HateosResourceHandlerContext basic(final Indentation indentation,
+                                                     final LineEnding lineEnding,
+                                                     final JsonNodeMarshallUnmarshallContext context) {
+        return BasicHateosResourceHandlerContext.with(
+            indentation,
+            lineEnding,
+            context
+        );
     }
 
     /**

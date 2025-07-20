@@ -118,8 +118,6 @@ public class TestGwtTest extends GWTTestCase {
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
-                Indentation.SPACES2,
-                LineEnding.NL,
                 new TestHateosResourceHandlerContext()
         );
 
@@ -218,6 +216,16 @@ public class TestGwtTest extends GWTTestCase {
         @Override
         public MediaType contentType() {
             return CONTENT_TYPE;
+        }
+
+        @Override
+        public Indentation indentation() {
+            return Indentation.SPACES2;
+        }
+
+        @Override
+        public LineEnding lineEnding() {
+            return LineEnding.NL;
         }
 
         @Override

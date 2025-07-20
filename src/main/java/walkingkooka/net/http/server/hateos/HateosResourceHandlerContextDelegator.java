@@ -18,6 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
 
@@ -28,6 +30,18 @@ public interface HateosResourceHandlerContextDelegator extends HateosResourceHan
     default MediaType contentType() {
         return this.hateosResourceHandlerContext()
             .contentType();
+    }
+
+    @Override
+    default Indentation indentation() {
+        return this.hateosResourceHandlerContext()
+            .indentation();
+    }
+
+    @Override
+    default LineEnding lineEnding() {
+        return this.hateosResourceHandlerContext()
+            .lineEnding();
     }
 
     HateosResourceHandlerContext hateosResourceHandlerContext();
