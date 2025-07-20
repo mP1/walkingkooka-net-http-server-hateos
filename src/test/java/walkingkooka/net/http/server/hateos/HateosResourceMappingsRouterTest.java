@@ -1218,7 +1218,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         ).setHateosResourceHandler(
                 LinkRelation.CONTENTS,
                 HttpMethod.POST,
-                new FakeHateosResourceHandler<BigInteger, TestResource, TestResource, TestHateosResourceHandlerContext>() {
+            new FakeHateosResourceHandler<>() {
 
                     @Override
                     public Optional<TestResource> handleOne(final BigInteger id,
@@ -1387,7 +1387,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         ).setHateosHttpEntityHandler(
                 linkRelation,
                 HttpMethod.POST,
-                new FakeHateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext>() {
+            new FakeHateosHttpEntityHandler<>() {
                     @Override
                     public HttpEntity handleOne(final BigInteger id,
                                                 final HttpEntity entity,
