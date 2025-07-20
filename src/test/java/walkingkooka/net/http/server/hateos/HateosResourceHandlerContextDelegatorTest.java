@@ -17,7 +17,10 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import org.junit.jupiter.api.Test;
 import walkingkooka.net.http.server.hateos.HateosResourceHandlerContextDelegatorTest.TestHateosResourceHandlerContextDelegator;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContexts;
@@ -28,6 +31,9 @@ import java.math.MathContext;
 
 public final class HateosResourceHandlerContextDelegatorTest implements HateosResourceHandlerContextTesting<TestHateosResourceHandlerContextDelegator> {
 
+    private final static Indentation INDENTATION = Indentation.SPACES2;
+    private final static LineEnding LINE_ENDING = LineEnding.NL;
+    
     @Override
     public void testTypeNaming() {
         throw new UnsupportedOperationException();
@@ -48,6 +54,22 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
         throw new UnsupportedOperationException();
     }
 
+    @Test
+    public void testIndentation() {
+        this.indentationAndCheck(
+            this.createContext(),
+            INDENTATION
+        );
+    }
+
+    @Test
+    public void testLineEnding() {
+        this.lineEndingAndCheck(
+            this.createContext(),
+            LINE_ENDING
+        );
+    }
+    
     @Override
     public TestHateosResourceHandlerContextDelegator createContext() {
         return new TestHateosResourceHandlerContextDelegator();
@@ -68,13 +90,15 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
         @Override
         public HateosResourceHandlerContext hateosResourceHandlerContext() {
             return BasicHateosResourceHandlerContext.with(
-                    JsonNodeMarshallUnmarshallContexts.basic(
-                            JsonNodeMarshallContexts.basic(),
-                            JsonNodeUnmarshallContexts.basic(
-                                    ExpressionNumberKind.BIG_DECIMAL,
-                                    MathContext.DECIMAL32
-                            )
+                INDENTATION,
+                LINE_ENDING,
+                JsonNodeMarshallUnmarshallContexts.basic(
+                    JsonNodeMarshallContexts.basic(),
+                    JsonNodeUnmarshallContexts.basic(
+                        ExpressionNumberKind.BIG_DECIMAL,
+                        MathContext.DECIMAL32
                     )
+                )
             );
         }
 

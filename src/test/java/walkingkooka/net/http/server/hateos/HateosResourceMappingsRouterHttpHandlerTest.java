@@ -22,8 +22,6 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpHandlerTesting;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
 
 public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandler>
         implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler> {
@@ -33,12 +31,8 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
                 HateosResourceMappingsRouter.with(
                         UrlPath.ROOT,
                         Sets.empty(),
-                        Indentation.SPACES2,
-                        LineEnding.NL,
                         HateosResourceHandlerContexts.fake()
                 ),
-                Indentation.SPACES2,
-                LineEnding.NL,
                 HateosResourceHandlerContexts.fake()
         );
     }
@@ -47,23 +41,17 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
 
     @Test
     public void testToString() {
-        final Indentation indentation = Indentation.with("   ");
-        final LineEnding lineEnding = LineEnding.NL;
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
         final HateosResourceMappingsRouter router = HateosResourceMappingsRouter.with(
                 UrlPath.ROOT,
                 Sets.empty(),
-                indentation,
-                lineEnding,
                 context
         );
 
         this.toStringAndCheck(
                 HateosResourceMappingsRouterHttpHandler.with(
                         router,
-                        indentation,
-                        lineEnding,
                         context
                 ),
                 router.toString()

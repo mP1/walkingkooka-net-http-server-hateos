@@ -18,6 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.FakeJsonNodeMarshallContext;
@@ -33,6 +35,16 @@ import java.util.function.Function;
 public class FakeHateosResourceHandlerContext extends FakeJsonNodeMarshallContext implements HateosResourceHandlerContext {
     @Override
     public MediaType contentType() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Indentation indentation() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LineEnding lineEnding() {
         throw new UnsupportedOperationException();
     }
 

@@ -20,6 +20,8 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.Context;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.text.Indentation;
+import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
@@ -35,6 +37,16 @@ public interface HateosResourceHandlerContext extends JsonNodeMarshallUnmarshall
     MediaType HATEOS_DEFAULT_CONTENT_TYPE = MediaType.APPLICATION_JSON.setCharset(CharsetName.UTF_8);
 
     MediaType contentType();
+
+    /**
+     * The indentation to use when printing JSON into text. This can be used to turn on or off pretty printing.
+     */
+    Indentation indentation();
+
+    /**
+     * Line ending used when printing JSON into text.
+     */
+    LineEnding lineEnding();
 
     @Override
     HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor);

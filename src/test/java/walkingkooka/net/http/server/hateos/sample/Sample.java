@@ -143,8 +143,6 @@ public class Sample {
         final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
-                Indentation.SPACES2,
-                LineEnding.NL,
                 new TestHateosResourceHandlerContext()
         );
 
@@ -243,6 +241,16 @@ public class Sample {
         @Override
         public MediaType contentType() {
             return CONTENT_TYPE;
+        }
+
+        @Override
+        public Indentation indentation() {
+            return Indentation.SPACES2;
+        }
+
+        @Override
+        public LineEnding lineEnding() {
+            return LineEnding.NL;
         }
 
         @Override

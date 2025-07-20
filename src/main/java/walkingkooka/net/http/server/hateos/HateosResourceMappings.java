@@ -31,8 +31,6 @@ import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.route.Router;
 import walkingkooka.text.CharSequences;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
@@ -265,14 +263,10 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
      */
     public static <X extends HateosResourceHandlerContext> Router<HttpRequestAttribute<?>, HttpHandler> router(final UrlPath base,
                                                                                                                final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
-                                                                                                               final Indentation indentation,
-                                                                                                               final LineEnding lineEnding,
                                                                                                                final X context) {
         return HateosResourceMappingsRouter.with(
             base,
             mappings,
-            indentation,
-            lineEnding,
             context
         );
     }
