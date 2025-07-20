@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
+import walkingkooka.Cast;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
 import walkingkooka.net.UrlPath;
@@ -37,7 +38,7 @@ import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandlerRequest> {
+public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandlerRequest<HateosResourceHandlerContext>> {
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithNullMessage() {
@@ -137,7 +138,7 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
     public void testToString() {
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
-        final HateosResourceMappingsRouter router = HateosResourceMappingsRouter.with(
+        final HateosResourceMappingsRouter<HateosResourceHandlerContext> router = HateosResourceMappingsRouter.with(
                 UrlPath.ROOT,
                 Sets.empty(),
                 context
@@ -159,8 +160,8 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingsRouterHttpHandlerRequest> type() {
-        return HateosResourceMappingsRouterHttpHandlerRequest.class;
+    public Class<HateosResourceMappingsRouterHttpHandlerRequest<HateosResourceHandlerContext>> type() {
+        return Cast.to(HateosResourceMappingsRouterHttpHandlerRequest.class);
     }
 
     // TypeNameTesting..................................................................................................
