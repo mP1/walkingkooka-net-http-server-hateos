@@ -22,8 +22,11 @@ import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
+
+import java.util.Objects;
 
 /**
  * {@link Context} that accompanies all {@link HateosResourceHandler methods}.
@@ -47,6 +50,18 @@ public interface HateosResourceHandlerContext extends JsonNodeMarshallUnmarshall
      * Line ending used when printing JSON into text.
      */
     LineEnding lineEnding();
+
+    /**
+     * Helper that returns the json node as text using the current {@link #indentation()} and {@link #lineEnding()}.
+     */
+    default String toJsonText(final JsonNode node) {
+        Objects.requireNonNull(node, "node");
+
+        return node.toJsonText(
+            this.indentation(),
+            this.lineEnding()
+        );
+    }
 
     @Override
     HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor);

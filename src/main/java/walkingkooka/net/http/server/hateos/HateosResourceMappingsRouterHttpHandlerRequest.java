@@ -469,11 +469,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
      */
     private String toText(final Object body,
                           final HateosResourceHandlerContext context) {
-        return this.context.marshall(body)
-            .toJsonText(
-                context.indentation(),
-                context.lineEnding()
-            );
+        return context.toJsonText(
+            context.marshall(body)
+        );
     }
 
     // error reporting..................................................................................................
