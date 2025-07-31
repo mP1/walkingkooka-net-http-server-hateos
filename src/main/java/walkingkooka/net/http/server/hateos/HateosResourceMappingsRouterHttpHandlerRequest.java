@@ -39,8 +39,6 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestAttributes;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.CharSequences;
-import walkingkooka.text.printer.IndentingPrinter;
-import walkingkooka.text.printer.Printers;
 import walkingkooka.tree.json.JsonNode;
 
 import java.nio.charset.Charset;
@@ -471,17 +469,11 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
      */
     private String toText(final Object body,
                           final HateosResourceHandlerContext context) {
-        final StringBuilder b = new StringBuilder();
-
-        try (final IndentingPrinter printer = Printers.stringBuilder(
-            b,
-            context.lineEnding()
-        ).indenting(context.indentation())) {
-            this.context.marshall(body)
-                .printJson(printer);
-            printer.flush();
-        }
-        return b.toString();
+        return this.context.marshall(body)
+            .toJsonText(
+                context.indentation(),
+                context.lineEnding()
+            );
     }
 
     // error reporting..................................................................................................
