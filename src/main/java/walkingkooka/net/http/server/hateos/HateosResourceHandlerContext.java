@@ -23,6 +23,7 @@ import walkingkooka.net.header.MediaType;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.JsonNode;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
@@ -62,6 +63,9 @@ public interface HateosResourceHandlerContext extends JsonNodeMarshallUnmarshall
             this.lineEnding()
         );
     }
+
+    @Override
+    HateosResourceHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor);
 
     @Override
     HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor);

@@ -22,6 +22,7 @@ import walkingkooka.net.http.server.hateos.HateosResourceHandlerContextDelegator
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
@@ -39,6 +40,21 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void testSetObjectPostProcessorNullFails() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetObjectPostProcessor() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void testSetObjectPostProcessorSame() {
+        throw new UnsupportedOperationException();
+    }
+    
     @Override
     public void testSetPreProcessorNullFails() {
         throw new UnsupportedOperationException();
@@ -81,6 +97,11 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
     }
 
     static final class TestHateosResourceHandlerContextDelegator implements HateosResourceHandlerContextDelegator {
+
+        @Override
+        public HateosResourceHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
+            throw new UnsupportedOperationException();
+        }
 
         @Override
         public HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {

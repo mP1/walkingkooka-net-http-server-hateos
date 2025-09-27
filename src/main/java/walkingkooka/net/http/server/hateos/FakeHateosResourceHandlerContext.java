@@ -23,6 +23,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.FakeJsonNodeMarshallContext;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
 import java.math.MathContext;
@@ -45,6 +46,13 @@ public class FakeHateosResourceHandlerContext extends FakeJsonNodeMarshallContex
 
     @Override
     public LineEnding lineEnding() {
+        throw new UnsupportedOperationException();
+    }
+
+    // JsonNodeMarshallContext..........................................................................................
+
+    @Override
+    public HateosResourceHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
         throw new UnsupportedOperationException();
     }
 
