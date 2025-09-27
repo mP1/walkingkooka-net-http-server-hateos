@@ -20,6 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
@@ -67,6 +68,20 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
     private final LineEnding lineEnding;
 
     // JsonNodeMarshallUnmarshallContext................................................................................
+
+    @Override
+    public HateosResourceHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
+        final JsonNodeMarshallUnmarshallContext before = this.context;
+        final JsonNodeMarshallUnmarshallContext after = before.setObjectPostProcessor(processor);
+
+        return before.equals(after) ?
+            this :
+            new BasicHateosResourceHandlerContext(
+                this.indentation,
+                this.lineEnding,
+                after
+            );
+    }
 
     @Override
     public HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {
