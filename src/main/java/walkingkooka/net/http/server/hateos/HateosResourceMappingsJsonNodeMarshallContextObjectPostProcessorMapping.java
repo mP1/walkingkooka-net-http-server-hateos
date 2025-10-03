@@ -35,7 +35,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 
 /**
  * A value class that holds numerous components to build links for a {@link HateosResourceName}.
@@ -78,15 +77,17 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                     LinkParameterName.TYPE, context.contentType()
                 );
 
-                final Optional<UrlPathName> linkRelationPathName = relation.toUrlPathName();
+                final UrlPathName linkRelationPathName = relation.toUrlPathName()
+                    .orElse(UrlPathName.EMPTY);
 
                 links.add(
                     context.marshall(
                         Link.with(
                             base.setPath(
-                                pathAndResourceNameAndId.append(
-                                    linkRelationPathName.orElse(UrlPathName.EMPTY)
-                                ).normalize()
+                                // isEmpty: prevents trailing slash
+                                linkRelationPathName.isEmpty() ?
+                                    pathAndResourceNameAndId :
+                                    pathAndResourceNameAndId.append(linkRelationPathName)
                             )
                         ).setParameters(parameters)
                     )
