@@ -122,8 +122,11 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         public <T> T unmarshall(final JsonNode json,
                                 final Class<T> type) {
             return JsonNodeUnmarshallContexts.basic(
-                    ExpressionNumberKind.BIG_DECIMAL,
-                    MathContext.DECIMAL32
+                (String cc) -> {
+                    throw new UnsupportedOperationException();
+                },
+                ExpressionNumberKind.BIG_DECIMAL,
+                MathContext.DECIMAL32
             ).unmarshall(json, type);
         }
     }
