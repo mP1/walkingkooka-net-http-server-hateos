@@ -116,6 +116,9 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
                 JsonNodeMarshallUnmarshallContexts.basic(
                     JsonNodeMarshallContexts.basic(),
                     JsonNodeUnmarshallContexts.basic(
+                        (String cc) -> {
+                            throw new UnsupportedOperationException();
+                        },
                         ExpressionNumberKind.BIG_DECIMAL,
                         MathContext.DECIMAL32
                     )

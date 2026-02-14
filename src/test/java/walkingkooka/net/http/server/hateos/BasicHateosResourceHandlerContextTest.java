@@ -41,8 +41,11 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     private final static JsonNodeMarshallUnmarshallContext CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
             JsonNodeMarshallContexts.basic(),
             JsonNodeUnmarshallContexts.basic(
-                    ExpressionNumberKind.BIG_DECIMAL,
-                    MathContext.DECIMAL32
+                (String cc) -> {
+                    throw new UnsupportedOperationException();
+                },
+                ExpressionNumberKind.BIG_DECIMAL,
+                MathContext.DECIMAL32
             )
     );
 
