@@ -125,6 +125,9 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 (String cc) -> {
                     throw new UnsupportedOperationException();
                 },
+                (String lt) -> {
+                    throw new UnsupportedOperationException();
+                },
                 ExpressionNumberKind.BIG_DECIMAL,
                 MathContext.DECIMAL32
             ).unmarshall(json, type);
