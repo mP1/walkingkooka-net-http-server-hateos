@@ -28,6 +28,7 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.MathContext;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -42,6 +43,10 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
             JsonNodeMarshallContexts.basic(),
             JsonNodeUnmarshallContexts.basic(
                 (String cc) -> {
+                    throw new UnsupportedOperationException();
+                },
+                (String lt) -> {
+                    Objects.requireNonNull(lt, "languageTag");
                     throw new UnsupportedOperationException();
                 },
                 ExpressionNumberKind.BIG_DECIMAL,

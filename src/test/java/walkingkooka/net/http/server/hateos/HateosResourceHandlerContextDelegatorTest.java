@@ -29,6 +29,7 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.MathContext;
+import java.util.Objects;
 
 public final class HateosResourceHandlerContextDelegatorTest implements HateosResourceHandlerContextTesting<TestHateosResourceHandlerContextDelegator> {
 
@@ -117,6 +118,10 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
                     JsonNodeMarshallContexts.basic(),
                     JsonNodeUnmarshallContexts.basic(
                         (String cc) -> {
+                            throw new UnsupportedOperationException();
+                        },
+                        (String lt) -> {
+                            Objects.requireNonNull(lt, "languageTag");
                             throw new UnsupportedOperationException();
                         },
                         ExpressionNumberKind.BIG_DECIMAL,
