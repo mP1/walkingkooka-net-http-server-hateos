@@ -19,6 +19,8 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
+import walkingkooka.currency.CurrencyContexts;
+import walkingkooka.locale.LocaleContexts;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
@@ -28,7 +30,7 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 
 import java.math.MathContext;
-import java.util.Objects;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -42,14 +44,11 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     private final static JsonNodeMarshallUnmarshallContext CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
             JsonNodeMarshallContexts.basic(),
             JsonNodeUnmarshallContexts.basic(
-                (String cc) -> {
-                    throw new UnsupportedOperationException();
-                },
-                (String lt) -> {
-                    Objects.requireNonNull(lt, "languageTag");
-                    throw new UnsupportedOperationException();
-                },
                 ExpressionNumberKind.BIG_DECIMAL,
+                CurrencyContexts.fake()
+                    .setLocaleContext(
+                        LocaleContexts.jre(Locale.ENGLISH)
+                    ), // CurrencyCodeLanguageTagContext
                 MathContext.DECIMAL32
             )
     );
