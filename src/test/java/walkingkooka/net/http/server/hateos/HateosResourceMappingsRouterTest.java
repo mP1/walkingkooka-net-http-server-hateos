@@ -25,6 +25,7 @@ import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
+import walkingkooka.currency.CurrencyLocaleContexts;
 import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.UrlPath;
@@ -122,13 +123,8 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         public <T> T unmarshall(final JsonNode json,
                                 final Class<T> type) {
             return JsonNodeUnmarshallContexts.basic(
-                (String cc) -> {
-                    throw new UnsupportedOperationException();
-                },
-                (String lt) -> {
-                    throw new UnsupportedOperationException();
-                },
                 ExpressionNumberKind.BIG_DECIMAL,
+                CurrencyLocaleContexts.fake(), // CurrencyCodeLanguageTagContext
                 MathContext.DECIMAL32
             ).unmarshall(json, type);
         }
