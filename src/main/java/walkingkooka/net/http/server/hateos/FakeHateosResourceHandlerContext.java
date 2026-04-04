@@ -18,6 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.currency.CurrencyCode;
+import walkingkooka.locale.LocaleLanguageTag;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -134,7 +135,7 @@ public class FakeHateosResourceHandlerContext extends FakeJsonNodeMarshallContex
     }
 
     @Override
-    public Optional<Locale> localeForLanguageTag(final String languageTag) {
+    public Optional<Locale> localeForLanguageTag(final LocaleLanguageTag languageTag) {
         throw new UnsupportedOperationException();
     }
 
