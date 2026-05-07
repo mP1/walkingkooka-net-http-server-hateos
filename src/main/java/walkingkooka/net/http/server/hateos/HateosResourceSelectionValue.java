@@ -17,7 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.Value;
+import walkingkooka.HasValue;
 import walkingkooka.collect.Range;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Base class for several {@link HateosResourceSelection} that hold a single value such as an id, {@link Range} or {@link List}.
  */
-abstract class HateosResourceSelectionValue<I extends Comparable<I>, V> extends HateosResourceSelection<I> implements Value<V> {
+abstract class HateosResourceSelectionValue<I extends Comparable<I>, V> extends HateosResourceSelection<I> implements HasValue<V> {
 
     HateosResourceSelectionValue(final V value) {
         super();
