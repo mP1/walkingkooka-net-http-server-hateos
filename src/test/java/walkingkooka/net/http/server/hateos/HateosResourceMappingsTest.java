@@ -980,20 +980,19 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                     }
                 ),
                 "abc123\n" +
-                        "  ResourceType:\n" +
-                        "    TestHateosResource\n" +
-                        "  mappings:\n" +
-                        "      \"\"\n" +
-                        "        GET\n" +
-                        "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
-                        "        POST\n" +
-                        "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
-                        "      \"Hello\"\n" +
-                        "        HelloHttpHandler (walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$5)\n" +
-                        "      \"about\"\n" +
-                        "        GET\n" +
-                        "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
-                        "    \n"
+                    "  ResourceType:\n" +
+                    "    TestHateosResource\n" +
+                    "  mappings:\n" +
+                    "      \"\"\n" +
+                    "        GET\n" +
+                    "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
+                    "        POST\n" +
+                    "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
+                    "      \"Hello\"\n" +
+                    "        HelloHttpHandler (walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$5)\n" +
+                    "      \"about\"\n" +
+                    "        GET\n" +
+                    "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n"
         );
     }
 
