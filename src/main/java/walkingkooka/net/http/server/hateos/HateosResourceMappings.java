@@ -368,7 +368,7 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
                     printer.outdent();
                 }
             }
-            printer.println();
+            printer.outdent();
         }
         printer.outdent();
     }
