@@ -724,7 +724,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         final MediaType contentType = this.contentType();
         final Map<HttpHeaderName<?>, List<?>> headers = Maps.sorted();
         headers.put(HttpHeaderName.ACCEPT, Lists.of(contentType.accept()));
-        headers.put(HttpHeaderName.ACCEPT_CHARSET, Lists.of(new AcceptCharset[]{AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).toHeaderText())}));
+        headers.put(HttpHeaderName.ACCEPT_CHARSET, Lists.of(new AcceptCharset[]{AcceptCharset.parse(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(DEFAULT_CHARSET).text())}));
         headers.put(HttpHeaderName.CONTENT_TYPE, Lists.of(new MediaType[]{contentType}));
 
         final byte[] bodyBytes = bytes(body, contentType);
@@ -1868,7 +1868,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                                 AcceptCharset.parse(
                                         MediaTypeParameterName.CHARSET.parameterValue(contentType)
                                                 .orElse(DEFAULT_CHARSET)
-                                                .toHeaderText()
+                                            .text()
                                 )
                         }
                 )
