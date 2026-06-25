@@ -22,6 +22,13 @@ import walkingkooka.reflect.PublicStaticHelper;
 public final class HateosHttpHandlers implements PublicStaticHelper {
 
     /**
+     * {@link FakeHateosHttpHandler}
+     */
+    public static <C extends HateosResourceHandlerContext> FakeHateosHttpHandler<C> fake() {
+        return new FakeHateosHttpHandler<>();
+    }
+
+    /**
      * Stop creation
      */
     private HateosHttpHandlers() {
