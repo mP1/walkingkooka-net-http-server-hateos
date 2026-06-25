@@ -33,7 +33,7 @@ import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.reflect.JavaVisibility;
 
-public final class GetOrHeadHeaderHateosHttpHandlerTest implements HateosHttpHandlerTesting<GetOrHeadHeaderHateosHttpHandler<FakeHateosResourceHandlerContext>, FakeHateosResourceHandlerContext> {
+public final class GetOrHeadHeaderHateosHttpHandlerTest implements GetOrHeadHeaderHateosHttpHandlerTesting<GetOrHeadHeaderHateosHttpHandler<FakeHateosResourceHandlerContext>, FakeHateosResourceHandlerContext> {
 
     @Test
     public void testHandlePostMethodNotAllowed() {
