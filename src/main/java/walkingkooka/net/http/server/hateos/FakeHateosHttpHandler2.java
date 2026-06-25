@@ -55,6 +55,13 @@ public class FakeHateosHttpHandler2<C extends HateosResourceHandlerContext> impl
     }
 
     @Override
+    public void handleOptions(final HttpRequest request,
+                              final HttpResponse response,
+                              final C context) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void handleOther(final HttpRequest request,
                             final HttpResponse response,
                             final C context) {
