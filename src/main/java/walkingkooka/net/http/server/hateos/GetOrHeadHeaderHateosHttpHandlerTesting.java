@@ -31,8 +31,6 @@ public interface GetOrHeadHeaderHateosHttpHandlerTesting<H extends GetOrHeadHead
 
     @Test
     default void testHandlePost() {
-        final HttpResponse response = HttpResponses.recording();
-
         final HttpResponse expected = HttpResponses.recording();
         expected.setMethodNotAllowed(
             HttpMethod.POST,
