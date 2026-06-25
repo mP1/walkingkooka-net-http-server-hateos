@@ -89,6 +89,21 @@ public final class HateosHttpHandler2Test implements HateosHttpHandlerTesting<Fa
     }
 
     @Test
+    public void testHandleOptions() {
+        this.handleAndCheck(
+            new FakeHateosHttpHandler2<>() {
+                @Override
+                public void handleOptions(final HttpRequest request,
+                                          final HttpResponse response,
+                                          final FakeHateosResourceHandlerContext context) {
+                    HateosHttpHandler2Test.this.handled = true;
+                }
+            },
+            HttpMethod.OPTIONS
+        );
+    }
+
+    @Test
     public void testHandlePatch() {
         this.handleAndCheck(
             new FakeHateosHttpHandler2<>() {

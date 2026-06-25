@@ -67,6 +67,13 @@ public interface HateosHttpHandler2<C extends HateosResourceHandlerContext> exte
                     context
                 );
                 break;
+            case HttpMethod.OPTIONS_STRING:
+                this.handleOptions(
+                    request,
+                    response,
+                    context
+                );
+                break;
             case HttpMethod.PATCH_STRING:
                 this.handlePatch(
                     request,
@@ -113,6 +120,10 @@ public interface HateosHttpHandler2<C extends HateosResourceHandlerContext> exte
     void handleHead(final HttpRequest request,
                     final HttpResponse response,
                     final C context);
+
+    void handleOptions(final HttpRequest request,
+                       final HttpResponse response,
+                       final C context);
 
     void handleOther(final HttpRequest request,
                      final HttpResponse response,
