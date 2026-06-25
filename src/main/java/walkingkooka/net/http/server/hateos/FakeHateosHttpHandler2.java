@@ -74,4 +74,11 @@ public class FakeHateosHttpHandler2<C extends HateosResourceHandlerContext> impl
                            final C context) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void handleTrace(final HttpRequest request,
+                            final HttpResponse response,
+                            final C context) {
+        throw new UnsupportedOperationException();
+    }
 }
