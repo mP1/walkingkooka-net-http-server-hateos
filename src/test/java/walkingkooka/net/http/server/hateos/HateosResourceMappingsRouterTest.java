@@ -272,7 +272,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 "/api/resource-with-body/0x123/contents",
                 this.contentType(),
                 NO_BODY,
-                HttpStatusCode.METHOD_NOT_ALLOWED.setMessage(method + " resource: resource-with-body, link relation: contents"),
+            HttpStatusCode.METHOD_NOT_ALLOWED.setMessage("Method " + method + " not allowed"),
                 HttpEntity.EMPTY.addHeader(HttpHeaderName.ALLOW, Lists.of(HttpMethod.DELETE, HttpMethod.POST, HttpMethod.PUT))
         );
     }
