@@ -38,7 +38,7 @@ public interface HateosHttpHandler2<C extends HateosResourceHandlerContext> exte
         Objects.requireNonNull(context, "context");
 
         final HttpMethod method = request.method();
-        switch (method.value().toLowerCase()) {
+        switch (method.value().toUpperCase()) {
             case HttpMethod.CONNECT_STRING:
                 this.handleConnect(
                     request,
