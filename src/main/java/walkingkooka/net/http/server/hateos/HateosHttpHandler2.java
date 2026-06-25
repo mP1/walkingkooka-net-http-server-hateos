@@ -81,6 +81,13 @@ public interface HateosHttpHandler2<C extends HateosResourceHandlerContext> exte
                     context
                 );
                 break;
+            case HttpMethod.TRACE_STRING:
+                this.handleTrace(
+                    request,
+                    response,
+                    context
+                );
+                break;
             default:
                 this.handleOther(
                     request,
@@ -118,4 +125,8 @@ public interface HateosHttpHandler2<C extends HateosResourceHandlerContext> exte
     void handlePost(final HttpRequest request,
                     final HttpResponse response,
                     final C context);
+
+    void handleTrace(final HttpRequest request,
+                     final HttpResponse response,
+                     final C context);
 }
