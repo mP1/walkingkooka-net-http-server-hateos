@@ -30,10 +30,34 @@ import walkingkooka.net.http.server.HttpResponses;
 public interface GetOrHeadHeaderHateosHttpHandlerTesting<H extends GetOrHeadHeaderHateosHttpHandler<C>, C extends HateosResourceHandlerContext> extends HateosHttpHandlerTesting<H, C> {
 
     @Test
+    default void testHandleConnect() {
+        this.handleMethodNotAllowedCheck(HttpMethod.CONNECT);
+    }
+
+    @Test
+    default void testHandleDelete() {
+        this.handleMethodNotAllowedCheck(HttpMethod.DELETE);
+    }
+
+    @Test
+    default void testHandlePatch() {
+        this.handleMethodNotAllowedCheck(HttpMethod.PATCH);
+    }
+
+    @Test
     default void testHandlePost() {
+        this.handleMethodNotAllowedCheck(HttpMethod.POST);
+    }
+
+    @Test
+    default void testHandleTrace() {
+        this.handleMethodNotAllowedCheck(HttpMethod.POST);
+    }
+
+    private void handleMethodNotAllowedCheck(final HttpMethod method) {
         final HttpResponse expected = HttpResponses.recording();
         expected.setMethodNotAllowed(
-            HttpMethod.POST,
+            method,
             Lists.of(
                 HttpMethod.GET,
                 HttpMethod.HEAD
@@ -45,7 +69,7 @@ public interface GetOrHeadHeaderHateosHttpHandlerTesting<H extends GetOrHeadHead
             new FakeHttpRequest() {
                 @Override
                 public HttpMethod method() {
-                    return HttpMethod.POST;
+                    return method;
                 }
             },
             this.context(),
