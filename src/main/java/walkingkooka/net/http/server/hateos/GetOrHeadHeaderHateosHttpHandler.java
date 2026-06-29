@@ -25,8 +25,8 @@ import walkingkooka.net.http.server.HttpResponse;
 import java.util.Objects;
 
 /**
- * A {@link HateosHttpHandler} that only allows GET and HEAD methods, returning {@link walkingkooka.net.http.HttpStatusCode#METHOD_NOT_ALLOWED}
- * for all other {@link HttpMethod}
+ * A {@link HateosHttpHandler} that only allows {@link HttpMethod#GET} and {@link HttpMethod#HEAD} methods, returning
+ * {@link walkingkooka.net.http.HttpStatusCode#METHOD_NOT_ALLOWED} for all other {@link HttpMethod}
  */
 public interface GetOrHeadHeaderHateosHttpHandler<C extends HateosResourceHandlerContext> extends HateosHttpHandler<C> {
 
@@ -57,7 +57,7 @@ public interface GetOrHeadHeaderHateosHttpHandler<C extends HateosResourceHandle
     }
 
     /**
-     * This method is invoked if the method is a GET or HEAD.
+     * This method is invoked if the method is a {@link HttpMethod#GET} or {@link HttpMethod#HEAD}
      */
     void handleGetOrHead(final HttpRequest request,
                          final HttpResponse response,
