@@ -26,6 +26,8 @@ import walkingkooka.collect.set.SortedSets;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
+import walkingkooka.net.http.server.FakeHttpHandler;
+import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsTest.TestHateosResourceHandlerContext;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
@@ -777,10 +779,10 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
 
     // setHttpHandler...................................................................................................
 
-    private final static HateosHttpHandler<TestHateosResourceHandlerContext> HTTP_HANDLER = new FakeHateosHttpHandler<>();
+    private final static HttpHandler<TestHateosResourceHandlerContext> HTTP_HANDLER = new FakeHttpHandler<>();
 
     @Test
-    public void testSetHateosHttpHandlerWithNullUrlPathNameFails() {
+    public void testSetHttpHandlerWithNullUrlPathNameFails() {
         assertThrows(
             NullPointerException.class,
             () -> this.createMappings()
@@ -792,7 +794,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     }
 
     @Test
-    public void testSetHateosHttpHandlerWithNullHttpHandlerFails() {
+    public void testSetHttpHandlerWithNullHttpHandlerFails() {
         assertThrows(
             NullPointerException.class,
             () -> this.createMappings()
@@ -804,7 +806,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     }
 
     @Test
-    public void testSetHateosHttpHandlerAfterSetHateosHttpEntityHandlerFails() {
+    public void testSetHttpHandlerAfterSetHateosHttpEntityHandlerFails() {
         final IllegalStateException thrown = assertThrows(
             IllegalStateException.class,
             () -> this.createMappings()
@@ -825,7 +827,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     }
 
     @Test
-    public void testSetHateosHttpHandlerAfterSetHateosResourceHandlerFails() {
+    public void testSetHttpHandlerAfterSetHateosResourceHandlerFails() {
         final IllegalStateException thrown = assertThrows(
             IllegalStateException.class,
             () -> this.createMappings()
@@ -972,7 +974,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 HATEOS_RESOURCE_HANDLER
             ).setHttpHandler(
                 UrlPathName.with("Hello"),
-                new FakeHateosHttpHandler<>() {
+                new FakeHttpHandler<>() {
                     @Override
                     public String toString() {
                         return "HelloHttpHandler";

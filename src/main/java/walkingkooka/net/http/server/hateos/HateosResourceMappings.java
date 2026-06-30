@@ -225,7 +225,7 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
      * Sets a {@link HttpHandler} to handle requests at the given relative {@link UrlPathName}.
      */
     public HateosResourceMappings<I, V, C, H, X> setHttpHandler(final UrlPathName pathName,
-                                                                      final HateosHttpHandler<X> handler) {
+                                                                final HttpHandler<X> handler) {
         Objects.requireNonNull(pathName, "pathName");
         Objects.requireNonNull(handler, "handler");
 
