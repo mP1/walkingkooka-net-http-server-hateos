@@ -36,7 +36,7 @@ import java.util.Set;
  * A {@link Router} that dispatches to the given {@link HateosResourceMappings mappings}.
  * Note that any exceptions that are thrown, will have their stack trace in the response body with content-type=text/plain
  */
-final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext> implements Router<HttpRequestAttribute<?>, HttpHandler> {
+final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext> implements Router<HttpRequestAttribute<?>, HttpHandler<X>> {
 
     static <X extends HateosResourceHandlerContext> HateosResourceMappingsRouter<X> with(final UrlPath base,
                                                                                          final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
@@ -76,7 +76,7 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
     // Router...........................................................................................................
 
     @Override
-    public Optional<HttpHandler> route(final Map<HttpRequestAttribute<?>, Object> parameters) {
+    public Optional<HttpHandler<X>> route(final Map<HttpRequestAttribute<?>, Object> parameters) {
         Objects.requireNonNull(parameters, "parameters");
 
         // a handler will be returned if the request path matches the #base path
@@ -104,7 +104,7 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
 
     private final UrlPath base;
 
-    private HttpHandler httpHandler() {
+    private HttpHandler<X> httpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
             this,
             this.context

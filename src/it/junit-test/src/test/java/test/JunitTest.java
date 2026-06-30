@@ -131,10 +131,12 @@ public class JunitTest {
                 }
         );
 
-        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
-                UrlPath.parse("/api"),
-                Sets.of(mapping),
-                new TestHateosResourceHandlerContext()
+        final TestHateosResourceHandlerContext context = new TestHateosResourceHandlerContext();
+
+        final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>> router = HateosResourceMappings.router(
+            UrlPath.parse("/api"),
+            Sets.of(mapping),
+            context
         );
 
         final HttpRequest request = new FakeHttpRequest() {
@@ -162,9 +164,9 @@ public class JunitTest {
             @Override
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(
-                        HttpHeaderName.CONTENT_TYPE, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE),
-                        HttpHeaderName.ACCEPT, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE.accept()),
-                        HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
+                    HttpHeaderName.CONTENT_TYPE, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE),
+                    HttpHeaderName.ACCEPT, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE.accept()),
+                    HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
                 );
             }
 
@@ -188,11 +190,15 @@ public class JunitTest {
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final HttpHandler httpHandler = router.route(request.routerParameters())
-                .orElseThrow(() -> new Error("Unable to route"));
+        final HttpHandler<TestHateosResourceHandlerContext> httpHandler = router.route(request.routerParameters())
+            .orElseThrow(() -> new Error("Unable to route"));
 
         final HttpResponse response = HttpResponses.recording();
-        httpHandler.handle(request, response);
+        httpHandler.handle(
+            request,
+            response,
+            context
+        );
         checkEquals(
                 "{\n" +
                         "  \"type\": \"test-HateosResource3\",\n" +

@@ -20,6 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.Context;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
+import walkingkooka.net.http.server.HttpHandlerContext;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.JsonNode;
@@ -32,7 +33,8 @@ import java.util.Objects;
 /**
  * {@link Context} that accompanies all {@link HateosResourceHandler methods}.
  */
-public interface HateosResourceHandlerContext extends JsonNodeMarshallUnmarshallContext {
+public interface HateosResourceHandlerContext extends HttpHandlerContext,
+    JsonNodeMarshallUnmarshallContext {
 
     /**
      * The default {@link MediaType}.
