@@ -45,7 +45,7 @@ public final class HateosHttpHandlerTestingTest implements HateosHttpHandlerTest
         );
 
         this.handleAndCheck(
-            this.createHateosHttpHandler(),
+            this.createHttpHandler(),
             HttpRequests.get(
                 HttpTransport.UNSECURED,
                 Url.parseRelative("/path1/file2.txt"),
@@ -58,27 +58,17 @@ public final class HateosHttpHandlerTestingTest implements HateosHttpHandlerTest
     }
 
     @Override
-    public void testAllConstructorsVisibility() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void testIfClassIsFinalIfAllConstructorsArePrivate() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void testTestNaming() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public TestHateosHttpHandler createHateosHttpHandler() {
+    public TestHateosHttpHandler createHttpHandler() {
         return new TestHateosHttpHandler();
     }
 
     @Override
-    public FakeHateosResourceHandlerContext context() {
+    public FakeHateosResourceHandlerContext createContext() {
         return new FakeHateosResourceHandlerContext();
     }
 

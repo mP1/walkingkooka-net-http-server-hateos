@@ -17,110 +17,12 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import org.junit.jupiter.api.Test;
-import walkingkooka.net.http.server.HttpRequest;
-import walkingkooka.net.http.server.HttpRequests;
-import walkingkooka.net.http.server.HttpResponse;
-import walkingkooka.net.http.server.HttpResponses;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.TypeNameTesting;
-import walkingkooka.text.printer.TreePrintableTesting;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import walkingkooka.net.http.server.HttpHandlerTesting;
 
 /**
  * Mixin interface for testing {@link HateosResourceHandler}
  */
 public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
     C extends HateosResourceHandlerContext>
-    extends ClassTesting2<H>,
-    TreePrintableTesting,
-    TypeNameTesting<H> {
-
-    // handleAll........................................................................................................
-
-    @Test
-    default void testHandleWithNullRequestFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> this.createHateosHttpHandler()
-                .handle(
-                    null,
-                    HttpResponses.fake(),
-                    this.context()
-                )
-        );
-    }
-
-    @Test
-    default void testHandleWithNullResponseFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> this.createHateosHttpHandler()
-                .handle(
-                    HttpRequests.fake(),
-                    null,
-                    this.context()
-                )
-        );
-    }
-
-    @Test
-    default void testHandleWithNullContextFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> this.createHateosHttpHandler()
-                .handle(
-                    HttpRequests.fake(),
-                    HttpResponses.fake(),
-                    null
-                )
-        );
-    }
-
-    default void handleAndCheck(final HttpRequest request,
-                                final C context,
-                                final HttpResponse expected) {
-        this.handleAndCheck(
-            this.createHateosHttpHandler(),
-            request,
-            context,
-            expected
-        );
-    }
-
-    default void handleAndCheck(final H handler,
-                                final HttpRequest request,
-                                final C context,
-                                final HttpResponse expected) {
-        final HttpResponse response = HttpResponses.recording();
-
-        handler.handle(
-            request,
-            response,
-            context
-        );
-
-        this.checkEquals(
-            expected,
-            response,
-            request::toString
-        );
-    }
-
-    // helpers..........................................................................................................
-
-    H createHateosHttpHandler();
-
-    C context();
-
-    @Override
-    default String typeNamePrefix() {
-        return "";
-    }
-
-    @Override
-    default String typeNameSuffix() {
-        return HateosHttpHandler.class.getSimpleName();
-    }
+    extends HttpHandlerTesting<H, C> {
 }

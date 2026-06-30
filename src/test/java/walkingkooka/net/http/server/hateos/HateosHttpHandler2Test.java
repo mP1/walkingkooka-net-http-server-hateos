@@ -190,31 +190,16 @@ public final class HateosHttpHandler2Test implements HateosHttpHandlerTesting<Fa
     private boolean handled;
 
     @Override
-    public FakeHateosHttpHandler2<FakeHateosResourceHandlerContext> createHateosHttpHandler() {
+    public FakeHateosHttpHandler2<FakeHateosResourceHandlerContext> createHttpHandler() {
         return new FakeHateosHttpHandler2<>();
     }
 
     @Override
-    public FakeHateosResourceHandlerContext context() {
+    public FakeHateosResourceHandlerContext createContext() {
         return new FakeHateosResourceHandlerContext();
     }
 
     // class............................................................................................................
-
-    @Override
-    public void testAllConstructorsVisibility() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void testTestNaming() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void testTypeNaming() {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Class<FakeHateosHttpHandler2<FakeHateosResourceHandlerContext>> type() {
@@ -224,5 +209,10 @@ public final class HateosHttpHandler2Test implements HateosHttpHandlerTesting<Fa
     @Override
     public JavaVisibility typeVisibility() {
         return JavaVisibility.PUBLIC;
+    }
+
+    @Override
+    public void testTestNaming() {
+        throw new UnsupportedOperationException();
     }
 }
