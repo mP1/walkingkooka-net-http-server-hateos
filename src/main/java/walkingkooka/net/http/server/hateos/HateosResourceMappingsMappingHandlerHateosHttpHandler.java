@@ -43,7 +43,8 @@ final class HateosResourceMappingsMappingHandlerHttpHandler<I extends Comparable
                 final HateosResourceHandlerContext context) {
         this.handler.handle(
             request.request,
-            request.response
+            request.response,
+            context
         );
     }
 

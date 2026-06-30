@@ -25,7 +25,7 @@ import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpHandlerTesting;
 
 public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>>
-    implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>> {
+    implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>, HateosResourceHandlerContext> {
     @Override
     public HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext> createHttpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
@@ -36,6 +36,11 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
                 ),
                 HateosResourceHandlerContexts.fake()
         );
+    }
+
+    @Override
+    public HateosResourceHandlerContext createContext() {
+        return HateosResourceHandlerContexts.fake();
     }
 
     // toString.........................................................................................................

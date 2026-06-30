@@ -27,7 +27,7 @@ import java.util.function.BiConsumer;
 /**
  * A {@link BiConsumer} which examines the request and then dispatches to the selected {@link HateosResourceHandler}.
  */
-final class HateosResourceMappingsRouterHttpHandler<C extends HateosResourceHandlerContext> implements HttpHandler {
+final class HateosResourceMappingsRouterHttpHandler<C extends HateosResourceHandlerContext> implements HttpHandler<C> {
 
     /**
      * Factory called by {@link HateosResourceMappingsRouter#route}
@@ -52,9 +52,11 @@ final class HateosResourceMappingsRouterHttpHandler<C extends HateosResourceHand
 
     @Override
     public void handle(final HttpRequest request,
-                       final HttpResponse response) {
+                       final HttpResponse response,
+                       final C context) {
         Objects.requireNonNull(request, "request");
         Objects.requireNonNull(response, "response");
+        Objects.requireNonNull(context, "context");
 
         HateosResourceMappingsRouterHttpHandlerRequest.with(
             request,

@@ -74,7 +74,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>>
-    implements RouterTesting2<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>, HttpRequestAttribute<?>, HttpHandler> {
+    implements RouterTesting2<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>, HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>> {
 
     private final static String NO_BODY = null;
 
@@ -750,7 +750,8 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                         .get()
                         .handle(
                                 request,
-                                HttpResponses.fake()
+                            HttpResponses.fake(),
+                            CONTEXT
                         )
         );
         this.checkEquals(thrownMessage, thrown.getMessage(), "message");
@@ -1241,7 +1242,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 }
         );
 
-        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
+        final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
                 CONTEXT
@@ -1300,14 +1301,18 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final HttpHandler httpHandler = router.route(
+        final HttpHandler<TestHateosResourceHandlerContext> httpHandler = router.route(
                 request.routerParameters()
         ).orElseThrow(
                 () -> new Error("Unable to route")
         );
 
         final HttpResponse response = HttpResponses.recording();
-        httpHandler.handle(request, response);
+        httpHandler.handle(
+            request,
+            response,
+            CONTEXT
+        );
         this.checkEquals(
                 "{\n" +
                         "  \"type\": \"test-HateosResource\",\n" +
@@ -1414,7 +1419,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 }
         );
 
-        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
+        final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
                 CONTEXT
@@ -1477,14 +1482,18 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final HttpHandler httpHandler = router.route(
+        final HttpHandler<TestHateosResourceHandlerContext> httpHandler = router.route(
                 request.routerParameters()
         ).orElseThrow(
                 () -> new Error("Unable to route")
         );
 
         final HttpResponse response = HttpResponses.recording();
-        httpHandler.handle(request, response);
+        httpHandler.handle(
+            request,
+            response,
+            CONTEXT
+        );
 
         this.checkEquals(
                 Optional.of(HttpStatusCode.OK.status()),
@@ -1561,7 +1570,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
             }
         );
 
-        final Router<HttpRequestAttribute<?>, HttpHandler> router = HateosResourceMappings.router(
+        final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>> router = HateosResourceMappings.router(
                 UrlPath.parse("/api"),
                 Sets.of(mapping),
                 CONTEXT
@@ -1629,7 +1638,11 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
 
         final HttpResponse response = HttpResponses.recording();
-        httpHandler.handle(request, response);
+        httpHandler.handle(
+            request,
+            response,
+            CONTEXT
+        );
 
         this.checkEquals(
                 Optional.of(status),
@@ -1915,11 +1928,14 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 headers,
                 body);
         final HttpResponse response = HttpResponses.recording();
-        final Optional<HttpHandler> handle = router.route(request.routerParameters());
+        final Optional<HttpHandler<TestHateosResourceHandlerContext>> handle = router.route(
+            request.routerParameters()
+        );
         handle.ifPresent(
                 h -> h.handle(
                         request,
-                        response
+                    response,
+                    CONTEXT
                 )
         );
 
