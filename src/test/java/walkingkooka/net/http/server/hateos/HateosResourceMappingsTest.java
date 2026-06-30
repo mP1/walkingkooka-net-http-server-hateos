@@ -775,7 +775,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
         );
     }
 
-    // setHateosHttpHandler.............................................................................................
+    // setHttpHandler...................................................................................................
 
     private final static HateosHttpHandler<TestHateosResourceHandlerContext> HTTP_HANDLER = new FakeHateosHttpHandler<>();
 
@@ -784,7 +784,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
         assertThrows(
             NullPointerException.class,
             () -> this.createMappings()
-                .setHateosHttpHandler(
+                .setHttpHandler(
                     null,
                     HTTP_HANDLER
                 )
@@ -796,7 +796,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
         assertThrows(
             NullPointerException.class,
             () -> this.createMappings()
-                .setHateosHttpHandler(
+                .setHttpHandler(
                     UrlPathName.with("Hello"),
                     null
                 )
@@ -812,7 +812,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                     LINK_RELATION,
                     METHOD,
                     HATEOS_HTTP_ENTITY_HANDLER
-                ).setHateosHttpHandler(
+                ).setHttpHandler(
                     LINK_RELATION.toUrlPathName()
                         .get(),
                     HTTP_HANDLER
@@ -833,7 +833,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                     LINK_RELATION,
                     METHOD,
                     HATEOS_RESOURCE_HANDLER
-                ).setHateosHttpHandler(
+                ).setHttpHandler(
                     LINK_RELATION.toUrlPathName()
                         .get(),
                     HTTP_HANDLER
@@ -970,7 +970,7 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 LinkRelation.ABOUT,
                 HttpMethod.GET,
                 HATEOS_RESOURCE_HANDLER
-            ).setHateosHttpHandler(
+            ).setHttpHandler(
                 UrlPathName.with("Hello"),
                 new FakeHateosHttpHandler<>() {
                     @Override

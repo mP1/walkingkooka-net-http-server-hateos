@@ -1508,11 +1508,11 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
     }
 
-    // setHateosHttpHandler.............................................................................................
+    // setHttpHandler...................................................................................................
 
     @Test
     public void testSetHateosHttpHandlerAndRouteWithEmptyUrlPathName() {
-        this.setHateosHttpHandlerAndRouteAndCheck(
+        this.setHttpHandlerAndRouteAndCheck(
             UrlPathName.with(""),
             "/api/resource-with-body/0x123/",
             "POST /api/resource-with-body/0x123/\n" +
@@ -1522,7 +1522,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
 
     @Test
     public void testSetHateosHttpHandlerAndRoute() {
-        this.setHateosHttpHandlerAndRouteAndCheck(
+        this.setHttpHandlerAndRouteAndCheck(
             UrlPathName.with("hello"),
             "/api/resource-with-body/0x123/hello/",
             "POST /api/resource-with-body/0x123/hello/\n" +
@@ -1530,7 +1530,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
     }
 
-    private void setHateosHttpHandlerAndRouteAndCheck(final UrlPathName pathName,
+    private void setHttpHandlerAndRouteAndCheck(final UrlPathName pathName,
                                                       final String requestUrl,
                                                       final String expectedBodyText) {
         final MediaType mediaType = MediaType.TEXT_PLAIN;
@@ -1552,7 +1552,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
             TestResource.class,
             TestHateosResource.class,
             TestHateosResourceHandlerContext.class
-        ).setHateosHttpHandler(
+        ).setHttpHandler(
             pathName,
             new FakeHateosHttpHandler<>() {
                 @Override

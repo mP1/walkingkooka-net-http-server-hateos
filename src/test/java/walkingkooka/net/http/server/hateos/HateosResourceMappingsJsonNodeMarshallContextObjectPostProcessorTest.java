@@ -143,7 +143,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
             LinkRelation.ABOUT,
             HttpMethod.PUT,
             new FakeHateosResourceHandler<>()
-        ).setHateosHttpHandler(
+        ).setHttpHandler(
             UrlPathName.with("HelloHttpHandler"),
             new FakeHateosHttpHandler<>()
         );
