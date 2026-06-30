@@ -80,8 +80,8 @@ public final class HateosResourceIdRangeVisitorTest implements RangeVisitorTesti
 
     private void idForHateosLinkAndCheck(final Range<BigInteger> range, final String text) {
         this.checkEquals(text,
-                HateosResourceIdRangeVisitor.hateosLinkId(range, HateosResourceIdRangeVisitorTest::idForHateosLink),
-                () -> "" + range);
+            HateosResourceIdRangeVisitor.hateosLinkId(range, HateosResourceIdRangeVisitorTest::idForHateosLink),
+            () -> "" + range);
     }
 
     private void idForHateosLinkFails(final Range<BigInteger> range) {

@@ -37,14 +37,14 @@ public final class HateosResourceIdComparatorTest implements ComparatorTesting2<
         final TestHateosResource c = TestHateosResource.with(BigInteger.TEN);
 
         this.comparatorArraySortAndCheck(
-                none,
-                a,
-                b,
-                c,
-                none,
-                a,
-                b,
-                c
+            none,
+            a,
+            b,
+            c,
+            none,
+            a,
+            b,
+            c
         );
     }
 
@@ -56,18 +56,18 @@ public final class HateosResourceIdComparatorTest implements ComparatorTesting2<
         final TestHateosResource c = TestHateosResource.with(BigInteger.TEN);
 
         this.comparatorArraySortAndCheck(
-                none,
-                none,
-                none,
-                a,
-                b,
-                c,
-                none,
-                none,
-                none,
-                a,
-                b,
-                c
+            none,
+            none,
+            none,
+            a,
+            b,
+            c,
+            none,
+            none,
+            none,
+            a,
+            b,
+            c
         );
     }
 
@@ -79,14 +79,14 @@ public final class HateosResourceIdComparatorTest implements ComparatorTesting2<
         final TestHateosResource c = TestHateosResource.with(BigInteger.TEN);
 
         this.comparatorArraySortAndCheck(
-                c,
-                b,
-                a,
-                none,
-                none,
-                a,
-                b,
-                c
+            c,
+            b,
+            a,
+            none,
+            none,
+            a,
+            b,
+            c
         );
     }
 
@@ -106,13 +106,13 @@ public final class HateosResourceIdComparatorTest implements ComparatorTesting2<
         sorted.add(c);
 
         this.checkEquals(
-                Lists.of(
-                        none,
-                        a,
-                        b,
-                        c
-                ),
-                new ArrayList<>(sorted)
+            Lists.of(
+                none,
+                a,
+                b,
+                c
+            ),
+            new ArrayList<>(sorted)
         );
     }
 

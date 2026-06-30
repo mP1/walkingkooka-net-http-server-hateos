@@ -25,7 +25,7 @@ import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseSensitivity;
 
 public final class HateosResourceNameTest implements ClassTesting2<HateosResourceName>,
-        NameTesting2<HateosResourceName, HateosResourceName> {
+    NameTesting2<HateosResourceName, HateosResourceName> {
 
     @Override
     public HateosResourceName createName(final String name) {
@@ -79,9 +79,9 @@ public final class HateosResourceNameTest implements ClassTesting2<HateosResourc
         final String text = "HateosResource123";
 
         this.checkEquals(
-                UrlPathName.with(text),
-                HateosResourceName.with(text)
-                        .toUrlPathName()
+            UrlPathName.with(text),
+            HateosResourceName.with(text)
+                .toUrlPathName()
         );
     }
 

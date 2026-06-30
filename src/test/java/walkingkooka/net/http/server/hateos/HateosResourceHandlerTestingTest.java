@@ -34,10 +34,10 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 public final class HateosResourceHandlerTestingTest implements HateosResourceHandlerTesting<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosResourceHandlerContext>,
-        BigInteger,
-        TestHateosResource,
-        TestHateosResource2,
-        TestHateosResourceHandlerContext> {
+    BigInteger,
+    TestHateosResource,
+    TestHateosResource2,
+    TestHateosResourceHandlerContext> {
 
     @Override
     public void testTestNaming() {
@@ -60,26 +60,26 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleAllAndCheck(
-                new FakeHateosResourceHandler<>() {
+            new FakeHateosResourceHandler<>() {
 
-                    @Override
-                    public Optional<TestHateosResource2> handleAll(final Optional<TestHateosResource2> r,
-                                                                   final Map<HttpRequestAttribute<?>, Object> p,
-                                                                   final UrlPath pp,
-                                                                   final TestHateosResourceHandlerContext x) {
-                        assertSame(in, r);
-                        assertSame(parameters, p);
-                        assertSame(path, pp);
-                        assertSame(CONTEXT, x);
+                @Override
+                public Optional<TestHateosResource2> handleAll(final Optional<TestHateosResource2> r,
+                                                               final Map<HttpRequestAttribute<?>, Object> p,
+                                                               final UrlPath pp,
+                                                               final TestHateosResourceHandlerContext x) {
+                    assertSame(in, r);
+                    assertSame(parameters, p);
+                    assertSame(path, pp);
+                    assertSame(CONTEXT, x);
 
-                        return Optional.of(out);
-                    }
-                },
-                in,
-                parameters,
-                path,
-                CONTEXT,
-                Optional.of(out)
+                    return Optional.of(out);
+                }
+            },
+            in,
+            parameters,
+            path,
+            CONTEXT,
+            Optional.of(out)
         );
     }
 
@@ -95,28 +95,28 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleManyAndCheck(
-                new FakeHateosResourceHandler<>() {
-                    @Override
-                    public Optional<TestHateosResource2> handleMany(final Set<BigInteger> i,
-                                                                    final Optional<TestHateosResource2> r,
-                                                                    final Map<HttpRequestAttribute<?>, Object> p,
-                                                                    final UrlPath pp,
-                                                                    final TestHateosResourceHandlerContext x) {
-                        assertSame(ids, i);
-                        assertSame(in, r);
-                        assertSame(parameters, p);
-                        assertSame(path, pp);
-                        assertSame(CONTEXT, x);
+            new FakeHateosResourceHandler<>() {
+                @Override
+                public Optional<TestHateosResource2> handleMany(final Set<BigInteger> i,
+                                                                final Optional<TestHateosResource2> r,
+                                                                final Map<HttpRequestAttribute<?>, Object> p,
+                                                                final UrlPath pp,
+                                                                final TestHateosResourceHandlerContext x) {
+                    assertSame(ids, i);
+                    assertSame(in, r);
+                    assertSame(parameters, p);
+                    assertSame(path, pp);
+                    assertSame(CONTEXT, x);
 
-                        return Optional.of(out);
-                    }
-                },
-                ids,
-                in,
-                parameters,
-                path,
-                CONTEXT,
-                Optional.of(out)
+                    return Optional.of(out);
+                }
+            },
+            ids,
+            in,
+            parameters,
+            path,
+            CONTEXT,
+            Optional.of(out)
         );
     }
 
@@ -131,26 +131,26 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource out = TestHateosResource.with(BigInteger.ONE);
 
         this.handleNoneAndCheck(
-                new FakeHateosResourceHandler<>() {
+            new FakeHateosResourceHandler<>() {
 
-                    @Override
-                    public Optional<TestHateosResource> handleNone(final Optional<TestHateosResource> r,
-                                                                   final Map<HttpRequestAttribute<?>, Object> p,
-                                                                   final UrlPath pp,
-                                                                   final TestHateosResourceHandlerContext x) {
-                        assertSame(in, r);
-                        assertSame(parameters, p);
-                        assertSame(path, pp);
-                        assertSame(CONTEXT, x);
+                @Override
+                public Optional<TestHateosResource> handleNone(final Optional<TestHateosResource> r,
+                                                               final Map<HttpRequestAttribute<?>, Object> p,
+                                                               final UrlPath pp,
+                                                               final TestHateosResourceHandlerContext x) {
+                    assertSame(in, r);
+                    assertSame(parameters, p);
+                    assertSame(path, pp);
+                    assertSame(CONTEXT, x);
 
-                        return Optional.of(out);
-                    }
-                },
-                in,
-                parameters,
-                path,
-                CONTEXT,
-                Optional.of(out)
+                    return Optional.of(out);
+                }
+            },
+            in,
+            parameters,
+            path,
+            CONTEXT,
+            Optional.of(out)
         );
     }
 
@@ -166,28 +166,28 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource out = TestHateosResource.with(BigInteger.ONE);
 
         this.handleOneAndCheck(
-                new FakeHateosResourceHandler<>() {
-                    @Override
-                    public Optional<TestHateosResource> handleOne(final BigInteger i,
-                                                                  final Optional<TestHateosResource> r,
-                                                                  final Map<HttpRequestAttribute<?>, Object> p,
-                                                                  final UrlPath pp,
-                                                                  final TestHateosResourceHandlerContext x) {
-                        assertSame(id, i);
-                        assertSame(in, r);
-                        assertSame(parameters, p);
-                        assertSame(path, pp);
-                        assertSame(CONTEXT, x);
+            new FakeHateosResourceHandler<>() {
+                @Override
+                public Optional<TestHateosResource> handleOne(final BigInteger i,
+                                                              final Optional<TestHateosResource> r,
+                                                              final Map<HttpRequestAttribute<?>, Object> p,
+                                                              final UrlPath pp,
+                                                              final TestHateosResourceHandlerContext x) {
+                    assertSame(id, i);
+                    assertSame(in, r);
+                    assertSame(parameters, p);
+                    assertSame(path, pp);
+                    assertSame(CONTEXT, x);
 
-                        return Optional.of(out);
-                    }
-                },
-                id,
-                in,
-                parameters,
-                path,
-                CONTEXT,
-                Optional.of(out)
+                    return Optional.of(out);
+                }
+            },
+            id,
+            in,
+            parameters,
+            path,
+            CONTEXT,
+            Optional.of(out)
         );
     }
 
@@ -203,28 +203,28 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleRangeAndCheck(
-                new FakeHateosResourceHandler<>() {
-                    @Override
-                    public Optional<TestHateosResource2> handleRange(final Range<BigInteger> rr,
-                                                                     final Optional<TestHateosResource2> r,
-                                                                     final Map<HttpRequestAttribute<?>, Object> p,
-                                                                     final UrlPath pp,
-                                                                     final TestHateosResourceHandlerContext x) {
-                        assertSame(range, rr);
-                        assertSame(in, r);
-                        assertSame(parameters, p);
-                        assertSame(path, pp);
-                        assertSame(CONTEXT, x);
+            new FakeHateosResourceHandler<>() {
+                @Override
+                public Optional<TestHateosResource2> handleRange(final Range<BigInteger> rr,
+                                                                 final Optional<TestHateosResource2> r,
+                                                                 final Map<HttpRequestAttribute<?>, Object> p,
+                                                                 final UrlPath pp,
+                                                                 final TestHateosResourceHandlerContext x) {
+                    assertSame(range, rr);
+                    assertSame(in, r);
+                    assertSame(parameters, p);
+                    assertSame(path, pp);
+                    assertSame(CONTEXT, x);
 
-                        return Optional.of(out);
-                    }
-                },
-                range,
-                in,
-                parameters,
-                path,
-                CONTEXT,
-                Optional.of(out)
+                    return Optional.of(out);
+                }
+            },
+            range,
+            in,
+            parameters,
+            path,
+            CONTEXT,
+            Optional.of(out)
         );
     }
 
@@ -243,15 +243,15 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
     @Override
     public Set<BigInteger> manyIds() {
         return Sets.of(
-                BigInteger.ONE,
-                BigInteger.valueOf(22)
+            BigInteger.ONE,
+            BigInteger.valueOf(22)
         );
     }
 
     @Override
     public Range<BigInteger> range() {
         return Range.greaterThanEquals(BigInteger.valueOf(111))
-                .and(Range.lessThanEquals(BigInteger.valueOf(222)));
+            .and(Range.lessThanEquals(BigInteger.valueOf(222)));
     }
 
     @Override

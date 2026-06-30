@@ -25,8 +25,8 @@ import walkingkooka.reflect.JavaVisibility;
 import java.util.function.Predicate;
 
 public abstract class HateosResourceSelectionTestCase<S extends HateosResourceSelection<I>, I extends Comparable<I>> implements ClassTesting<S>,
-        IsMethodTesting<S>,
-        ToStringTesting<S> {
+    IsMethodTesting<S>,
+    ToStringTesting<S> {
 
     HateosResourceSelectionTestCase() {
         super();
@@ -56,9 +56,9 @@ public abstract class HateosResourceSelectionTestCase<S extends HateosResourceSe
     @Override
     public final String toIsMethodName(final String typeName) {
         return this.toIsMethodNameWithPrefixSuffix(
-                typeName,
-                HateosResourceSelection.class.getSimpleName(), // drop-prefix
-                "" // drop-suffix
+            typeName,
+            HateosResourceSelection.class.getSimpleName(), // drop-prefix
+            "" // drop-suffix
         );
     }
 }

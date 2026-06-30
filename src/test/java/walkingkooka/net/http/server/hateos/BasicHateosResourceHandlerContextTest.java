@@ -35,33 +35,33 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class BasicHateosResourceHandlerContextTest implements HateosResourceHandlerContextTesting<BasicHateosResourceHandlerContext>,
-        ToStringTesting<BasicHateosResourceHandlerContext> {
+    ToStringTesting<BasicHateosResourceHandlerContext> {
 
     private final static Indentation INDENTATION = Indentation.SPACES2;
 
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     private final static JsonNodeMarshallUnmarshallContext CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
-            JsonNodeMarshallContexts.basic(),
-            JsonNodeUnmarshallContexts.basic(
-                ExpressionNumberKind.BIG_DECIMAL,
-                CurrencyContexts.fake()
-                    .setLocaleContext(
-                        LocaleContexts.jre(Locale.ENGLISH)
-                    ), // CurrencyCodeLanguageTagContext
-                MathContext.DECIMAL32
-            )
+        JsonNodeMarshallContexts.basic(),
+        JsonNodeUnmarshallContexts.basic(
+            ExpressionNumberKind.BIG_DECIMAL,
+            CurrencyContexts.fake()
+                .setLocaleContext(
+                    LocaleContexts.jre(Locale.ENGLISH)
+                ), // CurrencyCodeLanguageTagContext
+            MathContext.DECIMAL32
+        )
     );
 
     @Test
     public void testWithNullIndentationFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> BasicHateosResourceHandlerContext.with(
-                    null,
-                    LINE_ENDING,
-                    CONTEXT
-                )
+            NullPointerException.class,
+            () -> BasicHateosResourceHandlerContext.with(
+                null,
+                LINE_ENDING,
+                CONTEXT
+            )
         );
     }
 
@@ -103,8 +103,8 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     @Test
     public void testToString() {
         this.toStringAndCheck(
-                this.createContext(),
-                CONTEXT.toString()
+            this.createContext(),
+            CONTEXT.toString()
         );
     }
 

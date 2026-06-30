@@ -33,123 +33,123 @@ import java.util.Collection;
 import java.util.Map;
 
 public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMappingTest extends HateosResourceMappingsTestCase<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping>
-        implements ToStringTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> {
+    implements ToStringTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> {
 
     @Test
     public void testSelfGetAddLinks() {
         final String withLinks = "{\n" +
-                "  \"a\": 1,\n" +
-                "  \"b\": 2,\n" +
-                "  \"_links\": [{\n" +
-                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
-                "    \"method\": \"GET\",\n" +
-                "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/test-json\"\n" +
-                "  }]\n" +
-                "}";
+            "  \"a\": 1,\n" +
+            "  \"b\": 2,\n" +
+            "  \"_links\": [{\n" +
+            "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
+            "    \"method\": \"GET\",\n" +
+            "    \"rel\": \"self\",\n" +
+            "    \"type\": \"application/test-json\"\n" +
+            "  }]\n" +
+            "}";
         this.addLinksAndCheck(
-                this.createMapping(
-                        Maps.of(
-                                LinkRelation.SELF,
-                                Sets.of(HttpMethod.GET)
-                        )
-                ),
-                withLinks
+            this.createMapping(
+                Maps.of(
+                    LinkRelation.SELF,
+                    Sets.of(HttpMethod.GET)
+                )
+            ),
+            withLinks
         );
     }
 
     @Test
     public void testSelfGetPostAddLinks() {
         final String withLinks = "{\n" +
-                "  \"a\": 1,\n" +
-                "  \"b\": 2,\n" +
-                "  \"_links\": [{\n" +
-                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
-                "    \"method\": \"GET\",\n" +
-                "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/test-json\"\n" +
-                "  }, {\n" +
-                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
-                "    \"method\": \"POST\",\n" +
-                "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/test-json\"\n" +
-                "  }]\n" +
-                "}";
+            "  \"a\": 1,\n" +
+            "  \"b\": 2,\n" +
+            "  \"_links\": [{\n" +
+            "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
+            "    \"method\": \"GET\",\n" +
+            "    \"rel\": \"self\",\n" +
+            "    \"type\": \"application/test-json\"\n" +
+            "  }, {\n" +
+            "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
+            "    \"method\": \"POST\",\n" +
+            "    \"rel\": \"self\",\n" +
+            "    \"type\": \"application/test-json\"\n" +
+            "  }]\n" +
+            "}";
         this.addLinksAndCheck(
-                this.createMapping(
-                        Maps.of(
-                                LinkRelation.SELF,
-                                Sets.of(
-                                        HttpMethod.GET,
-                                        HttpMethod.POST
-                                )
-                        )
-                ),
-                withLinks
+            this.createMapping(
+                Maps.of(
+                    LinkRelation.SELF,
+                    Sets.of(
+                        HttpMethod.GET,
+                        HttpMethod.POST
+                    )
+                )
+            ),
+            withLinks
         );
     }
 
     @Test
     public void testContentsGetAddLinks() {
         final String withLinks = "{\n" +
-                "  \"a\": 1,\n" +
-                "  \"b\": 2,\n" +
-                "  \"_links\": [{\n" +
-                "    \"href\": \"https://example.com/api/resource1/7b/contents\",\n" +
-                "    \"method\": \"GET\",\n" +
-                "    \"rel\": \"contents\",\n" +
-                "    \"type\": \"application/test-json\"\n" +
-                "  }]\n" +
-                "}";
+            "  \"a\": 1,\n" +
+            "  \"b\": 2,\n" +
+            "  \"_links\": [{\n" +
+            "    \"href\": \"https://example.com/api/resource1/7b/contents\",\n" +
+            "    \"method\": \"GET\",\n" +
+            "    \"rel\": \"contents\",\n" +
+            "    \"type\": \"application/test-json\"\n" +
+            "  }]\n" +
+            "}";
         this.addLinksAndCheck(
-                this.createMapping(
-                        Maps.of(
-                                LinkRelation.CONTENTS,
-                                Sets.of(
-                                        HttpMethod.GET
-                                )
-                        )
-                ),
-                withLinks
+            this.createMapping(
+                Maps.of(
+                    LinkRelation.CONTENTS,
+                    Sets.of(
+                        HttpMethod.GET
+                    )
+                )
+            ),
+            withLinks
         );
     }
 
     @Test
     public void testManyRelationsAddLinks() {
         final String withLinks = "{\n" +
-                "  \"a\": 1,\n" +
-                "  \"b\": 2,\n" +
-                "  \"_links\": [{\n" +
-                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
-                "    \"method\": \"GET\",\n" +
-                "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/test-json\"\n" +
-                "  }, {\n" +
-                "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
-                "    \"method\": \"POST\",\n" +
-                "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/test-json\"\n" +
-                "  }, {\n" +
-                "    \"href\": \"https://example.com/api/resource1/7b/about\",\n" +
-                "    \"method\": \"DELETE\",\n" +
-                "    \"rel\": \"about\",\n" +
-                "    \"type\": \"application/test-json\"\n" +
-                "  }]\n" +
-                "}";
+            "  \"a\": 1,\n" +
+            "  \"b\": 2,\n" +
+            "  \"_links\": [{\n" +
+            "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
+            "    \"method\": \"GET\",\n" +
+            "    \"rel\": \"self\",\n" +
+            "    \"type\": \"application/test-json\"\n" +
+            "  }, {\n" +
+            "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
+            "    \"method\": \"POST\",\n" +
+            "    \"rel\": \"self\",\n" +
+            "    \"type\": \"application/test-json\"\n" +
+            "  }, {\n" +
+            "    \"href\": \"https://example.com/api/resource1/7b/about\",\n" +
+            "    \"method\": \"DELETE\",\n" +
+            "    \"rel\": \"about\",\n" +
+            "    \"type\": \"application/test-json\"\n" +
+            "  }]\n" +
+            "}";
         this.addLinksAndCheck(
-                this.createMapping(
-                        Maps.of(
-                                LinkRelation.SELF,
-                                Sets.of(HttpMethod.GET,
-                                        HttpMethod.POST
-                                ),
-                                LinkRelation.ABOUT,
-                                Sets.of(
-                                        HttpMethod.DELETE
-                                )
-                        )
-                ),
-                withLinks
+            this.createMapping(
+                Maps.of(
+                    LinkRelation.SELF,
+                    Sets.of(HttpMethod.GET,
+                        HttpMethod.POST
+                    ),
+                    LinkRelation.ABOUT,
+                    Sets.of(
+                        HttpMethod.DELETE
+                    )
+                )
+            ),
+            withLinks
         );
     }
 
@@ -157,29 +157,29 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                                   final String withLinks) {
         final String before = "{\"a\": 1, \"b\": 2}";
         this.checkEquals(
-                JsonNode.parse(withLinks),
-                mapping.addLinks(
-                        TestHateosResource.with(
-                                BigInteger.valueOf(123)
-                        ),
-                        JsonNode.parse(before)
-                                .objectOrFail(),
-                        Url.parseAbsolute("https://example.com/api"),
-                        new FakeHateosResourceHandlerContext() {
-
-                            @Override
-                            public MediaType contentType() {
-                                return MediaType.parse("application/test-json");
-                            }
-
-                            @Override
-                            public JsonNode marshall(final Object value) {
-                                return JsonNodeMarshallContexts.basic()
-                                        .marshall(value);
-                            }
-                        }
+            JsonNode.parse(withLinks),
+            mapping.addLinks(
+                TestHateosResource.with(
+                    BigInteger.valueOf(123)
                 ),
-                mapping::toString
+                JsonNode.parse(before)
+                    .objectOrFail(),
+                Url.parseAbsolute("https://example.com/api"),
+                new FakeHateosResourceHandlerContext() {
+
+                    @Override
+                    public MediaType contentType() {
+                        return MediaType.parse("application/test-json");
+                    }
+
+                    @Override
+                    public JsonNode marshall(final Object value) {
+                        return JsonNodeMarshallContexts.basic()
+                            .marshall(value);
+                    }
+                }
+            ),
+            mapping::toString
         );
     }
 
@@ -190,24 +190,24 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
 
     private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping createMapping() {
         return this.createMapping(
-                Maps.of(
-                        LinkRelation.ABOUT,
-                        Sets.of(
-                                HttpMethod.GET
-                        ),
-                        LinkRelation.CONTENTS,
-                        Sets.of(
-                                HttpMethod.GET,
-                                HttpMethod.POST
-                        )
+            Maps.of(
+                LinkRelation.ABOUT,
+                Sets.of(
+                    HttpMethod.GET
+                ),
+                LinkRelation.CONTENTS,
+                Sets.of(
+                    HttpMethod.GET,
+                    HttpMethod.POST
                 )
+            )
         );
     }
 
     private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping createMapping(final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods) {
         return HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping.with(
-                HateosResourceName.with("resource1"),
-                linkRelationToMethods
+            HateosResourceName.with("resource1"),
+            linkRelationToMethods
         );
     }
 

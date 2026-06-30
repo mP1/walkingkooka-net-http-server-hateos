@@ -38,7 +38,7 @@ public interface HateosResourceHandlerContextTesting<C extends HateosResourceHan
             context.lineEnding()
         );
     }
-    
+
     @Override
     default String typeNameSuffix() {
         return HateosResourceHandlerContext.class.getSimpleName();
