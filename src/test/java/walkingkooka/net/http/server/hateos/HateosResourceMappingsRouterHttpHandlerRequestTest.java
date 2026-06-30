@@ -43,37 +43,37 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
     @Test
     public void testDispatchSelectionExtractorExceptionWithNullMessage() {
         this.dispatchSelectionExtractorThrowsAndCheck(
-                null,
-                "Bad request"
+            null,
+            "Bad request"
         );
     }
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithEmptyMessage() {
         this.dispatchSelectionExtractorThrowsAndCheck(
-                "",
-                "Bad request"
+            "",
+            "Bad request"
         );
     }
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithNonEmptyMessage() {
         this.dispatchSelectionExtractorThrowsAndCheck(
-                "Message123",
-                "Message123"
+            "Message123",
+            "Message123"
         );
     }
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithMultilineMessage() {
         this.dispatchSelectionExtractorThrowsAndCheck(
-                "Line1\nLine2\nLine3",
-                "Line1"
+            "Line1\nLine2\nLine3",
+            "Line1"
         );
     }
 
     private void dispatchSelectionExtractorThrowsAndCheck(final String throwMessage,
-                                                         final String expected) {
+                                                          final String expected) {
         final HttpResponse response = HttpResponses.recording();
 
         final HateosResourceHandlerContext context = new FakeHateosResourceHandlerContext() {
@@ -94,41 +94,41 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
         };
 
         HateosResourceMappingsRouterHttpHandlerRequest.with(
-                HttpRequests.get(
-                        HttpTransport.SECURED,
-                        Url.parseRelative("/TestResource123"),
-                        HttpProtocolVersion.VERSION_1_0,
-                        HttpEntity.EMPTY.addHeader(HttpHeaderName.ACCEPT, Accept.parse("" + MediaType.APPLICATION_JSON))
-                ), // request,
-                response,
-                HateosResourceMappingsRouter.with(
-                        UrlPath.ROOT,
-                        Sets.of(
-                                HateosResourceMappings.with(
-                                        HateosResourceName.with("TestResource123"),
-                                        (final String s, final HateosResourceHandlerContext x) -> {
-                                            throw new IllegalArgumentException(throwMessage);
-                                        },
-                                        TestResource.class,
-                                        TestResource.class,
-                                        TestHateosResource.class,
-                                        HateosResourceHandlerContext.class
-                                ).setHateosResourceHandler(
-                                        LinkRelation.SELF,
-                                        HttpMethod.GET,
-                                        HateosResourceHandlers.fake()
-                                )
-                        ),
-                        context
+            HttpRequests.get(
+                HttpTransport.SECURED,
+                Url.parseRelative("/TestResource123"),
+                HttpProtocolVersion.VERSION_1_0,
+                HttpEntity.EMPTY.addHeader(HttpHeaderName.ACCEPT, Accept.parse("" + MediaType.APPLICATION_JSON))
+            ), // request,
+            response,
+            HateosResourceMappingsRouter.with(
+                UrlPath.ROOT,
+                Sets.of(
+                    HateosResourceMappings.with(
+                        HateosResourceName.with("TestResource123"),
+                        (final String s, final HateosResourceHandlerContext x) -> {
+                            throw new IllegalArgumentException(throwMessage);
+                        },
+                        TestResource.class,
+                        TestResource.class,
+                        TestHateosResource.class,
+                        HateosResourceHandlerContext.class
+                    ).setHateosResourceHandler(
+                        LinkRelation.SELF,
+                        HttpMethod.GET,
+                        HateosResourceHandlers.fake()
+                    )
                 ),
                 context
+            ),
+            context
         ).dispatch();
 
         this.checkEquals(
-                expected,
-                response.status()
-                        .map(HttpStatus::message)
-                        .orElse(null)
+            expected,
+            response.status()
+                .map(HttpStatus::message)
+                .orElse(null)
         );
     }
 
@@ -139,20 +139,20 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
         final HateosResourceMappingsRouter<HateosResourceHandlerContext> router = HateosResourceMappingsRouter.with(
-                UrlPath.ROOT,
-                Sets.empty(),
-                context
+            UrlPath.ROOT,
+            Sets.empty(),
+            context
         );
         final HttpRequest request = HttpRequests.fake();
         final HttpResponse response = HttpResponses.fake();
 
         this.toStringAndCheck(
-                HateosResourceMappingsRouterHttpHandlerRequest.with(
-                        request,
-                        response,
-                        router,
-                        context
-                ),
+            HateosResourceMappingsRouterHttpHandlerRequest.with(
+                request,
+                response,
+                router,
+                context
+            ),
             request + " " + response
         );
     }

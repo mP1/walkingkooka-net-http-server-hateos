@@ -52,9 +52,9 @@ public final class TestResource2 {
 
     static {
         JsonNodeContext.register("testResource2",
-                TestResource2::unmarshall,
-                TestResource2::marshall,
-                TestResource2.class);
+            TestResource2::unmarshall,
+            TestResource2::marshall,
+            TestResource2.class);
     }
 
     // Object...........................................................................................................

@@ -29,12 +29,12 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
     @Override
     public HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext> createHttpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
-                HateosResourceMappingsRouter.with(
-                        UrlPath.ROOT,
-                        Sets.empty(),
-                        HateosResourceHandlerContexts.fake()
-                ),
+            HateosResourceMappingsRouter.with(
+                UrlPath.ROOT,
+                Sets.empty(),
                 HateosResourceHandlerContexts.fake()
+            ),
+            HateosResourceHandlerContexts.fake()
         );
     }
 
@@ -50,17 +50,17 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
         final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
 
         final HateosResourceMappingsRouter<HateosResourceHandlerContext> router = HateosResourceMappingsRouter.with(
-                UrlPath.ROOT,
-                Sets.empty(),
-                context
+            UrlPath.ROOT,
+            Sets.empty(),
+            context
         );
 
         this.toStringAndCheck(
-                HateosResourceMappingsRouterHttpHandler.with(
-                        router,
-                        context
-                ),
-                router.toString()
+            HateosResourceMappingsRouterHttpHandler.with(
+                router,
+                context
+            ),
+            router.toString()
         );
     }
 

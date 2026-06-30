@@ -43,8 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsTest implements ClassTesting2<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>>,
-        ToStringTesting<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>>,
-        TreePrintableTesting {
+    ToStringTesting<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>>,
+    TreePrintableTesting {
 
     private final static HateosResourceName RESOURCE_NAME = HateosResourceName.with("abc123");
 
@@ -80,117 +80,117 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     @Test
     public void testWithNullResourceNameFails() {
         this.withFails(
-                null,
-                this.selection(),
-                VALUE_TYPE,
-                COLLECTION_TYPE,
-                RESOURCE_TYPE,
-                TestHateosResourceHandlerContext.class
+            null,
+            this.selection(),
+            VALUE_TYPE,
+            COLLECTION_TYPE,
+            RESOURCE_TYPE,
+            TestHateosResourceHandlerContext.class
         );
     }
 
     @Test
     public void testWithNullSelectionFails() {
         this.withFails(
-                RESOURCE_NAME,
-                null,
-                VALUE_TYPE,
-                COLLECTION_TYPE,
-                RESOURCE_TYPE,
-                TestHateosResourceHandlerContext.class
+            RESOURCE_NAME,
+            null,
+            VALUE_TYPE,
+            COLLECTION_TYPE,
+            RESOURCE_TYPE,
+            TestHateosResourceHandlerContext.class
         );
     }
 
     @Test
     public void testWithNullValueTypeFails() {
         this.withFails(
-                RESOURCE_NAME,
-                this.selection(),
-                null,
-                COLLECTION_TYPE,
-                RESOURCE_TYPE,
-                TestHateosResourceHandlerContext.class
+            RESOURCE_NAME,
+            this.selection(),
+            null,
+            COLLECTION_TYPE,
+            RESOURCE_TYPE,
+            TestHateosResourceHandlerContext.class
         );
     }
 
     @Test
     public void testWithNullCollectionTypeFails() {
         this.withFails(
-                RESOURCE_NAME,
-                this.selection(),
-                VALUE_TYPE,
-                null,
-                RESOURCE_TYPE,
-                TestHateosResourceHandlerContext.class
+            RESOURCE_NAME,
+            this.selection(),
+            VALUE_TYPE,
+            null,
+            RESOURCE_TYPE,
+            TestHateosResourceHandlerContext.class
         );
     }
 
     @Test
     public void testWithInterfaceCollectionTypeFails() {
         final IllegalArgumentException thrown = assertThrows(
-                IllegalArgumentException.class,
-                () -> HateosResourceMappings.with(
-                        RESOURCE_NAME,
-                        this.selection(),
-                        VALUE_TYPE,
-                        Collection.class,
-                        RESOURCE_TYPE,
-                        TestHateosResourceHandlerContext.class
-                )
+            IllegalArgumentException.class,
+            () -> HateosResourceMappings.with(
+                RESOURCE_NAME,
+                this.selection(),
+                VALUE_TYPE,
+                Collection.class,
+                RESOURCE_TYPE,
+                TestHateosResourceHandlerContext.class
+            )
         );
         this.checkEquals(
-                "Collection type java.util.Collection is an interface expected a concrete class",
-                thrown.getMessage()
+            "Collection type java.util.Collection is an interface expected a concrete class",
+            thrown.getMessage()
         );
     }
 
     @Test
     public void testWithArrayCollectionTypeFails() {
         final IllegalArgumentException thrown = assertThrows(
-                IllegalArgumentException.class,
-                () -> HateosResourceMappings.with(
-                        RESOURCE_NAME,
-                        this.selection(),
-                        VALUE_TYPE,
-                        Object[].class,
-                        RESOURCE_TYPE,
-                        TestHateosResourceHandlerContext.class
-                )
+            IllegalArgumentException.class,
+            () -> HateosResourceMappings.with(
+                RESOURCE_NAME,
+                this.selection(),
+                VALUE_TYPE,
+                Object[].class,
+                RESOURCE_TYPE,
+                TestHateosResourceHandlerContext.class
+            )
         );
         this.checkEquals(
-                "Collection type [Ljava.lang.Object; is an array expected a concrete class",
-                thrown.getMessage()
+            "Collection type [Ljava.lang.Object; is an array expected a concrete class",
+            thrown.getMessage()
         );
     }
 
     @Test
     public void testWithNullResourceTypeFails() {
         this.withFails(
-                RESOURCE_NAME,
-                this.selection(),
-                VALUE_TYPE,
-                COLLECTION_TYPE,
-                null,
-                TestHateosResourceHandlerContext.class
+            RESOURCE_NAME,
+            this.selection(),
+            VALUE_TYPE,
+            COLLECTION_TYPE,
+            null,
+            TestHateosResourceHandlerContext.class
         );
     }
 
     @Test
     public void testWithInterfaceResourceTypeFails() {
         final IllegalArgumentException thrown = assertThrows(
-                IllegalArgumentException.class,
-                () -> HateosResourceMappings.with(
-                        RESOURCE_NAME,
-                        this.selection(),
-                        VALUE_TYPE,
-                        COLLECTION_TYPE,
-                        TestHateosResourceInterface.class,
-                        TestHateosResourceHandlerContext.class
-                )
+            IllegalArgumentException.class,
+            () -> HateosResourceMappings.with(
+                RESOURCE_NAME,
+                this.selection(),
+                VALUE_TYPE,
+                COLLECTION_TYPE,
+                TestHateosResourceInterface.class,
+                TestHateosResourceHandlerContext.class
+            )
         );
         this.checkEquals(
-                "Resource type walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$TestHateosResourceInterface is an interface expected a concrete class",
-                thrown.getMessage()
+            "Resource type walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$TestHateosResourceInterface is an interface expected a concrete class",
+            thrown.getMessage()
         );
     }
 
@@ -199,22 +199,22 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     }
 
     private void withFails(
-            final HateosResourceName resourceName,
-            final BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selection,
-            final Class<TestResource> valueType,
-            final Class<TestResource2> COLLECTION_TYPE,
-            final Class<TestHateosResource> resourceType,
-            final Class<TestHateosResourceHandlerContext> contextType) {
+        final HateosResourceName resourceName,
+        final BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selection,
+        final Class<TestResource> valueType,
+        final Class<TestResource2> COLLECTION_TYPE,
+        final Class<TestHateosResource> resourceType,
+        final Class<TestHateosResourceHandlerContext> contextType) {
         assertThrows(
-                NullPointerException.class,
-                () -> HateosResourceMappings.with(
-                        resourceName,
-                        selection,
-                        valueType,
-                        COLLECTION_TYPE,
-                        resourceType,
-                        contextType
-                )
+            NullPointerException.class,
+            () -> HateosResourceMappings.with(
+                resourceName,
+                selection,
+                valueType,
+                COLLECTION_TYPE,
+                resourceType,
+                contextType
+            )
         );
     }
 
@@ -223,27 +223,27 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     @Test
     public void testSetHateosResourceHandlerWithNullLinkRelationFails() {
         this.setHateosResourceHandlerFails(
-                null,
-                METHOD,
-                HATEOS_RESOURCE_HANDLER
+            null,
+            METHOD,
+            HATEOS_RESOURCE_HANDLER
         );
     }
 
     @Test
     public void testSetHateosResourceHandlerWithNullMethodFails() {
         this.setHateosResourceHandlerFails(
-                LINK_RELATION,
-                null,
-                HATEOS_RESOURCE_HANDLER
+            LINK_RELATION,
+            null,
+            HATEOS_RESOURCE_HANDLER
         );
     }
 
     @Test
     public void testSetHateosResourceHandlerWithNullHandlerFails() {
         this.setHateosResourceHandlerFails(
-                LINK_RELATION,
-                METHOD,
-                null
+            LINK_RELATION,
+            METHOD,
+            null
         );
     }
 
@@ -252,13 +252,13 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                                                final HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> handler) {
 
         assertThrows(
-                NullPointerException.class,
-                () -> this.createMappings()
-                        .setHateosResourceHandler(
-                                relation,
-                                method,
-                                handler
-                        )
+            NullPointerException.class,
+            () -> this.createMappings()
+                .setHateosResourceHandler(
+                    relation,
+                    method,
+                    handler
+                )
         );
     }
 
@@ -269,165 +269,165 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
         final HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> handler = HATEOS_RESOURCE_HANDLER;
 
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mapping = this.createMappings()
-                .setHateosResourceHandler(
-                        relation,
-                        method,
-                        handler
-                );
+            .setHateosResourceHandler(
+                relation,
+                method,
+                handler
+            );
         assertSame(
-                mapping,
-                mapping.setHateosResourceHandler(
-                        relation,
-                        method,
-                        handler
-                )
+            mapping,
+            mapping.setHateosResourceHandler(
+                relation,
+                method,
+                handler
+            )
         );
     }
 
     @Test
     public void testSetHateosResourceHandlerDifferentLinkRelation() {
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings = this.createMappings()
-                .setHateosResourceHandler(
-                        LINK_RELATION,
-                        METHOD,
-                        HATEOS_RESOURCE_HANDLER
-                );
-
-        final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> differentMappings = mappings.setHateosResourceHandler(
-                DIFFERENT_LINK_RELATION,
+            .setHateosResourceHandler(
+                LINK_RELATION,
                 METHOD,
                 HATEOS_RESOURCE_HANDLER
+            );
+
+        final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> differentMappings = mappings.setHateosResourceHandler(
+            DIFFERENT_LINK_RELATION,
+            METHOD,
+            HATEOS_RESOURCE_HANDLER
         );
         assertNotSame(
-                mappings,
-                differentMappings
+            mappings,
+            differentMappings
         );
 
         this.mappingsCheck(
-                mappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosResourceHandler(
-                                        METHOD,
-                                        HATEOS_RESOURCE_HANDLER
-                                )
-                )
+            mappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosResourceHandler(
+                        METHOD,
+                        HATEOS_RESOURCE_HANDLER
+                    )
+            )
         );
         this.mappingsCheck(
-                differentMappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosResourceHandler(
-                                        METHOD,
-                                        HATEOS_RESOURCE_HANDLER
-                                ),
-                        DIFFERENT_LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(DIFFERENT_LINK_RELATION)
-                                .setHateosResourceHandler(
-                                        METHOD,
-                                        HATEOS_RESOURCE_HANDLER
-                                )
+            differentMappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosResourceHandler(
+                        METHOD,
+                        HATEOS_RESOURCE_HANDLER
+                    ),
+                DIFFERENT_LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(DIFFERENT_LINK_RELATION)
+                    .setHateosResourceHandler(
+                        METHOD,
+                        HATEOS_RESOURCE_HANDLER
+                    )
 
-                )
+            )
         );
     }
 
     @Test
     public void testSetHateosResourceHandlerDifferentMethod() {
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings = this.createMappings()
-                .setHateosResourceHandler(
-                        LINK_RELATION,
-                        METHOD,
-                        HATEOS_RESOURCE_HANDLER
-                );
+            .setHateosResourceHandler(
+                LINK_RELATION,
+                METHOD,
+                HATEOS_RESOURCE_HANDLER
+            );
 
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> differentMappings = mappings.setHateosResourceHandler(
-                LINK_RELATION,
-                DIFFERENT_METHOD,
-                HATEOS_RESOURCE_HANDLER
+            LINK_RELATION,
+            DIFFERENT_METHOD,
+            HATEOS_RESOURCE_HANDLER
         );
         assertNotSame(
-                mappings,
-                differentMappings
+            mappings,
+            differentMappings
         );
 
         this.mappingsCheck(
-                mappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosResourceHandler(
-                                        METHOD,
-                                        HATEOS_RESOURCE_HANDLER
-                                )
-                )
+            mappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosResourceHandler(
+                        METHOD,
+                        HATEOS_RESOURCE_HANDLER
+                    )
+            )
         );
         this.mappingsCheck(
-                differentMappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosResourceHandler(
-                                        METHOD,
-                                        HATEOS_RESOURCE_HANDLER
-                                ).setHateosResourceHandler(
-                                        DIFFERENT_METHOD,
-                                        HATEOS_RESOURCE_HANDLER
-                                )
-                )
+            differentMappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosResourceHandler(
+                        METHOD,
+                        HATEOS_RESOURCE_HANDLER
+                    ).setHateosResourceHandler(
+                        DIFFERENT_METHOD,
+                        HATEOS_RESOURCE_HANDLER
+                    )
+            )
         );
     }
 
     @Test
     public void testSetHateosResourceHandlerDifferentHandler() {
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings = this.createMappings()
-                .setHateosResourceHandler(
-                        LINK_RELATION,
-                        METHOD,
-                        HATEOS_RESOURCE_HANDLER
-                );
+            .setHateosResourceHandler(
+                LINK_RELATION,
+                METHOD,
+                HATEOS_RESOURCE_HANDLER
+            );
 
         final HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> differentHandler = new FakeHateosResourceHandler<>();
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> different = mappings.setHateosResourceHandler(
-                LINK_RELATION,
-                METHOD,
-                differentHandler
+            LINK_RELATION,
+            METHOD,
+            differentHandler
         );
         assertNotSame(
-                mappings,
-                different
+            mappings,
+            different
         );
 
         this.mappingsCheck(
-                mappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosResourceHandler(
-                                        METHOD,
-                                        HATEOS_RESOURCE_HANDLER
-                                )
-                )
+            mappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosResourceHandler(
+                        METHOD,
+                        HATEOS_RESOURCE_HANDLER
+                    )
+            )
         );
         this.mappingsCheck(
-                different,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosResourceHandler(
-                                        METHOD,
-                                        differentHandler
-                                )
-                )
+            different,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosResourceHandler(
+                        METHOD,
+                        differentHandler
+                    )
+            )
         );
     }
 
@@ -438,59 +438,59 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
         final HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> handler1 = HATEOS_RESOURCE_HANDLER;
 
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings = this.createMappings()
-                .setHateosResourceHandler(linkRelation1, method1, handler1);
+            .setHateosResourceHandler(linkRelation1, method1, handler1);
 
         final LinkRelation<?> linkRelation2 = LinkRelation.with("relation2");
         final HttpMethod method2 = HttpMethod.with("HTTPMETHODB");
         final HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> handler2 = new FakeHateosResourceHandler<>();
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings2 = mappings.setHateosResourceHandler(
-                linkRelation2,
-                method2,
-                handler2
+            linkRelation2,
+            method2,
+            handler2
         );
         assertNotSame(
-                mappings,
-                mappings2
+            mappings,
+            mappings2
         );
 
         final LinkRelation<?> linkRelation3 = LinkRelation.with("relation3");
         final HttpMethod method3 = HttpMethod.with("HTTPMETHODC");
         final HateosResourceHandler<BigInteger, TestResource, TestResource2, TestHateosResourceHandlerContext> handler3 = new FakeHateosResourceHandler<>();
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings3 = mappings2.setHateosResourceHandler(
-                linkRelation3,
-                method3,
-                handler3
+            linkRelation3,
+            method3,
+            handler3
         );
         assertNotSame(
-                mappings,
-                mappings3
+            mappings,
+            mappings3
         );
 
         this.mappingsCheck(
-                mappings3,
-                Maps.of(
-                        linkRelation1.toUrlPathName()
-                                .get(),
-                        mapping(linkRelation1)
-                                .setHateosResourceHandler(
-                                        method1,
-                                        handler1
-                                ),
-                        linkRelation2.toUrlPathName()
-                                .get(),
-                        mapping(linkRelation2)
-                                .setHateosResourceHandler(
-                                        method2,
-                                        handler2
-                                ),
-                        linkRelation3.toUrlPathName()
-                                .get(),
-                        mapping(linkRelation3)
-                                .setHateosResourceHandler(
-                                        method3,
-                                        handler3
-                                )
-                )
+            mappings3,
+            Maps.of(
+                linkRelation1.toUrlPathName()
+                    .get(),
+                mapping(linkRelation1)
+                    .setHateosResourceHandler(
+                        method1,
+                        handler1
+                    ),
+                linkRelation2.toUrlPathName()
+                    .get(),
+                mapping(linkRelation2)
+                    .setHateosResourceHandler(
+                        method2,
+                        handler2
+                    ),
+                linkRelation3.toUrlPathName()
+                    .get(),
+                mapping(linkRelation3)
+                    .setHateosResourceHandler(
+                        method3,
+                        handler3
+                    )
+            )
         );
     }
 
@@ -501,27 +501,27 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     @Test
     public void testSetHateosHttpEntityHandlerWithNullLinkRelationFails() {
         this.setHateosHttpEntityHandlerFails(
-                null,
-                METHOD,
-                HATEOS_HTTP_ENTITY_HANDLER
+            null,
+            METHOD,
+            HATEOS_HTTP_ENTITY_HANDLER
         );
     }
 
     @Test
     public void testSetHateosHttpEntityHandlerWithNullMethodFails() {
         this.setHateosHttpEntityHandlerFails(
-                LINK_RELATION,
-                null,
-                HATEOS_HTTP_ENTITY_HANDLER
+            LINK_RELATION,
+            null,
+            HATEOS_HTTP_ENTITY_HANDLER
         );
     }
 
     @Test
     public void testSetHateosHttpEntityHandlerWithNullHandlerFails() {
         this.setHateosHttpEntityHandlerFails(
-                LINK_RELATION,
-                METHOD,
-                null
+            LINK_RELATION,
+            METHOD,
+            null
         );
     }
 
@@ -530,171 +530,171 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                                                  final HateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext> handler) {
 
         assertThrows(
-                NullPointerException.class,
-                () -> this.createMappings()
-                        .setHateosHttpEntityHandler(
-                                relation,
-                                method,
-                                handler
-                        )
+            NullPointerException.class,
+            () -> this.createMappings()
+                .setHateosHttpEntityHandler(
+                    relation,
+                    method,
+                    handler
+                )
         );
     }
 
     @Test
     public void testSetHateosHttpEntityHandlerSame() {
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings = this.createMappings()
-                .setHateosHttpEntityHandler(
-                        LINK_RELATION,
-                        METHOD,
-                        HATEOS_HTTP_ENTITY_HANDLER
-                );
+            .setHateosHttpEntityHandler(
+                LINK_RELATION,
+                METHOD,
+                HATEOS_HTTP_ENTITY_HANDLER
+            );
         assertSame(
-                mappings,
-                mappings.setHateosHttpEntityHandler(
-                        LINK_RELATION,
-                        METHOD,
-                        HATEOS_HTTP_ENTITY_HANDLER
-                )
+            mappings,
+            mappings.setHateosHttpEntityHandler(
+                LINK_RELATION,
+                METHOD,
+                HATEOS_HTTP_ENTITY_HANDLER
+            )
         );
     }
 
     @Test
     public void testSetHateosHttpEntityHandlerDifferentRelation() {
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings = this.createMappings()
-                .setHateosHttpEntityHandler(
-                        LINK_RELATION,
-                        METHOD,
-                        HATEOS_HTTP_ENTITY_HANDLER
-                );
-
-        final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> different = mappings.setHateosHttpEntityHandler(
-                DIFFERENT_LINK_RELATION,
+            .setHateosHttpEntityHandler(
+                LINK_RELATION,
                 METHOD,
                 HATEOS_HTTP_ENTITY_HANDLER
+            );
+
+        final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> different = mappings.setHateosHttpEntityHandler(
+            DIFFERENT_LINK_RELATION,
+            METHOD,
+            HATEOS_HTTP_ENTITY_HANDLER
         );
         assertNotSame(mappings, different);
 
         this.mappingsCheck(
-                mappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosHttpEntityHandler(
-                                        METHOD,
-                                        HATEOS_HTTP_ENTITY_HANDLER
-                                )
-                )
+            mappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosHttpEntityHandler(
+                        METHOD,
+                        HATEOS_HTTP_ENTITY_HANDLER
+                    )
+            )
         );
         this.mappingsCheck(
-                different,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosHttpEntityHandler(
-                                        METHOD,
-                                        HATEOS_HTTP_ENTITY_HANDLER
-                                ),
-                        DIFFERENT_LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(DIFFERENT_LINK_RELATION)
-                                .setHateosHttpEntityHandler(
-                                        METHOD,
-                                        HATEOS_HTTP_ENTITY_HANDLER
-                                )
-                )
+            different,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosHttpEntityHandler(
+                        METHOD,
+                        HATEOS_HTTP_ENTITY_HANDLER
+                    ),
+                DIFFERENT_LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(DIFFERENT_LINK_RELATION)
+                    .setHateosHttpEntityHandler(
+                        METHOD,
+                        HATEOS_HTTP_ENTITY_HANDLER
+                    )
+            )
         );
     }
 
     @Test
     public void testSetHateosHttpEntityHandlerDifferentMethod() {
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings = this.createMappings()
-                .setHateosHttpEntityHandler(
-                        LINK_RELATION,
-                        METHOD,
-                        HATEOS_HTTP_ENTITY_HANDLER
-                );
+            .setHateosHttpEntityHandler(
+                LINK_RELATION,
+                METHOD,
+                HATEOS_HTTP_ENTITY_HANDLER
+            );
 
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> differentMappings = mappings.setHateosHttpEntityHandler(
-                LINK_RELATION,
-                DIFFERENT_METHOD,
-                HATEOS_HTTP_ENTITY_HANDLER
+            LINK_RELATION,
+            DIFFERENT_METHOD,
+            HATEOS_HTTP_ENTITY_HANDLER
         );
         assertNotSame(
-                mappings,
-                differentMappings
+            mappings,
+            differentMappings
         );
 
         this.mappingsCheck(
-                mappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosHttpEntityHandler(
-                                        METHOD,
-                                        HATEOS_HTTP_ENTITY_HANDLER
-                                )
-                )
+            mappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosHttpEntityHandler(
+                        METHOD,
+                        HATEOS_HTTP_ENTITY_HANDLER
+                    )
+            )
         );
         this.mappingsCheck(
-                differentMappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosHttpEntityHandler(
-                                        METHOD,
-                                        HATEOS_HTTP_ENTITY_HANDLER
-                                ).setHateosHttpEntityHandler(
-                                        DIFFERENT_METHOD,
-                                        HATEOS_HTTP_ENTITY_HANDLER
-                                )
-                )
+            differentMappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosHttpEntityHandler(
+                        METHOD,
+                        HATEOS_HTTP_ENTITY_HANDLER
+                    ).setHateosHttpEntityHandler(
+                        DIFFERENT_METHOD,
+                        HATEOS_HTTP_ENTITY_HANDLER
+                    )
+            )
         );
     }
 
     @Test
     public void testSetHateosHttpEntityHandlerDifferentHandler() {
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings = this.createMappings()
-                .setHateosHttpEntityHandler(
-                        LINK_RELATION,
-                        METHOD,
-                        HATEOS_HTTP_ENTITY_HANDLER
-                );
+            .setHateosHttpEntityHandler(
+                LINK_RELATION,
+                METHOD,
+                HATEOS_HTTP_ENTITY_HANDLER
+            );
 
         final HateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext> differentHandler = new FakeHateosHttpEntityHandler<>();
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> different = mappings.setHateosHttpEntityHandler(
-                LINK_RELATION,
-                METHOD,
-                differentHandler
+            LINK_RELATION,
+            METHOD,
+            differentHandler
         );
         assertNotSame(mappings, different);
 
         this.mappingsCheck(
-                mappings,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosHttpEntityHandler(
-                                        METHOD,
-                                        HATEOS_HTTP_ENTITY_HANDLER
-                                )
-                )
+            mappings,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosHttpEntityHandler(
+                        METHOD,
+                        HATEOS_HTTP_ENTITY_HANDLER
+                    )
+            )
         );
         this.mappingsCheck(
-                different,
-                Maps.of(
-                        LINK_RELATION.toUrlPathName()
-                                .get(),
-                        mapping(LINK_RELATION)
-                                .setHateosHttpEntityHandler(
-                                        METHOD,
-                                        differentHandler
-                                )
-                )
+            different,
+            Maps.of(
+                LINK_RELATION.toUrlPathName()
+                    .get(),
+                mapping(LINK_RELATION)
+                    .setHateosHttpEntityHandler(
+                        METHOD,
+                        differentHandler
+                    )
+            )
         );
     }
 
@@ -705,73 +705,73 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
         final HateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext> handler1 = HateosHttpEntityHandlers.fake();
 
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings1 = this.createMappings()
-                .setHateosHttpEntityHandler(linkRelation1, method1, handler1);
+            .setHateosHttpEntityHandler(linkRelation1, method1, handler1);
 
         final LinkRelation<?> linkRelation2 = LinkRelation.with("relation2");
         final HttpMethod method2 = HttpMethod.with("HTTPMETHODB");
         final HateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext> handler2 = HateosHttpEntityHandlers.fake();
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings2 = mappings1.setHateosHttpEntityHandler(
-                linkRelation2,
-                method2,
-                handler2
+            linkRelation2,
+            method2,
+            handler2
         );
         assertNotSame(
-                mappings1,
-                mappings2
+            mappings1,
+            mappings2
         );
 
         final LinkRelation<?> linkRelation3 = LinkRelation.with("relation3");
         final HttpMethod method3 = HttpMethod.with("HTTPMETHODC");
         final HateosHttpEntityHandler<BigInteger, TestHateosResourceHandlerContext> handler3 = HateosHttpEntityHandlers.fake();
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings3 = mappings2.setHateosHttpEntityHandler(linkRelation3,
-                method3,
-                handler3);
+            method3,
+            handler3);
         assertNotSame(
-                mappings1,
-                mappings3
+            mappings1,
+            mappings3
         );
 
         this.mappingsCheck(
-                mappings3,
-                Maps.of(
-                        linkRelation1.toUrlPathName()
-                                .get(),
-                        mapping(linkRelation1)
-                                .setHateosHttpEntityHandler(
-                                        method1,
-                                        handler1
-                                ),
-                        linkRelation2.toUrlPathName()
-                                .get(),
-                        mapping(linkRelation1)
-                                .setHateosHttpEntityHandler(
-                                        method2,
-                                        handler2
-                                ),
-                        linkRelation3.toUrlPathName()
-                                .get(),
-                        mapping(linkRelation1)
-                                .setHateosHttpEntityHandler(
-                                        method3,
-                                        handler3
-                                )
-                )
+            mappings3,
+            Maps.of(
+                linkRelation1.toUrlPathName()
+                    .get(),
+                mapping(linkRelation1)
+                    .setHateosHttpEntityHandler(
+                        method1,
+                        handler1
+                    ),
+                linkRelation2.toUrlPathName()
+                    .get(),
+                mapping(linkRelation1)
+                    .setHateosHttpEntityHandler(
+                        method2,
+                        handler2
+                    ),
+                linkRelation3.toUrlPathName()
+                    .get(),
+                mapping(linkRelation1)
+                    .setHateosHttpEntityHandler(
+                        method3,
+                        handler3
+                    )
+            )
         );
     }
 
     private HateosResourceMappingsMapping<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mapping(final LinkRelation<?> linkRelation) {
         return HateosResourceMappingsMapping.empty(
-                linkRelation,
-                null // HttpHandler
+            linkRelation,
+            null // HttpHandler
         );
     }
 
     private void mappingsCheck(final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> mappings,
                                final Map<UrlPathName, HateosResourceMappingsMapping<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext>> pathNameToMappings) {
         this.checkEquals(
-                pathNameToMappings,
-                mappings.pathNameToMappings,
-                "pathNameToMappings"
+            pathNameToMappings,
+            mappings.pathNameToMappings,
+            "pathNameToMappings"
         );
     }
 
@@ -782,66 +782,66 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     @Test
     public void testSetHateosHttpHandlerWithNullUrlPathNameFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> this.createMappings()
-                    .setHateosHttpHandler(
-                                null,
-                                HTTP_HANDLER
-                        )
+            NullPointerException.class,
+            () -> this.createMappings()
+                .setHateosHttpHandler(
+                    null,
+                    HTTP_HANDLER
+                )
         );
     }
 
     @Test
     public void testSetHateosHttpHandlerWithNullHttpHandlerFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> this.createMappings()
-                    .setHateosHttpHandler(
-                                UrlPathName.with("Hello"),
-                                null
-                        )
+            NullPointerException.class,
+            () -> this.createMappings()
+                .setHateosHttpHandler(
+                    UrlPathName.with("Hello"),
+                    null
+                )
         );
     }
 
     @Test
     public void testSetHateosHttpHandlerAfterSetHateosHttpEntityHandlerFails() {
         final IllegalStateException thrown = assertThrows(
-                IllegalStateException.class,
-                () -> this.createMappings()
-                        .setHateosHttpEntityHandler(
-                                LINK_RELATION,
-                                METHOD,
-                                HATEOS_HTTP_ENTITY_HANDLER
-                        ).setHateosHttpHandler(
-                                LINK_RELATION.toUrlPathName()
-                                        .get(),
-                                HTTP_HANDLER
-                        )
+            IllegalStateException.class,
+            () -> this.createMappings()
+                .setHateosHttpEntityHandler(
+                    LINK_RELATION,
+                    METHOD,
+                    HATEOS_HTTP_ENTITY_HANDLER
+                ).setHateosHttpHandler(
+                    LINK_RELATION.toUrlPathName()
+                        .get(),
+                    HTTP_HANDLER
+                )
         );
         this.checkEquals(
-                "Clash with existing HateosHttpEntityHandler / HateosResourceHandler",
-                thrown.getMessage()
+            "Clash with existing HateosHttpEntityHandler / HateosResourceHandler",
+            thrown.getMessage()
         );
     }
 
     @Test
     public void testSetHateosHttpHandlerAfterSetHateosResourceHandlerFails() {
         final IllegalStateException thrown = assertThrows(
-                IllegalStateException.class,
-                () -> this.createMappings()
-                        .setHateosResourceHandler(
-                                LINK_RELATION,
-                                METHOD,
-                                HATEOS_RESOURCE_HANDLER
-                        ).setHateosHttpHandler(
-                                LINK_RELATION.toUrlPathName()
-                                        .get(),
-                                HTTP_HANDLER
-                        )
+            IllegalStateException.class,
+            () -> this.createMappings()
+                .setHateosResourceHandler(
+                    LINK_RELATION,
+                    METHOD,
+                    HATEOS_RESOURCE_HANDLER
+                ).setHateosHttpHandler(
+                    LINK_RELATION.toUrlPathName()
+                        .get(),
+                    HTTP_HANDLER
+                )
         );
         this.checkEquals(
-                "Clash with existing HateosHttpEntityHandler / HateosResourceHandler",
-                thrown.getMessage()
+            "Clash with existing HateosHttpEntityHandler / HateosResourceHandler",
+            thrown.getMessage()
         );
     }
 
@@ -849,12 +849,12 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
 
     private HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosResourceHandlerContext> createMappings() {
         return HateosResourceMappings.with(
-                RESOURCE_NAME,
-                this.selection(),
-                VALUE_TYPE,
-                COLLECTION_TYPE,
-                RESOURCE_TYPE,
-                TestHateosResourceHandlerContext.class
+            RESOURCE_NAME,
+            this.selection(),
+            VALUE_TYPE,
+            COLLECTION_TYPE,
+            RESOURCE_TYPE,
+            TestHateosResourceHandlerContext.class
         );
     }
 
@@ -869,27 +869,27 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
             final int range = s.indexOf("-");
             if (-1 != range) {
                 return HateosResourceSelection.range(
-                        Range.greaterThanEquals(
-                                new BigInteger(
-                                        s.substring(0, range)
-                                )
-                        ).and(
-                                Range.lessThanEquals(
-                                        new BigInteger(
-                                                s.substring(range + 1)
-                                        )
-                                )
+                    Range.greaterThanEquals(
+                        new BigInteger(
+                            s.substring(0, range)
                         )
+                    ).and(
+                        Range.lessThanEquals(
+                            new BigInteger(
+                                s.substring(range + 1)
+                            )
+                        )
+                    )
                 );
             }
             final int many = s.indexOf(",");
             if (-1 == many) {
                 return HateosResourceSelection.many(
-                        Arrays.stream(s.split(","))
-                                .map(BigInteger::new)
-                                .collect(
-                                        Collectors.toCollection(SortedSets::tree)
-                                )
+                    Arrays.stream(s.split(","))
+                        .map(BigInteger::new)
+                        .collect(
+                            Collectors.toCollection(SortedSets::tree)
+                        )
                 );
             }
             return HateosResourceSelection.one(new BigInteger(s));
@@ -901,48 +901,48 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     @Test
     public void testToString() {
         this.toStringAndCheck(
-                this.createMappings()
-                        .setHateosResourceHandler(
-                                LINK_RELATION,
-                                METHOD,
-                                new FakeHateosResourceHandler<>() {
+            this.createMappings()
+                .setHateosResourceHandler(
+                    LINK_RELATION,
+                    METHOD,
+                    new FakeHateosResourceHandler<>() {
 
-                                    @Override
-                                    public String toString() {
-                                        return "Handler123";
-                                    }
-                                }
-                        ),
-                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" LinkRelation111=POST=Handler123"
+                        @Override
+                        public String toString() {
+                            return "Handler123";
+                        }
+                    }
+                ),
+            "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" LinkRelation111=POST=Handler123"
         );
     }
 
     @Test
     public void testToStringMultiple() {
         this.toStringAndCheck(
-                this.createMappings()
-                        .setHateosResourceHandler(
-                                LinkRelation.SELF,
-                                HttpMethod.GET,
-                                new FakeHateosResourceHandler<>() {
+            this.createMappings()
+                .setHateosResourceHandler(
+                    LinkRelation.SELF,
+                    HttpMethod.GET,
+                    new FakeHateosResourceHandler<>() {
 
-                                    @Override
-                                    public String toString() {
-                                        return "Handler111";
-                                    }
-                                }
-                        ).setHateosResourceHandler(
-                                LinkRelation.SELF,
-                                METHOD,
-                                new FakeHateosResourceHandler<>() {
+                        @Override
+                        public String toString() {
+                            return "Handler111";
+                        }
+                    }
+                ).setHateosResourceHandler(
+                    LinkRelation.SELF,
+                    METHOD,
+                    new FakeHateosResourceHandler<>() {
 
-                                    @Override
-                                    public String toString() {
-                                        return "Handler222";
-                                    }
-                                }
-                        ),
-                "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" GET=Handler111, POST=Handler222"
+                        @Override
+                        public String toString() {
+                            return "Handler222";
+                        }
+                    }
+                ),
+            "abc123 \"walkingkooka.net.http.server.hateos.TestHateosResource\" GET=Handler111, POST=Handler222"
         );
     }
 
@@ -951,48 +951,48 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
     @Test
     public void testTreePrint() {
         this.treePrintAndCheck(
-                HateosResourceMappings.with(
-                        RESOURCE_NAME,
-                        this.selection(),
-                        VALUE_TYPE,
-                        COLLECTION_TYPE,
-                        RESOURCE_TYPE,
-                        TestHateosResourceHandlerContext.class
-                ).setHateosResourceHandler(
-                        LinkRelation.SELF,
-                        HttpMethod.GET,
-                        HATEOS_RESOURCE_HANDLER
-                ).setHateosResourceHandler(
-                        LinkRelation.SELF,
-                        HttpMethod.POST,
-                        HATEOS_RESOURCE_HANDLER
-                ).setHateosResourceHandler(
-                        LinkRelation.ABOUT,
-                        HttpMethod.GET,
-                        HATEOS_RESOURCE_HANDLER
-                ).setHateosHttpHandler(
-                    UrlPathName.with("Hello"),
-                    new FakeHateosHttpHandler<>() {
-                        @Override
-                        public String toString() {
-                            return "HelloHttpHandler";
-                        }
+            HateosResourceMappings.with(
+                RESOURCE_NAME,
+                this.selection(),
+                VALUE_TYPE,
+                COLLECTION_TYPE,
+                RESOURCE_TYPE,
+                TestHateosResourceHandlerContext.class
+            ).setHateosResourceHandler(
+                LinkRelation.SELF,
+                HttpMethod.GET,
+                HATEOS_RESOURCE_HANDLER
+            ).setHateosResourceHandler(
+                LinkRelation.SELF,
+                HttpMethod.POST,
+                HATEOS_RESOURCE_HANDLER
+            ).setHateosResourceHandler(
+                LinkRelation.ABOUT,
+                HttpMethod.GET,
+                HATEOS_RESOURCE_HANDLER
+            ).setHateosHttpHandler(
+                UrlPathName.with("Hello"),
+                new FakeHateosHttpHandler<>() {
+                    @Override
+                    public String toString() {
+                        return "HelloHttpHandler";
                     }
-                ),
-                "abc123\n" +
-                    "  ResourceType:\n" +
-                    "    TestHateosResource\n" +
-                    "  mappings:\n" +
-                    "      \"\"\n" +
-                    "        GET\n" +
-                    "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
-                    "        POST\n" +
-                    "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
-                    "      \"Hello\"\n" +
-                    "        HelloHttpHandler (walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$5)\n" +
-                    "      \"about\"\n" +
-                    "        GET\n" +
-                    "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n"
+                }
+            ),
+            "abc123\n" +
+                "  ResourceType:\n" +
+                "    TestHateosResource\n" +
+                "  mappings:\n" +
+                "      \"\"\n" +
+                "        GET\n" +
+                "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
+                "        POST\n" +
+                "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n" +
+                "      \"Hello\"\n" +
+                "        HelloHttpHandler (walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$5)\n" +
+                "      \"about\"\n" +
+                "        GET\n" +
+                "          HateosResourceHandler123 (walkingkooka.net.http.server.hateos.HateosResourceMappingsMappingHandlerHateosResourceHandler)\n"
         );
     }
 

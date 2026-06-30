@@ -64,8 +64,8 @@ public class JunitTest {
     @Test
     public void testAssertEquals() {
         checkEquals(
-                1,
-                1
+            1,
+            1
         );
     }
 
@@ -74,9 +74,9 @@ public class JunitTest {
         final String name = "name123";
 
         checkEquals(
-                name,
-                HateosResourceName.with(name)
-                        .value()
+            name,
+            HateosResourceName.with(name)
+                .value()
         );
     }
 
@@ -95,40 +95,40 @@ public class JunitTest {
     @Test
     public void testHateosResourceMappings() {
         final HateosResourceMappings<BigInteger, TestResource3, TestResource3, TestHateosResource3, TestHateosResourceHandlerContext> mapping = HateosResourceMappings.with(
-                HateosResourceName.with("resource1"),
-                (s, x) -> {
-                    return HateosResourceSelection.one(
-                            BigInteger.valueOf(
-                                    Integer.parseInt(
-                                            s.substring(2),
-                                            16
-                                    )
-                            )
-                    ); // assumes hex digit in url
-                },
-                TestResource3.class,
-                TestResource3.class,
-                TestHateosResource3.class,
-                TestHateosResourceHandlerContext.class
+            HateosResourceName.with("resource1"),
+            (s, x) -> {
+                return HateosResourceSelection.one(
+                    BigInteger.valueOf(
+                        Integer.parseInt(
+                            s.substring(2),
+                            16
+                        )
+                    )
+                ); // assumes hex digit in url
+            },
+            TestResource3.class,
+            TestResource3.class,
+            TestHateosResource3.class,
+            TestHateosResourceHandlerContext.class
         ).setHateosResourceHandler(
-                LinkRelation.CONTENTS,
-                HttpMethod.POST,
-                new FakeHateosResourceHandler<>() {
-                    @Override
-                    public Optional<TestResource3> handleOne(final BigInteger id,
-                                                             final Optional<TestResource3> resource,
-                                                             final Map<HttpRequestAttribute<?>, Object> parameters,
-                                                             final UrlPath path,
-                                                             final TestHateosResourceHandlerContext context) {
-                        return Optional.of(
-                                TestResource3.with(
-                                        TestHateosResource3.with(
-                                                BigInteger.valueOf(31)
-                                        )
-                                )
-                        );
-                    }
+            LinkRelation.CONTENTS,
+            HttpMethod.POST,
+            new FakeHateosResourceHandler<>() {
+                @Override
+                public Optional<TestResource3> handleOne(final BigInteger id,
+                                                         final Optional<TestResource3> resource,
+                                                         final Map<HttpRequestAttribute<?>, Object> parameters,
+                                                         final UrlPath path,
+                                                         final TestHateosResourceHandlerContext context) {
+                    return Optional.of(
+                        TestResource3.with(
+                            TestHateosResource3.with(
+                                BigInteger.valueOf(31)
+                            )
+                        )
+                    );
                 }
+            }
         );
 
         final TestHateosResourceHandlerContext context = new TestHateosResourceHandlerContext();
@@ -200,14 +200,14 @@ public class JunitTest {
             context
         );
         checkEquals(
-                "{\n" +
-                        "  \"type\": \"test-HateosResource3\",\n" +
-                        "  \"value\": {\n" +
-                        "    \"id\": \"31\"\n" +
-                        "  }\n" +
-                        "}",
-                response.entity()
-                        .bodyText()
+            "{\n" +
+                "  \"type\": \"test-HateosResource3\",\n" +
+                "  \"value\": {\n" +
+                "    \"id\": \"31\"\n" +
+                "  }\n" +
+                "}",
+            response.entity()
+                .bodyText()
         );
     }
 
@@ -253,15 +253,15 @@ public class JunitTest {
         @Override
         public JsonNode marshall(final Object value) {
             return JsonNodeMarshallContexts.basic()
-                    .marshall(value);
+                .marshall(value);
         }
     }
 
     static void checkEquals(final Object expected,
                             final Object actual) {
         Assert.assertEquals(
-                expected,
-                actual
+            expected,
+            actual
         );
     }
 }

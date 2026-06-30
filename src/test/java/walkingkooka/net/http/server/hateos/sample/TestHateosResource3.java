@@ -63,16 +63,16 @@ public final class TestHateosResource3 extends FakeHateosResource<BigInteger> {
 
     JsonNode marshall(final JsonNodeMarshallContext context) {
         return JsonNode.object()
-                .set(ID, context.marshall(this.id));
+            .set(ID, context.marshall(this.id));
     }
 
     private final static JsonPropertyName ID = JsonPropertyName.with("id");
 
     static {
         JsonNodeContext.register("test-HateosResource3",
-                TestHateosResource3::unmarshall,
-                TestHateosResource3::marshall,
-                TestHateosResource3.class);
+            TestHateosResource3::unmarshall,
+            TestHateosResource3::marshall,
+            TestHateosResource3.class);
     }
 
     // Object...........................................................................................................

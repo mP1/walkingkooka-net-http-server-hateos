@@ -52,36 +52,36 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
     public void testHateosResourceWithLinks() {
         final TestHateosResource resource = TestHateosResource.with(BigInteger.valueOf(123));
         this.marshallAndCheck(
-                resource,
-                JsonNode.parse("{\n" +
-                        "  \"id\": \"123\",\n" +
-                        "  \"_links\": [{\n" +
-                        "    \"href\": \"https://example.com/api/resource-1/7b\",\n" +
-                        "    \"method\": \"POST\",\n" +
-                        "    \"rel\": \"self\",\n" +
-                        "    \"type\": \"application/test-json-123\"\n" +
-                        "  }, {\n" +
-                        "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
-                        "    \"method\": \"GET\",\n" +
-                        "    \"rel\": \"contents\",\n" +
-                        "    \"type\": \"application/test-json-123\"\n" +
-                        "  }, {\n" +
-                        "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
-                        "    \"method\": \"POST\",\n" +
-                        "    \"rel\": \"contents\",\n" +
-                        "    \"type\": \"application/test-json-123\"\n" +
-                        "  }]\n" +
-                        "}"
-                )
+            resource,
+            JsonNode.parse("{\n" +
+                "  \"id\": \"123\",\n" +
+                "  \"_links\": [{\n" +
+                "    \"href\": \"https://example.com/api/resource-1/7b\",\n" +
+                "    \"method\": \"POST\",\n" +
+                "    \"rel\": \"self\",\n" +
+                "    \"type\": \"application/test-json-123\"\n" +
+                "  }, {\n" +
+                "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
+                "    \"method\": \"GET\",\n" +
+                "    \"rel\": \"contents\",\n" +
+                "    \"type\": \"application/test-json-123\"\n" +
+                "  }, {\n" +
+                "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
+                "    \"method\": \"POST\",\n" +
+                "    \"rel\": \"contents\",\n" +
+                "    \"type\": \"application/test-json-123\"\n" +
+                "  }]\n" +
+                "}"
+            )
         );
     }
 
     private void marshallAndCheck(final Object resource,
                                   final JsonNode json) {
         this.checkEquals(json,
-                JsonNodeMarshallContexts.basic()
-                        .setObjectPostProcessor(this.createBiFunction()).marshall(resource),
-                resource::toString);
+            JsonNodeMarshallContexts.basic()
+                .setObjectPostProcessor(this.createBiFunction()).marshall(resource),
+            resource::toString);
     }
 
     // toString.........................................................................................................
@@ -89,7 +89,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
     @Test
     public void testToString() {
         this.toStringAndCheck(
-                this.createBiFunction(),
+            this.createBiFunction(),
             "{walkingkooka.net.http.server.hateos.TestHateosResource=resource-1, self=POST, contents=GET, POST, walkingkooka.net.http.server.hateos.TestHateosResource2=resource-2, about=PUT}"
         );
     }
@@ -99,9 +99,9 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
     @Override
     public HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosResourceHandlerContext> createBiFunction() {
         return HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor.with(
-                this.baseUrl(),
-                this.mappings(),
-                new TestHateosResourceHandlerContext()
+            this.baseUrl(),
+            this.mappings(),
+            new TestHateosResourceHandlerContext()
         );
     }
 
@@ -122,15 +122,15 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
         final HateosResourceName resourceName2 = this.resourceName2();
 
         final HateosResourceMappings<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mappings1 = HateosResourceMappings.with(
-                        resourceName1,
-                        this.selectionParser(),
-                        TestResource.class,
+                resourceName1,
+                this.selectionParser(),
                 TestResource.class,
-                        TestHateosResource.class,
-                        TestHateosResourceHandlerContext.class
-                ).setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosResourceHandler<>())
-                .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosResourceHandler<>())
-                .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
+                TestResource.class,
+                TestHateosResource.class,
+                TestHateosResourceHandlerContext.class
+            ).setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosResourceHandler<>())
+            .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosResourceHandler<>())
+            .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
 
         final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource2, TestHateosResourceHandlerContext> mappings2 = HateosResourceMappings.with(
             resourceName2,
@@ -156,7 +156,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
 
     private BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selectionParser() {
         return (s, x) -> HateosResourceSelection.one(
-                new BigInteger(s)
+            new BigInteger(s)
         );
     }
 
@@ -170,7 +170,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
         @Override
         public JsonNode marshall(final Object value) {
             return JsonNodeMarshallContexts.basic()
-                    .marshall(value);
+                .marshall(value);
         }
     }
 

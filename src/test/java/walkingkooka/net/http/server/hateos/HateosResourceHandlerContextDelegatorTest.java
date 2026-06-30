@@ -37,7 +37,7 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
 
     private final static Indentation INDENTATION = Indentation.SPACES2;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
-    
+
     @Override
     public void testTypeNaming() {
         throw new UnsupportedOperationException();
@@ -57,7 +57,7 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
     public void testSetObjectPostProcessorSame() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void testSetPreProcessorNullFails() {
         throw new UnsupportedOperationException();
@@ -88,7 +88,7 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
             LINE_ENDING
         );
     }
-    
+
     @Override
     public TestHateosResourceHandlerContextDelegator createContext() {
         return new TestHateosResourceHandlerContextDelegator();

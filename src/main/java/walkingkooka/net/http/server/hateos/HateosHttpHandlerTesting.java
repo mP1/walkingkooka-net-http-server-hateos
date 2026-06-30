@@ -32,49 +32,49 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Mixin interface for testing {@link HateosResourceHandler}
  */
 public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
-        C extends HateosResourceHandlerContext>
-        extends ClassTesting2<H>,
-        TreePrintableTesting,
-        TypeNameTesting<H> {
+    C extends HateosResourceHandlerContext>
+    extends ClassTesting2<H>,
+    TreePrintableTesting,
+    TypeNameTesting<H> {
 
     // handleAll........................................................................................................
 
     @Test
     default void testHandleWithNullRequestFails() {
         assertThrows(
-                NullPointerException.class,
+            NullPointerException.class,
             () -> this.createHateosHttpHandler()
-                        .handle(
-                                null,
-                                HttpResponses.fake(),
-                                this.context()
-                        )
+                .handle(
+                    null,
+                    HttpResponses.fake(),
+                    this.context()
+                )
         );
     }
 
     @Test
     default void testHandleWithNullResponseFails() {
         assertThrows(
-                NullPointerException.class,
+            NullPointerException.class,
             () -> this.createHateosHttpHandler()
-                        .handle(
-                                HttpRequests.fake(),
-                                null,
-                                this.context()
-                        )
+                .handle(
+                    HttpRequests.fake(),
+                    null,
+                    this.context()
+                )
         );
     }
 
     @Test
     default void testHandleWithNullContextFails() {
         assertThrows(
-                NullPointerException.class,
+            NullPointerException.class,
             () -> this.createHateosHttpHandler()
-                        .handle(
-                                HttpRequests.fake(),
-                                HttpResponses.fake(),
-                                null
-                        )
+                .handle(
+                    HttpRequests.fake(),
+                    HttpResponses.fake(),
+                    null
+                )
         );
     }
 
@@ -96,15 +96,15 @@ public interface HateosHttpHandlerTesting<H extends HateosHttpHandler<C>,
         final HttpResponse response = HttpResponses.recording();
 
         handler.handle(
-                request,
-                response,
-                context
+            request,
+            response,
+            context
         );
 
         this.checkEquals(
-                expected,
-                response,
-                request::toString
+            expected,
+            response,
+            request::toString
         );
     }
 
