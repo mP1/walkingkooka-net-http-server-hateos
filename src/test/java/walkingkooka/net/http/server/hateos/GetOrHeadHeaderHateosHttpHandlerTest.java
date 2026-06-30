@@ -62,14 +62,14 @@ public final class GetOrHeadHeaderHateosHttpHandlerTest implements GetOrHeadHead
                     )
                 )
             ),
-            this.context(),
+            this.createContext(),
             response
         );
     }
 
 
     @Override
-    public GetOrHeadHeaderHateosHttpHandler<FakeHateosResourceHandlerContext> createHateosHttpHandler() {
+    public GetOrHeadHeaderHateosHttpHandler<FakeHateosResourceHandlerContext> createHttpHandler() {
         return new GetOrHeadHeaderHateosHttpHandler<>() {
 
             @Override
@@ -87,7 +87,7 @@ public final class GetOrHeadHeaderHateosHttpHandlerTest implements GetOrHeadHead
     }
 
     @Override
-    public FakeHateosResourceHandlerContext context() {
+    public FakeHateosResourceHandlerContext createContext() {
         return new FakeHateosResourceHandlerContext();
     }
 

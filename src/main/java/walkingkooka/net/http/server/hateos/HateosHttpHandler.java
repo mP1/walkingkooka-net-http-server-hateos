@@ -17,15 +17,10 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.net.http.server.HttpRequest;
-import walkingkooka.net.http.server.HttpResponse;
+import walkingkooka.net.http.server.HttpHandler;
 
 /**
  * A http handler that may be added to a {@link HateosResourceMappings}.
  */
-public interface HateosHttpHandler<C extends HateosResourceHandlerContext> {
-
-    void handle(final HttpRequest request,
-                final HttpResponse response,
-                final C context);
+public interface HateosHttpHandler<C extends HateosResourceHandlerContext> extends HttpHandler<C> {
 }

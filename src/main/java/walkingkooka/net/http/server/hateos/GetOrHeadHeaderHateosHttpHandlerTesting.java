@@ -65,14 +65,14 @@ public interface GetOrHeadHeaderHateosHttpHandlerTesting<H extends GetOrHeadHead
         );
 
         this.handleAndCheck(
-            this.createHateosHttpHandler(),
+            this.createHttpHandler(),
             new FakeHttpRequest() {
                 @Override
                 public HttpMethod method() {
                     return method;
                 }
             },
-            this.context(),
+            this.createContext(),
             expected
         );
     }
