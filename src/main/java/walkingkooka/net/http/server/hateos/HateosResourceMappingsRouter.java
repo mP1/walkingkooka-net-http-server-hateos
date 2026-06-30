@@ -36,11 +36,11 @@ import java.util.Set;
  * A {@link Router} that dispatches to the given {@link HateosResourceMappings mappings}.
  * Note that any exceptions that are thrown, will have their stack trace in the response body with content-type=text/plain
  */
-final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext> implements Router<HttpRequestAttribute<?>, HttpHandler<X>> {
+final class HateosResourceMappingsRouter<C extends HateosResourceHandlerContext> implements Router<HttpRequestAttribute<?>, HttpHandler<C>> {
 
-    static <X extends HateosResourceHandlerContext> HateosResourceMappingsRouter<X> with(final UrlPath base,
-                                                                                         final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
-                                                                                         final X context) {
+    static <C extends HateosResourceHandlerContext> HateosResourceMappingsRouter<C> with(final UrlPath base,
+                                                                                         final Set<HateosResourceMappings<?, ?, ?, ?, C>> mappings,
+                                                                                         final C context) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(mappings, "mappings");
         Objects.requireNonNull(context, "context");
@@ -53,13 +53,13 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
     }
 
     private HateosResourceMappingsRouter(final UrlPath base,
-                                         final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
-                                         final X context) {
+                                         final Set<HateosResourceMappings<?, ?, ?, ?, C>> mappings,
+                                         final C context) {
         super();
         this.base = base.normalize();
-        Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, X>> resourceNameToMapping = Maps.sorted();
+        Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, C>> resourceNameToMapping = Maps.sorted();
 
-        for (final HateosResourceMappings<?, ?, ?, ?, X> mappingsMappings : mappings) {
+        for (final HateosResourceMappings<?, ?, ?, ?, C> mappingsMappings : mappings) {
             resourceNameToMapping.put(
                 mappingsMappings.resourceName,
                 mappingsMappings
@@ -71,12 +71,12 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
         this.context = context;
     }
 
-    final Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, X>> resourceNameToMapping;
+    final Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, C>> resourceNameToMapping;
 
     // Router...........................................................................................................
 
     @Override
-    public Optional<HttpHandler<X>> route(final Map<HttpRequestAttribute<?>, Object> parameters) {
+    public Optional<HttpHandler<C>> route(final Map<HttpRequestAttribute<?>, Object> parameters) {
         Objects.requireNonNull(parameters, "parameters");
 
         // a handler will be returned if the request path matches the #base path
@@ -104,7 +104,7 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
 
     private final UrlPath base;
 
-    private HttpHandler<X> httpHandler() {
+    private HttpHandler<C> httpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
             this,
             this.context
@@ -114,7 +114,7 @@ final class HateosResourceMappingsRouter<X extends HateosResourceHandlerContext>
     /**
      * The shared or common context passed to all handlers when they are invoked.
      */
-    private final X context;
+    private final C context;
 
     // toString.........................................................................................................
 
