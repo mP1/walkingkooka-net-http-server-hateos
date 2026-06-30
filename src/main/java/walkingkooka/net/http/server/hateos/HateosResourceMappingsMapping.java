@@ -43,7 +43,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
      * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
      */
     static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMapping<I, V, C, H, X> empty(final LinkRelation<?> linkRelation,
-                                                                                                                                                                   final HateosHttpHandler<X> httpHandler) {
+                                                                                                                                                                   final HttpHandler<X> httpHandler) {
         return new HateosResourceMappingsMapping<>(
             linkRelation,
             null, // Map<HttpMethod, HateosResourceMappingsMappingHandler<?>>
