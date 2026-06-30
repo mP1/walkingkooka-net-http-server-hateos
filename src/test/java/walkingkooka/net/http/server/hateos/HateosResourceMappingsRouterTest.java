@@ -43,6 +43,7 @@ import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpStatus;
 import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.HttpTransport;
+import walkingkooka.net.http.server.FakeHttpHandler;
 import walkingkooka.net.http.server.FakeHttpRequest;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
@@ -1554,7 +1555,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
             TestHateosResourceHandlerContext.class
         ).setHttpHandler(
             pathName,
-            new FakeHateosHttpHandler<>() {
+            new FakeHttpHandler<>() {
                 @Override
                 public void handle(final HttpRequest request,
                                    final HttpResponse response,
