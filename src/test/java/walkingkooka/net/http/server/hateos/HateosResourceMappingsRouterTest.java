@@ -53,6 +53,7 @@ import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsRouterTest.TestHateosResourceHandlerContext;
+import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.route.Router;
 import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
@@ -76,7 +77,8 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>>
-    implements RouterTesting2<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>, HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>> {
+    implements RouterTesting2<HateosResourceMappingsRouter<TestHateosResourceHandlerContext>, HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>>,
+    ThrowableTesting {
 
     private final static String NO_BODY = null;
 
@@ -761,7 +763,10 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                     CONTEXT
                 )
         );
-        this.checkEquals(thrownMessage, thrown.getMessage(), "message");
+        this.getMessageAndCheck(
+            thrown,
+            thrownMessage
+        );
     }
 
     // id request.......................................................................................................
