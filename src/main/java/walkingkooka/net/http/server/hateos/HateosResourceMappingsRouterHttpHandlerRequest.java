@@ -234,6 +234,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
 
         final HttpResponse response = this.response;
 
+        response.setVersion(request.protocolVersion());
         response.setStatus(
             responseHttpEntity.isEmpty() ?
                 HttpStatusCode.NO_CONTENT.status() :
