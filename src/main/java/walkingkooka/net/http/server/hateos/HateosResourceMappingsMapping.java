@@ -167,6 +167,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                     context
                 );
             } else {
+                request.response.setVersion(request.request.protocolVersion());
                 request.response.setMethodNotAllowed(
                     request.request.method(),
                     this.allowedMethods() // allowed HttpMethods

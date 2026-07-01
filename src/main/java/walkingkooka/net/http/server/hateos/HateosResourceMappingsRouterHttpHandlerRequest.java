@@ -539,6 +539,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
     }
 
     private void setStatus(final HttpStatus status) {
+        this.response.setVersion(this.request.protocolVersion());
         this.response.setStatus(status);
     }
 
