@@ -25,6 +25,8 @@ import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.HttpHandler;
+import walkingkooka.net.http.server.HttpRequest;
+import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.text.printer.IndentingPrinter;
 import walkingkooka.text.printer.TreePrintable;
 
@@ -147,16 +149,19 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
                 final X context) {
+        final HttpRequest httpRequest = request.request;
+        final HttpResponse httpResponse = request.response;
+
         final HttpHandler<X> httpHandler = this.httpHandler;
         if (null != httpHandler) {
             httpHandler.handle(
-                request.request,
-                request.response,
+                httpRequest,
+                httpResponse,
                 context
             );
         } else {
 
-            final HttpMethod method = request.request.method();
+            final HttpMethod method = httpRequest.method();
             final HateosResourceMappingsMappingHandler<I, V, C, H, X> handler = this.methodToHandlers.get(method);
             if (null != handler) {
                 handler.handle(
@@ -167,9 +172,11 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
                     context
                 );
             } else {
-                request.response.setVersion(request.request.protocolVersion());
-                request.response.setMethodNotAllowed(
-                    request.request.method(),
+                httpResponse.setVersion(
+                    httpRequest.protocolVersion()
+                );
+                httpResponse.setMethodNotAllowed(
+                    httpRequest.method(),
                     this.allowedMethods() // allowed HttpMethods
                 );
             }
