@@ -45,6 +45,7 @@ import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.HttpTransport;
 import walkingkooka.net.http.server.FakeHttpHandler;
 import walkingkooka.net.http.server.FakeHttpRequest;
+import walkingkooka.net.http.server.FakeHttpResponse;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpRequest;
 import walkingkooka.net.http.server.HttpRequestAttribute;
@@ -751,7 +752,12 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 .get()
                 .handle(
                     request,
-                    HttpResponses.fake(),
+                    new FakeHttpResponse() {
+                        @Override
+                        public void setVersion(final HttpProtocolVersion version) {
+                            // ignore
+                        }
+                    },
                     CONTEXT
                 )
         );
@@ -1941,6 +1947,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         );
 
         final HttpResponse expected = HttpResponses.recording();
+        expected.setVersion(HttpProtocolVersion.VERSION_1_0);
 
         if (null != status) {
             expected.setStatus(status);
