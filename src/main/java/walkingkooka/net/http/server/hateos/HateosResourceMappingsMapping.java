@@ -120,7 +120,7 @@ final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H exten
     }
 
     /**
-     * Sets a {@link HateosHttpHandler}
+     * Sets a {@link HttpHandler}
      */
     HateosResourceMappingsMapping<I, V, C, H, X> setHttpHandler(final HttpHandler<X> handler) {
         Objects.requireNonNull(handler, "handler");
