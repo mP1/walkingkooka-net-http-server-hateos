@@ -211,26 +211,6 @@ public class JunitTest {
         );
     }
 
-    private HateosResourceName resourceName() {
-        return HateosResourceName.with("abc123");
-    }
-
-    private Function<String, BigInteger> stringToId() {
-        return BigInteger::new;
-    }
-
-    private Class<TestResource3> valueType() {
-        return TestResource3.class;
-    }
-
-    private Class<TestResource4> collectionType() {
-        return TestResource4.class;
-    }
-
-    private Class<TestHateosResource3> resourceType() {
-        return TestHateosResource3.class;
-    }
-
     static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
 
         final static MediaType CONTENT_TYPE = MediaType.parse("application/test-json");
