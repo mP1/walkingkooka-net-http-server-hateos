@@ -22,9 +22,9 @@ import walkingkooka.net.http.server.HttpHandler;
 
 import java.util.Objects;
 
-final class HateosResourceMappingsMappingHandlerHttpHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> extends HateosResourceMappingsMappingHandler<I, V, C, H, X> {
+final class HateosResourceMappingsMappingHandlerHttpHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> extends HateosResourceMappingsMappingHandler<I, V, C, H, X> {
 
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> with(final HttpHandler<X> handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> with(final HttpHandler<X> handler) {
         return new HateosResourceMappingsMappingHandlerHttpHandler<>(
             Objects.requireNonNull(handler, "handler")
         );

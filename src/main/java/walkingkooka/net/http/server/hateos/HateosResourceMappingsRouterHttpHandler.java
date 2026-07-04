@@ -27,13 +27,13 @@ import java.util.function.BiConsumer;
 /**
  * A {@link BiConsumer} which examines the request and then dispatches to the selected {@link HateosResourceHandler}.
  */
-final class HateosResourceMappingsRouterHttpHandler<C extends HateosResourceHandlerContext> implements HttpHandler<C> {
+final class HateosResourceMappingsRouterHttpHandler<C extends HateosHandlerContext> implements HttpHandler<C> {
 
     /**
      * Factory called by {@link HateosResourceMappingsRouter#route}
      */
-    static <C extends HateosResourceHandlerContext> HateosResourceMappingsRouterHttpHandler<C> with(final HateosResourceMappingsRouter<C> router,
-                                                                                                    final C context) {
+    static <C extends HateosHandlerContext> HateosResourceMappingsRouterHttpHandler<C> with(final HateosResourceMappingsRouter<C> router,
+                                                                                            final C context) {
         return new HateosResourceMappingsRouterHttpHandler<>(
             router,
             context

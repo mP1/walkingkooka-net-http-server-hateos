@@ -21,12 +21,12 @@ import walkingkooka.text.HasIndentationTesting;
 import walkingkooka.text.HasLineEndingTesting;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting;
 
-public interface HateosResourceHandlerContextTesting<C extends HateosResourceHandlerContext> extends JsonNodeMarshallUnmarshallContextTesting<C>,
+public interface HateosHandlerContextTesting<C extends HateosHandlerContext> extends JsonNodeMarshallUnmarshallContextTesting<C>,
     HasIndentationTesting,
     HasLineEndingTesting {
 
     @Override
     default String typeNameSuffix() {
-        return HateosResourceHandlerContext.class.getSimpleName();
+        return HateosHandlerContext.class.getSimpleName();
     }
 }

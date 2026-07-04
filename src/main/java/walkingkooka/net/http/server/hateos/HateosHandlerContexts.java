@@ -23,17 +23,17 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 
 /**
- * A collection of factory methods to create a {@link HateosResourceHandlerContext}
+ * A collection of factory methods to create a {@link HateosHandlerContext}
  */
-public final class HateosResourceHandlerContexts implements PublicStaticHelper {
+public final class HateosHandlerContexts implements PublicStaticHelper {
 
     /**
-     * {@see BasicHateosResourceHandlerContext}
+     * {@see BasicHateosHandlerContext}
      */
-    public static HateosResourceHandlerContext basic(final Indentation indentation,
-                                                     final LineEnding lineEnding,
-                                                     final JsonNodeMarshallUnmarshallContext context) {
-        return BasicHateosResourceHandlerContext.with(
+    public static HateosHandlerContext basic(final Indentation indentation,
+                                             final LineEnding lineEnding,
+                                             final JsonNodeMarshallUnmarshallContext context) {
+        return BasicHateosHandlerContext.with(
             indentation,
             lineEnding,
             context
@@ -41,16 +41,16 @@ public final class HateosResourceHandlerContexts implements PublicStaticHelper {
     }
 
     /**
-     * {@see FakeHateosResourceHandlerContext}
+     * {@see FakeHateosHandlerContext}
      */
-    public static HateosResourceHandlerContext fake() {
-        return new FakeHateosResourceHandlerContext();
+    public static HateosHandlerContext fake() {
+        return new FakeHateosHandlerContext();
     }
 
     /**
      * Stop creation
      */
-    private HateosResourceHandlerContexts() {
+    private HateosHandlerContexts() {
         throw new UnsupportedOperationException();
     }
 }

@@ -36,11 +36,11 @@ import java.util.Set;
  * A {@link Router} that dispatches to the given {@link HateosResourceMappings mappings}.
  * Note that any exceptions that are thrown, will have their stack trace in the response body with content-type=text/plain
  */
-final class HateosResourceMappingsRouter<C extends HateosResourceHandlerContext> implements Router<HttpRequestAttribute<?>, HttpHandler<C>> {
+final class HateosResourceMappingsRouter<C extends HateosHandlerContext> implements Router<HttpRequestAttribute<?>, HttpHandler<C>> {
 
-    static <C extends HateosResourceHandlerContext> HateosResourceMappingsRouter<C> with(final UrlPath base,
-                                                                                         final Set<HateosResourceMappings<?, ?, ?, ?, C>> mappings,
-                                                                                         final C context) {
+    static <C extends HateosHandlerContext> HateosResourceMappingsRouter<C> with(final UrlPath base,
+                                                                                 final Set<HateosResourceMappings<?, ?, ?, ?, C>> mappings,
+                                                                                 final C context) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(mappings, "mappings");
         Objects.requireNonNull(context, "context");

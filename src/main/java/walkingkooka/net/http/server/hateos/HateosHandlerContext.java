@@ -35,7 +35,7 @@ import java.util.Objects;
 /**
  * {@link Context} that accompanies all {@link HateosResourceHandler methods}.
  */
-public interface HateosResourceHandlerContext extends HttpHandlerContext,
+public interface HateosHandlerContext extends HttpHandlerContext,
     JsonNodeMarshallUnmarshallContext,
     HasIndentation,
     HasLineEnding {
@@ -73,8 +73,8 @@ public interface HateosResourceHandlerContext extends HttpHandlerContext,
     }
 
     @Override
-    HateosResourceHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor);
+    HateosHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor);
 
     @Override
-    HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor);
+    HateosHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor);
 }

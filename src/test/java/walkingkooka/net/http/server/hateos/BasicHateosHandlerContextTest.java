@@ -34,8 +34,8 @@ import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class BasicHateosResourceHandlerContextTest implements HateosResourceHandlerContextTesting<BasicHateosResourceHandlerContext>,
-    ToStringTesting<BasicHateosResourceHandlerContext> {
+public final class BasicHateosHandlerContextTest implements HateosHandlerContextTesting<BasicHateosHandlerContext>,
+    ToStringTesting<BasicHateosHandlerContext> {
 
     private final static Indentation INDENTATION = Indentation.SPACES2;
 
@@ -57,7 +57,7 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     public void testWithNullIndentationFails() {
         assertThrows(
             NullPointerException.class,
-            () -> BasicHateosResourceHandlerContext.with(
+            () -> BasicHateosHandlerContext.with(
                 null,
                 LINE_ENDING,
                 CONTEXT
@@ -69,7 +69,7 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     public void testWithNullLineEndingFails() {
         assertThrows(
             NullPointerException.class,
-            () -> BasicHateosResourceHandlerContext.with(
+            () -> BasicHateosHandlerContext.with(
                 INDENTATION,
                 null,
                 CONTEXT
@@ -81,7 +81,7 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     public void testWithNullContextFails() {
         assertThrows(
             NullPointerException.class,
-            () -> BasicHateosResourceHandlerContext.with(
+            () -> BasicHateosHandlerContext.with(
                 INDENTATION,
                 LINE_ENDING,
                 null
@@ -90,8 +90,8 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     }
 
     @Override
-    public BasicHateosResourceHandlerContext createContext() {
-        return BasicHateosResourceHandlerContext.with(
+    public BasicHateosHandlerContext createContext() {
+        return BasicHateosHandlerContext.with(
             INDENTATION,
             LINE_ENDING,
             CONTEXT
@@ -111,7 +111,7 @@ public final class BasicHateosResourceHandlerContextTest implements HateosResour
     // class............................................................................................................
 
     @Override
-    public Class<BasicHateosResourceHandlerContext> type() {
-        return BasicHateosResourceHandlerContext.class;
+    public Class<BasicHateosHandlerContext> type() {
+        return BasicHateosHandlerContext.class;
     }
 }

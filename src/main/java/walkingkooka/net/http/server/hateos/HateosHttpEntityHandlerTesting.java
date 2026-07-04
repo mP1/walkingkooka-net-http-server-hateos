@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandler<I, X>,
     I extends Comparable<I>,
-    X extends HateosResourceHandlerContext>
+    X extends HateosHandlerContext>
     extends ClassTesting2<H>,
     TreePrintableTesting,
     TypeNameTesting<H> {

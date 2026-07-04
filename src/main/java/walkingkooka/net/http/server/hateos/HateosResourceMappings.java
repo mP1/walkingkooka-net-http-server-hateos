@@ -58,7 +58,7 @@ import java.util.function.BiFunction;
  * <li>{@link HttpStatusCode#NOT_IMPLEMENTED} - The handler throws an {@link UnsupportedOperationException}</li>
  * </ul>
  */
-public final class HateosResourceMappings<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext>
+public final class HateosResourceMappings<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext>
     implements TreePrintable {
 
     /**
@@ -70,7 +70,7 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
     /**
      * Creates a new {@link HateosResourceMappings}
      */
-    public static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappings<I, V, C, H, X> with(
+    public static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> HateosResourceMappings<I, V, C, H, X> with(
         final HateosResourceName resourceName,
         final BiFunction<String, X, HateosResourceSelection<I>> selection,
         final Class<V> valueType,
@@ -261,9 +261,9 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
     /**
      * Creates a {@link Router} from the provided {@link HateosResourceMappings mappings}.
      */
-    public static <X extends HateosResourceHandlerContext> Router<HttpRequestAttribute<?>, HttpHandler<X>> router(final UrlPath base,
-                                                                                                                  final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
-                                                                                                                  final X context) {
+    public static <X extends HateosHandlerContext> Router<HttpRequestAttribute<?>, HttpHandler<X>> router(final UrlPath base,
+                                                                                                          final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
+                                                                                                          final X context) {
         return HateosResourceMappingsRouter.with(
             base,
             mappings,
@@ -281,8 +281,8 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosResourceHandler#handleNone(Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
-     * <li>{@link HateosResourceHandler#handleOne(Comparable, Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleNone(Optional, Map, UrlPath, HateosHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleOne(Comparable, Optional, Map, UrlPath, HateosHandlerContext)},</li>
      * </ol>
      */
     final Class<V> valueType;
@@ -290,9 +290,9 @@ public final class HateosResourceMappings<I extends Comparable<I>, V, C, H exten
     /**
      * The type used to marshall the resource for
      * <ol>
-     * <li>{@link HateosResourceHandler#handleMany(Set, Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
-     * <li>{@link HateosResourceHandler#handleRange(Range, Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
-     * <li>{@link HateosResourceHandler#handleAll(Optional, Map, UrlPath, HateosResourceHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleMany(Set, Optional, Map, UrlPath, HateosHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleRange(Range, Optional, Map, UrlPath, HateosHandlerContext)},</li>
+     * <li>{@link HateosResourceHandler#handleAll(Optional, Map, UrlPath, HateosHandlerContext)},</li>
      * </ol>
      */
     final Class<C> collectionType;

@@ -43,7 +43,7 @@ final class HateosResourceSelectionRange<I extends Comparable<I>> extends Hateos
                                              final HttpEntity entity,
                                              final Map<HttpRequestAttribute<?>, Object> parameters,
                                              final UrlPath path,
-                                             final HateosResourceHandlerContext context) {
+                                             final HateosHandlerContext context) {
         return handler.handleRange(
             this.value(),
             entity,
@@ -58,7 +58,7 @@ final class HateosResourceSelectionRange<I extends Comparable<I>> extends Hateos
                                             final Optional<?> resource,
                                             final Map<HttpRequestAttribute<?>, Object> parameters,
                                             final UrlPath path,
-                                            final HateosResourceHandlerContext context) {
+                                            final HateosHandlerContext context) {
         return handler.handleRange(
             this.value(),
             Cast.to(resource),

@@ -38,7 +38,7 @@ public interface HateosResourceHandlerTesting<H extends HateosResourceHandler<I,
     I extends Comparable<I>,
     V,
     C,
-    X extends HateosResourceHandlerContext>
+    X extends HateosHandlerContext>
     extends ClassTesting2<H>,
     TreePrintableTesting,
     TypeNameTesting<H> {

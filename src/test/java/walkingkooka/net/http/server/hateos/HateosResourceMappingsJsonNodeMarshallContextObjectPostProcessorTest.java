@@ -29,7 +29,7 @@ import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.FakeHttpHandler;
-import walkingkooka.net.http.server.hateos.HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest.TestHateosResourceHandlerContext;
+import walkingkooka.net.http.server.hateos.HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest.TestHateosHandlerContext;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessorTesting;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
@@ -38,8 +38,8 @@ import java.math.BigInteger;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest extends HateosResourceMappingsTestCase<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosResourceHandlerContext>>
-    implements JsonNodeMarshallContextObjectPostProcessorTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosResourceHandlerContext>> {
+public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest extends HateosResourceMappingsTestCase<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosHandlerContext>>
+    implements JsonNodeMarshallContextObjectPostProcessorTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosHandlerContext>> {
 
     // apply............................................................................................................
 
@@ -98,11 +98,11 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
     // BiFunction.......................................................................................................
 
     @Override
-    public HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosResourceHandlerContext> createBiFunction() {
+    public HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosHandlerContext> createBiFunction() {
         return HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor.with(
             this.baseUrl(),
             this.mappings(),
-            new TestHateosResourceHandlerContext()
+            new TestHateosHandlerContext()
         );
     }
 
@@ -118,28 +118,28 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
         return HateosResourceName.with("resource-2");
     }
 
-    private Set<HateosResourceMappings<?, ?, ?, ?, TestHateosResourceHandlerContext>> mappings() {
+    private Set<HateosResourceMappings<?, ?, ?, ?, TestHateosHandlerContext>> mappings() {
         final HateosResourceName resourceName1 = this.resourceName1();
         final HateosResourceName resourceName2 = this.resourceName2();
 
-        final HateosResourceMappings<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosResourceHandlerContext> mappings1 = HateosResourceMappings.with(
+        final HateosResourceMappings<BigInteger, TestResource, TestResource, TestHateosResource, TestHateosHandlerContext> mappings1 = HateosResourceMappings.with(
                 resourceName1,
                 this.selectionParser(),
                 TestResource.class,
                 TestResource.class,
                 TestHateosResource.class,
-                TestHateosResourceHandlerContext.class
+                TestHateosHandlerContext.class
             ).setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.GET, new FakeHateosResourceHandler<>())
             .setHateosResourceHandler(LinkRelation.CONTENTS, HttpMethod.POST, new FakeHateosResourceHandler<>())
             .setHateosResourceHandler(LinkRelation.SELF, HttpMethod.POST, new FakeHateosResourceHandler<>());
 
-        final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource2, TestHateosResourceHandlerContext> mappings2 = HateosResourceMappings.with(
+        final HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource2, TestHateosHandlerContext> mappings2 = HateosResourceMappings.with(
             resourceName2,
             this.selectionParser(),
             TestResource.class,
             TestResource2.class,
             TestHateosResource2.class,
-            TestHateosResourceHandlerContext.class
+            TestHateosHandlerContext.class
         ).setHateosResourceHandler(
             LinkRelation.ABOUT,
             HttpMethod.PUT,
@@ -155,13 +155,13 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
         );
     }
 
-    private BiFunction<String, TestHateosResourceHandlerContext, HateosResourceSelection<BigInteger>> selectionParser() {
+    private BiFunction<String, TestHateosHandlerContext, HateosResourceSelection<BigInteger>> selectionParser() {
         return (s, x) -> HateosResourceSelection.one(
             new BigInteger(s)
         );
     }
 
-    static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
+    static class TestHateosHandlerContext extends FakeHateosHandlerContext {
 
         @Override
         public MediaType contentType() {
@@ -178,7 +178,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
     // ClassTesting.....................................................................................................
 
     @Override
-    public Class<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosResourceHandlerContext>> type() {
+    public Class<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<TestHateosHandlerContext>> type() {
         return Cast.to(HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor.class);
     }
 

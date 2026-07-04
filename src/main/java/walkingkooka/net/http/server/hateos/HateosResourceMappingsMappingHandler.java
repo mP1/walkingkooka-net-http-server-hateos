@@ -23,12 +23,12 @@ import walkingkooka.net.http.server.HttpHandler;
 /**
  * A simple wrapper to hold either a {@link HateosHttpEntityHandler} or {@link HateosResourceHandler}
  */
-abstract class HateosResourceMappingsMappingHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> {
+abstract class HateosResourceMappingsMappingHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> {
 
     /**
      * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
      */
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHateosHttpEntityHandler<I, V, C, H, X> hateosHttpEntityHandler(final HateosHttpEntityHandler<I, X> handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> HateosResourceMappingsMappingHandlerHateosHttpEntityHandler<I, V, C, H, X> hateosHttpEntityHandler(final HateosHttpEntityHandler<I, X> handler) {
         return HateosResourceMappingsMappingHandlerHateosHttpEntityHandler.with(handler);
     }
 
@@ -36,14 +36,14 @@ abstract class HateosResourceMappingsMappingHandler<I extends Comparable<I>, V, 
     /**
      * {see HateosResourceMappingsMappingHandlerHateosResourceHandler}
      */
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHateosResourceHandler<I, V, C, H, X> hateosResourceHandler(final HateosResourceHandler<I, V, C, X> handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> HateosResourceMappingsMappingHandlerHateosResourceHandler<I, V, C, H, X> hateosResourceHandler(final HateosResourceHandler<I, V, C, X> handler) {
         return HateosResourceMappingsMappingHandlerHateosResourceHandler.with(handler);
     }
 
     /**
      * {@see HateosResourceMappingsMappingHandlerHttpHandler}
      */
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> httpHandler(final HttpHandler<X> handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> httpHandler(final HttpHandler<X> handler) {
         return HateosResourceMappingsMappingHandlerHttpHandler.with(handler);
     }
 

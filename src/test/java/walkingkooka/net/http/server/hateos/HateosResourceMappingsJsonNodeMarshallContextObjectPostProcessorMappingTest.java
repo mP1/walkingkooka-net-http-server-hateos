@@ -165,7 +165,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 JsonNode.parse(before)
                     .objectOrFail(),
                 Url.parseAbsolute("https://example.com/api"),
-                new FakeHateosResourceHandlerContext() {
+                new FakeHateosHandlerContext() {
 
                     @Override
                     public MediaType contentType() {

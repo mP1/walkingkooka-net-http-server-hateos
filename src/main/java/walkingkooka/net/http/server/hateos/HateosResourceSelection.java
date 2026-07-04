@@ -141,13 +141,13 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
                                                       final HttpEntity entity,
                                                       final Map<HttpRequestAttribute<?>, Object> parameters,
                                                       final UrlPath path,
-                                                      final HateosResourceHandlerContext context);
+                                                      final HateosHandlerContext context);
 
     abstract Optional<?> handleHateosResourceHandler(final HateosResourceHandler<I, ?, ?, ?> handler,
                                                      final Optional<?> resource,
                                                      final Map<HttpRequestAttribute<?>, Object> parameters,
                                                      final UrlPath path,
-                                                     final HateosResourceHandlerContext context);
+                                                     final HateosHandlerContext context);
 
     @Override
     abstract public String toString();

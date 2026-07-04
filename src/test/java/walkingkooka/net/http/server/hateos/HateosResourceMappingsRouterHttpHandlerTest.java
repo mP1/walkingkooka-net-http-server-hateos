@@ -24,32 +24,32 @@ import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.HttpHandlerTesting;
 
-public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>>
-    implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>, HateosResourceHandlerContext> {
+public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandler<HateosHandlerContext>>
+    implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler<HateosHandlerContext>, HateosHandlerContext> {
     @Override
-    public HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext> createHttpHandler() {
+    public HateosResourceMappingsRouterHttpHandler<HateosHandlerContext> createHttpHandler() {
         return HateosResourceMappingsRouterHttpHandler.with(
             HateosResourceMappingsRouter.with(
                 UrlPath.ROOT,
                 Sets.empty(),
-                HateosResourceHandlerContexts.fake()
+                HateosHandlerContexts.fake()
             ),
-            HateosResourceHandlerContexts.fake()
+            HateosHandlerContexts.fake()
         );
     }
 
     @Override
-    public HateosResourceHandlerContext createContext() {
-        return HateosResourceHandlerContexts.fake();
+    public HateosHandlerContext createContext() {
+        return HateosHandlerContexts.fake();
     }
 
     // toString.........................................................................................................
 
     @Test
     public void testToString() {
-        final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
+        final HateosHandlerContext context = HateosHandlerContexts.fake();
 
-        final HateosResourceMappingsRouter<HateosResourceHandlerContext> router = HateosResourceMappingsRouter.with(
+        final HateosResourceMappingsRouter<HateosHandlerContext> router = HateosResourceMappingsRouter.with(
             UrlPath.ROOT,
             Sets.empty(),
             context
@@ -67,7 +67,7 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingsRouterHttpHandler<HateosResourceHandlerContext>> type() {
+    public Class<HateosResourceMappingsRouterHttpHandler<HateosHandlerContext>> type() {
         return Cast.to(HateosResourceMappingsRouterHttpHandler.class);
     }
 

@@ -23,7 +23,7 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.Map;
 
-public interface UnsupportedHateosHttpEntityHandlerHandleNone<I extends Comparable<I>, X extends HateosResourceHandlerContext> extends HateosHttpEntityHandler<I, X> {
+public interface UnsupportedHateosHttpEntityHandlerHandleNone<I extends Comparable<I>, X extends HateosHandlerContext> extends HateosHttpEntityHandler<I, X> {
 
     @Override
     default HttpEntity handleNone(final HttpEntity entity,

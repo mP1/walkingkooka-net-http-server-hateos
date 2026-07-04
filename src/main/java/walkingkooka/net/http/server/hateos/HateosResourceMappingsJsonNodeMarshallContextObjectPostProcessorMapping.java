@@ -59,7 +59,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
     JsonObject addLinks(final HateosResource<?> resource,
                         final JsonObject object,
                         final AbsoluteUrl base,
-                        final HateosResourceHandlerContext context) {
+                        final HateosHandlerContext context) {
         // base + resource name.
         final UrlPath pathAndResourceNameAndId = base.path()
             .append(this.name.toUrlPathName())
