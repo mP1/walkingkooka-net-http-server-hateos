@@ -39,7 +39,7 @@ final class HateosResourceMappingsMappingHandlerHateosResourceHandler<I extends 
                 final HateosResourceMappings<I, V, C, H, X> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
-                final HateosResourceHandlerContext context) {
+                final X context) {
         request.handleHateosResourceHandler(
             this.handler,
             mappings,

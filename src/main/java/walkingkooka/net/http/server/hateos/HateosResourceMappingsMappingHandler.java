@@ -43,7 +43,7 @@ abstract class HateosResourceMappingsMappingHandler<I extends Comparable<I>, V, 
     /**
      * {@see HateosResourceMappingsMappingHandlerHttpHandler}
      */
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> httpHandler(final HttpHandler handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> httpHandler(final HttpHandler<X> handler) {
         return HateosResourceMappingsMappingHandlerHttpHandler.with(handler);
     }
 
@@ -55,7 +55,7 @@ abstract class HateosResourceMappingsMappingHandler<I extends Comparable<I>, V, 
                          final HateosResourceMappings<I, V, C, H, X> mappings,
                          final HateosResourceSelection<?> selection,
                          final UrlPath path,
-                         final HateosResourceHandlerContext context);
+                         final X context);
 
     // Object...........................................................................................................
 
