@@ -21,6 +21,7 @@ import walkingkooka.Context;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.server.HttpHandlerContext;
+import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.JsonNode;
@@ -34,7 +35,8 @@ import java.util.Objects;
  * {@link Context} that accompanies all {@link HateosResourceHandler methods}.
  */
 public interface HateosResourceHandlerContext extends HttpHandlerContext,
-    JsonNodeMarshallUnmarshallContext {
+    JsonNodeMarshallUnmarshallContext,
+    HasLineEnding {
 
     /**
      * The default {@link MediaType}.
@@ -52,6 +54,7 @@ public interface HateosResourceHandlerContext extends HttpHandlerContext,
     /**
      * Line ending used when printing JSON into text.
      */
+    @Override
     LineEnding lineEnding();
 
     /**
