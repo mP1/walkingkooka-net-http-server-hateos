@@ -38,9 +38,9 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
+import walkingkooka.net.http.server.hateos.FakeHateosHandlerContext;
 import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.net.http.server.hateos.FakeHateosResourceHandler;
-import walkingkooka.net.http.server.hateos.FakeHateosResourceHandlerContext;
 import walkingkooka.net.http.server.hateos.HateosResourceMappings;
 import walkingkooka.net.http.server.hateos.HateosResourceName;
 import walkingkooka.net.http.server.hateos.HateosResourceSelection;
@@ -90,7 +90,7 @@ public class Sample {
 
     @Test
     public void testNewHateosHandler() {
-        new FakeHateosResourceHandler<String, String, Collection<String>, TestHateosResourceHandlerContext>() {
+        new FakeHateosResourceHandler<String, String, Collection<String>, TestHateosHandlerContext>() {
         };
     }
 
@@ -102,7 +102,7 @@ public class Sample {
 
     @Test
     public void testHateosResourceMapping() {
-        final HateosResourceMappings<BigInteger, TestResource3, TestResource3, TestHateosResource3, TestHateosResourceHandlerContext> mapping = HateosResourceMappings.with(
+        final HateosResourceMappings<BigInteger, TestResource3, TestResource3, TestHateosResource3, TestHateosHandlerContext> mapping = HateosResourceMappings.with(
             HateosResourceName.with("resource1"),
             (s, x) -> {
                 return HateosResourceSelection.one(
@@ -117,7 +117,7 @@ public class Sample {
             TestResource3.class,
             TestResource3.class,
             TestHateosResource3.class,
-            TestHateosResourceHandlerContext.class
+            TestHateosHandlerContext.class
         ).setHateosResourceHandler(
             LinkRelation.CONTENTS,
             HttpMethod.POST,
@@ -127,7 +127,7 @@ public class Sample {
                                                          final Optional<TestResource3> resource,
                                                          final Map<HttpRequestAttribute<?>, Object> parameters,
                                                          final UrlPath path,
-                                                         final TestHateosResourceHandlerContext context) {
+                                                         final TestHateosHandlerContext context) {
                     return Optional.of(
                         TestResource3.with(
                             TestHateosResource3.with(
@@ -139,9 +139,9 @@ public class Sample {
             }
         );
 
-        final TestHateosResourceHandlerContext context = new TestHateosResourceHandlerContext();
+        final TestHateosHandlerContext context = new TestHateosHandlerContext();
 
-        final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>> router = HateosResourceMappings.router(
+        final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>> router = HateosResourceMappings.router(
             UrlPath.parse("/api"),
             Sets.of(mapping),
             context
@@ -172,8 +172,8 @@ public class Sample {
             @Override
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(
-                    HttpHeaderName.CONTENT_TYPE, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE),
-                    HttpHeaderName.ACCEPT, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE.accept()),
+                    HttpHeaderName.CONTENT_TYPE, Lists.of(TestHateosHandlerContext.CONTENT_TYPE),
+                    HttpHeaderName.ACCEPT, Lists.of(TestHateosHandlerContext.CONTENT_TYPE.accept()),
                     HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
                 );
             }
@@ -198,7 +198,7 @@ public class Sample {
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final HttpHandler<TestHateosResourceHandlerContext> httpHandler = router.route(request.routerParameters())
+        final HttpHandler<TestHateosHandlerContext> httpHandler = router.route(request.routerParameters())
             .orElseThrow(() -> new Error("Unable to route"));
 
         final HttpResponse response = HttpResponses.recording();
@@ -219,7 +219,7 @@ public class Sample {
         );
     }
 
-    static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
+    static class TestHateosHandlerContext extends FakeHateosHandlerContext {
 
         final static MediaType CONTENT_TYPE = MediaType.parse("application/test-json");
 

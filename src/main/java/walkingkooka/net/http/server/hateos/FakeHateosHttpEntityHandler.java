@@ -25,7 +25,7 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import java.util.Map;
 import java.util.Set;
 
-public class FakeHateosHttpEntityHandler<I extends Comparable<I>, X extends HateosResourceHandlerContext> implements HateosHttpEntityHandler<I, X> {
+public class FakeHateosHttpEntityHandler<I extends Comparable<I>, X extends HateosHandlerContext> implements HateosHttpEntityHandler<I, X> {
     @Override
     public HttpEntity handleAll(final HttpEntity entity,
                                 final Map<HttpRequestAttribute<?>, Object> parameters,

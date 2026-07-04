@@ -33,11 +33,11 @@ import java.util.Set;
 /**
  * A {@link JsonNodeMarshallContextObjectPostProcessor} that adds links for types, and can be used by {@link JsonNodeMarshallContexts#basic}
  */
-final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<X extends HateosResourceHandlerContext> implements JsonNodeMarshallContextObjectPostProcessor {
+final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<X extends HateosHandlerContext> implements JsonNodeMarshallContextObjectPostProcessor {
 
-    static <X extends HateosResourceHandlerContext> HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<X> with(final AbsoluteUrl base,
-                                                                                                                             final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
-                                                                                                                             final HateosResourceHandlerContext context) {
+    static <X extends HateosHandlerContext> HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<X> with(final AbsoluteUrl base,
+                                                                                                                     final Set<HateosResourceMappings<?, ?, ?, ?, X>> mappings,
+                                                                                                                     final HateosHandlerContext context) {
         final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings = Maps.ordered();
 
         for (final HateosResourceMappings<?, ?, ?, ?, X> mapping : mappings) {
@@ -72,7 +72,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<X e
 
     private HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor(final AbsoluteUrl base,
                                                                              final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings,
-                                                                             final HateosResourceHandlerContext context) {
+                                                                             final HateosHandlerContext context) {
         super();
         this.base = base;
         this.typeToMappings = typeToMappings;
@@ -100,7 +100,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessor<X e
 
     private final Map<String, HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> typeToMappings;
     private final AbsoluteUrl base;
-    private final HateosResourceHandlerContext context;
+    private final HateosHandlerContext context;
 
     @Override
     public String toString() {

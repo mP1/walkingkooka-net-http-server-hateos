@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * A {@link HateosResourceHandler} where all methods throw {@link UnsupportedOperationException}.
  */
-public class FakeHateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> implements HateosResourceHandler<I, V, C, X>, Fake {
+public class FakeHateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosHandlerContext> implements HateosResourceHandler<I, V, C, X>, Fake {
 
     @Override
     public Optional<C> handleAll(final Optional<C> resource,

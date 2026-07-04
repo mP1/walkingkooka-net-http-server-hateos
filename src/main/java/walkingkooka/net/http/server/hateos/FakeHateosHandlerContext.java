@@ -37,7 +37,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-public class FakeHateosResourceHandlerContext extends FakeJsonNodeMarshallContext implements HateosResourceHandlerContext {
+public class FakeHateosHandlerContext extends FakeJsonNodeMarshallContext implements HateosHandlerContext {
     @Override
     public MediaType contentType() {
         throw new UnsupportedOperationException();
@@ -56,14 +56,14 @@ public class FakeHateosResourceHandlerContext extends FakeJsonNodeMarshallContex
     // JsonNodeMarshallContext..........................................................................................
 
     @Override
-    public HateosResourceHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
+    public HateosHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
         throw new UnsupportedOperationException();
     }
 
     // JsonNodeUnmarshallContext........................................................................................
 
     @Override
-    public HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {
+    public HateosHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {
         throw new UnsupportedOperationException();
     }
 

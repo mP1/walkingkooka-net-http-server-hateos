@@ -38,14 +38,14 @@ import java.util.Objects;
 /**
  * A mapping for a single {@link UrlPathName}
  */
-final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext>
+final class HateosResourceMappingsMapping<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext>
     implements TreePrintable {
 
     /**
      * {@see HateosResourceMappingsMappingHandlerHateosHttpEntityHandler}
      */
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMapping<I, V, C, H, X> empty(final LinkRelation<?> linkRelation,
-                                                                                                                                                                   final HttpHandler<X> httpHandler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> HateosResourceMappingsMapping<I, V, C, H, X> empty(final LinkRelation<?> linkRelation,
+                                                                                                                                                           final HttpHandler<X> httpHandler) {
         return new HateosResourceMappingsMapping<>(
             linkRelation,
             null, // Map<HttpMethod, HateosResourceMappingsMappingHandler<?>>

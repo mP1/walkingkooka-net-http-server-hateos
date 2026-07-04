@@ -21,9 +21,9 @@ import walkingkooka.net.UrlPath;
 
 import java.util.Objects;
 
-final class HateosResourceMappingsMappingHandlerHateosResourceHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> extends HateosResourceMappingsMappingHandler<I, V, C, H, X> {
+final class HateosResourceMappingsMappingHandlerHateosResourceHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> extends HateosResourceMappingsMappingHandler<I, V, C, H, X> {
 
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHateosResourceHandler<I, V, C, H, X> with(final HateosResourceHandler<I, V, C, X> handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosHandlerContext> HateosResourceMappingsMappingHandlerHateosResourceHandler<I, V, C, H, X> with(final HateosResourceHandler<I, V, C, X> handler) {
         return new HateosResourceMappingsMappingHandlerHateosResourceHandler<>(
             Objects.requireNonNull(handler, "handler")
         );

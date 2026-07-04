@@ -27,22 +27,22 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
 import java.util.Objects;
 
-final class BasicHateosResourceHandlerContext implements HateosResourceHandlerContext,
+final class BasicHateosHandlerContext implements HateosHandlerContext,
     JsonNodeMarshallUnmarshallContextDelegator {
 
-    static BasicHateosResourceHandlerContext with(final Indentation indentation,
-                                                  final LineEnding lineEnding,
-                                                  final JsonNodeMarshallUnmarshallContext context) {
-        return new BasicHateosResourceHandlerContext(
+    static BasicHateosHandlerContext with(final Indentation indentation,
+                                          final LineEnding lineEnding,
+                                          final JsonNodeMarshallUnmarshallContext context) {
+        return new BasicHateosHandlerContext(
             Objects.requireNonNull(indentation, "indentation"),
             Objects.requireNonNull(lineEnding, "lineEnding"),
             Objects.requireNonNull(context, "context")
         );
     }
 
-    private BasicHateosResourceHandlerContext(final Indentation indentation,
-                                              final LineEnding lineEnding,
-                                              final JsonNodeMarshallUnmarshallContext context) {
+    private BasicHateosHandlerContext(final Indentation indentation,
+                                      final LineEnding lineEnding,
+                                      final JsonNodeMarshallUnmarshallContext context) {
         this.indentation = indentation;
         this.lineEnding = lineEnding;
         this.context = context;
@@ -70,13 +70,13 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
     // JsonNodeMarshallUnmarshallContext................................................................................
 
     @Override
-    public HateosResourceHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
+    public HateosHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
         final JsonNodeMarshallUnmarshallContext before = this.context;
         final JsonNodeMarshallUnmarshallContext after = before.setObjectPostProcessor(processor);
 
         return before.equals(after) ?
             this :
-            new BasicHateosResourceHandlerContext(
+            new BasicHateosHandlerContext(
                 this.indentation,
                 this.lineEnding,
                 after
@@ -84,13 +84,13 @@ final class BasicHateosResourceHandlerContext implements HateosResourceHandlerCo
     }
 
     @Override
-    public HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {
+    public HateosHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {
         final JsonNodeMarshallUnmarshallContext before = this.context;
         final JsonNodeMarshallUnmarshallContext after = before.setPreProcessor(processor);
 
         return before.equals(after) ?
             this :
-            new BasicHateosResourceHandlerContext(
+            new BasicHateosHandlerContext(
                 this.indentation,
                 this.lineEnding,
                 after

@@ -33,7 +33,7 @@ import java.util.Set;
  * Note that 2xx responses, especially {@link walkingkooka.net.http.HttpStatusCode#OK} and {@link walkingkooka.net.http.HttpStatusCode#NO_CONTENT},
  * response should always contain {@link HateosResourceMappings#X_CONTENT_TYPE_NAME}, which is used by the client to dispatch watcher events.
  */
-public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> {
+public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosHandlerContext> {
 
     /**
      * An empty {@link Map} with no parameters.
@@ -174,9 +174,9 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
     }
 
     /**
-     * Requires a {@link HateosResourceHandlerContext} to be present.
+     * Requires a {@link HateosHandlerContext} to be present.
      */
-    static <X extends HateosResourceHandlerContext> X checkContext(final X context) {
+    static <X extends HateosHandlerContext> X checkContext(final X context) {
         return Objects.requireNonNull(context, "context");
     }
 }

@@ -20,7 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.currency.CurrencyContexts;
 import walkingkooka.locale.LocaleContexts;
-import walkingkooka.net.http.server.hateos.HateosResourceHandlerContextDelegatorTest.TestHateosResourceHandlerContextDelegator;
+import walkingkooka.net.http.server.hateos.HateosHandlerContextDelegatorTest.TestHateosResourceHandlerContextDelegator;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
@@ -33,7 +33,7 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
 import java.math.MathContext;
 import java.util.Locale;
 
-public final class HateosResourceHandlerContextDelegatorTest implements HateosResourceHandlerContextTesting<TestHateosResourceHandlerContextDelegator> {
+public final class HateosHandlerContextDelegatorTest implements HateosHandlerContextTesting<TestHateosResourceHandlerContextDelegator> {
 
     private final static Indentation INDENTATION = Indentation.SPACES2;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
@@ -99,21 +99,21 @@ public final class HateosResourceHandlerContextDelegatorTest implements HateosRe
         return TestHateosResourceHandlerContextDelegator.class;
     }
 
-    static final class TestHateosResourceHandlerContextDelegator implements HateosResourceHandlerContextDelegator {
+    static final class TestHateosResourceHandlerContextDelegator implements HateosHandlerContextDelegator {
 
         @Override
-        public HateosResourceHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
+        public HateosHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public HateosResourceHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {
+        public HateosHandlerContext setPreProcessor(final JsonNodeUnmarshallContextPreProcessor processor) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public HateosResourceHandlerContext hateosResourceHandlerContext() {
-            return BasicHateosResourceHandlerContext.with(
+        public HateosHandlerContext hateosResourceHandlerContext() {
+            return BasicHateosHandlerContext.with(
                 INDENTATION,
                 LINE_ENDING,
                 JsonNodeMarshallUnmarshallContexts.basic(

@@ -38,7 +38,7 @@ import walkingkooka.net.http.server.HttpResponses;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 
-public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandlerRequest<HateosResourceHandlerContext>> {
+public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandlerRequest<HateosHandlerContext>> {
 
     @Test
     public void testDispatchSelectionExtractorExceptionWithNullMessage() {
@@ -76,7 +76,7 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
                                                           final String expected) {
         final HttpResponse response = HttpResponses.recording();
 
-        final HateosResourceHandlerContext context = new FakeHateosResourceHandlerContext() {
+        final HateosHandlerContext context = new FakeHateosHandlerContext() {
             @Override
             public MediaType contentType() {
                 return MediaType.APPLICATION_JSON;
@@ -106,13 +106,13 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
                 Sets.of(
                     HateosResourceMappings.with(
                         HateosResourceName.with("TestResource123"),
-                        (final String s, final HateosResourceHandlerContext x) -> {
+                        (final String s, final HateosHandlerContext x) -> {
                             throw new IllegalArgumentException(throwMessage);
                         },
                         TestResource.class,
                         TestResource.class,
                         TestHateosResource.class,
-                        HateosResourceHandlerContext.class
+                        HateosHandlerContext.class
                     ).setHateosResourceHandler(
                         LinkRelation.SELF,
                         HttpMethod.GET,
@@ -136,9 +136,9 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
 
     @Test
     public void testToString() {
-        final HateosResourceHandlerContext context = HateosResourceHandlerContexts.fake();
+        final HateosHandlerContext context = HateosHandlerContexts.fake();
 
-        final HateosResourceMappingsRouter<HateosResourceHandlerContext> router = HateosResourceMappingsRouter.with(
+        final HateosResourceMappingsRouter<HateosHandlerContext> router = HateosResourceMappingsRouter.with(
             UrlPath.ROOT,
             Sets.empty(),
             context
@@ -160,7 +160,7 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
     // ClassTesting......................................................................................................
 
     @Override
-    public Class<HateosResourceMappingsRouterHttpHandlerRequest<HateosResourceHandlerContext>> type() {
+    public Class<HateosResourceMappingsRouterHttpHandlerRequest<HateosHandlerContext>> type() {
         return Cast.to(HateosResourceMappingsRouterHttpHandlerRequest.class);
     }
 

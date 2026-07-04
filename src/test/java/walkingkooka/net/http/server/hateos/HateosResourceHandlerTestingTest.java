@@ -23,7 +23,7 @@ import walkingkooka.collect.Range;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpRequestAttribute;
-import walkingkooka.net.http.server.hateos.HateosResourceHandlerTestingTest.TestHateosResourceHandlerContext;
+import walkingkooka.net.http.server.hateos.HateosResourceHandlerTestingTest.TestHateosHandlerContext;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
@@ -33,19 +33,19 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-public final class HateosResourceHandlerTestingTest implements HateosResourceHandlerTesting<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosResourceHandlerContext>,
+public final class HateosResourceHandlerTestingTest implements HateosResourceHandlerTesting<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>,
     BigInteger,
     TestHateosResource,
     TestHateosResource2,
-    TestHateosResourceHandlerContext> {
+    TestHateosHandlerContext> {
 
     @Override
     public void testTestNaming() {
     }
 
-    private final static TestHateosResourceHandlerContext CONTEXT = new TestHateosResourceHandlerContext();
+    private final static TestHateosHandlerContext CONTEXT = new TestHateosHandlerContext();
 
-    static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
+    static class TestHateosHandlerContext extends FakeHateosHandlerContext {
 
     }
 
@@ -66,7 +66,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                 public Optional<TestHateosResource2> handleAll(final Optional<TestHateosResource2> r,
                                                                final Map<HttpRequestAttribute<?>, Object> p,
                                                                final UrlPath pp,
-                                                               final TestHateosResourceHandlerContext x) {
+                                                               final TestHateosHandlerContext x) {
                     assertSame(in, r);
                     assertSame(parameters, p);
                     assertSame(path, pp);
@@ -101,7 +101,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                                                                 final Optional<TestHateosResource2> r,
                                                                 final Map<HttpRequestAttribute<?>, Object> p,
                                                                 final UrlPath pp,
-                                                                final TestHateosResourceHandlerContext x) {
+                                                                final TestHateosHandlerContext x) {
                     assertSame(ids, i);
                     assertSame(in, r);
                     assertSame(parameters, p);
@@ -137,7 +137,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                 public Optional<TestHateosResource> handleNone(final Optional<TestHateosResource> r,
                                                                final Map<HttpRequestAttribute<?>, Object> p,
                                                                final UrlPath pp,
-                                                               final TestHateosResourceHandlerContext x) {
+                                                               final TestHateosHandlerContext x) {
                     assertSame(in, r);
                     assertSame(parameters, p);
                     assertSame(path, pp);
@@ -172,7 +172,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                                                               final Optional<TestHateosResource> r,
                                                               final Map<HttpRequestAttribute<?>, Object> p,
                                                               final UrlPath pp,
-                                                              final TestHateosResourceHandlerContext x) {
+                                                              final TestHateosHandlerContext x) {
                     assertSame(id, i);
                     assertSame(in, r);
                     assertSame(parameters, p);
@@ -209,7 +209,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
                                                                  final Optional<TestHateosResource2> r,
                                                                  final Map<HttpRequestAttribute<?>, Object> p,
                                                                  final UrlPath pp,
-                                                                 final TestHateosResourceHandlerContext x) {
+                                                                 final TestHateosHandlerContext x) {
                     assertSame(range, rr);
                     assertSame(in, r);
                     assertSame(parameters, p);
@@ -231,7 +231,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
     // helpers..........................................................................................................
 
     @Override
-    public FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosResourceHandlerContext> createHandler() {
+    public FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext> createHandler() {
         return new FakeHateosResourceHandler<>();
     }
 
@@ -275,12 +275,12 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
     }
 
     @Override
-    public TestHateosResourceHandlerContext context() {
-        return new TestHateosResourceHandlerContext();
+    public TestHateosHandlerContext context() {
+        return new TestHateosHandlerContext();
     }
 
     @Override
-    public Class<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosResourceHandlerContext>> type() {
+    public Class<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>> type() {
         return Cast.to(FakeHateosResourceHandler.class);
     }
 

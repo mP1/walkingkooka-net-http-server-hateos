@@ -25,9 +25,9 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * A {@link HateosResourceHandler#handleRange(Range, Optional, Map, UrlPath, HateosResourceHandlerContext)} that throws {@link UnsupportedOperationException}.
+ * A {@link HateosResourceHandler#handleRange(Range, Optional, Map, UrlPath, HateosHandlerContext)} that throws {@link UnsupportedOperationException}.
  */
-public interface UnsupportedHateosResourceHandlerHandleRange<I extends Comparable<I>, V, C, X extends HateosResourceHandlerContext> extends HateosResourceHandler<I, V, C, X> {
+public interface UnsupportedHateosResourceHandlerHandleRange<I extends Comparable<I>, V, C, X extends HateosHandlerContext> extends HateosResourceHandler<I, V, C, X> {
 
     @Override
     default Optional<C> handleRange(final Range<I> range,

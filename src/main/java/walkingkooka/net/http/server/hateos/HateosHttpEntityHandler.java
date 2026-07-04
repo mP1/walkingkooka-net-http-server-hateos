@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * Handles a HATEOS request for a one or more {@link HateosResource} as a single {@link HttpEntity}.
  */
-public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends HateosResourceHandlerContext> {
+public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends HateosHandlerContext> {
 
     /**
      * An empty {@link Map} with no parameters.
@@ -152,9 +152,9 @@ public interface HateosHttpEntityHandler<I extends Comparable<I>, X extends Hate
     }
 
     /**
-     * Requires a {@link HateosResourceHandlerContext} to be present.
+     * Requires a {@link HateosHandlerContext} to be present.
      */
-    static <X extends HateosResourceHandlerContext> X checkContext(final X context) {
+    static <X extends HateosHandlerContext> X checkContext(final X context) {
         return Objects.requireNonNull(context, "context");
     }
 }

@@ -43,7 +43,7 @@ final class HateosResourceSelectionMany<I extends Comparable<I>> extends HateosR
                                              final HttpEntity entity,
                                              final Map<HttpRequestAttribute<?>, Object> parameters,
                                              final UrlPath path,
-                                             final HateosResourceHandlerContext context) {
+                                             final HateosHandlerContext context) {
         return handler.handleMany(
             this.value(),
             entity,
@@ -58,7 +58,7 @@ final class HateosResourceSelectionMany<I extends Comparable<I>> extends HateosR
                                             final Optional<?> resource,
                                             final Map<HttpRequestAttribute<?>, Object> parameters,
                                             final UrlPath path,
-                                            final HateosResourceHandlerContext context) {
+                                            final HateosHandlerContext context) {
         return handler.handleMany(
             this.value(),
             Cast.to(resource),

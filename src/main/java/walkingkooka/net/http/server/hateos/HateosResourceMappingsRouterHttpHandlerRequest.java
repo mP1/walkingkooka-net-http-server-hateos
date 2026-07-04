@@ -47,12 +47,12 @@ import java.util.Optional;
 /**
  * Handles dispatching a request, after extracting ids and parsing request bodies.
  */
-final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResourceHandlerContext> {
+final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandlerContext> {
 
-    static <X extends HateosResourceHandlerContext> HateosResourceMappingsRouterHttpHandlerRequest<X> with(final HttpRequest request,
-                                                                                                           final HttpResponse response,
-                                                                                                           final HateosResourceMappingsRouter<X> router,
-                                                                                                           final X context) {
+    static <X extends HateosHandlerContext> HateosResourceMappingsRouterHttpHandlerRequest<X> with(final HttpRequest request,
+                                                                                                   final HttpResponse response,
+                                                                                                   final HateosResourceMappingsRouter<X> router,
+                                                                                                   final X context) {
         return new HateosResourceMappingsRouterHttpHandlerRequest<>(
             request,
             response,
@@ -223,7 +223,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
     void handleHateosHttpEntityHandler(final HateosHttpEntityHandler<?, X> handler,
                                        final HateosResourceSelection<?> selection,
                                        final UrlPath path,
-                                       final HateosResourceHandlerContext context) {
+                                       final HateosHandlerContext context) {
         final HttpEntity responseHttpEntity = selection.handleHateosHttpEntityHandler(
             Cast.to(handler),
             this.httpEntity(),
@@ -259,7 +259,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
                                      final HateosResourceMappings<?, ?, ?, ?, X> mappings,
                                      final HateosResourceSelection<?> selection,
                                      final UrlPath path,
-                                     final HateosResourceHandlerContext context) {
+                                     final HateosHandlerContext context) {
         final Optional<?> resource = this.parseBodyOrBadRequest(mappings, selection);
         if (null != resource) {
             final Accept accept = this.acceptCompatibleOrBadRequest();
@@ -381,7 +381,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
             resource = Optional.empty();
         } else {
             final Class<?> type = selection.resourceType(mappings);
-            final HateosResourceHandlerContext context = this.context;
+            final HateosHandlerContext context = this.context;
             try {
                 resource = Optional.of(
                     context.unmarshall(
@@ -439,7 +439,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
      * Marshals the given response to a String which will become the response body text.
      */
     private String toText(final Object body,
-                          final HateosResourceHandlerContext context) {
+                          final HateosHandlerContext context) {
         return context.toJsonText(
             context.marshall(body)
         );

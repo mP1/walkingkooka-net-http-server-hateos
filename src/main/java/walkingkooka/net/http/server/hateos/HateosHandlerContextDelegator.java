@@ -23,7 +23,7 @@ import walkingkooka.text.LineEnding;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
 
-public interface HateosResourceHandlerContextDelegator extends HateosResourceHandlerContext,
+public interface HateosHandlerContextDelegator extends HateosHandlerContext,
     JsonNodeMarshallUnmarshallContextDelegator {
 
     @Override
@@ -44,7 +44,7 @@ public interface HateosResourceHandlerContextDelegator extends HateosResourceHan
             .lineEnding();
     }
 
-    HateosResourceHandlerContext hateosResourceHandlerContext();
+    HateosHandlerContext hateosResourceHandlerContext();
 
     @Override
     default JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext() {

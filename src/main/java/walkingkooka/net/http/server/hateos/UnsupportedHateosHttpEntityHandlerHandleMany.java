@@ -24,7 +24,7 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import java.util.Map;
 import java.util.Set;
 
-public interface UnsupportedHateosHttpEntityHandlerHandleMany<I extends Comparable<I>, X extends HateosResourceHandlerContext> extends HateosHttpEntityHandler<I, X> {
+public interface UnsupportedHateosHttpEntityHandlerHandleMany<I extends Comparable<I>, X extends HateosHandlerContext> extends HateosHttpEntityHandler<I, X> {
 
     @Override
     default HttpEntity handleMany(final Set<I> ids,
