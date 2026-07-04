@@ -112,7 +112,7 @@ public final class HateosHandlerContextDelegatorTest implements HateosHandlerCon
         }
 
         @Override
-        public HateosHandlerContext hateosResourceHandlerContext() {
+        public HateosHandlerContext hateosHandlerContext() {
             return BasicHateosHandlerContext.with(
                 INDENTATION,
                 LINE_ENDING,
@@ -132,7 +132,7 @@ public final class HateosHandlerContextDelegatorTest implements HateosHandlerCon
 
         @Override
         public String toString() {
-            return this.hateosResourceHandlerContext().toString();
+            return this.hateosHandlerContext().toString();
         }
     }
 }

@@ -28,26 +28,26 @@ public interface HateosHandlerContextDelegator extends HateosHandlerContext,
 
     @Override
     default MediaType contentType() {
-        return this.hateosResourceHandlerContext()
+        return this.hateosHandlerContext()
             .contentType();
     }
 
     @Override
     default Indentation indentation() {
-        return this.hateosResourceHandlerContext()
+        return this.hateosHandlerContext()
             .indentation();
     }
 
     @Override
     default LineEnding lineEnding() {
-        return this.hateosResourceHandlerContext()
+        return this.hateosHandlerContext()
             .lineEnding();
     }
 
-    HateosHandlerContext hateosResourceHandlerContext();
+    HateosHandlerContext hateosHandlerContext();
 
     @Override
     default JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext() {
-        return this.hateosResourceHandlerContext();
+        return this.hateosHandlerContext();
     }
 }
