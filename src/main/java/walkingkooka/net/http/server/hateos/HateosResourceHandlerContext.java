@@ -21,6 +21,7 @@ import walkingkooka.Context;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.server.HttpHandlerContext;
+import walkingkooka.text.HasIndentation;
 import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -36,6 +37,7 @@ import java.util.Objects;
  */
 public interface HateosResourceHandlerContext extends HttpHandlerContext,
     JsonNodeMarshallUnmarshallContext,
+    HasIndentation,
     HasLineEnding {
 
     /**
@@ -49,6 +51,7 @@ public interface HateosResourceHandlerContext extends HttpHandlerContext,
     /**
      * The indentation to use when printing JSON into text. This can be used to turn on or off pretty printing.
      */
+    @Override
     Indentation indentation();
 
     /**
