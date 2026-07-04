@@ -140,7 +140,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosResou
                 null == selectionString ?
                     "" :
                     selectionString,
-                Cast.to(this.context)
+                this.context
             );
         } catch (final RuntimeException invalid) {
             selection = null;
