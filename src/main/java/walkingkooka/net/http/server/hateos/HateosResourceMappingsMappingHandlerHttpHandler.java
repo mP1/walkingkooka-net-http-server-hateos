@@ -24,13 +24,13 @@ import java.util.Objects;
 
 final class HateosResourceMappingsMappingHandlerHttpHandler<I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> extends HateosResourceMappingsMappingHandler<I, V, C, H, X> {
 
-    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> with(final HttpHandler handler) {
+    static <I extends Comparable<I>, V, C, H extends HateosResource<I>, X extends HateosResourceHandlerContext> HateosResourceMappingsMappingHandlerHttpHandler<I, V, C, H, X> with(final HttpHandler<X> handler) {
         return new HateosResourceMappingsMappingHandlerHttpHandler<>(
             Objects.requireNonNull(handler, "handler")
         );
     }
 
-    private HateosResourceMappingsMappingHandlerHttpHandler(final HttpHandler handler) {
+    private HateosResourceMappingsMappingHandlerHttpHandler(final HttpHandler<X> handler) {
         super();
         this.handler = handler;
     }
@@ -40,7 +40,7 @@ final class HateosResourceMappingsMappingHandlerHttpHandler<I extends Comparable
                 final HateosResourceMappings<I, V, C, H, X> mappings,
                 final HateosResourceSelection<?> selection,
                 final UrlPath path,
-                final HateosResourceHandlerContext context) {
+                final X context) {
         this.handler.handle(
             request.request,
             request.response,
@@ -49,9 +49,9 @@ final class HateosResourceMappingsMappingHandlerHttpHandler<I extends Comparable
     }
 
     @Override
-    HttpHandler handler() {
+    HttpHandler<X> handler() {
         return this.handler;
     }
 
-    private final HttpHandler handler;
+    private final HttpHandler<X> handler;
 }
