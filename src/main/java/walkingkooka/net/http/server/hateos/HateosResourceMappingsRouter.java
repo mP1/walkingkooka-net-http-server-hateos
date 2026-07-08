@@ -82,7 +82,10 @@ final class HateosResourceMappingsRouter<C extends HateosHandlerContext> impleme
         // a handler will be returned if the request path matches the #base path
         return Optional.ofNullable(
             -1 != this.consumeBasePath(parameters) ?
-                this.httpHandler() :
+                HateosResourceMappingsRouterHttpHandler.with(
+                    this,
+                    this.context
+                ) :
                 null
         );
     }
@@ -103,13 +106,6 @@ final class HateosResourceMappingsRouter<C extends HateosHandlerContext> impleme
     }
 
     private final UrlPath base;
-
-    private HttpHandler<C> httpHandler() {
-        return HateosResourceMappingsRouterHttpHandler.with(
-            this,
-            this.context
-        );
-    }
 
     /**
      * The shared or common context passed to all handlers when they are invoked.
