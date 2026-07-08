@@ -139,7 +139,7 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
         final HateosHandlerContext context = HateosHandlerContexts.fake();
 
         final HateosResourceMappingsRouter<HateosHandlerContext> router = HateosResourceMappingsRouter.with(
-            UrlPath.ROOT,
+            UrlPath.parse("/path1/path2/"),
             Sets.empty(),
             context
         );
@@ -153,7 +153,7 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
                 router,
                 context
             ),
-            request + " " + response
+            "/path1/path2/ " + request + " " + response
         );
     }
 
