@@ -139,12 +139,9 @@ public class Sample {
             }
         );
 
-        final TestHateosHandlerContext context = new TestHateosHandlerContext();
-
         final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>> router = HateosResourceMappings.router(
             UrlPath.parse("/api"),
-            Sets.of(mapping),
-            context
+            Sets.of(mapping)
         );
 
         final HttpRequest request = new FakeHttpRequest() {
@@ -205,7 +202,7 @@ public class Sample {
         httpHandler.handle(
             request,
             response,
-            context
+            new TestHateosHandlerContext()
         );
         checkEquals(
             "{\n" +

@@ -22,9 +22,9 @@ import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequestParameterName;
 import walkingkooka.net.http.server.HttpResponse;
 import walkingkooka.net.http.server.HttpResponses;
+import walkingkooka.net.http.server.hateos.FakeHateosHandlerContext;
 import walkingkooka.net.http.server.hateos.FakeHateosResource;
 import walkingkooka.net.http.server.hateos.FakeHateosResourceHandler;
-import walkingkooka.net.http.server.hateos.FakeHateosResourceHandlerContext;
 import walkingkooka.net.http.server.hateos.HateosResourceMappings;
 import walkingkooka.net.http.server.hateos.HateosResourceName;
 import walkingkooka.net.http.server.hateos.HateosResourceSelection;
@@ -115,12 +115,9 @@ public class TestGwtTest extends GWTTestCase {
             }
         );
 
-        final TestHateosResourceHandlerContext context = new TestHateosResourceHandlerContext();
-
         final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosResourceHandlerContext>> router = HateosResourceMappings.router(
             UrlPath.parse("/api"),
-            Sets.of(mapping),
-            context
+            Sets.of(mapping)
         );
 
         final HttpRequest request = new FakeHttpRequest() {
@@ -181,7 +178,7 @@ public class TestGwtTest extends GWTTestCase {
         httpHandler.handle(
             request,
             response,
-            context
+            new TestHateosResourceHandlerContext()
         );
         checkEquals(
             "{\n" +
@@ -195,7 +192,7 @@ public class TestGwtTest extends GWTTestCase {
         );
     }
 
-    static class TestHateosResourceHandlerContext extends FakeHateosResourceHandlerContext {
+    static class TestHateosResourceHandlerContext extends FakeHateosHandlerContext {
 
         final static MediaType CONTENT_TYPE = MediaType.parse("application/test-json");
 

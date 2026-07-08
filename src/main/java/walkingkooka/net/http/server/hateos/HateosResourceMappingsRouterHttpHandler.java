@@ -32,22 +32,16 @@ final class HateosResourceMappingsRouterHttpHandler<C extends HateosHandlerConte
     /**
      * Factory called by {@link HateosResourceMappingsRouter#route}
      */
-    static <C extends HateosHandlerContext> HateosResourceMappingsRouterHttpHandler<C> with(final HateosResourceMappingsRouter<C> router,
-                                                                                            final C context) {
-        return new HateosResourceMappingsRouterHttpHandler<>(
-            router,
-            context
-        );
+    static <C extends HateosHandlerContext> HateosResourceMappingsRouterHttpHandler<C> with(final HateosResourceMappingsRouter<C> router) {
+        return new HateosResourceMappingsRouterHttpHandler<>(router);
     }
 
     /**
      * Private ctor use factory.
      */
-    private HateosResourceMappingsRouterHttpHandler(final HateosResourceMappingsRouter<C> router,
-                                                    final C context) {
+    private HateosResourceMappingsRouterHttpHandler(final HateosResourceMappingsRouter<C> router) {
         super();
         this.router = router;
-        this.context = context;
     }
 
     @Override
@@ -62,13 +56,11 @@ final class HateosResourceMappingsRouterHttpHandler<C extends HateosHandlerConte
             request,
             response,
             this.router,
-            this.context
+            context
         ).dispatch();
     }
 
     private final HateosResourceMappingsRouter<C> router;
-
-    private final C context;
 
     @Override
     public String toString() {

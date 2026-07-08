@@ -31,10 +31,8 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
         return HateosResourceMappingsRouterHttpHandler.with(
             HateosResourceMappingsRouter.with(
                 UrlPath.ROOT,
-                Sets.empty(),
-                HateosHandlerContexts.fake()
-            ),
-            HateosHandlerContexts.fake()
+                Sets.empty()
+            )
         );
     }
 
@@ -47,19 +45,13 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
 
     @Test
     public void testToString() {
-        final HateosHandlerContext context = HateosHandlerContexts.fake();
-
         final HateosResourceMappingsRouter<HateosHandlerContext> router = HateosResourceMappingsRouter.with(
             UrlPath.ROOT,
-            Sets.empty(),
-            context
+            Sets.empty()
         );
 
         this.toStringAndCheck(
-            HateosResourceMappingsRouterHttpHandler.with(
-                router,
-                context
-            ),
+            HateosResourceMappingsRouterHttpHandler.with(router),
             router.toString()
         );
     }
