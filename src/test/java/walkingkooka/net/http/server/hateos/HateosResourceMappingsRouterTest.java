@@ -20,6 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.InvalidCharacterException;
+import walkingkooka.ToStringTesting;
 import walkingkooka.collect.Range;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
@@ -78,6 +79,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter<TestHateosHandlerContext>>
     implements RouterTesting2<HateosResourceMappingsRouter<TestHateosHandlerContext>, HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>>,
+    ToStringTesting<HateosResourceMappingsRouter<TestHateosHandlerContext>>,
     ThrowableTesting {
 
     private final static String NO_BODY = null;
@@ -1673,7 +1675,14 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     @Override
     public HateosResourceMappingsRouter<TestHateosHandlerContext> createRouter() {
         return this.createRouter(
-            new FakeHateosResourceHandler<>()
+            new FakeHateosResourceHandler<>() {
+
+                // stable toString required by testToString
+                @Override
+                public String toString() {
+                    return FakeHateosResourceHandler.class.getSimpleName();
+                }
+            }
         );
     }
 
@@ -2118,6 +2127,16 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         return null != body ?
             body.getBytes(MediaTypeParameterName.CHARSET.parameterValue(contentType).orElse(CharsetName.UTF_8).charset().get()) :
             null;
+    }
+
+    // toString.........................................................................................................
+
+    @Test
+    public void testToString() {
+        this.toStringAndCheck(
+            this.createRouter(),
+            "/api get-resource \"walkingkooka.net.http.server.hateos.TestHateosResource\" GET=FakeHateosResourceHandler, resource-with-body \"walkingkooka.net.http.server.hateos.TestHateosResource\" POST=FakeHateosResourceHandler,a1=POST=FakeHateosResourceHandler,contents=DELETE=FakeHateosResourceHandler, POST=FakeHateosResourceHandler, PUT=FakeHateosResourceHandler,z1=POST=FakeHateosResourceHandler"
+        );
     }
 
     // ClassTesting.....................................................................................................
