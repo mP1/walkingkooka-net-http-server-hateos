@@ -39,22 +39,18 @@ import java.util.Set;
 final class HateosResourceMappingsRouter<C extends HateosHandlerContext> implements Router<HttpRequestAttribute<?>, HttpHandler<C>> {
 
     static <C extends HateosHandlerContext> HateosResourceMappingsRouter<C> with(final UrlPath base,
-                                                                                 final Set<HateosResourceMappings<?, ?, ?, ?, C>> mappings,
-                                                                                 final C context) {
+                                                                                 final Set<HateosResourceMappings<?, ?, ?, ?, C>> mappings) {
         Objects.requireNonNull(base, "base");
         Objects.requireNonNull(mappings, "mappings");
-        Objects.requireNonNull(context, "context");
 
         return new HateosResourceMappingsRouter<>(
             base,
-            mappings,
-            context
+            mappings
         );
     }
 
     private HateosResourceMappingsRouter(final UrlPath base,
-                                         final Set<HateosResourceMappings<?, ?, ?, ?, C>> mappings,
-                                         final C context) {
+                                         final Set<HateosResourceMappings<?, ?, ?, ?, C>> mappings) {
         super();
         this.base = base.normalize();
         Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, C>> resourceNameToMapping = Maps.sorted();
@@ -67,8 +63,6 @@ final class HateosResourceMappingsRouter<C extends HateosHandlerContext> impleme
         }
 
         this.resourceNameToMapping = resourceNameToMapping;
-
-        this.context = context;
     }
 
     final Map<HateosResourceName, HateosResourceMappings<?, ?, ?, ?, C>> resourceNameToMapping;
@@ -83,8 +77,7 @@ final class HateosResourceMappingsRouter<C extends HateosHandlerContext> impleme
         return Optional.ofNullable(
             -1 != this.consumeBasePath(parameters) ?
                 HateosResourceMappingsRouterHttpHandler.with(
-                    this,
-                    this.context
+                    this
                 ) :
                 null
         );
@@ -106,11 +99,6 @@ final class HateosResourceMappingsRouter<C extends HateosHandlerContext> impleme
     }
 
     private final UrlPath base;
-
-    /**
-     * The shared or common context passed to all handlers when they are invoked.
-     */
-    private final C context;
 
     // toString.........................................................................................................
 

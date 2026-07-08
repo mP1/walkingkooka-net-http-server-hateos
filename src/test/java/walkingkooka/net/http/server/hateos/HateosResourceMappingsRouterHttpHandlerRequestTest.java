@@ -118,8 +118,7 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
                         HttpMethod.GET,
                         HateosResourceHandlers.fake()
                     )
-                ),
-                context
+                )
             ),
             context
         ).dispatch();
@@ -140,8 +139,7 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
 
         final HateosResourceMappingsRouter<HateosHandlerContext> router = HateosResourceMappingsRouter.with(
             UrlPath.parse("/path1/path2/"),
-            Sets.empty(),
-            context
+            Sets.empty()
         );
         final HttpRequest request = HttpRequests.fake();
         final HttpResponse response = HttpResponses.fake();
@@ -151,7 +149,7 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
                 request,
                 response,
                 router,
-                context
+                HateosHandlerContexts.fake()
             ),
             "/path1/path2/ " + request + " " + response
         );

@@ -144,8 +144,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
             NullPointerException.class,
             () -> HateosResourceMappingsRouter.with(
                 null,
-                MAPPINGS,
-                CONTEXT
+                MAPPINGS
             )
         );
     }
@@ -156,19 +155,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
             NullPointerException.class,
             () -> HateosResourceMappingsRouter.with(
                 BASE_PATH,
-                null,
-                CONTEXT
-            )
-        );
-    }
-
-    @Test
-    public void testWithNullContextFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> HateosResourceMappingsRouter.with(
-                BASE_PATH,
-                MAPPINGS,
                 null
             )
         );
@@ -1258,8 +1244,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
 
         final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>> router = HateosResourceMappings.router(
             UrlPath.parse("/api"),
-            Sets.of(mapping),
-            CONTEXT
+            Sets.of(mapping)
         );
 
         final HttpRequest request = new FakeHttpRequest() {
@@ -1435,8 +1420,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
 
         final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>> router = HateosResourceMappings.router(
             UrlPath.parse("/api"),
-            Sets.of(mapping),
-            CONTEXT
+            Sets.of(mapping)
         );
 
         final HttpRequest request = new FakeHttpRequest() {
@@ -1586,8 +1570,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
 
         final Router<HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>> router = HateosResourceMappings.router(
             UrlPath.parse("/api"),
-            Sets.of(mapping),
-            CONTEXT
+            Sets.of(mapping)
         );
 
         final HttpRequest request = new FakeHttpRequest() {
@@ -1703,8 +1686,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 Sets.of(
                     getMapping,
                     mappingWithBody
-                ),
-                CONTEXT
+                )
             )
         );
     }
