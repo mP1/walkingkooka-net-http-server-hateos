@@ -21,10 +21,9 @@ import walkingkooka.Context;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.server.HttpHandlerContext;
-import walkingkooka.text.HasIndentation;
-import walkingkooka.text.HasLineEnding;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.TextContext;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
@@ -37,8 +36,7 @@ import java.util.Objects;
  */
 public interface HateosHandlerContext extends HttpHandlerContext,
     JsonNodeMarshallUnmarshallContext,
-    HasIndentation,
-    HasLineEnding {
+    TextContext {
 
     /**
      * The default {@link MediaType}.
