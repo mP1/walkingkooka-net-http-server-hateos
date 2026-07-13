@@ -20,11 +20,14 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.TextContext;
+import walkingkooka.text.TextContextDelegator;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
 
 public interface HateosHandlerContextDelegator extends HateosHandlerContext,
-    JsonNodeMarshallUnmarshallContextDelegator {
+    JsonNodeMarshallUnmarshallContextDelegator,
+    TextContextDelegator {
 
     @Override
     default MediaType contentType() {
@@ -34,17 +37,24 @@ public interface HateosHandlerContextDelegator extends HateosHandlerContext,
 
     @Override
     default Indentation indentation() {
-        return this.hateosHandlerContext()
-            .indentation();
+        return TextContextDelegator.super.indentation();
     }
 
     @Override
     default LineEnding lineEnding() {
-        return this.hateosHandlerContext()
-            .lineEnding();
+        return TextContextDelegator.super.lineEnding();
     }
 
     HateosHandlerContext hateosHandlerContext();
+
+    // TextContextDelegator.............................................................................................
+
+    @Override
+    default TextContext textContext() {
+        return this.hateosHandlerContext();
+    }
+
+    // JsonNodeMarshallUnmarshallContextDelegator.......................................................................
 
     @Override
     default JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext() {
