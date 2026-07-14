@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.currency.CurrencyContexts;
 import walkingkooka.locale.LocaleContexts;
 import walkingkooka.net.http.server.hateos.HateosHandlerContextDelegatorTest.TestHateosResourceHandlerContextDelegator;
-import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
@@ -33,8 +32,6 @@ import java.math.MathContext;
 import java.util.Locale;
 
 public final class HateosHandlerContextDelegatorTest implements HateosHandlerContextTesting<TestHateosResourceHandlerContextDelegator> {
-
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     @Override
     public void testTypeNaming() {

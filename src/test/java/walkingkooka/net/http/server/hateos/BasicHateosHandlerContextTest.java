@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
 import walkingkooka.currency.CurrencyContexts;
 import walkingkooka.locale.LocaleContexts;
-import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
@@ -35,8 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class BasicHateosHandlerContextTest implements HateosHandlerContextTesting<BasicHateosHandlerContext>,
     ToStringTesting<BasicHateosHandlerContext> {
-
-    private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     private final static JsonNodeMarshallUnmarshallContext CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
         JsonNodeMarshallContexts.basic(),
