@@ -64,10 +64,7 @@ public interface HateosHandlerContext extends HttpHandlerContext,
     default String toJsonText(final JsonNode node) {
         Objects.requireNonNull(node, "node");
 
-        return node.toJsonText(
-            this.indentation(),
-            this.lineEnding()
-        );
+        return node.toJsonText(this);
     }
 
     @Override
