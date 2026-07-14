@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.currency.CurrencyContexts;
 import walkingkooka.locale.LocaleContexts;
 import walkingkooka.net.http.server.hateos.HateosHandlerContextDelegatorTest.TestHateosResourceHandlerContextDelegator;
-import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
@@ -35,7 +34,6 @@ import java.util.Locale;
 
 public final class HateosHandlerContextDelegatorTest implements HateosHandlerContextTesting<TestHateosResourceHandlerContextDelegator> {
 
-    private final static Indentation INDENTATION = Indentation.SPACES2;
     private final static LineEnding LINE_ENDING = LineEnding.NL;
 
     @Override
