@@ -17,13 +17,11 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.text.HasIndentationTesting;
-import walkingkooka.text.HasLineEndingTesting;
+import walkingkooka.text.TextContextTesting;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting;
 
 public interface HateosHandlerContextTesting<C extends HateosHandlerContext> extends JsonNodeMarshallUnmarshallContextTesting<C>,
-    HasIndentationTesting,
-    HasLineEndingTesting {
+    TextContextTesting {
 
     @Override
     default String typeNameSuffix() {
