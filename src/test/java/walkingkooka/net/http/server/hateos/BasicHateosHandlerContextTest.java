@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class BasicHateosHandlerContextTest implements HateosHandlerContextTesting<BasicHateosHandlerContext>,
     ToStringTesting<BasicHateosHandlerContext> {
 
-    private final static JsonNodeMarshallUnmarshallContext CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
+    private final static JsonNodeMarshallUnmarshallContext UNMARSHALL_CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
         JsonNodeMarshallContexts.basic(),
         JsonNodeUnmarshallContexts.basic(
             ExpressionNumberKind.BIG_DECIMAL,
@@ -48,36 +48,22 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     );
 
     @Test
-    public void testWithNullIndentationFails() {
+    public void testWithNullJsonNodeUnmarshallContextFails() {
         assertThrows(
             NullPointerException.class,
             () -> BasicHateosHandlerContext.with(
                 null,
-                LINE_ENDING,
-                CONTEXT
+                TEXT_CONTEXT
             )
         );
     }
 
     @Test
-    public void testWithNullLineEndingFails() {
+    public void testWithNullTextContextFails() {
         assertThrows(
             NullPointerException.class,
             () -> BasicHateosHandlerContext.with(
-                INDENTATION,
-                null,
-                CONTEXT
-            )
-        );
-    }
-
-    @Test
-    public void testWithNullContextFails() {
-        assertThrows(
-            NullPointerException.class,
-            () -> BasicHateosHandlerContext.with(
-                INDENTATION,
-                LINE_ENDING,
+                UNMARSHALL_CONTEXT,
                 null
             )
         );
@@ -86,9 +72,8 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     @Override
     public BasicHateosHandlerContext createContext() {
         return BasicHateosHandlerContext.with(
-            INDENTATION,
-            LINE_ENDING,
-            CONTEXT
+            UNMARSHALL_CONTEXT,
+            TEXT_CONTEXT
         );
     }
 
@@ -98,7 +83,7 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            CONTEXT.toString()
+            UNMARSHALL_CONTEXT.toString()
         );
     }
 

@@ -18,8 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.reflect.PublicStaticHelper;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
+import walkingkooka.text.TextContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 
 /**
@@ -30,13 +29,11 @@ public final class HateosHandlerContexts implements PublicStaticHelper {
     /**
      * {@see BasicHateosHandlerContext}
      */
-    public static HateosHandlerContext basic(final Indentation indentation,
-                                             final LineEnding lineEnding,
-                                             final JsonNodeMarshallUnmarshallContext context) {
+    public static HateosHandlerContext basic(final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext,
+                                             final TextContext textContext) {
         return BasicHateosHandlerContext.with(
-            indentation,
-            lineEnding,
-            context
+            jsonNodeMarshallUnmarshallContext,
+            textContext
         );
     }
 
