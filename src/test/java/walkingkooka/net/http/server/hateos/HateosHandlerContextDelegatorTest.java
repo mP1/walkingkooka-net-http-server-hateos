@@ -109,8 +109,6 @@ public final class HateosHandlerContextDelegatorTest implements HateosHandlerCon
         @Override
         public HateosHandlerContext hateosHandlerContext() {
             return BasicHateosHandlerContext.with(
-                INDENTATION,
-                LINE_ENDING,
                 JsonNodeMarshallUnmarshallContexts.basic(
                     JsonNodeMarshallContexts.basic(),
                     JsonNodeUnmarshallContexts.basic(
@@ -121,7 +119,8 @@ public final class HateosHandlerContextDelegatorTest implements HateosHandlerCon
                             ), // CurrencyCodeLanguageTagContext, // CurrencyCodeLanguageTagContext
                         MathContext.DECIMAL32
                     )
-                )
+                ),
+                TEXT_CONTEXT
             );
         }
 
