@@ -18,9 +18,9 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.text.TextContextTesting;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting2;
 
-public interface HateosHandlerContextTesting<C extends HateosHandlerContext> extends JsonNodeMarshallUnmarshallContextTesting<C>,
+public interface HateosHandlerContextTesting<C extends HateosHandlerContext> extends JsonNodeMarshallUnmarshallContextTesting2<C>,
     TextContextTesting {
 
     @Override
