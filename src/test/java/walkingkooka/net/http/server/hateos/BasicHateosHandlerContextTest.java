@@ -19,33 +19,11 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.ToStringTesting;
-import walkingkooka.currency.CurrencyContexts;
-import walkingkooka.locale.LocaleContexts;
-import walkingkooka.tree.expression.ExpressionNumberKind;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContexts;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
-
-import java.math.MathContext;
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class BasicHateosHandlerContextTest implements HateosHandlerContextTesting<BasicHateosHandlerContext>,
     ToStringTesting<BasicHateosHandlerContext> {
-
-    private final static JsonNodeMarshallUnmarshallContext UNMARSHALL_CONTEXT = JsonNodeMarshallUnmarshallContexts.basic(
-        JsonNodeMarshallContexts.basic(),
-        JsonNodeUnmarshallContexts.basic(
-            ExpressionNumberKind.BIG_DECIMAL,
-            CurrencyContexts.fake()
-                .setLocaleContext(
-                    LocaleContexts.jre(Locale.ENGLISH)
-                ), // CurrencyCodeLanguageTagContext
-            MathContext.DECIMAL32
-        )
-    );
 
     @Test
     public void testWithNullJsonNodeUnmarshallContextFails() {
@@ -63,7 +41,7 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
         assertThrows(
             NullPointerException.class,
             () -> BasicHateosHandlerContext.with(
-                UNMARSHALL_CONTEXT,
+                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
                 null
             )
         );
@@ -72,7 +50,7 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     @Override
     public BasicHateosHandlerContext createContext() {
         return BasicHateosHandlerContext.with(
-            UNMARSHALL_CONTEXT,
+            JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
             TEXT_CONTEXT
         );
     }
@@ -83,7 +61,7 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            UNMARSHALL_CONTEXT.toString()
+            JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT.toString()
         );
     }
 

@@ -18,18 +18,9 @@
 package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
-import walkingkooka.currency.CurrencyContexts;
-import walkingkooka.locale.LocaleContexts;
 import walkingkooka.net.http.server.hateos.HateosHandlerContextDelegatorTest.TestHateosResourceHandlerContextDelegator;
-import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContexts;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
-
-import java.math.MathContext;
-import java.util.Locale;
 
 public final class HateosHandlerContextDelegatorTest implements HateosHandlerContextTesting<TestHateosResourceHandlerContextDelegator> {
 
@@ -109,17 +100,7 @@ public final class HateosHandlerContextDelegatorTest implements HateosHandlerCon
         @Override
         public HateosHandlerContext hateosHandlerContext() {
             return BasicHateosHandlerContext.with(
-                JsonNodeMarshallUnmarshallContexts.basic(
-                    JsonNodeMarshallContexts.basic(),
-                    JsonNodeUnmarshallContexts.basic(
-                        ExpressionNumberKind.BIG_DECIMAL,
-                        CurrencyContexts.fake()
-                            .setLocaleContext(
-                                LocaleContexts.jre(Locale.ENGLISH)
-                            ), // CurrencyCodeLanguageTagContext, // CurrencyCodeLanguageTagContext
-                        MathContext.DECIMAL32
-                    )
-                ),
+                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
                 TEXT_CONTEXT
             );
         }
