@@ -22,7 +22,7 @@ import walkingkooka.net.http.server.hateos.HateosHandlerContextDelegatorTest.Tes
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
-public final class HateosHandlerContextDelegatorTest implements HateosHandlerContextTesting<TestHateosResourceHandlerContextDelegator> {
+public final class HateosHandlerContextDelegatorTest implements HateosHandlerContextTesting2<TestHateosResourceHandlerContextDelegator> {
 
     @Override
     public void testTypeNaming() {
