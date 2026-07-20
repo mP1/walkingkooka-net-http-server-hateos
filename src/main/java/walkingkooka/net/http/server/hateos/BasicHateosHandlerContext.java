@@ -31,10 +31,10 @@ import java.util.Objects;
 final class BasicHateosHandlerContext implements HateosHandlerContext,
     JsonNodeMarshallUnmarshallContextDelegator {
 
-    static BasicHateosHandlerContext with(final JsonNodeMarshallUnmarshallContext context,
+    static BasicHateosHandlerContext with(final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext,
                                           final TextContext textContext) {
         return new BasicHateosHandlerContext(
-            Objects.requireNonNull(context, "context"),
+            Objects.requireNonNull(jsonNodeMarshallUnmarshallContext, "jsonNodeMarshallUnmarshallContext"),
             Objects.requireNonNull(textContext, "textContext")
         );
     }
