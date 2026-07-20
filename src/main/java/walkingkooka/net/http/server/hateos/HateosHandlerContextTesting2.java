@@ -17,9 +17,13 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.text.TextContextTesting;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting2;
 
-public interface HateosHandlerContextTesting extends JsonNodeMarshallUnmarshallContextTesting,
-    TextContextTesting {
+public interface HateosHandlerContextTesting2<C extends HateosHandlerContext> extends HateosHandlerContextTesting,
+    JsonNodeMarshallUnmarshallContextTesting2<C> {
+
+    @Override
+    default String typeNameSuffix() {
+        return HateosHandlerContext.class.getSimpleName();
+    }
 }
