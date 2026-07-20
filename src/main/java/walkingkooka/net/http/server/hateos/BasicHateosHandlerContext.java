@@ -29,9 +29,8 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 import java.util.Objects;
 
 final class BasicHateosHandlerContext implements HateosHandlerContext,
-    JsonNodeMarshallUnmarshallContextDelegator//,
-    //TextContextDelegator {
-{
+    JsonNodeMarshallUnmarshallContextDelegator {
+
     static BasicHateosHandlerContext with(final JsonNodeMarshallUnmarshallContext context,
                                           final TextContext textContext) {
         return new BasicHateosHandlerContext(
