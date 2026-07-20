@@ -22,4 +22,9 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting;
 
 public interface HateosHandlerContextTesting extends JsonNodeMarshallUnmarshallContextTesting,
     TextContextTesting {
+
+    HateosHandlerContext HATEOS_HANDLER_CONTEXT = HateosHandlerContexts.basic(
+        JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
+        TEXT_CONTEXT
+    );
 }

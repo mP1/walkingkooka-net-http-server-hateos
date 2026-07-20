@@ -99,10 +99,7 @@ public final class HateosHandlerContextDelegatorTest implements HateosHandlerCon
 
         @Override
         public HateosHandlerContext hateosHandlerContext() {
-            return BasicHateosHandlerContext.with(
-                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
-                TEXT_CONTEXT
-            );
+            return HATEOS_HANDLER_CONTEXT;
         }
 
         @Override
