@@ -27,17 +27,17 @@ import walkingkooka.text.TextContext;
 public final class HateosHandlerContextTest implements ClassTesting<HateosHandlerContext> {
 
     @Test
-    public void testDoesNotImplementsHasCharset() {
+    public void testImplementsHasCharset() {
         this.checkEquals(
-            false,
+            true,
             new FakeHateosHandlerContext() instanceof HasCharset
         );
     }
 
     @Test
-    public void testDoesNotImplementsBinaryTextContext() {
+    public void testImplementsBinaryTextContext() {
         this.checkEquals(
-            false,
+            true,
             new FakeHateosHandlerContext() instanceof BinaryTextContext
         );
     }

@@ -21,9 +21,6 @@ import walkingkooka.Context;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.server.HttpHandlerContext;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
-import walkingkooka.text.TextContext;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
@@ -35,8 +32,7 @@ import java.util.Objects;
  * {@link Context} that accompanies all {@link HateosResourceHandler methods}.
  */
 public interface HateosHandlerContext extends HttpHandlerContext,
-    JsonNodeMarshallUnmarshallContext,
-    TextContext {
+    JsonNodeMarshallUnmarshallContext {
 
     /**
      * The default {@link MediaType}.
@@ -45,18 +41,6 @@ public interface HateosHandlerContext extends HttpHandlerContext,
     MediaType HATEOS_DEFAULT_CONTENT_TYPE = MediaType.APPLICATION_JSON.setCharset(CharsetName.UTF_8);
 
     MediaType contentType();
-
-    /**
-     * The indentation to use when printing JSON into text. This can be used to turn on or off pretty printing.
-     */
-    @Override
-    Indentation indentation();
-
-    /**
-     * Line ending used when printing JSON into text.
-     */
-    @Override
-    LineEnding lineEnding();
 
     /**
      * Helper that returns the json node as text using the current {@link #indentation()} and {@link #lineEnding()}.
