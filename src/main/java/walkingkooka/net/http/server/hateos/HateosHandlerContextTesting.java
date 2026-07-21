@@ -17,10 +17,12 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.net.http.server.HttpHandlerContextTesting;
 import walkingkooka.text.TextContextTesting;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextTesting;
 
-public interface HateosHandlerContextTesting extends JsonNodeMarshallUnmarshallContextTesting,
+public interface HateosHandlerContextTesting extends HttpHandlerContextTesting,
+    JsonNodeMarshallUnmarshallContextTesting,
     TextContextTesting {
 
     HateosHandlerContext HATEOS_HANDLER_CONTEXT = HateosHandlerContexts.basic(
