@@ -18,9 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.net.header.MediaType;
-import walkingkooka.text.Indentation;
-import walkingkooka.text.LineEnding;
-import walkingkooka.text.TextContext;
+import walkingkooka.text.BinaryTextContext;
+import walkingkooka.text.BinaryTextContextDelegator;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegator;
@@ -29,21 +28,22 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 import java.util.Objects;
 
 final class BasicHateosHandlerContext implements HateosHandlerContext,
+    BinaryTextContextDelegator,
     JsonNodeMarshallUnmarshallContextDelegator {
 
-    static BasicHateosHandlerContext with(final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext,
-                                          final TextContext textContext) {
+    static BasicHateosHandlerContext with(final BinaryTextContext binaryTextContext,
+                                          final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
         return new BasicHateosHandlerContext(
-            Objects.requireNonNull(jsonNodeMarshallUnmarshallContext, "jsonNodeMarshallUnmarshallContext"),
-            Objects.requireNonNull(textContext, "textContext")
+            Objects.requireNonNull(binaryTextContext, "binaryTextContext"),
+            Objects.requireNonNull(jsonNodeMarshallUnmarshallContext, "jsonNodeMarshallUnmarshallContext")
         );
     }
 
-    private BasicHateosHandlerContext(final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext,
-                                      final TextContext textContext) {
+    private BasicHateosHandlerContext(final BinaryTextContext binaryTextContext,
+                                      final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
         super();
         this.jsonNodeMarshallUnmarshallContext = jsonNodeMarshallUnmarshallContext;
-        this.textContext = textContext;
+        this.binaryTextContext = binaryTextContext;
     }
 
     @Override
@@ -51,17 +51,14 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
         return HATEOS_DEFAULT_CONTENT_TYPE;
     }
 
-    @Override
-    public Indentation indentation() {
-        return this.textContext()
-            .indentation();
-    }
+    // BinaryTextContextDelegator.......................................................................................
 
     @Override
-    public LineEnding lineEnding() {
-        return this.textContext()
-            .lineEnding();
+    public BinaryTextContext binaryTextContext() {
+        return this.binaryTextContext;
     }
+
+    private final BinaryTextContext binaryTextContext;
 
     // JsonNodeMarshallUnmarshallContext................................................................................
 
@@ -73,8 +70,8 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
         return before.equals(after) ?
             this :
             new BasicHateosHandlerContext(
-                after,
-                this.textContext
+                this.binaryTextContext,
+                after
             );
     }
 
@@ -86,8 +83,8 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
         return before.equals(after) ?
             this :
             new BasicHateosHandlerContext(
-                after,
-                this.textContext
+                this.binaryTextContext,
+                after
             );
     }
 
@@ -97,15 +94,6 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
     }
 
     private final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext;
-
-    // TextContextDelegator.............................................................................................
-
-    //@Override
-    public TextContext textContext() {
-        return this.textContext;
-    }
-
-    private final TextContext textContext;
 
     // Object...........................................................................................................
 

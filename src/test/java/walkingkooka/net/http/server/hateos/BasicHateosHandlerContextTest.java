@@ -26,22 +26,22 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     ToStringTesting<BasicHateosHandlerContext> {
 
     @Test
-    public void testWithNullJsonNodeUnmarshallContextFails() {
+    public void testWithNullBinaryTextContextFails() {
         assertThrows(
             NullPointerException.class,
             () -> BasicHateosHandlerContext.with(
                 null,
-                TEXT_CONTEXT
+                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
             )
         );
     }
 
     @Test
-    public void testWithNullTextContextFails() {
+    public void testWithNullJsonNodeUnmarshallContextFails() {
         assertThrows(
             NullPointerException.class,
             () -> BasicHateosHandlerContext.with(
-                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
+                BINARY_TEXT_CONTEXT,
                 null
             )
         );
@@ -50,8 +50,8 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     @Override
     public BasicHateosHandlerContext createContext() {
         return BasicHateosHandlerContext.with(
-            JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
-            TEXT_CONTEXT
+            BINARY_TEXT_CONTEXT,
+            JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
         );
     }
 

@@ -29,6 +29,7 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcesso
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
 import java.math.MathContext;
+import java.nio.charset.Charset;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
@@ -38,8 +39,16 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class FakeHateosHandlerContext extends FakeJsonNodeMarshallContext implements HateosHandlerContext {
+
     @Override
     public MediaType contentType() {
+        throw new UnsupportedOperationException();
+    }
+
+    // BinaryTextContext................................................................................................
+
+    @Override
+    public Charset charset() {
         throw new UnsupportedOperationException();
     }
 
