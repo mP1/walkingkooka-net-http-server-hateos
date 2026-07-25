@@ -17,8 +17,10 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.Binary;
 import walkingkooka.currency.CurrencyCode;
 import walkingkooka.locale.LocaleLanguageTag;
+import walkingkooka.net.header.ETag;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -59,6 +61,13 @@ public class FakeHateosHandlerContext extends FakeJsonNodeMarshallContext implem
 
     @Override
     public LineEnding lineEnding() {
+        throw new UnsupportedOperationException();
+    }
+
+    // ETagComputer.....................................................................................................
+
+    @Override
+    public Optional<ETag> computeETag(final Binary binary) {
         throw new UnsupportedOperationException();
     }
 

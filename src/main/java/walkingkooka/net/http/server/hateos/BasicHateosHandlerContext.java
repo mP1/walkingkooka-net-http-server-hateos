@@ -17,6 +17,9 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.Binary;
+import walkingkooka.net.header.ETag;
+import walkingkooka.net.header.ETagComputer;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.text.BinaryTextContext;
 import walkingkooka.text.BinaryTextContextDelegator;
@@ -26,23 +29,28 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegato
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 
 import java.util.Objects;
+import java.util.Optional;
 
 final class BasicHateosHandlerContext implements HateosHandlerContext,
     BinaryTextContextDelegator,
     JsonNodeMarshallUnmarshallContextDelegator {
 
     static BasicHateosHandlerContext with(final BinaryTextContext binaryTextContext,
+                                          final ETagComputer etagComputer,
                                           final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
         return new BasicHateosHandlerContext(
             Objects.requireNonNull(binaryTextContext, "binaryTextContext"),
+            Objects.requireNonNull(etagComputer, "etagComputer"),
             Objects.requireNonNull(jsonNodeMarshallUnmarshallContext, "jsonNodeMarshallUnmarshallContext")
         );
     }
 
     private BasicHateosHandlerContext(final BinaryTextContext binaryTextContext,
+                                      final ETagComputer etagComputer,
                                       final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
         super();
         this.jsonNodeMarshallUnmarshallContext = jsonNodeMarshallUnmarshallContext;
+        this.etagComputer = etagComputer;
         this.binaryTextContext = binaryTextContext;
     }
 
@@ -60,6 +68,15 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
 
     private final BinaryTextContext binaryTextContext;
 
+    // ETagComputer.....................................................................................................
+
+    @Override
+    public Optional<ETag> computeETag(final Binary binary) {
+        return this.etagComputer.computeETag(binary);
+    }
+
+    private final ETagComputer etagComputer;
+
     // JsonNodeMarshallUnmarshallContext................................................................................
 
     @Override
@@ -71,6 +88,7 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
             this :
             new BasicHateosHandlerContext(
                 this.binaryTextContext,
+                this.etagComputer,
                 after
             );
     }
@@ -84,6 +102,7 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
             this :
             new BasicHateosHandlerContext(
                 this.binaryTextContext,
+                this.etagComputer,
                 after
             );
     }

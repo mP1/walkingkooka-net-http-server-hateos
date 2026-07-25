@@ -27,6 +27,7 @@ public interface HateosHandlerContextTesting extends HttpHandlerContextTesting,
 
     HateosHandlerContext HATEOS_HANDLER_CONTEXT = HateosHandlerContexts.basic(
         BINARY_TEXT_CONTEXT,
+        ETAG_COMPUTER,
         JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
     );
 }
