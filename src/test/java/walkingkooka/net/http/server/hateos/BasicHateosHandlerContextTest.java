@@ -31,6 +31,19 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
             NullPointerException.class,
             () -> BasicHateosHandlerContext.with(
                 null,
+                ETAG_COMPUTER,
+                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullETagComputerFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> BasicHateosHandlerContext.with(
+                BINARY_TEXT_CONTEXT,
+                null,
                 JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
             )
         );
@@ -42,6 +55,7 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
             NullPointerException.class,
             () -> BasicHateosHandlerContext.with(
                 BINARY_TEXT_CONTEXT,
+                ETAG_COMPUTER,
                 null
             )
         );
@@ -51,6 +65,7 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     public BasicHateosHandlerContext createContext() {
         return BasicHateosHandlerContext.with(
             BINARY_TEXT_CONTEXT,
+            ETAG_COMPUTER,
             JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
         );
     }
