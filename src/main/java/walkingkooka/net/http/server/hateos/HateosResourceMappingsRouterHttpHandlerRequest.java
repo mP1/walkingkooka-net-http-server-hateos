@@ -124,7 +124,10 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
     }
 
     private void notFound(final HateosResourceName resourceName) {
-        this.setStatus(HttpStatusCode.NOT_FOUND, message(resourceName));
+        this.setStatus(
+            HttpStatusCode.NOT_FOUND,
+            "resource: " + resourceName
+        );
     }
 
     /**
@@ -433,10 +436,6 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
             HttpStatusCode.BAD_REQUEST,
             message
         );
-    }
-
-    private static String message(final HateosResourceName resourceName) {
-        return "resource: " + resourceName;
     }
 
     /**
