@@ -32,6 +32,9 @@ import java.util.Set;
  * marshalling of the response to the response body.
  * Note that 2xx responses, especially {@link walkingkooka.net.http.HttpStatusCode#OK} and {@link walkingkooka.net.http.HttpStatusCode#NO_CONTENT},
  * response should always contain {@link HateosResourceMappings#X_CONTENT_TYPE_NAME}, which is used by the client to dispatch watcher events.
+ * <br>
+ * If the response value or collection implements {@link walkingkooka.datetime.HasLastModified} or {@link walkingkooka.datetime.HasOptionalLastModified},
+ * the {@link walkingkooka.net.header.HttpHeaderName#LAST_MODIFIED} will be set with that value.
  */
 public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends HateosHandlerContext> {
 
@@ -64,7 +67,7 @@ public interface HateosResourceHandler<I extends Comparable<I>, V, C, X extends 
                            final X context);
 
     /**
-     * Handles a resources identified by the given id
+     * Handles a resources identified by the given id.
      * <pre>
      * /resource/123
      * </pre>>

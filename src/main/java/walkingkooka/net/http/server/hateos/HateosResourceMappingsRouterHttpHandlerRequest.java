@@ -470,12 +470,12 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
 
             entity = HttpEntity.EMPTY
                 .setContentType(contentType.setCharset(charsetName))
+                .setLastModified(content)
                 .setBodyText(
                     context.toJsonText(
                         context.marshall(content)
                     )
-                )
-                .setContentLength();
+                ).setContentLength();
         } else {
             statusCode = HttpStatusCode.NO_CONTENT;
             entity = HttpEntity.EMPTY;
