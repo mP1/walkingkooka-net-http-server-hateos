@@ -439,15 +439,6 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
         return "resource: " + resourceName;
     }
 
-    private static String message(final HateosResourceName resourceName,
-                                  final LinkRelation<?> linkRelation) {
-        // ResourceName, link relation: SAVE
-        return message(
-            resourceName) +
-            ", link relation: " +
-            linkRelation;
-    }
-
     /**
      * Reports a bad request with the body filled with the stack trace of the provided {@link Throwable}.
      */
