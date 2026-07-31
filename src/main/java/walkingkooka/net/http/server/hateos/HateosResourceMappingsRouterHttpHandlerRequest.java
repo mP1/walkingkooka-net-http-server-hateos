@@ -264,25 +264,17 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
         if (null != resource) {
             final Accept accept = this.acceptCompatibleOrBadRequest();
             if (null != accept) {
-                final Optional<?> maybeResponseResource = selection.handleHateosResourceHandler(
+                final Object responseResourceOrNull = selection.handleHateosResourceHandler(
                     Cast.to(handler),
                     resource,
                     this.parameters,
                     path,
                     context
-                );
-                String responseText = null;
-
-                if (maybeResponseResource.isPresent()) {
-                    final Object responseResource = maybeResponseResource.get();
-                    responseText = context.toJsonText(
-                        context.marshall(responseResource)
-                    );
-                }
+                ).orElse(null);
 
                 this.setStatusAndBody(
                     selection,
-                    responseText,
+                    responseResourceOrNull,
                     selection.resourceType(mappings)
                 );
             }
@@ -470,9 +462,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
     /**
      * Sets the status and message to match the content.
      */
-    void setStatusAndBody(final HateosResourceSelection<?> selection,
-                          final String content,
-                          final Class<?> contentValueType) {
+    private void setStatusAndBody(final HateosResourceSelection<?> selection,
+                                  final Object content,
+                                  final Class<?> contentValueType) {
 
         final HttpStatusCode statusCode;
 
@@ -482,11 +474,17 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
             statusCode = selection.successStatusCode();
 
             final CharsetName charsetName = this.selectCharsetName();
-            final MediaType contentType = this.context.contentType();
+
+            final X context = this.context;
+            final MediaType contentType = context.contentType();
 
             entity = HttpEntity.EMPTY
                 .setContentType(contentType.setCharset(charsetName))
-                .setBodyText(content)
+                .setBodyText(
+                    context.toJsonText(
+                        context.marshall(content)
+                    )
+                )
                 .setContentLength();
         } else {
             statusCode = HttpStatusCode.NO_CONTENT;
