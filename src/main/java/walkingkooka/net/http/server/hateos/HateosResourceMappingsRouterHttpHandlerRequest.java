@@ -431,7 +431,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
 
     // error reporting..................................................................................................
 
-    void badRequest(final String message) {
+    private void badRequest(final String message) {
         this.setStatus(
             HttpStatusCode.BAD_REQUEST,
             message
@@ -441,8 +441,8 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
     /**
      * Reports a bad request with the body filled with the stack trace of the provided {@link Throwable}.
      */
-    void badRequest(final String message,
-                    final Throwable cause) {
+    private void badRequest(final String message,
+                            final Throwable cause) {
         this.badRequest(message);
         this.response.setEntity(
             HttpEntity.dumpStackTrace(cause)
