@@ -18,15 +18,20 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Cast;
+import walkingkooka.datetime.HasLastModified;
+import walkingkooka.datetime.HasLastModifiedTesting;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeContext;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContext;
 
+import java.time.LocalDateTime;
+
 /**
  * A simple container for the actual {@link HateosResource}.
  */
-public final class TestResource2 {
+public final class TestResource2 implements HasLastModified,
+    HasLastModifiedTesting {
 
     static TestResource2 with(final Object value) {
         return new TestResource2(value);
@@ -38,6 +43,13 @@ public final class TestResource2 {
     }
 
     final Object value;
+
+    // HasLastModified..................................................................................................
+
+    @Override
+    public LocalDateTime lastModified() {
+        return LAST_MODIFIED;
+    }
 
     // JsonNodeContext...................................................................................................
 
