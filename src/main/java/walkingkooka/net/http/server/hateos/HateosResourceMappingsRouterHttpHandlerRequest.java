@@ -275,9 +275,8 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
 
                 if (maybeResponseResource.isPresent()) {
                     final Object responseResource = maybeResponseResource.get();
-                    responseText = this.toText(
-                        responseResource,
-                        context
+                    responseText = context.toJsonText(
+                        context.marshall(responseResource)
                     );
                 }
 
@@ -433,16 +432,6 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
             .parameterValue(this.parameters)
             .map(UrlPathName::value)
             .orElse(missing);
-    }
-
-    /**
-     * Marshals the given response to a String which will become the response body text.
-     */
-    private String toText(final Object body,
-                          final HateosHandlerContext context) {
-        return context.toJsonText(
-            context.marshall(body)
-        );
     }
 
     // error reporting..................................................................................................
