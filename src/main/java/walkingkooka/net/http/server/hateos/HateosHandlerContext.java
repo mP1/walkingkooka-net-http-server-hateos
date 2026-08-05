@@ -21,12 +21,9 @@ import walkingkooka.Context;
 import walkingkooka.net.header.CharsetName;
 import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.server.HttpHandlerContext;
-import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
-
-import java.util.Objects;
 
 /**
  * {@link Context} that accompanies all {@link HateosResourceHandler methods}.
@@ -41,15 +38,6 @@ public interface HateosHandlerContext extends HttpHandlerContext,
     MediaType HATEOS_DEFAULT_CONTENT_TYPE = MediaType.APPLICATION_JSON.setCharset(CharsetName.UTF_8);
 
     MediaType contentType();
-
-    /**
-     * Helper that returns the json node as text using the current {@link #indentation()} and {@link #lineEnding()}.
-     */
-    default String toJsonText(final JsonNode node) {
-        Objects.requireNonNull(node, "node");
-
-        return node.toJsonText(this);
-    }
 
     @Override
     HateosHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor);
