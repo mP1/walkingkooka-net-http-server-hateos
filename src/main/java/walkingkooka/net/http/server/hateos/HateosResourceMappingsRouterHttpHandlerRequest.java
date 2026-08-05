@@ -472,9 +472,8 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
                 .setContentType(contentType.setCharset(charsetName))
                 .setLastModified(content)
                 .setBodyText(
-                    context.toJsonText(
-                        context.marshall(content)
-                    )
+                    context.marshall(content)
+                        .toJsonText(context)
                 ).setContentLength();
         } else {
             statusCode = HttpStatusCode.NO_CONTENT;
