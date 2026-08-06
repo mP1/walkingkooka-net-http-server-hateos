@@ -43,7 +43,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @walkingkooka.j2cl.locale.LocaleAware
-public class TestGwtTest extends GWTTestCase implements HasHateosContentType;{
+public class TestGwtTest extends GWTTestCase implements HasHateosContentType {
 
     @Override
     public String getModuleName() {
@@ -148,11 +148,11 @@ public class TestGwtTest extends GWTTestCase implements HasHateosContentType;{
                 return Maps.of(
                     HttpHeaderName.CONTENT_TYPE,
                     Lists.of(
-                        TestHateosHandlerContext.HATEOS_CONTENT_TYPE
+                        HATEOS_CONTENT_TYPE
                     ),
                     HttpHeaderName.ACCEPT,
                     Lists.of(
-                        TestHateosHandlerContext.HATEOS_CONTENT_TYPE.accept()
+                        HATEOS_CONTENT_TYPE.accept()
                     ),
                     HttpHeaderName.ACCEPT_CHARSET,
                     Lists.of(
