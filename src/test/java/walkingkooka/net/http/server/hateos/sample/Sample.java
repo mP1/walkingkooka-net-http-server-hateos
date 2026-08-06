@@ -25,6 +25,7 @@ import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.AcceptCharset;
+import walkingkooka.net.header.HasHateosContentType;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.http.HttpMethod;
@@ -57,7 +58,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Sample {
+public class Sample implements HasHateosContentType {
 
     public static void main(final String[] args) {
         final Sample sample = new Sample();
@@ -169,13 +170,9 @@ public class Sample {
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(
                     HttpHeaderName.CONTENT_TYPE,
-                    Lists.of(
-                        TestHateosHandlerContext.HATEOS_CONTENT_TYPE
-                    ),
+                    Lists.of(HATEOS_CONTENT_TYPE),
                     HttpHeaderName.ACCEPT,
-                    Lists.of(
-                        TestHateosHandlerContext.HATEOS_CONTENT_TYPE.accept()
-                    ),
+                    Lists.of(HATEOS_CONTENT_TYPE.accept()),
                     HttpHeaderName.ACCEPT_CHARSET,
                     Lists.of(
                         AcceptCharset.UTF_8

@@ -34,6 +34,7 @@ import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.CharsetName;
+import walkingkooka.net.header.HasHateosContentType;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.header.MediaType;
@@ -80,6 +81,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter<TestHateosHandlerContext>>
     implements RouterTesting2<HateosResourceMappingsRouter<TestHateosHandlerContext>, HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>>,
+    HasHateosContentType,
     TextContextTesting,
     ToStringTesting<HateosResourceMappingsRouter<TestHateosHandlerContext>>,
     ThrowableTesting {
@@ -93,8 +95,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     private final static TestResource RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
     private final static TestResource COLLECTION_RESOURCE_IN = TestResource.with(TestHateosResource.with(ID));
     private final static TestResource COLLECTION_RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
-
-    private final static MediaType CONTENT_TYPE = HateosHandlerContext.HATEOS_CONTENT_TYPE;
 
     private final static String RESOURCE_TYPE_NAME = TestResource.class.getSimpleName();
 
@@ -1269,8 +1269,8 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
             @Override
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(
-                    HttpHeaderName.CONTENT_TYPE, Lists.of(CONTENT_TYPE),
-                    HttpHeaderName.ACCEPT, Lists.of(CONTENT_TYPE.accept()),
+                    HttpHeaderName.CONTENT_TYPE, Lists.of(HATEOS_CONTENT_TYPE),
+                    HttpHeaderName.ACCEPT, Lists.of(HATEOS_CONTENT_TYPE.accept()),
                     HttpHeaderName.ACCEPT_CHARSET, Lists.of(
                         AcceptCharset.UTF_8
                     )
@@ -1765,7 +1765,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     }
 
     private MediaType contentType() {
-        return CONTENT_TYPE.setCharset(DEFAULT_CHARSET);
+        return HATEOS_CONTENT_TYPE.setCharset(DEFAULT_CHARSET);
     }
 
     private MediaType contentTypeUtf16() {
@@ -1871,7 +1871,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         headers.put(
             HttpHeaderName.ACCEPT,
             Lists.of(
-                CONTENT_TYPE.accept()
+                HATEOS_CONTENT_TYPE.accept()
             )
         );
         headers.put(

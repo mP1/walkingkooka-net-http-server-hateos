@@ -9,6 +9,7 @@ import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.AcceptCharset;
+import walkingkooka.net.header.HasHateosContentType;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.header.MediaType;
@@ -42,7 +43,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @walkingkooka.j2cl.locale.LocaleAware
-public class TestGwtTest extends GWTTestCase {
+public class TestGwtTest extends GWTTestCase implements HasHateosContentType;{
 
     @Override
     public String getModuleName() {

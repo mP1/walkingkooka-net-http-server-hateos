@@ -26,9 +26,9 @@ import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.CharsetName;
+import walkingkooka.net.header.HasHateosContentType;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
-import walkingkooka.net.header.MediaType;
 import walkingkooka.net.header.NotAcceptableHeaderException;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.HttpStatus;
@@ -47,7 +47,7 @@ import java.util.Optional;
 /**
  * Handles dispatching a request, after extracting ids and parsing request bodies.
  */
-final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandlerContext> {
+final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandlerContext> implements HasHateosContentType {
 
     static <X extends HateosHandlerContext> HateosResourceMappingsRouterHttpHandlerRequest<X> with(final HttpRequest request,
                                                                                                    final HttpResponse response,
@@ -387,7 +387,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
                 // Invalid bad/type: Message here...
                 this.badRequest(
                     "Invalid " +
-                        HateosHandlerContext.HATEOS_CONTENT_TYPE +
+                        HATEOS_CONTENT_TYPE +
                         ": " +
                         cause.getMessage(),
                     cause
@@ -406,10 +406,9 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
         if (null == accept) {
             this.badRequest("Missing " + HttpHeaderName.ACCEPT);
         } else {
-            final MediaType contentType = HateosHandlerContext.HATEOS_CONTENT_TYPE;
-            if (false == accept.test(contentType)) {
+            if (false == accept.test(HATEOS_CONTENT_TYPE)) {
                 this.badRequest(
-                    accept.requireIncompatibleMessage(contentType)
+                    accept.requireIncompatibleMessage(HATEOS_CONTENT_TYPE)
                 );
                 accept = null;
             }
@@ -468,7 +467,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
             final X context = this.context;
 
             entity = HttpEntity.EMPTY
-                .setContentType(HateosHandlerContext.HATEOS_CONTENT_TYPE.setCharset(charsetName))
+                .setContentType(HATEOS_CONTENT_TYPE.setCharset(charsetName))
                 .setLastModified(content)
                 .setBodyText(
                     context.marshall(content)

@@ -23,6 +23,7 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.UrlPathName;
+import walkingkooka.net.header.HasHateosContentType;
 import walkingkooka.net.header.Link;
 import walkingkooka.net.header.LinkParameterName;
 import walkingkooka.net.header.LinkRelation;
@@ -39,7 +40,7 @@ import java.util.Map.Entry;
 /**
  * A value class that holds numerous components to build links for a {@link HateosResourceName}.
  */
-final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping {
+final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping implements HasHateosContentType {
 
     static HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping with(final HateosResourceName name,
                                                                                         final Map<LinkRelation<?>, Collection<HttpMethod>> linkRelationToMethods) {
@@ -74,7 +75,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                 final Map<LinkParameterName<?>, Object> parameters = Maps.of(
                     LinkParameterName.METHOD, method,
                     LinkParameterName.REL, Lists.of(relation),
-                    LinkParameterName.TYPE, HateosHandlerContext.HATEOS_CONTENT_TYPE
+                    LinkParameterName.TYPE, HATEOS_CONTENT_TYPE
                 );
 
                 final UrlPathName linkRelationPathName = relation.toUrlPathName()
