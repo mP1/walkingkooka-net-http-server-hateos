@@ -21,7 +21,6 @@ import walkingkooka.Binary;
 import walkingkooka.currency.CurrencyCode;
 import walkingkooka.locale.LocaleLanguageTag;
 import walkingkooka.net.header.ETag;
-import walkingkooka.net.header.MediaType;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.tree.expression.ExpressionNumberKind;
@@ -41,11 +40,6 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class FakeHateosHandlerContext extends FakeJsonNodeMarshallContext implements HateosHandlerContext {
-
-    @Override
-    public MediaType contentType() {
-        throw new UnsupportedOperationException();
-    }
 
     // BinaryTextContext................................................................................................
 

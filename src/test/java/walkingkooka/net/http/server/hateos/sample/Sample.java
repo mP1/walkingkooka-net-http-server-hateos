@@ -27,7 +27,6 @@ import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.AcceptCharset;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
-import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpTransport;
@@ -169,9 +168,18 @@ public class Sample {
             @Override
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(
-                    HttpHeaderName.CONTENT_TYPE, Lists.of(TestHateosHandlerContext.CONTENT_TYPE),
-                    HttpHeaderName.ACCEPT, Lists.of(TestHateosHandlerContext.CONTENT_TYPE.accept()),
-                    HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
+                    HttpHeaderName.CONTENT_TYPE,
+                    Lists.of(
+                        TestHateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE
+                    ),
+                    HttpHeaderName.ACCEPT,
+                    Lists.of(
+                        TestHateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE.accept()
+                    ),
+                    HttpHeaderName.ACCEPT_CHARSET,
+                    Lists.of(
+                        AcceptCharset.parse("utf-8")
+                    )
                 );
             }
 
@@ -217,13 +225,6 @@ public class Sample {
     }
 
     static class TestHateosHandlerContext extends FakeHateosHandlerContext {
-
-        final static MediaType CONTENT_TYPE = MediaType.parse("application/test-json");
-
-        @Override
-        public MediaType contentType() {
-            return CONTENT_TYPE;
-        }
 
         @Override
         public Indentation indentation() {

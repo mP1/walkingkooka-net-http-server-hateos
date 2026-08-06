@@ -27,7 +27,6 @@ import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.Accept;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
-import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.HttpProtocolVersion;
@@ -106,11 +105,6 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
                 )
             ),
             new FakeHateosHandlerContext() {
-
-                @Override
-                public MediaType contentType() {
-                    return MediaType.APPLICATION_JSON;
-                }
 
                 @Override
                 public Indentation indentation() {
@@ -199,11 +193,6 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
             new FakeHateosHandlerContext() {
 
                 @Override
-                public MediaType contentType() {
-                    return MediaType.APPLICATION_JSON;
-                }
-
-                @Override
                 public Indentation indentation() {
                     return HateosResourceMappingsRouterHttpHandlerTest.INDENTATION;
                 }
@@ -290,11 +279,6 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
                 )
             ),
             new FakeHateosHandlerContext() {
-
-                @Override
-                public MediaType contentType() {
-                    return MediaType.APPLICATION_JSON;
-                }
 
                 @Override
                 public Indentation indentation() {

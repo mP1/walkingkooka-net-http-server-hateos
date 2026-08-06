@@ -23,7 +23,6 @@ import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.Url;
 import walkingkooka.net.header.LinkRelation;
-import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
@@ -44,7 +43,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
             "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
             "    \"method\": \"GET\",\n" +
             "    \"rel\": \"self\",\n" +
-            "    \"type\": \"application/test-json\"\n" +
+            "    \"type\": \"application/json; charset=UTF-8\"\n" +
             "  }]\n" +
             "}";
         this.addLinksAndCheck(
@@ -67,12 +66,12 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
             "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
             "    \"method\": \"GET\",\n" +
             "    \"rel\": \"self\",\n" +
-            "    \"type\": \"application/test-json\"\n" +
+            "    \"type\": \"application/json; charset=UTF-8\"\n" +
             "  }, {\n" +
             "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
             "    \"method\": \"POST\",\n" +
             "    \"rel\": \"self\",\n" +
-            "    \"type\": \"application/test-json\"\n" +
+            "    \"type\": \"application/json; charset=UTF-8\"\n" +
             "  }]\n" +
             "}";
         this.addLinksAndCheck(
@@ -98,7 +97,7 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
             "    \"href\": \"https://example.com/api/resource1/7b/contents\",\n" +
             "    \"method\": \"GET\",\n" +
             "    \"rel\": \"contents\",\n" +
-            "    \"type\": \"application/test-json\"\n" +
+            "    \"type\": \"application/json; charset=UTF-8\"\n" +
             "  }]\n" +
             "}";
         this.addLinksAndCheck(
@@ -123,17 +122,17 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
             "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
             "    \"method\": \"GET\",\n" +
             "    \"rel\": \"self\",\n" +
-            "    \"type\": \"application/test-json\"\n" +
+            "    \"type\": \"application/json; charset=UTF-8\"\n" +
             "  }, {\n" +
             "    \"href\": \"https://example.com/api/resource1/7b\",\n" +
             "    \"method\": \"POST\",\n" +
             "    \"rel\": \"self\",\n" +
-            "    \"type\": \"application/test-json\"\n" +
+            "    \"type\": \"application/json; charset=UTF-8\"\n" +
             "  }, {\n" +
             "    \"href\": \"https://example.com/api/resource1/7b/about\",\n" +
             "    \"method\": \"DELETE\",\n" +
             "    \"rel\": \"about\",\n" +
-            "    \"type\": \"application/test-json\"\n" +
+            "    \"type\": \"application/json; charset=UTF-8\"\n" +
             "  }]\n" +
             "}";
         this.addLinksAndCheck(
@@ -166,11 +165,6 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                     .objectOrFail(),
                 Url.parseAbsolute("https://example.com/api"),
                 new FakeHateosHandlerContext() {
-
-                    @Override
-                    public MediaType contentType() {
-                        return MediaType.parse("application/test-json");
-                    }
 
                     @Override
                     public JsonNode marshall(final Object value) {

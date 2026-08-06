@@ -37,8 +37,6 @@ public interface HateosHandlerContext extends HttpHandlerContext,
      */
     MediaType HATEOS_DEFAULT_CONTENT_TYPE = MediaType.APPLICATION_JSON.setCharset(CharsetName.UTF_8);
 
-    MediaType contentType();
-
     @Override
     HateosHandlerContext setObjectPostProcessor(final JsonNodeMarshallContextObjectPostProcessor processor);
 
