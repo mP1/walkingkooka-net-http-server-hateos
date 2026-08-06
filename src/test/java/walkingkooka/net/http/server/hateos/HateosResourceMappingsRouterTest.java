@@ -60,6 +60,7 @@ import walkingkooka.route.RouterTesting2;
 import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
+import walkingkooka.text.TextContextTesting;
 import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
@@ -79,6 +80,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter<TestHateosHandlerContext>>
     implements RouterTesting2<HateosResourceMappingsRouter<TestHateosHandlerContext>, HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>>,
+    TextContextTesting,
     ToStringTesting<HateosResourceMappingsRouter<TestHateosHandlerContext>>,
     ThrowableTesting {
 
@@ -106,12 +108,12 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
 
         @Override
         public Indentation indentation() {
-            return Indentation.SPACES2;
+            return HateosResourceMappingsRouterTest.INDENTATION;
         }
 
         @Override
         public LineEnding lineEnding() {
-            return LineEnding.NL;
+            return HateosResourceMappingsRouterTest.LINE_ENDING;
         }
 
         @Override
