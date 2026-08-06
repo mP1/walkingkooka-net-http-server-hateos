@@ -26,6 +26,7 @@ import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.header.AcceptCharset;
+import walkingkooka.net.header.HasHateosContentType;
 import walkingkooka.net.header.HttpHeaderName;
 import walkingkooka.net.header.LinkRelation;
 import walkingkooka.net.header.MediaType;
@@ -59,7 +60,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @J2clTestInput(JunitTest.class)
-public class JunitTest {
+public class JunitTest implements HasHateosContentType {
 
     @Test
     public void testAssertEquals() {
@@ -164,13 +165,9 @@ public class JunitTest {
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(
                     HttpHeaderName.CONTENT_TYPE,
-                    Lists.of(
-                        TestHateosHandlerContext.HATEOS_CONTENT_TYPE
-                    ),
+                    Lists.of(HATEOS_CONTENT_TYPE),
                     HttpHeaderName.ACCEPT,
-                    Lists.of(
-                        TestHateosHandlerContext.HATEOS_CONTENT_TYPE.accept()
-                    ),
+                    Lists.of(HATEOS_CONTENT_TYPE.accept()),
                     HttpHeaderName.ACCEPT_CHARSET,
                     Lists.of(
                         AcceptCharset.UTF_8
