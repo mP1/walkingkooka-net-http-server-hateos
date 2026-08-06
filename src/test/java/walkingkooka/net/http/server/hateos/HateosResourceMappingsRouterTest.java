@@ -1270,7 +1270,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                     HttpHeaderName.CONTENT_TYPE, Lists.of(CONTENT_TYPE),
                     HttpHeaderName.ACCEPT, Lists.of(CONTENT_TYPE.accept()),
                     HttpHeaderName.ACCEPT_CHARSET, Lists.of(
-                        AcceptCharset.parse("utf-8")
+                        AcceptCharset.UTF_8
                     )
                 );
             }
@@ -1445,7 +1445,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 return Maps.of(
                     HttpHeaderName.CONTENT_TYPE, Lists.of(mediaType),
                     HttpHeaderName.ACCEPT, Lists.of(mediaType.accept()),
-                    HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
+                    HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.UTF_8)
                 );
             }
 

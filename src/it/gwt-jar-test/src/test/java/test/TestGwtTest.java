@@ -155,7 +155,7 @@ public class TestGwtTest extends GWTTestCase {
                     ),
                     HttpHeaderName.ACCEPT_CHARSET,
                     Lists.of(
-                        AcceptCharset.parse("utf-8")
+                        AcceptCharset.UTF_8
                     )
                 );
             }
