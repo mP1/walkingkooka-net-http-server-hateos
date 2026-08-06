@@ -94,7 +94,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     private final static TestResource COLLECTION_RESOURCE_IN = TestResource.with(TestHateosResource.with(ID));
     private final static TestResource COLLECTION_RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
 
-    private final static MediaType CONTENT_TYPE = HateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE;
+    private final static MediaType CONTENT_TYPE = HateosHandlerContext.HATEOS_CONTENT_TYPE;
 
     private final static String RESOURCE_TYPE_NAME = TestResource.class.getSimpleName();
 

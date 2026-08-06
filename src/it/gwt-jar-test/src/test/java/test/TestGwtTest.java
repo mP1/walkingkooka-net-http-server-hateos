@@ -147,11 +147,11 @@ public class TestGwtTest extends GWTTestCase {
                 return Maps.of(
                     HttpHeaderName.CONTENT_TYPE,
                     Lists.of(
-                        TestHateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE
+                        TestHateosHandlerContext.HATEOS_CONTENT_TYPE
                     ),
                     HttpHeaderName.ACCEPT,
                     Lists.of(
-                        TestHateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE.accept()
+                        TestHateosHandlerContext.HATEOS_CONTENT_TYPE.accept()
                     ),
                     HttpHeaderName.ACCEPT_CHARSET,
                     Lists.of(

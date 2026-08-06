@@ -387,7 +387,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
                 // Invalid bad/type: Message here...
                 this.badRequest(
                     "Invalid " +
-                        HateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE +
+                        HateosHandlerContext.HATEOS_CONTENT_TYPE +
                         ": " +
                         cause.getMessage(),
                     cause
@@ -406,7 +406,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
         if (null == accept) {
             this.badRequest("Missing " + HttpHeaderName.ACCEPT);
         } else {
-            final MediaType contentType = HateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE;
+            final MediaType contentType = HateosHandlerContext.HATEOS_CONTENT_TYPE;
             if (false == accept.test(contentType)) {
                 this.badRequest(
                     accept.requireIncompatibleMessage(contentType)
@@ -468,7 +468,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
             final X context = this.context;
 
             entity = HttpEntity.EMPTY
-                .setContentType(HateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE.setCharset(charsetName))
+                .setContentType(HateosHandlerContext.HATEOS_CONTENT_TYPE.setCharset(charsetName))
                 .setLastModified(content)
                 .setBodyText(
                     context.marshall(content)
