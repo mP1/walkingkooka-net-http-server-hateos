@@ -20,6 +20,7 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.Range;
 import walkingkooka.net.UrlPath;
+import walkingkooka.net.header.HasHateosContentType;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.reflect.ClassTesting2;
@@ -37,7 +38,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public interface HateosHttpEntityHandlerTesting<H extends HateosHttpEntityHandler<I, X>,
     I extends Comparable<I>,
     X extends HateosHandlerContext>
-    extends ClassTesting2<H>,
+    extends HasHateosContentType,
+    ClassTesting2<H>,
     TreePrintableTesting,
     TypeNameTesting<H> {
 
