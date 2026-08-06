@@ -20,7 +20,6 @@ package walkingkooka.net.http.server.hateos;
 import walkingkooka.Binary;
 import walkingkooka.net.header.ETag;
 import walkingkooka.net.header.ETagComputer;
-import walkingkooka.net.header.MediaType;
 import walkingkooka.text.BinaryTextContext;
 import walkingkooka.text.BinaryTextContextDelegator;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContextObjectPostProcessor;
@@ -52,11 +51,6 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
         this.jsonNodeMarshallUnmarshallContext = jsonNodeMarshallUnmarshallContext;
         this.etagComputer = etagComputer;
         this.binaryTextContext = binaryTextContext;
-    }
-
-    @Override
-    public MediaType contentType() {
-        return HATEOS_DEFAULT_CONTENT_TYPE;
     }
 
     // BinaryTextContextDelegator.......................................................................................

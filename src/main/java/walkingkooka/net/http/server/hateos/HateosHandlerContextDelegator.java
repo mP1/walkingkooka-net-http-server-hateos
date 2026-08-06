@@ -17,7 +17,6 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.server.HttpHandlerContext;
 import walkingkooka.net.http.server.HttpHandlerContextDelegator;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
@@ -26,12 +25,6 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContextDelegato
 public interface HateosHandlerContextDelegator extends HateosHandlerContext,
     HttpHandlerContextDelegator,
     JsonNodeMarshallUnmarshallContextDelegator {
-
-    @Override
-    default MediaType contentType() {
-        return this.hateosHandlerContext()
-            .contentType();
-    }
 
 
     HateosHandlerContext hateosHandlerContext();

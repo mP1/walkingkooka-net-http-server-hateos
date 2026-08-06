@@ -26,7 +26,6 @@ import walkingkooka.net.AbsoluteUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.UrlPathName;
 import walkingkooka.net.header.LinkRelation;
-import walkingkooka.net.header.MediaType;
 import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.server.FakeHttpHandler;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorTest.TestHateosHandlerContext;
@@ -60,17 +59,17 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
                 "    \"href\": \"https://example.com/api/resource-1/7b\",\n" +
                 "    \"method\": \"POST\",\n" +
                 "    \"rel\": \"self\",\n" +
-                "    \"type\": \"application/test-json-123\"\n" +
+                "    \"type\": \"application/json; charset=UTF-8\"\n" +
                 "  }, {\n" +
                 "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
                 "    \"method\": \"GET\",\n" +
                 "    \"rel\": \"contents\",\n" +
-                "    \"type\": \"application/test-json-123\"\n" +
+                "    \"type\": \"application/json; charset=UTF-8\"\n" +
                 "  }, {\n" +
                 "    \"href\": \"https://example.com/api/resource-1/7b/contents\",\n" +
                 "    \"method\": \"POST\",\n" +
                 "    \"rel\": \"contents\",\n" +
-                "    \"type\": \"application/test-json-123\"\n" +
+                "    \"type\": \"application/json; charset=UTF-8\"\n" +
                 "  }]\n" +
                 "}"
             )
@@ -162,11 +161,6 @@ public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProces
     }
 
     static class TestHateosHandlerContext extends FakeHateosHandlerContext {
-
-        @Override
-        public MediaType contentType() {
-            return MediaType.parse("application/test-json-123");
-        }
 
         @Override
         public JsonNode marshall(final Object value) {

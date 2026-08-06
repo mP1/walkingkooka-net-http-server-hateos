@@ -92,7 +92,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     private final static TestResource COLLECTION_RESOURCE_IN = TestResource.with(TestHateosResource.with(ID));
     private final static TestResource COLLECTION_RESOURCE_OUT = TestResource.with(TestHateosResource.with(ID2));
 
-    private final static MediaType CONTENT_TYPE = MediaType.parse("application/test-json");
+    private final static MediaType CONTENT_TYPE = HateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE;
 
     private final static String RESOURCE_TYPE_NAME = TestResource.class.getSimpleName();
 
@@ -103,11 +103,6 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     private final static TestHateosHandlerContext CONTEXT = new TestHateosHandlerContext();
 
     static class TestHateosHandlerContext extends FakeHateosHandlerContext {
-
-        @Override
-        public MediaType contentType() {
-            return CONTENT_TYPE;
-        }
 
         @Override
         public Indentation indentation() {

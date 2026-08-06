@@ -77,10 +77,6 @@ public final class HateosResourceMappingsRouterHttpHandlerRequestTest extends Ha
         final HttpResponse response = HttpResponses.recording();
 
         final HateosHandlerContext context = new FakeHateosHandlerContext() {
-            @Override
-            public MediaType contentType() {
-                return MediaType.APPLICATION_JSON;
-            }
 
             @Override
             public Indentation indentation() {

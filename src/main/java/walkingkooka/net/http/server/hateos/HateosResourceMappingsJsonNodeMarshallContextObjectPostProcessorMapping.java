@@ -74,7 +74,7 @@ final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapp
                 final Map<LinkParameterName<?>, Object> parameters = Maps.of(
                     LinkParameterName.METHOD, method,
                     LinkParameterName.REL, Lists.of(relation),
-                    LinkParameterName.TYPE, context.contentType()
+                    LinkParameterName.TYPE, HateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE
                 );
 
                 final UrlPathName linkRelationPathName = relation.toUrlPathName()

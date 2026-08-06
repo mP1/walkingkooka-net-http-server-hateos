@@ -163,9 +163,18 @@ public class JunitTest {
             @Override
             public Map<HttpHeaderName<?>, List<?>> headers() {
                 return Maps.of(
-                    HttpHeaderName.CONTENT_TYPE, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE),
-                    HttpHeaderName.ACCEPT, Lists.of(TestHateosResourceHandlerContext.CONTENT_TYPE.accept()),
-                    HttpHeaderName.ACCEPT_CHARSET, Lists.of(AcceptCharset.parse("utf-8"))
+                    HttpHeaderName.CONTENT_TYPE,
+                    Lists.of(
+                        TestHateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE
+                    ),
+                    HttpHeaderName.ACCEPT,
+                    Lists.of(
+                        TestHateosHandlerContext.HATEOS_DEFAULT_CONTENT_TYPE.accept()
+                    ),
+                    HttpHeaderName.ACCEPT_CHARSET,
+                    Lists.of(
+                        AcceptCharset.parse("utf-8")
+                    )
                 );
             }
 
@@ -211,13 +220,6 @@ public class JunitTest {
     }
 
     static class TestHateosResourceHandlerContext extends FakeHateosHandlerContext {
-
-        final static MediaType CONTENT_TYPE = MediaType.parse("application/test-json");
-
-        @Override
-        public MediaType contentType() {
-            return CONTENT_TYPE;
-        }
 
         @Override
         public Indentation indentation() {
