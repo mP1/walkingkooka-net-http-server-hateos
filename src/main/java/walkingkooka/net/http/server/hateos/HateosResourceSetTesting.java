@@ -19,14 +19,14 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.SetTesting2;
-import walkingkooka.tree.json.marshall.JsonNodeMarshallingTesting;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallerTesting;
 
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface HateosResourceSetTesting<S extends Set<H>, H extends HateosResource<I>, I> extends SetTesting2<S, H>,
-    JsonNodeMarshallingTesting<S> {
+    JsonNodeMarshallerTesting<S> {
 
     @Test
     default void testReadOnly() {
