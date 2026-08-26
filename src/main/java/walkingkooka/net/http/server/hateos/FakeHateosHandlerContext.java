@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Binary;
 import walkingkooka.currency.CurrencyCode;
+import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.locale.LocaleLanguageTag;
 import walkingkooka.net.header.ETag;
 import walkingkooka.text.Indentation;
@@ -158,6 +159,13 @@ public class FakeHateosHandlerContext extends FakeJsonNodeMarshallContext implem
 
     @Override
     public ExpressionNumberKind expressionNumberKind() {
+        throw new UnsupportedOperationException();
+    }
+
+    // CanParseEnvironmentValueName.....................................................................................
+
+    @Override
+    public EnvironmentValueName<?> parseEnvironmentValueName(final String name) {
         throw new UnsupportedOperationException();
     }
 }

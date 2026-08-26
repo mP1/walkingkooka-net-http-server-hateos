@@ -26,7 +26,6 @@ import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.collect.set.SortedSets;
-import walkingkooka.currency.CurrencyLocaleContexts;
 import walkingkooka.net.RelativeUrl;
 import walkingkooka.net.Url;
 import walkingkooka.net.UrlPath;
@@ -62,13 +61,11 @@ import walkingkooka.text.CharSequences;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
 import walkingkooka.text.TextContextTesting;
-import walkingkooka.tree.expression.ExpressionNumberKind;
 import walkingkooka.tree.json.JsonNode;
 import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
-import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContexts;
+import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextTesting;
 
 import java.math.BigInteger;
-import java.math.MathContext;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -82,6 +79,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class HateosResourceMappingsRouterTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouter<TestHateosHandlerContext>>
     implements RouterTesting2<HateosResourceMappingsRouter<TestHateosHandlerContext>, HttpRequestAttribute<?>, HttpHandler<TestHateosHandlerContext>>,
     HasHateosContentType,
+    JsonNodeUnmarshallContextTesting,
     TextContextTesting,
     ToStringTesting<HateosResourceMappingsRouter<TestHateosHandlerContext>>,
     ThrowableTesting {
@@ -125,11 +123,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
         @Override
         public <T> T unmarshall(final JsonNode json,
                                 final Class<T> type) {
-            return JsonNodeUnmarshallContexts.basic(
-                ExpressionNumberKind.BIG_DECIMAL,
-                CurrencyLocaleContexts.fake(), // CurrencyCodeLanguageTagContext
-                MathContext.DECIMAL32
-            ).unmarshall(json, type);
+            return JSON_NODE_UNMARSHALL_CONTEXT.unmarshall(json, type);
         }
     }
 
