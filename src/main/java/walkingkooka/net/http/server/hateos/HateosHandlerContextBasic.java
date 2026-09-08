@@ -30,21 +30,21 @@ import walkingkooka.tree.json.marshall.JsonNodeUnmarshallContextPreProcessor;
 import java.util.Objects;
 import java.util.Optional;
 
-final class BasicHateosHandlerContext implements HateosHandlerContext,
+final class HateosHandlerContextBasic implements HateosHandlerContext,
     BinaryTextContextDelegator,
     JsonNodeMarshallUnmarshallContextDelegator {
 
-    static BasicHateosHandlerContext with(final BinaryTextContext binaryTextContext,
+    static HateosHandlerContextBasic with(final BinaryTextContext binaryTextContext,
                                           final ETagComputer etagComputer,
                                           final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
-        return new BasicHateosHandlerContext(
+        return new HateosHandlerContextBasic(
             Objects.requireNonNull(binaryTextContext, "binaryTextContext"),
             Objects.requireNonNull(etagComputer, "etagComputer"),
             Objects.requireNonNull(jsonNodeMarshallUnmarshallContext, "jsonNodeMarshallUnmarshallContext")
         );
     }
 
-    private BasicHateosHandlerContext(final BinaryTextContext binaryTextContext,
+    private HateosHandlerContextBasic(final BinaryTextContext binaryTextContext,
                                       final ETagComputer etagComputer,
                                       final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
         super();
@@ -80,7 +80,7 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
 
         return before.equals(after) ?
             this :
-            new BasicHateosHandlerContext(
+            new HateosHandlerContextBasic(
                 this.binaryTextContext,
                 this.etagComputer,
                 after
@@ -94,7 +94,7 @@ final class BasicHateosHandlerContext implements HateosHandlerContext,
 
         return before.equals(after) ?
             this :
-            new BasicHateosHandlerContext(
+            new HateosHandlerContextBasic(
                 this.binaryTextContext,
                 this.etagComputer,
                 after

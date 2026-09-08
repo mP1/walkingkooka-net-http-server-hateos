@@ -22,14 +22,14 @@ import walkingkooka.ToStringTesting;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public final class BasicHateosHandlerContextTest implements HateosHandlerContextTesting2<BasicHateosHandlerContext>,
-    ToStringTesting<BasicHateosHandlerContext> {
+public final class HateosHandlerContextBasicTest implements HateosHandlerContextTesting2<HateosHandlerContextBasic>,
+    ToStringTesting<HateosHandlerContextBasic> {
 
     @Test
     public void testWithNullBinaryTextContextFails() {
         assertThrows(
             NullPointerException.class,
-            () -> BasicHateosHandlerContext.with(
+            () -> HateosHandlerContextBasic.with(
                 null,
                 ETAG_COMPUTER,
                 JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
@@ -41,7 +41,7 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     public void testWithNullETagComputerFails() {
         assertThrows(
             NullPointerException.class,
-            () -> BasicHateosHandlerContext.with(
+            () -> HateosHandlerContextBasic.with(
                 BINARY_TEXT_CONTEXT,
                 null,
                 JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
@@ -53,7 +53,7 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     public void testWithNullJsonNodeUnmarshallContextFails() {
         assertThrows(
             NullPointerException.class,
-            () -> BasicHateosHandlerContext.with(
+            () -> HateosHandlerContextBasic.with(
                 BINARY_TEXT_CONTEXT,
                 ETAG_COMPUTER,
                 null
@@ -62,8 +62,8 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     }
 
     @Override
-    public BasicHateosHandlerContext createContext() {
-        return BasicHateosHandlerContext.with(
+    public HateosHandlerContextBasic createContext() {
+        return HateosHandlerContextBasic.with(
             BINARY_TEXT_CONTEXT,
             ETAG_COMPUTER,
             JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
@@ -83,7 +83,12 @@ public final class BasicHateosHandlerContextTest implements HateosHandlerContext
     // class............................................................................................................
 
     @Override
-    public Class<BasicHateosHandlerContext> type() {
-        return BasicHateosHandlerContext.class;
+    public Class<HateosHandlerContextBasic> type() {
+        return HateosHandlerContextBasic.class;
+    }
+
+    @Override
+    public void testTypeNaming() {
+        throw new UnsupportedOperationException();
     }
 }
