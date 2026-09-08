@@ -28,12 +28,12 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallUnmarshallContext;
 public final class HateosHandlerContexts implements PublicStaticHelper {
 
     /**
-     * {@see BasicHateosHandlerContext}
+     * {@see HateosHandlerContextBasic}
      */
     public static HateosHandlerContext basic(final BinaryTextContext binaryTextContext,
                                              final ETagComputer eTagComputer,
                                              final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
-        return BasicHateosHandlerContext.with(
+        return HateosHandlerContextBasic.with(
             binaryTextContext,
             eTagComputer,
             jsonNodeMarshallUnmarshallContext
