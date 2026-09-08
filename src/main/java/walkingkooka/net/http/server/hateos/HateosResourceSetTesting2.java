@@ -17,7 +17,10 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.text.printer.TreePrintableTesting;
+import walkingkooka.collect.set.ImmutableSet;
+import walkingkooka.collect.set.ImmutableSetTesting;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallerTesting;
 
-public interface HateosResourceSetTesting extends TreePrintableTesting {
+public interface HateosResourceSetTesting2<S extends ImmutableSet<H>, H extends HateosResource<I>, I> extends ImmutableSetTesting<S, H>,
+    JsonNodeMarshallerTesting<S> {
 }
