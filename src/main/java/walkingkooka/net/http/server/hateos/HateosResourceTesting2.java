@@ -18,7 +18,7 @@
 package walkingkooka.net.http.server.hateos;
 
 
-import walkingkooka.reflect.ClassTesting2;
+import walkingkooka.reflect.PublicClassTesting;
 
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ import java.util.Optional;
  * Mixin interface for testing {@link HateosResource}
  */
 public interface HateosResourceTesting2<H extends HateosResource<I>, I> extends HateosResourceTesting,
-    ClassTesting2<H> {
+    PublicClassTesting<H> {
 
     H createHateosResource();
 
