@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 
 import walkingkooka.reflect.PublicClassTesting;
+import walkingkooka.tree.json.marshall.JsonNodeMarshallerTesting;
 
 import java.util.Optional;
 
@@ -26,9 +27,8 @@ import java.util.Optional;
  * Mixin interface for testing {@link HateosResource}
  */
 public interface HateosResourceTesting2<H extends HateosResource<I>, I> extends HateosResourceTesting,
+    JsonNodeMarshallerTesting<H>,
     PublicClassTesting<H> {
-
-    H createHateosResource();
 
     default void hateosLinkIdAndCheck(final String expected) {
         this.hateosLinkIdAndCheck(this.createHateosResource(), expected);
@@ -39,5 +39,12 @@ public interface HateosResourceTesting2<H extends HateosResource<I>, I> extends 
             this.createHateosResource(),
             expected
         );
+    }
+
+    H createHateosResource();
+
+    @Override
+    default H createJsonNodeMarshallingValue() {
+        return this.createHateosResource();
     }
 }
