@@ -18,30 +18,26 @@
 package walkingkooka.net.http.server.hateos;
 
 
-import walkingkooka.text.printer.TreePrintableTesting;
+import walkingkooka.reflect.ClassTesting2;
 
 import java.util.Optional;
 
 /**
  * Mixin interface for testing {@link HateosResource}
  */
-public interface HateosResourceTesting extends TreePrintableTesting {
+public interface HateosResourceTesting2<H extends HateosResource<I>, I> extends HateosResourceTesting,
+    ClassTesting2<H> {
 
-    default void hateosLinkIdAndCheck(final HateosResource<?> resource,
-                                      final String expected) {
-        this.checkEquals(
-            expected,
-            resource.hateosLinkId(),
-            () -> resource + " hateosLinkId"
-        );
+    H createHateosResource();
+
+    default void hateosLinkIdAndCheck(final String expected) {
+        this.hateosLinkIdAndCheck(this.createHateosResource(), expected);
     }
 
-    default <T> void idAndCheck(final HateosResource<T> resource,
-                                final Optional<T> expected) {
-        this.checkEquals(
-            expected,
-            resource.id(),
-            () -> resource + " id"
+    default void idAndCheck(final Optional<I> expected) {
+        this.idAndCheck(
+            this.createHateosResource(),
+            expected
         );
     }
 }
