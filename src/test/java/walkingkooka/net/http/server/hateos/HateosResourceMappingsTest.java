@@ -81,49 +81,61 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
 
     @Test
     public void testWithNullResourceNameFails() {
-        this.withFails(
-            null,
-            this.selection(),
-            VALUE_TYPE,
-            COLLECTION_TYPE,
-            RESOURCE_TYPE,
-            TestHateosHandlerContext.class
+        assertThrows(
+            NullPointerException.class,
+            () -> HateosResourceMappings.with(
+                null,
+                this.selection(),
+                VALUE_TYPE,
+                COLLECTION_TYPE,
+                RESOURCE_TYPE,
+                TestHateosHandlerContext.class
+            )
         );
     }
 
     @Test
     public void testWithNullSelectionFails() {
-        this.withFails(
-            RESOURCE_NAME,
-            null,
-            VALUE_TYPE,
-            COLLECTION_TYPE,
-            RESOURCE_TYPE,
-            TestHateosHandlerContext.class
+        assertThrows(
+            NullPointerException.class,
+            () -> HateosResourceMappings.with(
+                RESOURCE_NAME,
+                null,
+                VALUE_TYPE,
+                COLLECTION_TYPE,
+                RESOURCE_TYPE,
+                TestHateosHandlerContext.class
+            )
         );
     }
 
     @Test
     public void testWithNullValueTypeFails() {
-        this.withFails(
-            RESOURCE_NAME,
-            this.selection(),
-            null,
-            COLLECTION_TYPE,
-            RESOURCE_TYPE,
-            TestHateosHandlerContext.class
+        assertThrows(
+            NullPointerException.class,
+            () -> HateosResourceMappings.with(
+                RESOURCE_NAME,
+                this.selection(),
+                (Class<TestResource>) null,
+                COLLECTION_TYPE,
+                RESOURCE_TYPE,
+                TestHateosHandlerContext.class
+            )
         );
     }
 
     @Test
     public void testWithNullCollectionTypeFails() {
-        this.withFails(
-            RESOURCE_NAME,
-            this.selection(),
-            VALUE_TYPE,
-            null,
-            RESOURCE_TYPE,
-            TestHateosHandlerContext.class
+        assertThrows(
+            NullPointerException.class,
+            () -> HateosResourceMappings.with(
+                RESOURCE_NAME,
+                this.selection(),
+                VALUE_TYPE,
+                (Class<TestResource2>) null,
+                RESOURCE_TYPE,
+                TestHateosHandlerContext.class
+            )
         );
     }
 
@@ -167,13 +179,16 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
 
     @Test
     public void testWithNullResourceTypeFails() {
-        this.withFails(
-            RESOURCE_NAME,
-            this.selection(),
-            VALUE_TYPE,
-            COLLECTION_TYPE,
-            null,
-            TestHateosHandlerContext.class
+        assertThrows(
+            NullPointerException.class,
+            () -> HateosResourceMappings.with(
+                RESOURCE_NAME,
+                this.selection(),
+                VALUE_TYPE,
+                COLLECTION_TYPE,
+                (Class<TestHateosResource>) null,
+                TestHateosHandlerContext.class
+            )
         );
     }
 
@@ -198,26 +213,6 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
 
     interface TestHateosResourceInterface extends HateosResource<BigInteger> {
 
-    }
-
-    private void withFails(
-        final HateosResourceName resourceName,
-        final BiFunction<String, TestHateosHandlerContext, HateosResourceSelection<BigInteger>> selection,
-        final Class<TestResource> valueType,
-        final Class<TestResource2> COLLECTION_TYPE,
-        final Class<TestHateosResource> resourceType,
-        final Class<TestHateosHandlerContext> contextType) {
-        assertThrows(
-            NullPointerException.class,
-            () -> HateosResourceMappings.with(
-                resourceName,
-                selection,
-                valueType,
-                COLLECTION_TYPE,
-                resourceType,
-                contextType
-            )
-        );
     }
 
     // setHateosResourceHandler.........................................................................................
