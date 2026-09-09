@@ -31,6 +31,7 @@ import walkingkooka.net.http.server.HttpHandler;
 import walkingkooka.net.http.server.hateos.HateosResourceMappingsTest.TestHateosHandlerContext;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.ThrowableTesting;
 import walkingkooka.text.printer.TreePrintableTesting;
 
 import java.math.BigInteger;
@@ -45,6 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsTest implements ClassTesting2<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosHandlerContext>>,
+    ThrowableTesting,
     ToStringTesting<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosHandlerContext>>,
     TreePrintableTesting {
 
@@ -152,9 +154,9 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 TestHateosHandlerContext.class
             )
         );
-        this.checkEquals(
-            "Collection type java.util.Collection is an interface expected a concrete class",
-            thrown.getMessage()
+        this.getMessageAndCheck(
+            thrown,
+            "Collection type java.util.Collection is an interface expected a concrete class"
         );
     }
 
@@ -171,9 +173,9 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 TestHateosHandlerContext.class
             )
         );
-        this.checkEquals(
-            "Collection type [Ljava.lang.Object; is an array expected a concrete class",
-            thrown.getMessage()
+        this.getMessageAndCheck(
+            thrown,
+            "Collection type [Ljava.lang.Object; is an array expected a concrete class"
         );
     }
 
@@ -205,9 +207,9 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                 TestHateosHandlerContext.class
             )
         );
-        this.checkEquals(
-            "Resource type walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$TestHateosResourceInterface is an interface expected a concrete class",
-            thrown.getMessage()
+        this.getMessageAndCheck(
+            thrown,
+            "Resource type walkingkooka.net.http.server.hateos.HateosResourceMappingsTest$TestHateosResourceInterface is an interface expected a concrete class"
         );
     }
 
@@ -815,9 +817,9 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                     HTTP_HANDLER
                 )
         );
-        this.checkEquals(
-            "Clash with existing HateosHttpEntityHandler / HateosResourceHandler",
-            thrown.getMessage()
+        this.getMessageAndCheck(
+            thrown,
+            "Clash with existing HateosHttpEntityHandler / HateosResourceHandler"
         );
     }
 
@@ -836,9 +838,9 @@ public final class HateosResourceMappingsTest implements ClassTesting2<HateosRes
                     HTTP_HANDLER
                 )
         );
-        this.checkEquals(
-            "Clash with existing HateosHttpEntityHandler / HateosResourceHandler",
-            thrown.getMessage()
+        this.getMessageAndCheck(
+            thrown,
+            "Clash with existing HateosHttpEntityHandler / HateosResourceHandler"
         );
     }
 
