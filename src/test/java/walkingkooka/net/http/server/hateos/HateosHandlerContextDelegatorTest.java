@@ -85,6 +85,11 @@ public final class HateosHandlerContextDelegatorTest implements HateosHandlerCon
         return TestHateosResourceHandlerContextDelegator.class;
     }
 
+    @Override
+    public void testTestNaming() {
+        throw new UnsupportedOperationException();
+    }
+
     static final class TestHateosResourceHandlerContextDelegator implements HateosHandlerContextDelegator {
 
         @Override
