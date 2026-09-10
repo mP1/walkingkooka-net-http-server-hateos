@@ -444,7 +444,10 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
                             final Throwable cause) {
         this.badRequest(message);
         this.response.setEntity(
-            HttpEntity.dumpStackTrace(cause)
+            HttpEntity.dumpStackTrace(
+                cause,
+                this.context.lineEnding()
+            )
         );
     }
 
