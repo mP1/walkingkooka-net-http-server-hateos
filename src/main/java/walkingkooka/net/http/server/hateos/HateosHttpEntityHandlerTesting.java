@@ -19,6 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.collect.Range;
 import walkingkooka.net.UrlPath;
+import walkingkooka.net.header.HasHateosContentType;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.text.printer.TreePrintableTesting;
@@ -31,7 +32,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Mixin interface for testing {@link HateosHttpEntityHandler}
  */
-public interface HateosHttpEntityHandlerTesting extends TreePrintableTesting {
+public interface HateosHttpEntityHandlerTesting extends HasHateosContentType,
+    TreePrintableTesting {
 
     // handleAll........................................................................................................
 
