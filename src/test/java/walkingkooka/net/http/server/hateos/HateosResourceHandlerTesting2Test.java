@@ -23,7 +23,7 @@ import walkingkooka.collect.Range;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.server.HttpRequestAttribute;
-import walkingkooka.net.http.server.hateos.HateosResourceHandlerTestingTest.TestHateosHandlerContext;
+import walkingkooka.net.http.server.hateos.HateosResourceHandlerTesting2Test.TestHateosHandlerContext;
 import walkingkooka.reflect.JavaVisibility;
 
 import java.math.BigInteger;
@@ -33,7 +33,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-public final class HateosResourceHandlerTestingTest implements HateosResourceHandlerTesting<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>,
+public final class HateosResourceHandlerTesting2Test implements HateosResourceHandlerTesting2<FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>,
     BigInteger,
     TestHateosResource,
     TestHateosResource2,
@@ -60,7 +60,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleAllAndCheck(
-            new FakeHateosResourceHandler<>() {
+            new FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>() {
 
                 @Override
                 public Optional<TestHateosResource2> handleAll(final Optional<TestHateosResource2> r,
@@ -95,7 +95,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleManyAndCheck(
-            new FakeHateosResourceHandler<>() {
+            new FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>() {
                 @Override
                 public Optional<TestHateosResource2> handleMany(final Set<BigInteger> i,
                                                                 final Optional<TestHateosResource2> r,
@@ -131,7 +131,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource out = TestHateosResource.with(BigInteger.ONE);
 
         this.handleNoneAndCheck(
-            new FakeHateosResourceHandler<>() {
+            new FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>() {
 
                 @Override
                 public Optional<TestHateosResource> handleNone(final Optional<TestHateosResource> r,
@@ -166,7 +166,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource out = TestHateosResource.with(BigInteger.ONE);
 
         this.handleOneAndCheck(
-            new FakeHateosResourceHandler<>() {
+            new FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>() {
                 @Override
                 public Optional<TestHateosResource> handleOne(final BigInteger i,
                                                               final Optional<TestHateosResource> r,
@@ -203,7 +203,7 @@ public final class HateosResourceHandlerTestingTest implements HateosResourceHan
         final TestHateosResource2 out = TestHateosResource2.with(BigInteger.ONE);
 
         this.handleRangeAndCheck(
-            new FakeHateosResourceHandler<>() {
+            new FakeHateosResourceHandler<BigInteger, TestHateosResource, TestHateosResource2, TestHateosHandlerContext>() {
                 @Override
                 public Optional<TestHateosResource2> handleRange(final Range<BigInteger> rr,
                                                                  final Optional<TestHateosResource2> r,
