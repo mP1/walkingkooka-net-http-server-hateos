@@ -22,7 +22,7 @@ import walkingkooka.collect.Range;
 import walkingkooka.net.UrlPath;
 import walkingkooka.net.http.HttpEntity;
 import walkingkooka.net.http.server.HttpRequestAttribute;
-import walkingkooka.reflect.ClassTesting2;
+import walkingkooka.reflect.PackagePrivateClassTesting;
 import walkingkooka.reflect.TypeNameTesting;
 import walkingkooka.text.printer.TreePrintableTesting;
 
@@ -36,7 +36,7 @@ public interface HateosHttpEntityHandlerTesting2<H extends HateosHttpEntityHandl
     I extends Comparable<I>,
     X extends HateosHandlerContext>
     extends HateosHttpEntityHandlerTesting,
-    ClassTesting2<H>,
+    PackagePrivateClassTesting<H>,
     TreePrintableTesting,
     TypeNameTesting<H> {
 
