@@ -32,7 +32,7 @@ import walkingkooka.net.http.HttpMethod;
 import walkingkooka.net.http.HttpProtocolVersion;
 import walkingkooka.net.http.HttpTransport;
 import walkingkooka.net.http.server.HttpHandler;
-import walkingkooka.net.http.server.HttpHandlerTesting;
+import walkingkooka.net.http.server.HttpHandlerTesting2;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 import walkingkooka.net.http.server.HttpRequests;
 import walkingkooka.net.http.server.HttpResponses;
@@ -46,7 +46,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosResourceMappingsTestCase<HateosResourceMappingsRouterHttpHandler<HateosHandlerContext>>
-    implements HttpHandlerTesting<HateosResourceMappingsRouterHttpHandler<HateosHandlerContext>, HateosHandlerContext>,
+    implements HttpHandlerTesting2<HateosResourceMappingsRouterHttpHandler<HateosHandlerContext>, HateosHandlerContext>,
     HasLastModifiedTesting,
     HasOptionalLastModifiedTesting,
     JsonNodeMarshallContextTesting {
