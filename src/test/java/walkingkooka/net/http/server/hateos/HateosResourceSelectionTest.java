@@ -19,8 +19,7 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.test.ParseStringTesting;
 
 import java.math.BigInteger;
@@ -28,7 +27,7 @@ import java.math.BigInteger;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceSelectionTest implements ParseStringTesting<HateosResourceSelection<BigInteger>>,
-    ClassTesting<HateosResourceSelection<BigInteger>> {
+    PublicClassTesting<HateosResourceSelection<BigInteger>> {
 
     // parse............................................................................................................
 
@@ -105,10 +104,5 @@ public final class HateosResourceSelectionTest implements ParseStringTesting<Hat
     @Override
     public Class<HateosResourceSelection<BigInteger>> type() {
         return Cast.to(HateosResourceSelection.class);
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }
