@@ -17,14 +17,93 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import org.junit.jupiter.api.Test;
 import walkingkooka.Cast;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.test.ParseStringTesting;
 
-public final class HateosResourceSelectionTest implements ClassTesting<HateosResourceSelection<?>> {
+import java.math.BigInteger;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+public final class HateosResourceSelectionTest implements ParseStringTesting<HateosResourceSelection<BigInteger>>,
+    ClassTesting<HateosResourceSelection<BigInteger>> {
+
+    // parse............................................................................................................
+
+    @Test
+    public void testParseWithNullNameFactoryFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> HateosResourceSelection.parseNoneOneOrAll(
+                "",
+                null
+            )
+        );
+    }
+
+    @Test
+    public void testParseWithInvalidFails() {
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> this.parseString("abc")
+        );
+    }
 
     @Override
-    public Class<HateosResourceSelection<?>> type() {
+    public void testParseStringEmptyFails() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Test
+    public void testParseWithNone() {
+        this.parseStringAndCheck(
+            "",
+            HateosResourceSelection.none()
+        );
+    }
+
+    @Test
+    public void testParseWithOne() {
+        this.parseStringAndCheck(
+            "123",
+            HateosResourceSelection.one(
+                new BigInteger("123")
+            )
+        );
+    }
+
+    @Test
+    public void testParseWithAll() {
+        this.parseStringAndCheck(
+            "*",
+            HateosResourceSelection.all()
+        );
+    }
+
+    @Override
+    public HateosResourceSelection<BigInteger> parseString(final String text) {
+        return HateosResourceSelection.parseNoneOneOrAll(
+            text,
+            BigInteger::new
+        );
+    }
+
+    @Override
+    public Class<? extends RuntimeException> parseStringFailedExpected(final Class<? extends RuntimeException> expected) {
+        return expected;
+    }
+
+    @Override
+    public RuntimeException parseStringFailedExpected(final RuntimeException expected) {
+        return expected;
+    }
+
+    // class............................................................................................................
+
+    @Override
+    public Class<HateosResourceSelection<BigInteger>> type() {
         return Cast.to(HateosResourceSelection.class);
     }
 
