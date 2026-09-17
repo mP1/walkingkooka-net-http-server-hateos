@@ -24,13 +24,48 @@ import walkingkooka.net.http.HttpStatusCode;
 import walkingkooka.net.http.server.HttpRequestAttribute;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * A selection which may be nothing, a single item, a range or list.
  */
 public abstract class HateosResourceSelection<I extends Comparable<I>> {
+
+    /**
+     * Parses text into a {@link HateosResourceSelection} using the provided name factory.
+     * <pre>
+     * /
+     * /*
+     * /ExpressionFunctionName
+     * </pre>
+     * Many or ranges are not supported.
+     */
+    public static <T extends Comparable<T>> HateosResourceSelection<T> parseNoneOneOrAll(final String text,
+                                                                                         final Function<String, T> nameFactory) {
+        Objects.requireNonNull(text, "text");
+        Objects.requireNonNull(nameFactory, "nameFactory");
+
+        final HateosResourceSelection<T> selection;
+
+        switch (text) {
+            case HateosResourceSelection.NONE:
+                selection = HateosResourceSelection.none();
+                break;
+            case HateosResourceSelection.ALL:
+                selection = HateosResourceSelection.all();
+                break;
+            default:
+                selection = HateosResourceSelection.one(
+                    nameFactory.apply(text)
+                );
+                break;
+        }
+
+        return selection;
+    }
 
     /**
      * Useful constant for a selection of NONE.
