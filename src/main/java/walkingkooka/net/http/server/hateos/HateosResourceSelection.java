@@ -43,8 +43,8 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
      * </pre>
      * Many or ranges are not supported.
      */
-    public static <T extends Comparable<T>> HateosResourceSelection<T> parseNoneOneOrAll(final String text,
-                                                                                         final Function<String, T> nameFactory) {
+    public static <T extends Comparable<T>> HateosResourceSelection<T> parseOneOrAll(final String text,
+                                                                                     final Function<String, T> nameFactory) {
         Objects.requireNonNull(text, "text");
         Objects.requireNonNull(nameFactory, "nameFactory");
 
@@ -52,8 +52,6 @@ public abstract class HateosResourceSelection<I extends Comparable<I>> {
 
         switch (text) {
             case HateosResourceSelection.NONE:
-                selection = HateosResourceSelection.none();
-                break;
             case HateosResourceSelection.ALL:
                 selection = HateosResourceSelection.all();
                 break;

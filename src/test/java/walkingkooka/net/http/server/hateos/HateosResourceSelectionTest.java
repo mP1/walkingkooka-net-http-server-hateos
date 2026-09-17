@@ -35,7 +35,7 @@ public final class HateosResourceSelectionTest implements ParseStringTesting<Hat
     public void testParseWithNullNameFactoryFails() {
         assertThrows(
             NullPointerException.class,
-            () -> HateosResourceSelection.parseNoneOneOrAll(
+            () -> HateosResourceSelection.parseOneOrAll(
                 "",
                 null
             )
@@ -59,7 +59,7 @@ public final class HateosResourceSelectionTest implements ParseStringTesting<Hat
     public void testParseWithNone() {
         this.parseStringAndCheck(
             "",
-            HateosResourceSelection.none()
+            HateosResourceSelection.all()
         );
     }
 
@@ -83,7 +83,7 @@ public final class HateosResourceSelectionTest implements ParseStringTesting<Hat
 
     @Override
     public HateosResourceSelection<BigInteger> parseString(final String text) {
-        return HateosResourceSelection.parseNoneOneOrAll(
+        return HateosResourceSelection.parseOneOrAll(
             text,
             BigInteger::new
         );
