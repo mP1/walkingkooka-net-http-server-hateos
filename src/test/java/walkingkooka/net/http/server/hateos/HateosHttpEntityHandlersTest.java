@@ -17,7 +17,6 @@
 
 package walkingkooka.net.http.server.hateos;
 
-import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicStaticHelperTesting;
 
 import java.lang.reflect.Method;
@@ -27,11 +26,6 @@ public final class HateosHttpEntityHandlersTest implements PublicStaticHelperTes
     @Override
     public Class<HateosHttpEntityHandlers> type() {
         return HateosHttpEntityHandlers.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 
     @Override
