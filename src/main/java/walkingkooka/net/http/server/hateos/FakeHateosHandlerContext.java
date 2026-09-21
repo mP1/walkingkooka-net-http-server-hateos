@@ -21,6 +21,8 @@ import walkingkooka.Binary;
 import walkingkooka.currency.CurrencyCode;
 import walkingkooka.environment.EnvironmentValueName;
 import walkingkooka.locale.LocaleLanguageTag;
+import walkingkooka.logging.LoggerPath;
+import walkingkooka.logging.LoggingLevel;
 import walkingkooka.net.header.ETag;
 import walkingkooka.text.Indentation;
 import walkingkooka.text.LineEnding;
@@ -159,6 +161,104 @@ public class FakeHateosHandlerContext extends FakeJsonNodeMarshallContext implem
 
     @Override
     public ExpressionNumberKind expressionNumberKind() {
+        throw new UnsupportedOperationException();
+    }
+
+    // LoggingContext...................................................................................................
+
+    @Override
+    public void logEnter(final LoggerPath logger) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void logExit() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void log(final LoggingLevel loggingLevel,
+                    final String message,
+                    final Throwable throwable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isLoggingEnabled(final LoggingLevel loggingLevel) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void debug(final String message) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void debug(final String message,
+                      final Throwable throwable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void info(final String message) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void info(final String message,
+                     final Throwable throwable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void warn(final String message) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void warn(final String message,
+                     final Throwable throwable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void error(final String message) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void error(final String message,
+                      final Throwable throwable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isDebugEnabled() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isInfoEnabled() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isWarnEnabled() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isErrorEnabled() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isNoneEnabled() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LoggingLevel loggingLevel() {
         throw new UnsupportedOperationException();
     }
 
