@@ -17,6 +17,7 @@
 
 package walkingkooka.net.http.server.hateos;
 
+import walkingkooka.logging.LoggingContext;
 import walkingkooka.net.header.ETagComputer;
 import walkingkooka.reflect.PublicStaticHelper;
 import walkingkooka.text.BinaryTextContext;
@@ -32,11 +33,13 @@ public final class HateosHandlerContexts implements PublicStaticHelper {
      */
     public static HateosHandlerContext basic(final BinaryTextContext binaryTextContext,
                                              final ETagComputer eTagComputer,
-                                             final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
+                                             final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext,
+                                             final LoggingContext loggingContext) {
         return HateosHandlerContextBasic.with(
             binaryTextContext,
             eTagComputer,
-            jsonNodeMarshallUnmarshallContext
+            jsonNodeMarshallUnmarshallContext,
+            loggingContext
         );
     }
 

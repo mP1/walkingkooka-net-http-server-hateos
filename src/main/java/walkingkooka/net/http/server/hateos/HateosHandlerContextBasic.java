@@ -18,6 +18,8 @@
 package walkingkooka.net.http.server.hateos;
 
 import walkingkooka.Binary;
+import walkingkooka.logging.LoggingContext;
+import walkingkooka.logging.LoggingContextDelegator;
 import walkingkooka.net.header.ETag;
 import walkingkooka.net.header.ETagComputer;
 import walkingkooka.text.BinaryTextContext;
@@ -32,25 +34,30 @@ import java.util.Optional;
 
 final class HateosHandlerContextBasic implements HateosHandlerContext,
     BinaryTextContextDelegator,
-    JsonNodeMarshallUnmarshallContextDelegator {
+    JsonNodeMarshallUnmarshallContextDelegator,
+    LoggingContextDelegator {
 
     static HateosHandlerContextBasic with(final BinaryTextContext binaryTextContext,
                                           final ETagComputer etagComputer,
-                                          final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
+                                          final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext,
+                                          final LoggingContext loggingContext) {
         return new HateosHandlerContextBasic(
             Objects.requireNonNull(binaryTextContext, "binaryTextContext"),
             Objects.requireNonNull(etagComputer, "etagComputer"),
-            Objects.requireNonNull(jsonNodeMarshallUnmarshallContext, "jsonNodeMarshallUnmarshallContext")
+            Objects.requireNonNull(jsonNodeMarshallUnmarshallContext, "jsonNodeMarshallUnmarshallContext"),
+            Objects.requireNonNull(loggingContext, "loggingContext")
         );
     }
 
     private HateosHandlerContextBasic(final BinaryTextContext binaryTextContext,
                                       final ETagComputer etagComputer,
-                                      final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext) {
+                                      final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext,
+                                      final LoggingContext loggingContext) {
         super();
         this.jsonNodeMarshallUnmarshallContext = jsonNodeMarshallUnmarshallContext;
         this.etagComputer = etagComputer;
         this.binaryTextContext = binaryTextContext;
+        this.loggingContext = loggingContext;
     }
 
     // BinaryTextContextDelegator.......................................................................................
@@ -83,7 +90,8 @@ final class HateosHandlerContextBasic implements HateosHandlerContext,
             new HateosHandlerContextBasic(
                 this.binaryTextContext,
                 this.etagComputer,
-                after
+                after,
+                this.loggingContext
             );
     }
 
@@ -97,7 +105,8 @@ final class HateosHandlerContextBasic implements HateosHandlerContext,
             new HateosHandlerContextBasic(
                 this.binaryTextContext,
                 this.etagComputer,
-                after
+                after,
+                this.loggingContext
             );
     }
 
@@ -108,10 +117,19 @@ final class HateosHandlerContextBasic implements HateosHandlerContext,
 
     private final JsonNodeMarshallUnmarshallContext jsonNodeMarshallUnmarshallContext;
 
+    // LoggingContextDelegator..........................................................................................
+
+    @Override
+    public LoggingContext loggingContext() {
+        return this.loggingContext;
+    }
+
+    private LoggingContext loggingContext;
+
     // Object...........................................................................................................
 
     @Override
     public String toString() {
-        return this.jsonNodeMarshallUnmarshallContext.toString();
+        return this.jsonNodeMarshallUnmarshallContext + " " + this.loggingContext;
     }
 }

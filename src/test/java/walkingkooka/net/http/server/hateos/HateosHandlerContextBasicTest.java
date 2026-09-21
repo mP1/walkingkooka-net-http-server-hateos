@@ -32,7 +32,8 @@ public final class HateosHandlerContextBasicTest implements HateosHandlerContext
             () -> HateosHandlerContextBasic.with(
                 null,
                 ETAG_COMPUTER,
-                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
+                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
+                LOGGING_CONTEXT
             )
         );
     }
@@ -44,7 +45,8 @@ public final class HateosHandlerContextBasicTest implements HateosHandlerContext
             () -> HateosHandlerContextBasic.with(
                 BINARY_TEXT_CONTEXT,
                 null,
-                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
+                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
+                LOGGING_CONTEXT
             )
         );
     }
@@ -56,6 +58,20 @@ public final class HateosHandlerContextBasicTest implements HateosHandlerContext
             () -> HateosHandlerContextBasic.with(
                 BINARY_TEXT_CONTEXT,
                 ETAG_COMPUTER,
+                null,
+                LOGGING_CONTEXT
+            )
+        );
+    }
+
+    @Test
+    public void testWithNullLoggingContextFails() {
+        assertThrows(
+            NullPointerException.class,
+            () -> HateosHandlerContextBasic.with(
+                BINARY_TEXT_CONTEXT,
+                ETAG_COMPUTER,
+                JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
                 null
             )
         );
@@ -66,7 +82,8 @@ public final class HateosHandlerContextBasicTest implements HateosHandlerContext
         return HateosHandlerContextBasic.with(
             BINARY_TEXT_CONTEXT,
             ETAG_COMPUTER,
-            JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT
+            JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT,
+            LOGGING_CONTEXT
         );
     }
 
@@ -76,7 +93,7 @@ public final class HateosHandlerContextBasicTest implements HateosHandlerContext
     public void testToString() {
         this.toStringAndCheck(
             this.createContext(),
-            JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT.toString()
+            JSON_NODE_MARSHALL_UNMARSHALL_CONTEXT + " " + LOGGING_CONTEXT
         );
     }
 
