@@ -1619,7 +1619,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
                 return this.method() + " " + this.url() + " " + parameters();
             }
         };
-        final HttpHandler httpHandler = router.route(
+        final HttpHandler<TestHateosHandlerContext> httpHandler = router.route(
             request.routerParameters()
         ).orElseThrow(
             () -> new Error("Unable to route")
