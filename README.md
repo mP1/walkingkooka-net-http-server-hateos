@@ -13,10 +13,3 @@
 A Hateos library where resources and relations combinations are defined programmatically using an immutable fluent style.
 These mappings are also used by the `Router` to create the links for `HateosResource` as they are marshalled, a sample
 from a unit test is shown below:
-
-```json
-https://
-```
-
-
-
