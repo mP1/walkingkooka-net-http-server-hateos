@@ -6,10 +6,14 @@
 ![](https://tokei.rs/b1/github/mP1/walkingkooka-net-http-server-hateos)
 [![J2CL compatible](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg)](https://github.com/mP1/j2cl-central)
 
-
-
 # Basic Project
 
-A Hateos library where resources and relations combinations are defined programmatically using an immutable fluent style.
-These mappings are also used by the `Router` to create the links for `HateosResource` as they are marshalled, a sample
-from a unit test is shown below:
+A HATEOS library where resources and relations combinations are defined programmatically using an immutable fluent
+style.
+
+Plumbing such as examining the URL to extract the resource name and trailing parameters are used to match and dispatch
+to the registered handler, or an error response. Marshalling the request body from JSON and the response to JSON is
+automatically provided. A variety of headers are supported and honoured in handling the request and response.
+
+It is also possible to customise or handle how each of the above and other parts of the processing lifecycle are
+performed.
