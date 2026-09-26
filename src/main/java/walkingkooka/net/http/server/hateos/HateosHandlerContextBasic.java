@@ -124,7 +124,7 @@ final class HateosHandlerContextBasic implements HateosHandlerContext,
         return this.loggingContext;
     }
 
-    private LoggingContext loggingContext;
+    private final LoggingContext loggingContext;
 
     // Object...........................................................................................................
 
