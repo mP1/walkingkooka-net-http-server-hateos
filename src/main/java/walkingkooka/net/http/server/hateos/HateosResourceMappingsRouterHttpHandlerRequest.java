@@ -498,7 +498,7 @@ final class HateosResourceMappingsRouterHttpHandlerRequest<X extends HateosHandl
         final AcceptCharset acceptCharset = HttpHeaderName.ACCEPT_CHARSET.header(this.request)
             .orElse(AcceptCharset.UTF_8);
         final Optional<Charset> charset = acceptCharset.charset();
-        if (!charset.isPresent()) {
+        if (charset.isEmpty()) {
             // AcceptCharset Hello contains unsupported charset
             throw new NotAcceptableHeaderException("AcceptCharset " + acceptCharset + " contain unsupported charset");
         }
