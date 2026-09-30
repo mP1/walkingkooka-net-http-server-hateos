@@ -19,12 +19,11 @@ package walkingkooka.net.http.server.hateos;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.HasCharset;
-import walkingkooka.reflect.ClassTesting;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.text.BinaryTextContext;
 import walkingkooka.text.TextContext;
 
-public final class HateosHandlerContextTest implements ClassTesting<HateosHandlerContext> {
+public final class HateosHandlerContextTest implements PublicClassTesting<HateosHandlerContext> {
 
     @Test
     public void testImplementsHasCharset() {
@@ -55,11 +54,6 @@ public final class HateosHandlerContextTest implements ClassTesting<HateosHandle
     @Override
     public Class<HateosHandlerContext> type() {
         return HateosHandlerContext.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 
     @Override
