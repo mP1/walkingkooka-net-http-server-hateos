@@ -113,7 +113,7 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
 
                 @Override
                 public LineEnding lineEnding() {
-                    return EOL;
+                    return HateosResourceMappingsRouterHttpHandlerTest.LINE_ENDING;
                 }
 
                 @Override
@@ -199,7 +199,7 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
 
                 @Override
                 public LineEnding lineEnding() {
-                    return EOL;
+                    return HateosResourceMappingsRouterHttpHandlerTest.LINE_ENDING;
                 }
 
                 @Override
@@ -287,7 +287,7 @@ public final class HateosResourceMappingsRouterHttpHandlerTest extends HateosRes
 
                 @Override
                 public LineEnding lineEnding() {
-                    return EOL;
+                    return HateosResourceMappingsRouterHttpHandlerTest.LINE_ENDING;
                 }
 
                 @Override
