@@ -20,12 +20,9 @@ package walkingkooka.net.http.server.hateos;
 import org.junit.jupiter.api.Test;
 import walkingkooka.naming.NameTesting2;
 import walkingkooka.net.UrlPathName;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseSensitivity;
 
-public final class HateosResourceNameTest implements ClassTesting2<HateosResourceName>,
-    NameTesting2<HateosResourceName, HateosResourceName> {
+public final class HateosResourceNameTest implements NameTesting2<HateosResourceName, HateosResourceName> {
 
     @Override
     public HateosResourceName createName(final String name) {
@@ -90,10 +87,5 @@ public final class HateosResourceNameTest implements ClassTesting2<HateosResourc
     @Override
     public Class<HateosResourceName> type() {
         return HateosResourceName.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }
