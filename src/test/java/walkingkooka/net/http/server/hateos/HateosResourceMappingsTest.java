@@ -47,7 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosResourceMappingsTest implements ClassTesting2<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosHandlerContext>>,
     ThrowableTesting,
-    ToStringTesting<HateosResourceMappings<BigInteger, TestResource, TestResource2, TestHateosResource, TestHateosHandlerContext>>,
+    ToStringTesting,
     TreePrintableTesting {
 
     private final static HateosResourceName RESOURCE_NAME = HateosResourceName.with("abc123");

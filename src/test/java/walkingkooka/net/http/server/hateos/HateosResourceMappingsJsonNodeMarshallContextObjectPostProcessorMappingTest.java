@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public final class HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMappingTest extends HateosResourceMappingsTestCase<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping>
-    implements ToStringTesting<HateosResourceMappingsJsonNodeMarshallContextObjectPostProcessorMapping> {
+    implements ToStringTesting {
 
     @Test
     public void testSelfGetAddLinks() {

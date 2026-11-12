@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 
 public abstract class HateosResourceSelectionTestCase<S extends HateosResourceSelection<I>, I extends Comparable<I>> implements ClassTesting<S>,
     IsMethodTesting<S>,
-    ToStringTesting<S> {
+    ToStringTesting {
 
     HateosResourceSelectionTestCase() {
         super();

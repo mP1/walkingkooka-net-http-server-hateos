@@ -26,7 +26,7 @@ import walkingkooka.tree.json.marshall.JsonNodeMarshallContexts;
 
 public abstract class HateosResourceMappingsTestCase<T> implements ClassTesting2<T>,
     TypeNameTesting<T>,
-    ToStringTesting<T> {
+    ToStringTesting {
 
     HateosResourceMappingsTestCase() {
         super();

@@ -23,7 +23,7 @@ import walkingkooka.ToStringTesting;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class HateosHandlerContextBasicTest implements HateosHandlerContextTesting2<HateosHandlerContextBasic>,
-    ToStringTesting<HateosHandlerContextBasic> {
+    ToStringTesting {
 
     @Test
     public void testWithNullBinaryTextContextFails() {
