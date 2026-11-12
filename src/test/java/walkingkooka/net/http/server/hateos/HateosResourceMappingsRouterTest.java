@@ -81,7 +81,7 @@ public final class HateosResourceMappingsRouterTest extends HateosResourceMappin
     HasHateosContentType,
     JsonNodeUnmarshallContextTesting,
     TextContextTesting,
-    ToStringTesting<HateosResourceMappingsRouter<TestHateosHandlerContext>>,
+    ToStringTesting,
     ThrowableTesting {
 
     private final static String NO_BODY = null;
