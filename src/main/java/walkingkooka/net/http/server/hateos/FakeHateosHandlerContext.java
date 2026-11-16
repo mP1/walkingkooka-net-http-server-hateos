@@ -262,6 +262,11 @@ public class FakeHateosHandlerContext extends FakeJsonNodeMarshallContext implem
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void setLoggingLevel(final LoggingLevel loggingLevel) {
+        throw new UnsupportedOperationException();
+    }
+
     // CanParseEnvironmentValueName.....................................................................................
 
     @Override
